@@ -30,3 +30,10 @@
 *.exe
 *.out
 *.app
+
+# editor back files
+*~
+*.swp
+
+# CMake build directories
+build/
