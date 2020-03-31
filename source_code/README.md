@@ -14,3 +14,7 @@ code examples used in videos and reading material.
    used as illustration of indentation, use of while loop.
 1. `leapyear`: check whether a year is a leap year,
    illustrates nested conditional statements.
+1. `calculator`: simple command line calculator that
+   implements addition, substraction, multiplication and
+   division of floating point values, illustrates
+   `select case`.
