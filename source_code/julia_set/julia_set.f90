@@ -1,8 +1,8 @@
 program julia_set
-    use, intrinsic :: iso_fortran_env, only : dp => REAL64, error_unit
+    use, intrinsic :: iso_fortran_env, only : DP => REAL64, error_unit
     use julia_set_mod, only : julia_iterate
     implicit none
-    complex(kind=dp), dimension(:, :), allocatable :: z
+    complex(kind=DP), dimension(:, :), allocatable :: z
     integer, dimension(:, :), allocatable :: n
     integer :: nr_points
 
@@ -27,10 +27,10 @@ contains
     function get_size() result(n)
         implicit none
         integer :: n
-        integer, parameter :: default_n = 100
+        integer, parameter :: DEFAULT_N = 100
         character(len=80) :: buffer
         if (command_argument_count() == 0) then
-            n = default_n
+            n = DEFAULT_N
         else if (command_argument_count() == 1) then
             call get_command_argument(1, buffer)
             read (buffer, '(I8)') n
@@ -43,14 +43,14 @@ contains
 
     subroutine init_z_values(z, nr_points)
         implicit none
-        complex(kind=dp), dimension(:, :), allocatable, &
+        complex(kind=DP), dimension(:, :), allocatable, &
                           intent(inout) :: z
         integer, intent(in) :: nr_points
-        real(kind=dp), parameter :: min_re = -1.8_dp, &
-                                    max_re =  1.8_dp, &
-                                    min_im = -1.8_dp, &
-                                    max_im =  1.8_dp
-        real(kind=dp) :: delta_re, delta_im
+        real(kind=DP), parameter :: MIN_RE = -1.8_DP, &
+                                    MAX_RE =  1.8_DP, &
+                                    MIN_IM = -1.8_DP, &
+                                    MAX_IM =  1.8_DP
+        real(kind=DP) :: delta_re, delta_im
         integer :: i, j
 
         allocate(z(nr_points, nr_points))
@@ -60,13 +60,13 @@ contains
             stop 2
         end if
 
-        delta_re = (max_re - min_re)/nr_points
-        delta_im = (max_im - min_im)/nr_points
+        delta_re = (MAX_RE - MIN_RE)/nr_points
+        delta_im = (MAX_IM - MIN_IM)/nr_points
         do j = 1, size(z, 2)
             do i = 1, size(z, 1)
-                z(i, j) = cmplx(min_re + (i - 1)*delta_re, &
-                                min_im + (j - 1)*delta_im, &
-                                kind=dp)
+                z(i, j) = cmplx(MIN_RE + (i - 1)*delta_re, &
+                                MIN_IM + (j - 1)*delta_im, &
+                                kind=DP)
             end do
         end do
     end subroutine init_z_values
