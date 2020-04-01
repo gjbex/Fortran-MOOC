@@ -21,3 +21,5 @@ code examples used in videos and reading material.
 1. `distances`: compute Euclidian distences between points.
    Illustrates simple functions and reading from standard
    input.
+1. `clamp`: clamp real number on standard input to values
+   given on the command line, illustrates subroutines.
