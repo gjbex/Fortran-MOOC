@@ -18,3 +18,6 @@ code examples used in videos and reading material.
    implements addition, substraction, multiplication and
    division of floating point values, illustrates
    `select case`.
+1. `distances`: compute Euclidian distences between points.
+   Illustrates simple functions and reading from standard
+   input.
