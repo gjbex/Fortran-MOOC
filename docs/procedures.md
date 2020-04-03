@@ -250,6 +250,103 @@ call clamp(x, 0.0, 1.0)
 ~~~~
 
 
-## Call by value or call by reference?
+## Call-by-value or call-by-reference?
+
+A programming language such as C has call-by-value semantics.  If a variable is passed
+as an argument to a function, its value is passed and assigned to the functio's local
+variable.  Changing that local variable doesn't change the value of the variable in the
+caller's context.
+
+If you would do the same in Fortran, the value of the variable in the caller's context
+will be changed, Fortran has call-by-referred semantics.  The following program
+illustrates this.
+
+~~~~fortran
+program call_by_reference
+    implicit none
+    integer :: m
+    m = 5
+    print *, m
+    call increment(m)
+    print *, m
+
+contains
+
+    subroutine increment(n)
+        implicit none
+        integer, intent(inout) :: n
+
+        n = n + 1
+    end subroutine increment
+
+end program call_by_reference
+~~~~
+
+When you run this application, the output will be
+
+~~~~
+           5
+           6
+~~~~
+
+The variable `m` was passed to the subroutine `increment` and modified in it.  The
+intent of the argument is `inout`, the original value is used to compute the new
+value, which changes the value of `m` in the calling context.
+
+If you wourld try to call `increment` with an integer constant as an argument, i.e.,
+`call increment(16)` you would get a compilation error as 
+
+~~~~
+    8 |     call increment(16)
+      |                   1
+Error: Non-variable expression in variable definition context (actual argument to INTENT = OUT/INOUT) at (1)
+~~~~
+
+Indeed, it doesn't make sense to call a subroutine that has an `inout` argument with
+a constant.
+
+However, clearly, there situation in which you would prefer call-by-value semantics.
+Consider the following implementation of the factorial function.
+
+~~~~fortran
+function factorial(arg) result(fac)
+    implicit none
+    integer, intent(in) :: arg
+    integer :: fac, n
+
+    n = arg
+    fac = 1
+    do while (n > 1)
+        fac = fac*n
+        n = n - 1
+    end do
+end function factorial
+~~~~
+
+The code above is a little clunky.  On the one hand, we should ensure that the
+argument `arg` is not modified, so it has intent `in`, but on the other hand, it
+implies we have to introduce a local variable `n` that is initialized with the value
+of `arg`, but can be modified.
+
+We can get the best of both worlds by using call-by-value semantics, i.e., declaring
+that the argument is passed by value, as in the code below.
+
+~~~~fortran
+    function factorial(n) result(fac)
+        implicit none
+        integer, value :: n
+        integer :: fac
+
+        fac = 1
+        do while (n > 1)
+            fac = fac*n
+            n = n - 1
+        end do
+    end function factorial
+~~~~
+
+Although the argument `n` is modified in the function, it is not modified in the
+calling context.
+
 
 ## Pure procedures

@@ -22,3 +22,5 @@ code examples used in videos and reading material.
    input.
 1. `clamp`: clamp real number on standard input to values
    given on the command line, illustrates subroutines.
+1. `call_by_semantics`: illustration of call-by-reference versus
+   call-by-value semantics.
