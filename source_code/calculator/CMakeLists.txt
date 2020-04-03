@@ -12,18 +12,14 @@ add_executable(calculator.exe calculator.f90)
 
 enable_testing()
 
-add_test(NAME addition COMMAND ./calculator.exe 3.0 + 7.0)
+add_test(NAME addition COMMAND ./calculator.exe "3.0 + 7.0")
 set_tests_properties(addition
     PROPERTIES PASS_REGULAR_EXPRESSION "0\\.1000000E\\+02")
 
-add_test(NAME substraction COMMAND ./calculator.exe 3.0 - 7.0)
+add_test(NAME substraction COMMAND ./calculator.exe "3.0 - 7.0")
 set_tests_properties(substraction
     PROPERTIES PASS_REGULAR_EXPRESSION "-0\\.4000000E\\+01")
 
-add_test(NAME multiplication COMMAND ./calculator.exe 3.0 * 7.0)
+add_test(NAME multiplication COMMAND ./calculator.exe "3.0 * 7.0")
 set_tests_properties(multiplication
     PROPERTIES PASS_REGULAR_EXPRESSION "0\\.2100000E\\+02")
-
-add_test(NAME division COMMAND ./calculator.exe 3.0 / 7.0)
-set_tests_properties(division
-    PROPERTIES PASS_REGULAR_EXPRESSION "0\\.4285714E\\+00")

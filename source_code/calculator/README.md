@@ -1,7 +1,7 @@
 # Calculator
 
 This is a very simple calculator that can do addition,
-substraction, multiplication and division of real numbers.
+substraction and multiplication of real numbers.
 
 ## What is it?
 
