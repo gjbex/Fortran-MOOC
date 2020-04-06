@@ -25,3 +25,4 @@ code examples used in videos and reading material.
 1. `call_by_semantics`: illustration of call-by-reference versus
    call-by-value semantics.
 1. `recursion`: examples of recursive procedures.
+1. `optional`: examples of optional arguments in Fortran procedures.

@@ -407,7 +407,44 @@ understand.
 
 ## Optional arguments
 
-TODO
+Arguments to procedures can be optional. Some extra code is required because the
+procedure must check whether or not a value has been provided in the procedure call.
+
+For example, let's revisit the `clamp` procedure and make `min_val` optional.
+
+~~~~fortran
+subroutine clamp(val, min_val, max_val)
+    implicit none
+    real(kind=DP), intent(inout) :: val
+    real(kind=DP), value, optional :: min_val
+    real(kind=DP), value :: max_val
+
+    if (.not. present(min_val)) min_val = -max_val
+    if (val < min_val) then
+        val = min_val
+    else if (max_val < val) then
+        val = max_val
+    end if
+end subroutine clamp
+~~~~
+
+The subroutine can be called either with two, or three arguments.
+
+~~~~fortran
+...
+real(kind=DP) :: value
+...
+call clamp(val=value, max_val=5.0_DP)
+...
+~~~~
+
+~~~~fortran
+...
+real(kind=DP) :: value
+...
+call clamp(val=value, min_val=0.0_DP, max_val=5.0_DP)
+...
+~~~~
 
 
 ## Persistent values
@@ -430,3 +467,35 @@ For procedures in general:
   * I/O and stop statement are not allowed;
   * it can not be recursive;
   * an interal prodedure or a procedure that is passed as an argument must be pure.
+
+
+The following function can be declared pure.
+
+~~~~fortran
+pure function factorial(n) result(fac)
+    implicit none
+    integer, intent(in) :: n
+    integer :: fac, i
+
+    fac = 1
+    do i = 2, n
+        fac = fac*n
+    end do
+end function factorial
+~~~~
+
+A subroutine can also be marked as pure, e.g.,
+
+~~~~fortran
+pure subroutine clamp(val, min_val, max_val)
+    implicit none
+    real(kind=DP), intent(inout) :: val
+    real(kind=DP), intent(in) :: min_val, max_val
+
+    if (val < min_val) then
+        val = min_val
+    else if (max_val < val) then
+        val = max_val
+    end if
+end subroutine clamp
+~~~~
