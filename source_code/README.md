@@ -26,3 +26,5 @@ code examples used in videos and reading material.
    call-by-value semantics.
 1. `recursion`: examples of recursive procedures.
 1. `optional`: examples of optional arguments in Fortran procedures.
+1. `exp_distr`: example of a function that uses a `save` attribute for its
+   local variables.

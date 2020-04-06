@@ -449,7 +449,44 @@ call clamp(val=value, min_val=0.0_DP, max_val=5.0_DP)
 
 ## Persistent values
 
-TODO
+In some cases, it can be useful to make values of local variables in procedures
+persistent, so that they can be used in future calls.  In C and C++, you would do
+this by adding the keyword `static` to the local variable declaration.  In Fortran
+you can use `save`.
+
+The following example uses a uniform random number distribution to generate numbers
+from a normal distribution.  The algorithm actually generates two random values, so
+the second one is stored for the next call in the `save` variable `next_val.  The
+variable `is_next_val` will be true when a value is available, false when two new
+values need to be computed.
+
+~~~~fortran
+function get_exp_rand() result(val)
+    implicit none
+    real :: val
+    real, save :: next_val
+    logical, save :: is_next_set = .false.
+    real :: x, y, radius, factor
+
+    if (is_next_set) then
+        is_next_set = .false.
+        val = next_val
+    else
+        do while (.not. is_next_set)
+            call random_number(x) 
+            call random_number(y) 
+            x = 2.0*x - 1.0
+            y = 2.0*y - 1.0
+            radius = x**2 + y**2
+            if (0.0 < radius .and. radius <= 1.0) exit
+        end do
+        factor = sqrt(-2.0*log(radius)/radius)
+        val = x*factor
+        next_val =y*factor
+        is_next_set = .true.
+    end if
+end function get_exp_rand
+~~~~
 
 
 ## Pure procedures
