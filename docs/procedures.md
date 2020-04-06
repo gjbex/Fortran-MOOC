@@ -253,7 +253,7 @@ call clamp(x, 0.0, 1.0)
 ## Call-by-value or call-by-reference?
 
 A programming language such as C has call-by-value semantics.  If a variable is passed
-as an argument to a function, its value is passed and assigned to the functio's local
+as an argument to a function, its value is passed and assigned to the function's local
 variable.  Changing that local variable doesn't change the value of the variable in the
 caller's context.
 
@@ -293,7 +293,7 @@ The variable `m` was passed to the subroutine `increment` and modified in it.  T
 intent of the argument is `inout`, the original value is used to compute the new
 value, which changes the value of `m` in the calling context.
 
-If you wourld try to call `increment` with an integer constant as an argument, i.e.,
+If you world try to call `increment` with an integer constant as an argument, i.e.,
 `call increment(16)` you would get a compilation error as 
 
 ~~~~
@@ -351,7 +351,7 @@ calling context.
 
 ## Recursion procedures
 
-In most programming languagues, functions can be recursively defined, i.e., they
+In most programming languages, functions can be recursively defined, i.e., they
 have a call to themselves in their definition.  Fortran allows recursive procedures,
 but they have to be declared as such.  For instance, revisiting the example in the
 precious section we can define that recursively as well.
@@ -401,7 +401,7 @@ subroutine clamp(val, min_val, max_val)
 end subroutine clamp
 ~~~~
 
-It is stronoly recommended to use keyword arguments to make your code easier to
+It is strongly recommended to use keyword arguments to make your code easier to
 understand.
 
 
@@ -503,7 +503,7 @@ For procedures in general:
   * no local variables can have the `save` attribute;
   * I/O and stop statement are not allowed;
   * it can not be recursive;
-  * an interal prodedure or a procedure that is passed as an argument must be pure.
+  * an internal procedure or a procedure that is passed as an argument must be pure.
 
 
 The following function can be declared pure.
