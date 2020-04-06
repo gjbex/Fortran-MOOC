@@ -24,3 +24,4 @@ code examples used in videos and reading material.
    given on the command line, illustrates subroutines.
 1. `call_by_semantics`: illustration of call-by-reference versus
    call-by-value semantics.
+1. `recursion`: examples of recursive procedures.
