@@ -349,4 +349,84 @@ Although the argument `n` is modified in the function, it is not modified in the
 calling context.
 
 
+## Recursion procedures
+
+In most programming languagues, functions can be recursively defined, i.e., they
+have a call to themselves in their definition.  Fortran allows recursive procedures,
+but they have to be declared as such.  For instance, revisiting the example in the
+precious section we can define that recursively as well.
+
+~~~~fortran
+recursive function factorial(n) result(fac)
+    implicit none
+    integer, intent(in) :: n
+    integer :: fac
+
+    if (n >= 2) then
+        fac = n*factorial(n - 1)
+    else
+        fac = 1
+    end if
+end function factorial
+~~~~
+
+Please note that although it may be more convenient to formulate a recursive
+algorithm, this will typically use more system resources and have worse efficiency
+than its iterative counterpart.
+
+
+## Keyword arguments
+
+Fortran support keyword arguments, which can be very convenient when you have
+procedures with multiple arguments.  Consider the example of the `clamp` subroutine
+we defined above.  Do you remember the signature?  Perhaps you don't, if so, keyword
+arguments can help, and make your code easier to understand.  You can call the
+subroutine as follows.
+
+~~~~fortran
+...
+real :: x
+...
+call clamp(min_val=0.0, max_val=1.0, val=x)
+...
+~~~~
+
+Keyword arguments are labeled by the name of the procedure's argument, but they do
+not have to appear in the same order as in the procedure's signature.  Just to remind
+you, the subroutine was defined as:
+
+~~~~fortran
+subroutine clamp(val, min_val, max_val)
+   ...
+end subroutine clamp
+~~~~
+
+It is stronoly recommended to use keyword arguments to make your code easier to
+understand.
+
+
+## Optional arguments
+
+TODO
+
+
+## Persistent values
+
+TODO
+
+
 ## Pure procedures
+
+You can help the compiler to generate more efficient code by writing pure procedures
+and marking them as such.  A pure procedure is a function or a subroutine that has
+no side effects.
+
+More specifically, all non-pointer argument must be of intent `in. For subroutines,
+all arguments must have their intent specified.
+
+For procedures in general:
+
+  * no local variables can have the `save` attribute;
+  * I/O and stop statement are not allowed;
+  * it can not be recursive;
+  * an interal prodedure or a procedure that is passed as an argument must be pure.
