@@ -1,8 +1,8 @@
-# Iteratoin statements
+# Iteration statements
 
 All programming languages have iteration statements, and so does Fortran.  It has two,
 the do statement intended to execute a block of statements a number of times, and
-a while statement to exectute a block of statements for as long as a logical expression
+a while statement to execute a block of statements for as long as a logical expression
 evaluates to true.
 
 ## do statement
@@ -77,8 +77,8 @@ The do statement in the factorial function will only be executed when its argume
 `n` is larger than 1.
 
 Note that the number of iterations is fixed once the do statement starts executing.
-The exrepssions for `<start>`, `<end>` and `<step>` are evaluated once.  If they
-would contain varaibles that are changed in the `<statements>` of the loop, that will
+The expressions for `<start>`, `<end>` and `<step>` are evaluated once.  If they
+would contain variables that are changed in the `<statements>` of the loop, that will
 not change the number of iterations.
 
 Also note that modifying the iteration variable `<variable>` by a statement in
@@ -134,7 +134,7 @@ do <variable> = <start>, <end>, <step>
 end do
 ~~~~
 
-The equivalent while loop would be the follownig.
+The equivalent while loop would be the following.
 
 ~~~~
 <variable> = <start>
@@ -150,5 +150,9 @@ statement.
 
 ## exit and cycle
 
+TODO
+
 
 ## Infinite loops
+
+TODO
