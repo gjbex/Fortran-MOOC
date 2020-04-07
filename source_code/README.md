@@ -28,3 +28,5 @@ code examples used in videos and reading material.
 1. `optional`: examples of optional arguments in Fortran procedures.
 1. `exp_distr`: example of a function that uses a `save` attribute for its
    local variables.
+1. `iterations`: code to illustrate Fortran iteration statements.
+

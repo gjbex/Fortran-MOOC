@@ -12,19 +12,17 @@ contains
 
     integer function gcd(a, b)
         implicit none
-        integer, intent(in) :: a, b
+        integer, value :: a, b
         integer :: x, y
 
-        x = a
-        y = b
-        do while (x /= y)
-            if (x > y) then
-                x = x - y
-            else if (y > x) then
-                y = y - x
+        do while (a /= b)
+            if (a > b) then
+                a = a - b
+            else if (b > a) then
+                b = b - a
             end if
         end do
-        gcd = x
+        gcd = a
     end function gcd
 
 end program compute_gcd
