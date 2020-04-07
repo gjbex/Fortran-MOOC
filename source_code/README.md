@@ -29,4 +29,4 @@ code examples used in videos and reading material.
 1. `exp_distr`: example of a function that uses a `save` attribute for its
    local variables.
 1. `iterations`: code to illustrate Fortran iteration statements.
-
+1. `sierpinski`: implementation to compute the Sierpinki gasket.
