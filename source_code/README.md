@@ -30,3 +30,4 @@ code examples used in videos and reading material.
    local variables.
 1. `iterations`: code to illustrate Fortran iteration statements.
 1. `sierpinski`: implementation to compute the Sierpinki gasket.
+1. `ball_throw`: illustrate `exit` and preprocessor macros.
