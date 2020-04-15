@@ -148,11 +148,85 @@ Obviously, the do statement conveys your intentions much better than the while
 statement.
 
 
-## exit and cycle
+## Infinite loops, exit and cycle
 
-TODO
+Implementing an infinite loop, i.e., a loop statement that never terminates is quite
+easy in Fortran.
 
+~~~~
+do
+    <statements>
+end do
+~~~~
 
-## Infinite loops
+The `<statements>` will continue to be executed unless there is a stop or an exit
+statement in `<statements>`.  You might ask why anyone would want to program an
+infinite loop on purpose.  A few scenarios come to mind:
 
-TODO
+  * programs that handle streams of data, e.g., parsers;
+  * programs that handle events, e.g., network services.
+
+Although their functionality can be accomplished using a while statement, it is often
+quite cumbersome.  You should realize that this is a contentious statement that many
+will not agree with.
+
+Infinite loops raise the obvious question whether you can still exit them without
+terminating the application by the operating system.  There are two options, depending
+on what you want to accomplish that will terminate any iteration statement:
+
+  * the stop statement would terminate the execution of the program, and
+  * the exit statement would terminate the execution of the do statement, and
+    continue executing the next statement.
+
+The following program illustrates both an infinite loop, and the use of an exit
+statement.  It reads floating point values from standard input, and computes the sum.
+When there is no more input, `stat` will have a negative values (end-of-file), and
+the iteration statement is terminated using the `exit` statement. The next statement
+prints the sum.
+
+~~~~fortran
+program sum_values
+    use, intrinsic :: iso_fortran_env, only : input_unit
+    implicit none
+    real :: val, total
+    integer :: stat
+
+    total = 0.0
+    do
+        read (unit=input_unit, fmt=*, iostat=stat) val
+        if (stat < 0) exit
+        if (stat > 0) cycle
+        total = total + val
+    end do
+    print *, total
+end program sum_values
+~~~~
+
+This code also illustrates the cycle statement.  Its semantics is that it will start
+the next iteration, skipping all statements in the block below it.  In this case, `stat`
+will have a non-zero positive value when the line that was read from standard input
+could not be converted to a `real` value.  If that is the case, the assignment
+statement to the variable `total` will not be executed.
+
+Note that the following program would be equivalent, avoiding an infinite loop, as well
+as exit and cycle statements.
+
+~~~~fortran
+program sum_values
+    use, intrinsic :: iso_fortran_env, only : input_unit
+    implicit none
+    real :: val, total
+    integer :: stat
+
+    total = 0.0
+    stat = 0
+    do while (stat >= 0)
+        read (unit=input_unit, fmt=*, iostat=stat) val
+        if (stat == 0) total = total + val
+    end do
+    print *, total
+end program sum_values
+~~~~
+
+Arguably, the code in this version of the program is even cleaner that the first one,
+but it will be hard to generalize to more complex situations.

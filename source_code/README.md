@@ -33,3 +33,5 @@ code examples used in videos and reading material.
 1. `ball_throw`: illustrate `exit` and preprocessor macros.
 1. `config_parser`: illustration of `exit` and `cycle`, as well as an
    infinite loop.
+1. `sum_values`: illustrates the use of `exit` and `cycle` as well as
+   alternative.
