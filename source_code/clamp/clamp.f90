@@ -8,7 +8,7 @@ program clamp_program
     character(len=1024) :: msg
 
     call get_limits(min_val, max_val)
-    do while (.true.)
+    do
         read (unit=input_unit, fmt=*, iostat=status, iomsg=msg) val 
         if (status < 0) exit
         call check_status(status, msg)
