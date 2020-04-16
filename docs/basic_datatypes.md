@@ -24,7 +24,7 @@ binary operators are defined on integers:
   * `/`: integer division, e.g., `3/2 == 1`
   * '**`: exponentiation
 
-Furthermore, the Fortran specification defines quite a number of intrinsic function
+Furthermore, the Fortran specification defines quite a number of intrinsic procedures
 that  operate on integers such as `abs` (absolute value) and `mod` (modulo).
 
 The intrinsic `iso_fortran_env` module defines four integer kinds:
@@ -48,10 +48,10 @@ of an integer kind is `range`, it returns the order of (decimal) magnitude for t
 The following table summarizes the results of `huge` and `range` on each of the
 integer kinds.
 
-|       | int8    | int16   | int32      | int64               |
-|-------|---------|---------|------------|---------------------|
-| huge  | 127     | 32767   | 2147483647 | 9223372036854775807 |
-| range |   2     |     4   |          9 |                  18 |
+|         | int8    | int16   | int32      | int64               |
+|---------|---------|---------|------------|---------------------|
+| `huge`  | 127     | 32767   | 2147483647 | 9223372036854775807 |
+| `range` |   2     |     4   |          9 |                  18 |
 
 ### Real values
 
@@ -62,10 +62,10 @@ that values of this type have a limited precision.  Constants of this type are, 
 The operators defined on real numbers are the same as for integers, except that `/` is
 the division, so `1.0/2.0 == 0.5`.
 
-The list of intrinsic function defined on real numbers is quite impressive and includes
-the usual suspects such as `sqrt` (square root), `exp` (exponential function), the
-trigonometric functions and their inverses, but also `erf` and `erfc` (error function
-and complementary error function).
+The list of intrinsic procedures defined on real numbers is quite impressive and
+includes the usual suspects such as `sqrt` (square root), `exp` (exponential
+function), the trigonometric functions and their inverses, but also `erf` and
+`erfc` (error function and complementary error function).
 
 The `iso_fortran_env` module defines three kinds for real numbers:
 
@@ -73,8 +73,47 @@ The `iso_fortran_env` module defines three kinds for real numbers:
   * `REAL64`: 8 byte representation, double precision,
   * `REAL128`: 16 byte representation, quad precision.
 
+As for integers, the function `huge` can be used to determine the largest number that
+can be represented by a real kind.
+
+|             | real32         | real64                  | real128                                     |
+|-------------|----------------|-------------------------|---------------------------------------------|
+| `tiny`      | 1.17549435E-38 | 2.2250738585072014E-308 | 3.36210314311209350626267781732175260E-4932 |
+| `epsilon`   | 1.19209290E-07 | 2.2204460492503131E-016 | 1.92592994438723585305597794258492732E-0034 |
+| `huge`      | 3.40282347E+38 | 1.7976931348623157E+308 | 1.18973149535723176508575932662800702E+4932 |
+| `precision` | 6              | 15                      | 33                                          |
+
+For each kind, `tiny` returns the smallest number that is larger than zero. `epsilon`
+returns the smallest number $$\epsilon$$ such that $$1 < 1 + \epsilon$$.  The
+precision is the number of significant digits for a value of that kind.
+
 
 ### Complex values
+
+You won't be surprised that Fortran has first-class support for complex numbers since
+the language has been designed for scientific computing.  The name of the type is
+`complex`, and it has the same kinds as `real`, so `REAL32`, `REAL64` and `REAL128`.
+For instance, `complex(kind=real64)` means that the real and imaginary part of the
+complex variable will be stored as double precision values.
+
+The operators that are defined for real numbers also work as expected for complex
+numbers, as do many of the intrinsic procedures.  There are a number of procedures
+that are specific to complex numbers such as `real` and `aimag` that return the
+real and imaginary part of a complex number respectively, but also `conjg` that
+computes the conjugate of a complex number.
+
+Somewhat confusingly, the function that creates a complex value out of a real and an
+imaginary part is called `cmplx`, as the following code fragment illustrates that
+initializing a complex constant.
+
+~~~~fortran
+complex(kind=REAL64), parameter :: C = cmplx(-0.622772_REAL64, &
+                                              0.42193_REAL64, kind=REAL64)
+~~~~
+
+
+### Type conversions
+
 
 ## Logical
 
