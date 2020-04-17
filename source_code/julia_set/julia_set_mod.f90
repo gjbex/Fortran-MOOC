@@ -5,8 +5,7 @@ module julia_set_mod
     private
     integer, parameter :: MAX_ITERS = 255
     real(kind=DP), parameter :: MAX_NORM = 2.0_DP
-    complex(kind=DP), parameter :: C = cmplx(-0.622772_DP, &
-                                              0.42193_DP, kind=DP)
+    complex(kind=DP), parameter :: C = (-0.622772_DP, 0.42193_DP)
 
     public :: julia_iterate
 
