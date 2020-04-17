@@ -24,6 +24,15 @@ binary operators are defined on integers:
   * `/`: integer division, e.g., `3/2 == 1`
   * '**`: exponentiation
 
+Integers can be compared using the following binary operators.
+
+  * `==`: equal,
+  * `/=`: not equal,
+  * `<`: less than,
+  * `<=`: less than or equal,
+  * `>`: larger than,
+  * `>=`: larger than or equal.
+
 Furthermore, the Fortran specification defines quite a number of intrinsic procedures
 that  operate on integers such as `abs` (absolute value) and `mod` (modulo).
 
@@ -48,7 +57,7 @@ of an integer kind is `range`, it returns the order of (decimal) magnitude for t
 The following table summarizes the results of `huge` and `range` on each of the
 integer kinds.
 
-|         | int8    | int16   | int32      | int64               |
+|         | INT8    | INT16   | INT32      | INT64               |
 |---------|---------|---------|------------|---------------------|
 | `huge`  | 127     | 32767   | 2147483647 | 9223372036854775807 |
 | `range` |   2     |     4   |          9 |                  18 |
@@ -59,13 +68,37 @@ The `real` type in Fortran represents mathematical real numbers.  Always bear in
 that values of this type have a limited precision.  Constants of this type are, e.g.,
 `-3.5`, `0.0032`, `13.6e6` ($$1.36 \cdot 10^6$$) , `-1.3e-4` ($$-1.3 \cdot 10^{-4}$$).
 
-The operators defined on real numbers are the same as for integers, except that `/` is
-the division, so `1.0/2.0 == 0.5`.
+The operators defined on real numbers are the same as for integers, except that `/`
+is the division, so `1.0/2.0 == 0.5`.
+
+The comparison operators for real values are the same as for integers, but of course,
+you have to bear in mind that testing for equality (`==`) and inequality (`/=`) may
+not make much sense since values are computed, and hence subject to round-off errors.
+
+For instance, while mathematically, $$\sqrt{2}^2 = 2$$, this does not hold for
+floating point values.
+
+~~~~fortran
+program sqrt_2
+    use, intrinsic :: iso_fortran_env, only : SP => REAL32, DP => REAL64
+    implicit none
+
+    print *, sqrt(2.0_SP) == 2.0_SP
+    print *, sqrt(2.0_DP) == 2.0_DP
+end program sqrt_2
+~~~~
+
+This will print the following output.
+
+~~~~
+F
+F
+~~~~
 
 The list of intrinsic procedures defined on real numbers is quite impressive and
 includes the usual suspects such as `sqrt` (square root), `exp` (exponential
 function), the trigonometric functions and their inverses, but also `erf` and
-`erfc` (error function and complementary error function).
+`erfc` (error function and complementary error function) and even Bessel functions.
 
 The `iso_fortran_env` module defines three kinds for real numbers:
 
@@ -76,7 +109,7 @@ The `iso_fortran_env` module defines three kinds for real numbers:
 As for integers, the function `huge` can be used to determine the largest number that
 can be represented by a real kind.
 
-|             | real32         | real64                  | real128                                     |
+|             | REAL32         | REAL64                  | REAL128                                     |
 |-------------|----------------|-------------------------|---------------------------------------------|
 | `tiny`      | 1.17549435E-38 | 2.2250738585072014E-308 | 3.36210314311209350626267781732175260E-4932 |
 | `epsilon`   | 1.19209290E-07 | 2.2204460492503131E-016 | 1.92592994438723585305597794258492732E-0034 |
@@ -93,7 +126,7 @@ precision is the number of significant digits for a value of that kind.
 You won't be surprised that Fortran has first-class support for complex numbers since
 the language has been designed for scientific computing.  The name of the type is
 `complex`, and it has the same kinds as `real`, so `REAL32`, `REAL64` and `REAL128`.
-For instance, `complex(kind=real64)` means that the real and imaginary part of the
+For instance, `complex(kind=REAL64)` means that the real and imaginary part of the
 complex variable will be stored as double precision values.
 
 The operators that are defined for real numbers also work as expected for complex
@@ -112,9 +145,117 @@ complex(kind=REAL64), parameter :: C = cmplx(-0.622772_REAL64, &
 ~~~~
 
 
-### Type conversions
+### Kind and type conversions
+
+Sometimes you will want to do a type conversion, e.g., converting a real value into
+an integer.  Fortran has many intrinsic procedures to accomplish this.  It also has
+intrinsic procedures to convert a value to a different kind of the same type.
+
+#### Kind conversions
+
+Every conversion procedure has an optional `kind` argument. 
+from an `INT32` to an `INT64`, you would use
+
+~~~~fortran
+program type_conversion
+    use, intrinsic :: iso_fortran_env, only : I32 => INT32, I64 => INT64
+    implicit none
+    integer(kind=i32) :: i_i32
+    integer(kind=i64) :: i_i64
+
+    i_i64 = 2**40
+    i_i32 = int(i_i64, kind=I64)
+    print *, i_i32
+end program type_conversion
+~~~~
+
+The `int` function is called with a `kind` argument specifying the result type, an
+`INT32` in this case.  Note that the value of the variable `i_i64` can not be stored
+in a variable of `i_i32`, so the compiler will issue a warning about this.  When
+you run the program and check the output, you will see the following, which may not
+be what you expect.
+
+~~~~
+ -2147483648
+~~~~
+
+The conversion resulted in an overflow.  This is the result of converting a larger
+kind into a smaller one: information is lost.  Note that a inadvertent conversion
+such as this may give rise to very nasty bugs (hence the compiler warning).
+
+On the other hand, converting from a smaller kind to a larger one works perfectly
+well.
+
+~~~~fortran
+program type_conversion
+    use, intrinsic :: iso_fortran_env, only : I32 => INT32, I64 => INT64
+    implicit none
+    integer(kind=i32) :: i_i32
+    integer(kind=i64) :: i_i64
+
+    i_i32 = 2**10
+    i_i64 = int(i_i32, kind=I32)
+    print *, i_i64
+end program type_conversion
+~~~~
+
+This application would print what you would expect.
+
+~~~~
+1024
+~~~~
+
+The `real` and `cmplx` functions do the same for `real` and `complex` values
+respectively.  Converting from a smaller kind to a larger is no problem, converting
+from a larger to a smaller again gives problems, although thanks to the IEEE 754
+standard (although there are caveats), bugs are easier to spot.
+
+~~~~fortran
+program type_conversion
+    use, intrinsic :: iso_fortran_env, only : &
+        SP => REAL32, DP => REAL64
+    implicit none
+    real(kind=SP) :: x_sp
+    real(kind=DP) :: x_dp
+
+    x_dp = 1.0e100_DP
+    x_sp = real(x_dp, kind=SP)
+    print *, x_sp
+end program type_conversion
+~~~~
+
+The overflow of the value for the variable `x_sp` results in `infinity`.
+
+~~~~
+Infinity
+~~~~
+
+#### Type conversions
+
+To truncate a real value to an integer, you can use `aint`, while to convert it
+to the nearest integer, you can use `anint`.
+
+To explicitly convert an integer to a real value, the function `real` can be used.
+That same function will also return the real part of a complex argument as you
+saw earlier.  Similarly, `aimag` will return the imaginary part of a complex value
+as a real value.
+
+The function `cmplx` will convert two numbers to a complex value.
 
 
 ## Logical
+
+The type logical represents Boolean values.  It has only two constant values,
+`.TRUE.` and `.FALSE.`.  The unary `.not.` operator represents the Boolean negation.
+The semantics of the unary and binary operators `.and.`, `.or.`, .eqv.` and `.neqv.`
+is summarized in the table below.
+
+| p         | q         | `.not.`   | `.and.`   | `.or.`    | `.eqv.`   | `.neqv.`  |
+|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
+| `.TRUE.`  | `.TRUE.`  | `.FALSE.` | `.TRUE.`  | `.TRUE.`  | `.TRUE.`  | `.FALSE.` |
+| `.TRUE.`  | `.FALSE.` | `.FALSE.` | `.FALSE.` | `.TRUE.`  | `.FALSE.` | `.TRUE.`  |
+| `.FALSE.` | `.TRUE.`  | `.TRUE.`  | `.FALSE.` | `.TRUE.`  | `.FALSE.` | `.TRUE.`  |
+| `.FALSE.` | `.FALSE.` | `.TRUE.`  | `.FALSE.` | `.FALSE.` | `.TRUE.`  | `.FALSE.` |
+
 
 ## Character values
