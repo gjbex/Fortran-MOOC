@@ -53,14 +53,44 @@ So, 8, 16, 32 and 64 are the number of bits to represent an integer value.
 As you see, the largest integer that can be represented in Fortran is $$2^63 - 1$$.
 The largest value for a kind can be computed using the `huge` function, e.g.,
 `huge(int(0, kind=INT16)) == 32767`.  Another useful function to determine properties
-of an integer kind is `range`, it returns the order of (decimal) magnitude for the kind.
-The following table summarizes the results of `huge` and `range` on each of the
-integer kinds.
+of an integer kind is `range`, it returns the order of (decimal) magnitude for the
+kind.  The following table summarizes the results of `huge` and `range` on each of
+the integer kinds.
 
 |         | INT8    | INT16   | INT32      | INT64               |
 |---------|---------|---------|------------|---------------------|
 | `huge`  | 127     | 32767   | 2147483647 | 9223372036854775807 |
 | `range` |   2     |     4   |          9 |                  18 |
+
+Integer arithmetic can be subject to overflow.  Consider the following program.
+
+~~~~fortran
+program overflow
+    use, intrinsic :: iso_fortran_env, only : INT8
+    implicit none
+    integer(kind=INT8) :: val
+    integer :: i
+
+    val = 125
+    do i = 1, 6
+        print *, val
+        val = val + 1
+    end do
+end program overflow
+~~~~
+
+You might expect that it will print integer values starting at 125 and up to 129.
+However, note that the kind is `INT8`, so the maximum value that can be stored in
+`val` is 127.  Indeed, the output of the application actually is given below.
+
+~~~~
+125
+126
+127
+-128
+-127
+~~~~
+
 
 ### Real values
 
@@ -95,6 +125,9 @@ F
 F
 ~~~~
 
+When compiling the code above, the compiler will warn that testing equality of two
+real values is not a good idea.
+
 The list of intrinsic procedures defined on real numbers is quite impressive and
 includes the usual suspects such as `sqrt` (square root), `exp` (exponential
 function), the trigonometric functions and their inverses, but also `erf` and
@@ -120,6 +153,24 @@ For each kind, `tiny` returns the smallest number that is larger than zero. `eps
 returns the smallest number $$\epsilon$$ such that $$1 < 1 + \epsilon$$.  The
 precision is the number of significant digits for a value of that kind.
 
+Although the Fortran standard defines `REAL128`, it is not recommended to use this kind
+in general.  Current CPUs have no support for it, hence there is a significant
+performance impact when computing with this kind of real values.
+
+Note that it is good practice to explicitly indicate the kind of a real value by
+adding a suffix.
+
+~~~~fortran
+...
+use, intrinsic :: iso_fortran_env, only : SP => REAL32, DP => REAL64
+...
+real(kind=SP) :: x
+real(kind=DP) :: y
+...
+x = 0.0_sp
+y = -1.5e-3_dp
+~~~~
+
 
 ### Complex values
 
@@ -135,13 +186,22 @@ that are specific to complex numbers such as `real` and `aimag` that return the
 real and imaginary part of a complex number respectively, but also `conjg` that
 computes the conjugate of a complex number.
 
-Somewhat confusingly, the function that creates a complex value out of a real and an
-imaginary part is called `cmplx`, as the following code fragment illustrates that
-initializing a complex constant.
+Somewhat confusingly, you can use a tuple notation to assign a constant to a complex
+variable, but for non-constant real and/or imaginary part, you would have to use
+the function that creates a complex value out of a real and an imaginary part is called
+`cmplx`. as the following code fragment illustrates that initializing a complex
+constant `C`, and assigning to a complex variable, `cval`.
 
 ~~~~fortran
-complex(kind=REAL64), parameter :: C = cmplx(-0.622772_REAL64, &
-                                              0.42193_REAL64, kind=REAL64)
+...
+use, intrinsic :: iso_fortran_env, only : DP => REAL64
+...
+complex(kind=DP) :: z1, z2
+real(kind=DP) :: re, im
+...
+z1 = (-0.622772_DP, 0.42193_DP)
+z2 = cmplx(re, im)
+...
 ~~~~
 
 
@@ -176,7 +236,7 @@ you run the program and check the output, you will see the following, which may 
 be what you expect.
 
 ~~~~
- -2147483648
+-2147483648
 ~~~~
 
 The conversion resulted in an overflow.  This is the result of converting a larger
@@ -259,3 +319,5 @@ is summarized in the table below.
 
 
 ## Character values
+
+
