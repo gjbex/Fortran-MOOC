@@ -36,4 +36,5 @@ code examples used in videos and reading material.
 1. `sum_values`: illustrates the use of `exit` and `cycle` as well as
    alternative.
 1. `type_info`: illustrates the properties of integer and real kinds.
+1. `cellular_automata`: implemention of cellular automata.
 
