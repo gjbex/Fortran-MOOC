@@ -320,4 +320,107 @@ is summarized in the table below.
 
 ## Character values
 
+To represent characters and strings, you can use the `character` type in Fortran.  The
+following code snippet declares two variables, the first, `c`, that has a single
+character as a value, the other, `str`, can have sequences of 5 characters, i.e.,
+strings if you like, as values.
+
+~~~~fortran
+character :: c
+character(len=5) :: str
+~~~~
+
+For convenience, we will use the term "string variable" to mean a variable with type
+`character(len=...)`.
+
+A single binary operator `//` is defined on strings, representing concatenation.
+
+The comparison operators can be used to compare strings, but note that they will use
+the order defined on characters by the CPU, which (in very rare cases) may not be
+ASCII as you would expect.  There are intrinsic function that guarantee comparison
+according to lexicographic order.
+
+  * `llt(x, y)`: less than,
+  * `lle(x, y)`: less or equal to,
+  * `lgt(x, y)`: greater than,
+  * `lge(x, y)`: greater or equal to,
+  * `x == y`: equal to,
+  * `x /= y`: not equal to.
+
+Literal values for `character` are sequences of characters quoted in either single or
+double quotes, e.g., `'hello world'`, `'X'`, `"bananas"`.
+
+An assignment of the string `'hello world'` to the variable `str` would trigger a
+compiler warning, and the value of `str` would be `'hello'`.  If you assign a string
+such as `'abc'` that is less than 5 characters to the variable `str`, the value of
+the latter will be `'abc  '`, i.e., the assigned value is padded with white spaces.
+Consequently, the length of `str` will always be 5.
+
+Selecting a substring from a string variable is straightforward, e.g., `str(2:4)`
+would select the second through the fourth character, i.e., `'bc '`.  Somewhat
+counter-intuitively, individual characters also have t be selected as a range, e.g.,
+`str(2:2)` would be the second character, i.e., `'b'`.
+
+The intrinsic function `len` returns the length of a string, but including the padding
+white space.  Since this is typically not of interest, the intrinsic function
+`len_trim` is defined which doesn't take into account trailing white space, so
+`len_trim(str)` would return 3.  The `trim` intrinsic function will return its
+argument's value, but with trailing white space removed.  This function is convenient
+for printing string values.
+
+Below is a program that reads from standard input, and verifies for each line whether
+that is a palindrome, i.e., a string that is the same when read from left to right, and
+from right to left.
+
+~~~~fortran
+program palindromes
+    use, intrinsic :: iso_fortran_env, only  : input_unit, iostat_end
+    implicit none
+    character(len=1024) :: buffer, msg
+    integer :: istat
+
+    do
+        read(unit=input_unit, fmt=*, iostat=istat, iomsg=msg) buffer
+        if (istat == iostat_end) exit
+        print '(L1)', is_palindrome(buffer)
+    end do
+
+contains
+
+    function is_palindrome(phrase) result(palindrome)
+        implicit none
+        character(len=*), intent(in) :: phrase
+        logical :: palindrome
+        integer :: i, n
+
+        n = len_trim(phrase)
+        palindrome = .true.
+        do i = 1, n/2
+            if (phrase(i:i) /= phrase(n-i+1:n-i+1)) then
+                palindrome = .false.
+                exit
+            end if
+        end do
+    end function is_palindrome
+
+end program palindromes
+~~~~
+
+Since the function `is_palindrome` should work for a string of any length, the
+function's argument is declared as a deferred length `character(len=*)`.
+
+Fortran has many intrinsic procedures to query and manipulate strings such as
+`index` to find the position of a substring in a string, `adjustl` and `adjustr`
+which will left or right align string respectively.  For example, the result of
+`adjustr(str)` would be the string `'  abc'`.
+
+### Type conversions
+
+For some applications it can be necessary to convert a character to its numerical
+representation, or vice versa.
+
+The intrinsic function `iachar` returns the ASCII value of the character, e.g.,
+`iachar('a')` will return 97.  The function `achar` does the reverse, given an
+ASCII value, it will return the corresponding character, e.g., `achar(65)` will
+return `'A'`.
 

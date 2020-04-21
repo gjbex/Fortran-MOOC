@@ -37,4 +37,4 @@ code examples used in videos and reading material.
    alternative.
 1. `type_info`: illustrates the properties of integer and real kinds.
 1. `cellular_automata`: implemention of cellular automata.
-
+1. `strings`: some illustrations of using strings in Fortran.
