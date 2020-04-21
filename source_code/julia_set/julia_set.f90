@@ -25,15 +25,23 @@ program julia_set
 contains
 
     function get_size() result(n)
+        use, intrinsic :: iso_fortran_env, only : error_unit
         implicit none
         integer :: n
         integer, parameter :: DEFAULT_N = 100
-        character(len=80) :: buffer
+        character(len=1024) :: buffer, msg
+        integer :: istat
+
         if (command_argument_count() == 0) then
             n = DEFAULT_N
         else if (command_argument_count() == 1) then
             call get_command_argument(1, buffer)
-            read (buffer, '(I8)') n
+            read (buffer, fmt=*, iostat=istat, iomsg=msg) n
+            if (istat /= 0) then
+                write (unit=error_unit, fmt='(2A)') &
+                    'error: ', msg
+                stop 2
+            end if
         else
             write (unit=error_unit, fmt='(A)') &
                 'error: expect at most one argument'
