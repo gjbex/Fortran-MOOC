@@ -38,3 +38,6 @@ code examples used in videos and reading material.
 1. `type_info`: illustrates the properties of integer and real kinds.
 1. `cellular_automata`: implemention of cellular automata.
 1. `strings`: some illustrations of using strings in Fortran.
+1. `box_counting`: implementation of box counting to determine the
+   Minskowski dimension of a 2D fractal, illustrates documentation
+   using doxygen and documentation generation with CMake.
