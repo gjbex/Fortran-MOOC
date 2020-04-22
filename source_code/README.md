@@ -6,6 +6,7 @@ code examples used in videos and reading material.
 
 ## What is it?
 
+1. `hello_fortran`: very simple Fortran programs.
 1. `julia_set`: computation of the Julia set, illustrates
    use of complex number in Fortran, using command line
    arguments, using modules, using allocatable arrays.
