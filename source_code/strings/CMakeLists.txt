@@ -10,3 +10,4 @@ add_compile_options(-Wall -Wextra)
 
 add_executable(palindromes.exe palindromes.f90)
 add_executable(str_assignment.exe str_assignment.f90)
+add_executable(ascii.exe ascii.f90)
