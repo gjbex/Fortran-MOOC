@@ -42,3 +42,4 @@ code examples used in videos and reading material.
 1. `box_counting`: implementation of box counting to determine the
    Minskowski dimension of a 2D fractal, illustrates documentation
    using doxygen and documentation generation with CMake.
+1. `computing_pi`: applications to compute pi.
