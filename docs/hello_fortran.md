@@ -5,7 +5,7 @@ looks like.
 
 Fortran programs consist of compilation units, and must have one and only one
 `program` unit.  The code you see below is the "hello world" application in
-Fortran
+Fortran.
 
 ~~~~fortran
 program hello_fortran
@@ -34,3 +34,5 @@ expected output.
 $ ./a.out
  hello Fortran!
 ~~~~
+
+Congratulations,  you have just build and run your very first Fortran program!
