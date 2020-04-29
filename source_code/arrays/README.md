@@ -12,4 +12,9 @@ Several short Fortran programs to illustrate arrays.
 1. `matrix.f90`: illustrates a 2D array.
 1. `max_array.f90`: illustrates the optional arguments `dim` and `mask` for
    some of the intrinsic procedures that operate on arrays.
+1. `trace.f90`: illustration of an assumed-shape function.
+1. `copmute_factorial.f90`: illustration of an elemental function.
+1. `linear_transform.f90`: illustraion of an elemental function with multiple
+   arguments.
+1. `identity.f90`: illustration of a function return an array.
 1. `CMakeLists.txt`: CMake file to build the applications.

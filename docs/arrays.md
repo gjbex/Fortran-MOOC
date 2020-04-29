@@ -226,6 +226,19 @@ arrays.
 The shape of an array is the size in each dimension, so for the matrix `A`, the shape
 would be `3, 5`.
 
+Just as for one dimensional arrays, you can select subarrays from multidimensional
+arrays as well.  Suppose that `A` is a $$ 5 \times 5$$ matrix, then the the
+expression `A(2:3, 2:4)` will create a $$2 \times 3$$ subarray with the values
+`A(2, 2)`, `A(2, 3)`, `A(2, 4)` in its first row, and `A(3, 2)`, `A(3, 3)` and
+`A(3, 4)` in its second row.
+
+You can select an entire row or column from a two dimensional array as well.  For
+example, `A(2, :)` is a subarray that consists of the elements of `A`'s second row.
+Similarly, `A(:, 3)` has the elements of the third column of `A`.  Note that both
+`A(2, :)` and `A(:, 3)` have rank 1 and size 5.
+
+
+
 ## Intrinsic procedures
 
 Fortran has many intrinsic procedures for arrays.  You already saw a few of them in
@@ -235,18 +248,23 @@ action.
 ### Size and shape
 
 The `size` intrinsic function returns the number of elements of an array.  It has the
-dimention as an optional argument for use with multidimensional arrays, e.g.,
+dimension as an optional argument for use with multidimensional arrays, e.g.,
 `size(A, 1)` will return the number of rows of the array, `size(A, 2)` the number of
 columns.
 
-The `shape` intrintrinsic function returns a one dimensional array with the dimensions
+The `shape` intrinsic function returns a one dimensional array with the dimensions
 for the array.  So for a $$3 \times 5$$ array, the `shape` function return the array
 `[3, 5]`.
+
+The `rank` intrinsic function returns the rank of an array, i.e., its number of
+dimensions.
 
 The `reshape` intrinsic function takes two arguments.  The first argument is an array
 of any shape, the second is a one dimensional array that specifies a new shape.
 In the example code in the previous section, a one dimensional array of size 15
-(constructed using implicit do loops) is reshaped into a two dimensional $$3 \times 5$$
+(constructed using implicit do loops) is reshaped into a two dimensional
+$$3 \times 5$$
+
 array.  Note that the size of the array should be equal to the product of the
 new dimensions.  For example, you can reshape a $$4 \times 5$$ array into a
 $$2 \times 10$$ array, or into a one dimensional array with 20 elements.  It can even
@@ -256,9 +274,9 @@ be reshaped into a three dimensional $$ 2 \times 2 \times 4$$ array.
 ### Mathematical functions
 
 Most mathematical function such as the trigonometric functions and their inverse, the
-exponetial and logarithmic functions and the square root can be applied to an array of
+exponential and logarithmic functions and the square root can be applied to an array of
 any rank to produce a new array of the same rank with elements that are the result of
-applying the function to the corresponding elment in the original array.  So
+applying the function to the corresponding element in the original array.  So
 `A_new(i) = <func>(A(i))`.  Such procedure are called elemental and you'll see in one
 of the next section how to create your own.
 
@@ -266,7 +284,7 @@ The scalar product of two vectors (i.e, one dimensional arrays) can be computed 
 the intrinsic function `dot_product`.  The vector-matrix, matrix-vector or
 matrix-matrix product can be computed using the intrinsic function `matmul`.  As you
 would expect, the dimensions must match, so for `matmul(A, B)`, `size(A, 2)` must be
-equal bo `size(B, 1)`.
+equal to `size(B, 1)`.
 
 The `sum` and `product` intrinsic functions compute the sum and product of the elements
 of an array respectively.
@@ -292,7 +310,7 @@ Intrinsic unctions similar to `sum` and `maxval` accept two optional arguments
 
 If `dim` is specified, the result returned by the function is an array with a rank one
 less than that of the argument.  So for a two dimensional array `A`, `maxval(A, dim=1)`
-would return a one dimentional array.  The elements of that array would be the maximum
+would return a one dimensional array.  The elements of that array would be the maximum
 value over each column in `A`.
 
 The `mask` argument is a `logical` array of the same shape as the argument array.
@@ -350,6 +368,122 @@ Boolean condition, e.g., `count(A >= 0)` will return the number of positive elem
 in the array `A`.  It takes an optional argument `dim` as well.
 
 
+## Extent
+
+Although the default indices of a Fortran array ranges from 1 to the size of the
+array, it is possible to declare arrays with a non-default extent.  Consider the
+following array declaration.
+
+~~~~fortran
+real, dimension(-10:10) :: A
+~~~~
+
+This declares an array named `A` that has 21 elements of type `integer`.  The first
+element is at index -10, the second at -9, and so on.  The last element has index
+10.
+
+The intrinsic function `lbound` and `ubound` return the lower and upper bound(s) of
+an array respectively.  Similar to the `size` function, these intrinsic functions
+take an optional argument `dim` to specify the dimension for which you want the
+upper or lower bound.
+
+If you feel tempted at this point to emulate 0-based indices because that is what you
+are used to in some other programming language, please don't.  It adds complexity to
+your code and make it harder to read for seasoned Fortran programmers (also, they
+will make fun of you).
+
+Regardless, arrays with non-default upper and lower bounds indices definitely have
+their use cases.
+
+
 ## Arrays and user-defined procedures
 
-TODO
+Arrays can be passed as arguments to user-defined procedures, and be returned as
+the result of functions.  You can even create your own elemental procedures that
+act on individual array elements just like intrinsic procedures such as, e.g.,
+`sqrt`.
+
+
+### Assumed-shape arguments
+
+You may think that there is an a problem when you have to declare an argument of
+a procedure that is an array: how to specify its shape?  If the shape would have
+to be specified explicitly, e.g, `dimension(3, 4)` writing and using procedures
+involving arrays would be *very* cumbersome.  Fortunately, Fortran offers a very
+elegant solution: assumed-shape arrays.
+
+The code fragment below shows a function that has a two dimensional array that is
+supposed to represent a square matrix as an argument, and computes the trace.
+
+
+~~~~fortran
+    real function trace(matrix)
+        use, intrinsic :: iso_fortran_env, only : error_unit
+        implicit none
+        real, dimension(:, :), intent(in) :: matrix
+        integer :: i
+
+        if (size(matrix, 1) /= size(matrix, 2)) then
+            write (unit=error_unit, fmt='(A)') &
+                'error: can not compute trace of a non-square matrix'
+            stop 1
+        end if
+        trace = 0.0
+        do i = 1, size(matrix, 1)
+            trace = trace + matrix(i, i)
+        end do
+    end function trace
+~~~~
+
+The function's argument is an array of rank 2, but unspecified size
+(`dimension(:, :)`), however, the information about the shape of the array is
+available when the function is executed.  The `size` and `shape` intrinsic functions
+will return the values corresponding to the array in the calling context.
+
+
+### Elemental procedures
+
+Elemental procedures are pure procedures that operate on a single scalar value.  The
+following Fortran program shows an elemental function and its application.
+
+~~~~fortran
+program linear_transform
+    implicit none
+    real, dimension(5) :: values
+
+    call random_number(values)
+    print *, values
+    print *, lin_transform(values, 2.0, 1.0)
+
+contains
+
+    elemental real function lin_transform(x, a, b)
+        implicit none
+        real, intent(in) :: x, a, b
+
+        lin_transform = a*x + b
+    end function lin_transform
+
+end program linear_transform
+~~~~
+
+
+### Arrays as return values
+
+Fortran procedures can also return arrays as a result of a function call.  The
+following function illustrates that.  Given a size, it constructs an identity
+matrix (represented as two dimensional array).
+
+~~~~fortran
+    function eye(n) result(matrix)
+        implicit none
+        integer, value :: n
+        real, dimension(n, n) :: matrix
+        integer :: i
+
+        matrix = 0.0
+        do i = 1, size(A, 1)
+            matrix(i, i) = 1.0
+        end do
+    end function eye
+~~~~
