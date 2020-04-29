@@ -78,6 +78,11 @@ $ ./hello_fortran.exe
 TODO
 
 
+## CTest
+
+TDO
+
+
 ## Building documentation
 
 TODO
