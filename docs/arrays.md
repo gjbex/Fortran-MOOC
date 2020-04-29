@@ -222,3 +222,134 @@ the inner loop ranges over the row index.  The reason is that two dimensional ar
 in Fortran are stored column-wise.  In general, the inner loop should range over the
 rank of which the index changes the fastest, so that is the row index for rank 2
 arrays.
+
+The shape of an array is the size in each dimension, so for the matrix `A`, the shape
+would be `3, 5`.
+
+## Intrinsic procedures
+
+Fortran has many intrinsic procedures for arrays.  You already saw a few of them in
+action.
+
+
+### Size and shape
+
+The `size` intrinsic function returns the number of elements of an array.  It has the
+dimention as an optional argument for use with multidimensional arrays, e.g.,
+`size(A, 1)` will return the number of rows of the array, `size(A, 2)` the number of
+columns.
+
+The `shape` intrintrinsic function returns a one dimensional array with the dimensions
+for the array.  So for a $$3 \times 5$$ array, the `shape` function return the array
+`[3, 5]`.
+
+The `reshape` intrinsic function takes two arguments.  The first argument is an array
+of any shape, the second is a one dimensional array that specifies a new shape.
+In the example code in the previous section, a one dimensional array of size 15
+(constructed using implicit do loops) is reshaped into a two dimensional $$3 \times 5$$
+array.  Note that the size of the array should be equal to the product of the
+new dimensions.  For example, you can reshape a $$4 \times 5$$ array into a
+$$2 \times 10$$ array, or into a one dimensional array with 20 elements.  It can even
+be reshaped into a three dimensional $$ 2 \times 2 \times 4$$ array.
+
+
+### Mathematical functions
+
+Most mathematical function such as the trigonometric functions and their inverse, the
+exponetial and logarithmic functions and the square root can be applied to an array of
+any rank to produce a new array of the same rank with elements that are the result of
+applying the function to the corresponding elment in the original array.  So
+`A_new(i) = <func>(A(i))`.  Such procedure are called elemental and you'll see in one
+of the next section how to create your own.
+
+The scalar product of two vectors (i.e, one dimensional arrays) can be computed using
+the intrinsic function `dot_product`.  The vector-matrix, matrix-vector or
+matrix-matrix product can be computed using the intrinsic function `matmul`.  As you
+would expect, the dimensions must match, so for `matmul(A, B)`, `size(A, 2)` must be
+equal bo `size(B, 1)`.
+
+The `sum` and `product` intrinsic functions compute the sum and product of the elements
+of an array respectively.
+
+
+### Finding and counting
+
+The intrinsic functions `maxval` will return the maximum value of an array.
+The corresponding intrinsic function `maxloc` returns the index or indices of the
+element with the highest value in the array.  When applied to a multidimensional
+array, this function will return a one dimensional array with the same size as the
+rank of the argument.  If there are multiple elements with the same maximum value, the
+index or indices of the first such element is returned.
+
+Obviously, the intrinsic functions `minval` and `minloc` are similar to `maxval` and
+`maxloc`.
+
+
+### Masks and dimension
+
+Intrinsic unctions similar to `sum` and `maxval` accept two optional arguments
+`dim` and `mask`.
+
+If `dim` is specified, the result returned by the function is an array with a rank one
+less than that of the argument.  So for a two dimensional array `A`, `maxval(A, dim=1)`
+would return a one dimentional array.  The elements of that array would be the maximum
+value over each column in `A`.
+
+The `mask` argument is a `logical` array of the same shape as the argument array.
+If an element of the `logical` array is `.TRUE.`, the value of the corresponding
+element in the argument array is taken into account, if it is `.FALSE.` it is not
+taken into account.
+
+The following program illustrates the optional arguments `dim` and `mask` when used
+with the intrinsic functions `maxval` and `macloc`.
+
+~~~~fortran
+program max_array
+    implicit none
+    integer, dimension(3, 4) :: A
+    integer :: i, j
+    character(len=10), parameter :: FMT = '(A, 4I13)'
+
+    A = reshape( [ (((i - 1)*size(A, 2) + j, j=1,size(A, 2)), i=1,size(A, 1)) ], &
+                shape(A)) - 8
+    do i = 1, size(A, 1)
+        print *, A(i, :)
+    end do
+    print FMT, 'maximum = ', maxval(A)
+    print FMT, 'column maximum = ', maxval(A, dim=1)
+    print FMT, 'row maximum = ', maxval(A, dim=2)
+    print FMT, 'maximum odd elment = ', maxval(A, mask=mod(A, 2) /= 0)
+    print FMT, 'row maximum negative elment = ', maxval(A, dim=1, mask=A < 0)
+    print FMT, 'maxloc = ', maxloc(A)
+    print FMT, 'column maxloc = ', maxloc(A, dim=1)
+end program max_array
+~~~~
+
+The output of this program is shown below.
+
+~~~~
+         -7          -4          -1           2
+         -6          -3           0           3
+         -5          -2           1           4
+maximum =             4
+column maximum =            -5           -2            1            4
+row maximum =             2            3            4
+maximum odd elment =             3
+row maximum negative elment =            -5           -2           -1  -2147483648
+maxloc =             3            4
+column maxloc =             3            3            3            3
+~~~~
+
+Note the output for `maxval(A, dim=1, mask=A < 0)`.  The last value is not exactly
+what you would expect.  However, when you inspect the matrix, you will see that the
+last column has no negative elements.  This is an example of garbage in (this code),
+garbage out.
+
+The `count` function uses a mask to count elements in an array that satisfy some
+Boolean condition, e.g., `count(A >= 0)` will return the number of positive elements
+in the array `A`.  It takes an optional argument `dim` as well.
+
+
+## Arrays and user-defined procedures
+
+TODO

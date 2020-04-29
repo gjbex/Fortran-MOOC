@@ -10,4 +10,6 @@ Several short Fortran programs to illustrate arrays.
 1. `array_arithmethic.f90`: illustrates scalar-array and array-array arithmetics.
 1. `subarrays.f90`: illustrates index "slicing" of Fortran arrays.
 1. `matrix.f90`: illustrates a 2D array.
+1. `max_array.f90`: illustrates the optional arguments `dim` and `mask` for
+   some of the intrinsic procedures that operate on arrays.
 1. `CMakeLists.txt`: CMake file to build the applications.
