@@ -41,7 +41,7 @@ add_executable(hello_fortran.exe hello_fortran.f90)
 * Line 11 defines the actual build, it specifies to compile `hello_world.f90` into
   an executable named `hello_fortran.exe`.
 
-When building software, CMake will create a lot of artefacts that pollute your source
+When building software, CMake will create a lot of artifacts that pollute your source
 directory, so it is good practice to do the build in a dedicated subdirectory.
 
 ~~~~bash
@@ -75,14 +75,23 @@ $ ./hello_fortran.exe
 
 ## Multiple source files
 
-TODO
+suppose that your application is implemented using multiple source files, i.e.,
+some modules are stored in their own files. CMake can handle this very easily,
+you just have to specify the dependency.  For example, the following specification
+would use the files `cellular_automata.f90` as well as `cellular_automata_mod.f90`
+to build the application `cellular_automata.exe`.
+
+~~~~
+add_executable(cellular_automata.exe
+    cellular_automata.f90
+    cellular_automata_mod.f90)
+~~~~
 
 
-## CTest
+## Other features
 
-TDO
+CMake has many more features exceeding the scope of this introduction.  Some of them
+are illustrated in the examples.
 
-
-## Building documentation
-
-TODO
+Functional testing can be done using CTest, and building Doxygen documentation is
+also easily integrated into `CMakeLists.txt`.
