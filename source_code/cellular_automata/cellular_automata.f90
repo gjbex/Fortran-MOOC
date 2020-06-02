@@ -23,9 +23,9 @@ contains
         integer :: istat
         character(len=1024) :: buffer, msg
 
-        rule_nr = 163
-        nr_cells = 20
-        max_steps = 30
+        rule_nr = 90
+        nr_cells = 50
+        max_steps = 100
 
         if (command_argument_count() > 0) then
             call get_command_argument(1, buffer)
