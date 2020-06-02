@@ -32,7 +32,7 @@ contains
 
         config%method = 'none'
         config%nr_iters = 0
-        config%precision = 1.0D10
+        config%precision = 1.0D-10
     end subroutine init_config
 
     subroutine read_config(file_name, config)
@@ -105,5 +105,14 @@ contains
         val = adjustl(line(pos+1:))
         stat = 0
     end subroutine split_line
+
+    subroutine print_config(config)
+        implicit none
+        type(config_t), intent(in) :: config
+
+        print "('method = ', A)", trim(config%method)
+        print "('nr_iters = ', I0)", config%nr_iters
+        print "('precision = ', E26.15)", config%precision
+    end subroutine print_config
 
 end program config_parser
