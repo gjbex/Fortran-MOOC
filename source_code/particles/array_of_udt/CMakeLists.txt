@@ -10,3 +10,6 @@ add_compile_options(-Wall -Wextra -mcmodel=large)
 
 add_executable(particles.exe
     particles.f90 particles_mod.f90)
+
+add_executable(particles_array.exe
+    particles.f90 particles_array_mod.f90)
