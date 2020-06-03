@@ -94,7 +94,12 @@ The return type of a function can also be a user defined type.  You will see an
 example in the next section.
 
 
-## Arrays and user defined types
+## Building types
+
+Combining basic types, arrays and user defined types you can build (almost) any data
+structure you may need.
+
+### Arrays of user defined types
 
 It is straightforward to create arrays that have user defined type elements.  By way
 of example, suppose you would like to compute the center of mass of a system of
@@ -127,9 +132,9 @@ function compute_center_of_mass(particles) result(coordinates)
     total_mass = 0.0_DP
     do i = 1, size(particles)
         associate(particle => particles(i))
-            coordinates%x = particle%mass*particle%x
-            coordinates%y = particle%mass*particle%y
-            coordinates%z = particle%mass*particle%z
+            coordinates%x = coordinates%x + particle%mass*particle%x
+            coordinates%y = coordinates%y + particle%mass*particle%y
+            coordinates%z = coordinates%z + particle%mass*particle%z
             total_mass = total_mass + particle%mass
         end associate
     end do
@@ -144,3 +149,86 @@ This statement lets you associate a name with a variable, array element or subar
 In this example, the name `particle` is used instead of the array element `particles(i)`
 since this makes the code somewhat easier to read.
 
+
+### Arrays as elements of user defined types
+
+Note that elements of user defined types are not restricted to basic types, they can
+be arrays or event user defined types.  For instance, you could represent the particle's
+coordinates as an array.
+
+~~~~fortran
+type :: particle_t
+    real(kind=DP), dimension(3) :: coords
+    real(kind=DP) :: mass
+    integer :: charge
+end type particle_t
+~~~~
+
+The `coords` element is an array of three real numbers, representing the coordinates.
+The following function takes two particles of this data type and computes the
+Cartesian distance between them.
+
+~~~~fortran
+function distance(p1, p2) result(dist)
+    implicit none
+    type(particle_t), intent(in) :: p1, p2
+    real(kind=DP) :: dist
+    integer :: i
+
+    dist = 0.0_DP
+    do i = 1, size(p1%coords)
+        dist = dist + (p1%coords(i) - p2%coords(i))**2
+    end do 
+    dist = sqrt(dist)
+end function distance
+~~~~
+
+
+### Nested user defined types
+
+The elements of user defined types can themselves have a user defined type.  The
+following definition illustrates this.
+
+~~~~fortran
+type :: coordinates_t
+    real(kind=DP) :: x, y, z
+end type coordinates_t
+
+type :: particle_t
+    type(coordinates_t) :: coords
+    real(kind=DP) :: mass
+    integer :: charge
+end type particle_t
+~~~~
+
+The type of the `coords` element is a user defined type with three elements, `x`, `y`
+and `z` that represent the coordinates.  The following function that computes the
+distance between two particles illustrates its use.
+
+~~~~fortran
+function distance(p1, p2) result(dist)
+    implicit none
+    type(particle_t), intent(in) :: p1, p2
+    real(kind=DP) :: dist
+    integer :: i
+
+    associate(c1 => p1%coords, c2 => p2%coords)
+        dist = sqrt((c1%x - c2%x)**2 + (c1%y - c2%y)**2 + (c1%z - c2%z)**2)
+    end associate
+end function distance
+~~~~
+
+
+## Sequence
+
+For performance reasons, the Fortran compiler can reorder the elements in a user
+defined type.  Mostly, that is what you want, but when it is not, you can add the
+`sequence` keyword to the type definition, e.g.,
+
+~~~~fortran
+type :: particle_t
+    sequence
+    real(kind=DP) :: x, y, z, mass
+    integer :: charge
+end type particle_t
+~~~~
