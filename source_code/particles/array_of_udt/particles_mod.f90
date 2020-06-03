@@ -40,7 +40,7 @@ contains
             real(kind=DP) :: coord
 
             call random_number(coord)
-            coord = 2.0_DP*coord + 1.0_DP
+            coord = 2.0_DP*coord - 1.0_DP
         end function random_coord
 
     end subroutine init_particle
