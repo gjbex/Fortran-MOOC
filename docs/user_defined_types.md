@@ -1,8 +1,8 @@
 # User defined types
 
-Representing data is key to software design.  You've already encountered Fortran basic
-types to represent numbers, logical values and strings, as well as (multi-dimensional)
-arrays of such data.
+Representing data is key to software design.  You've already
+encountered Fortran basic types to represent numbers, logical values
+and strings, as well as (multi-dimensional) arrays of such data.
 
 However, some data items that belong together do not fit into an array since they have
 different types.  For instance, consider configuration settings for an imaginary
@@ -64,18 +64,83 @@ end if
 ~~~~
 
 
-## Procedure arguments
+## Procedure arguments and function return types
 
-User defined type variables can be passed to procedures, for instance, the following
-subroutine takes a variable of type `config_t` as an argument.
+User defined type variables can be passed to procedures as arguments, as well as
+returned by functions.  Consider the following user defined type that represents a
+particle.
 
 ~~~~fortran
-subroutine print_config(config)
-    implicit none
-    type(config_t), intent(in) :: config
-
-    print "('method = ', A)", trim(config%method)
-    print "('nr_iters = ', I0)", config%nr_iters
-    print "('precision = ', E26.15)", config%precision
-end subroutine print_config
+type :: particle_t
+    real(kind=DP) :: x, y, z, mass
+    integer :: charge
+end type particle_t
 ~~~~
+
+The following function takes to arguments of type `particle_t` as argument, and
+computes the Euclidean distance between them.
+
+~~~~fortran
+function distance(p1, p2) result(dist)
+    implicit none
+    type(particle_t), intent(in) :: p1, p2
+    real(kind=DP) :: dist
+    
+    dist = sqrt((p1%x - p2%x)**2 + (p1%y - p2%y)**2 + (p1%z - p2%z)**2)
+end function distance
+~~~~
+
+The return type of a function can also be a user defined type.  You will see an
+example in the next section.
+
+
+## Arrays and user defined types
+
+It is straightforward to create arrays that have user defined type elements.  By way
+of example, suppose you would like to compute the center of mass of a system of
+particles represented as `particle_t`.  The particles would be stored in an array and
+passed to a function that returns the coordinates of the center of mass.
+
+
+The following type represents Cartesian coordinates in a three-dimensional space.
+
+~~~~fortran
+type :: coordinates_t
+    real(kind=DP) :: x, y, z
+end type coordinates_t
+~~~~
+
+The function computing the center of mass is listed below.  As argument, it receives
+a one-dimensional array of `particle_t` elements.
+
+~~~~fortran
+function compute_center_of_mass(particles) result(coordinates)
+    implicit none
+    type(particle_t), dimension(:), intent(in) :: particles
+    type(coordinates_t) :: coordinates
+    real(kind=DP) :: total_mass
+    integer :: i
+
+    coordinates%x = 0.0_DP
+    coordinates%y = 0.0_DP
+    coordinates%z = 0.0_DP
+    total_mass = 0.0_DP
+    do i = 1, size(particles)
+        associate(particle => particles(i))
+            coordinates%x = particle%mass*particle%x
+            coordinates%y = particle%mass*particle%y
+            coordinates%z = particle%mass*particle%z
+            total_mass = total_mass + particle%mass
+        end associate
+    end do
+    coordinates%x = coordinates%x/total_mass
+    coordinates%y = coordinates%y/total_mass
+    coordinates%z = coordinates%z/total_mass
+end function compute_center_of_mass
+~~~~
+
+In order to simplify the code a little bit, the associate statement has been used.
+This statement lets you associate a name with a variable, array element or subarray.
+In this example, the name `particle` is used instead of the array element `particles(i)`
+since this makes the code somewhat easier to read.
+
