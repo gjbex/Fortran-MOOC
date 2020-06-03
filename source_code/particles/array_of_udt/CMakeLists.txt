@@ -13,3 +13,6 @@ add_executable(particles.exe
 
 add_executable(particles_array.exe
     particles.f90 particles_array_mod.f90)
+
+add_executable(particles_udt.exe
+    particles.f90 particles_udt_mod.f90)
