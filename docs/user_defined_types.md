@@ -221,9 +221,9 @@ end function distance
 
 ## Sequence
 
-For performance reasons, the Fortran compiler can reorder the elements in a user
-defined type.  Mostly, that is what you want, but when it is not, you can add the
-`sequence` keyword to the type definition, e.g.,
+For performance reasons, the Fortran compiler can arrange the elements in a user
+defined type so that there are gaps between them.  Mostly, that is what you want, but
+when it is not, you can add the `sequence` keyword to the type definition, e.g.,
 
 ~~~~fortran
 type :: particle_t
