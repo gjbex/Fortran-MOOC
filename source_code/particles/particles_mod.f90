@@ -3,10 +3,7 @@ module particles_mod
     implicit none
 
     type :: particle_t
-        real(kind=DP) :: x
-        real(kind=DP) :: y
-        real(kind=DP) :: z
-        real(kind=DP) :: mass
+        real(kind=DP) :: x, y, z, mass
         integer :: charge
     end type particle_t
 
@@ -72,14 +69,12 @@ contains
         coordinates%z = coordinates%z/total_mass
     end function compute_center_of_mass
 
-    function distance(particle1, particle2) result(dist)
+    function distance(p1, p2) result(dist)
         implicit none
-        type(particle_t), intent(in) :: particle1, particle2
+        type(particle_t), intent(in) :: p1, p2
         real(kind=DP) :: dist
         
-        dist = sqrt((particle1%x - particle2%x)**2 + &
-                    (particle1%y - particle2%y)**2 + &
-                    (particle1%z - particle2%z)**2)
+        dist = sqrt((p1%x - p2%x)**2 + (p1%y - p2%y)**2 + (p1%z - p2%z)**2)
     end function distance
 
     subroutine print_particle(particle)
