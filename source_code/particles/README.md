@@ -1,13 +1,10 @@
 # Particles
 
-Application that computes the center of mass of a system of randomly
-initialized particles.
-
+Two applications to compute the center of mass coordinates of a system of random
+particles.
 
 ## What is it?
 
-1. `particles_mod.f90`: module that defines particles and functions
-   to work with them.
-1. `particles.f90`: main program that initializes particles randomly
-   and computes the center of mass.
-1. `CMakeLists.txt`: CMake file to build the applications.
+1. `array_of_udt`: implementation using an array of user defined types.
+1. `udt_of_array': implementation using user defined type with array elements. Note
+   that this code only compiles with Intel compilers (2018+), not with GCC (10.1).

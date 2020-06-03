@@ -2,6 +2,9 @@ module particles_mod
     use, intrinsic :: iso_fortran_env, only : DP => REAL64
     implicit none
 
+    real(kind=DP), parameter :: e_mass = 0.510999_DP, p_mass = 938.272_DP
+    integer, parameter :: e_charge = -1, p_charge = +1
+
     type :: particle_t
         real(kind=DP) :: x, y, z, mass
         integer :: charge
@@ -16,9 +19,6 @@ contains
     subroutine init_particle(particle)
         implicit none
         type(particle_t), intent(out) :: particle
-        real(kind=DP), parameter :: e_mass = 0.510999_DP, &
-                                    p_mass = 938.272_DP
-        integer, parameter :: e_charge = -1, p_charge = +1
         real :: r
 
         particle%x = random_coord()
@@ -47,7 +47,7 @@ contains
 
     function compute_center_of_mass(particles) result(coordinates)
         implicit none
-        type(particle_t), dimension(:), intent(in) :: particles
+        class(particle_t), dimension(:), intent(in) :: particles
         type(coordinates_t) :: coordinates
         real(kind=DP) :: total_mass
         integer :: i
@@ -58,9 +58,9 @@ contains
         total_mass = 0.0_DP
         do i = 1, size(particles)
             associate(particle => particles(i))
-                coordinates%x = particle%mass*particle%x
-                coordinates%y = particle%mass*particle%y
-                coordinates%z = particle%mass*particle%z
+                coordinates%x = coordinates%x + particle%mass*particle%x
+                coordinates%y = coordinates%y + particle%mass*particle%y
+                coordinates%z = coordinates%z + particle%mass*particle%z
                 total_mass = total_mass + particle%mass
             end associate
         end do

@@ -3,7 +3,7 @@ program particles_program
     use :: particles_mod, only : particle_t, coordinates_t, &
         init_particle, compute_center_of_mass
     implicit none
-    integer, parameter :: nr_particles = 10
+    integer, parameter :: nr_particles = 1000000
     type(particle_t), dimension(nr_particles) :: particles
     type(coordinates_t) :: center_of_mass
     integer :: i
