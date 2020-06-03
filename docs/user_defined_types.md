@@ -232,3 +232,6 @@ type :: particle_t
     integer :: charge
 end type particle_t
 ~~~~
+
+Note that you should really only use this when you know what you are doing since
+adding `sequence` may have a performance impact.
