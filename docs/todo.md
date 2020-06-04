@@ -6,3 +6,6 @@ List of things that should not be forgotten
   * discuss `ieee_arithmetic`
   * discuss performance impact of `REAL128`
   * discuss performance impact of mixed-kind computations
+  * dynamic memory
+  * random number generation
+  * block statement
