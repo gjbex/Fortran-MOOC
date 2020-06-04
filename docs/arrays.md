@@ -487,3 +487,179 @@ matrix (represented as two dimensional array).
         end do
     end function eye
 ~~~~
+
+
+## Array-related statements
+
+The fact that arrays are first-class citizens in Fortran is further illustrated by two
+statements.  The first is the where statement, the second the forall statement.
+
+
+### where statement
+
+The where statement makes conditional assignment to array elements considerably
+simpler.
+
+As an example, consider the random initialization of a system of particles.
+Approximately half of the particles are protons, the other half electrons.  The masses
+and charges for the particles are stored in an array `masses` and `charges`
+respectively.  The number of particles is stored in the parameter `nr_particles`.
+
+This could be implemented as follows.
+
+~~~~fortran
+...
+real, dimension(nr_particles) :: masses, charges
+real :: probability
+integer :: i
+
+do i = 1, nr_particles
+    call random_number(probability)
+    if (probability < 0.5) then
+        masses = proton_mass
+        charges = proton_charge
+    else
+        masses = electron_mass
+        charges = electron_charge
+    end if
+end do
+...
+~~~~
+
+The `random_number` procedure will assign a pseudo-random number in the half-open
+interval 0.0 to 1.0.
+
+Although this may seem the obvious way to implement this, there is an arguably more
+elegant alternative using the where statement.
+
+~~~~fortran
+...
+real, dimension(nr_particles) :: masses, charges, probabilies
+
+call random_number(probabilies)
+where (probabilies < 0.5)
+    masses = proton_mass
+    charges = proton_charge
+elsewhere
+    masses = electron_mass
+    charges = electron_charge
+end where
+...
+~~~~
+
+Perhaps the easiest explanation of this statement is its translation into a do and if
+statement which is functionally equivalent.
+
+~~~~fortran
+...
+real, dimension(nr_particles) :: masses, charges, probabilies
+
+call random_number(probabilies)
+do i = 1, nr_particles
+    if (probabilities(i) < 0.5) then
+        masses = proton_mass
+        charges = proton_charge
+    else
+        masses = electron_mass
+        charges = electron_charge
+    end if
+end do
+...
+~~~~
+
+Using the where statement has a number of advantages:
+
+1. it reduces the number of statements, simplifying the code;
+1. it expresses your intent more clearly, so the compiler can take advantage for
+   optimization.
+
+Since all assignments are independent, the compiler is free to generate code that does
+them in any order.
+
+The general form of the where statement syntax is.
+
+~~~~
+where (<logical expression 1>)
+    <block statements 1>
+elsewhere (<logical expression 2>)
+    <block statements 2>
+...
+elsewhere
+    <block statements n>
+end where
+~~~~
+
+If you have a simple case with a single, unconditional `elsewhere`, the `merge`
+function can be a nice alternative.
+
+~~~~fortran
+...
+real, dimension(nr_particles) :: masses, charges, probabilies
+
+call random_number(probabilies)
+masses = merge( probabilies < 0.5, proton_mass, electron_mass)
+charges = merge( probabilies < 0.5, proton_charg, electron_charg)
+...
+~~~~
+
+
+### forall statement
+
+Another statement that is very useful in the context of arrays is forall.  This
+statement lets you iterate over one or more integer variables and set
+conditions on the values of these indices.  For instance, suppose you would like
+to initialize a triangular matrix with all elements under the main diagonal equal to
+0.
+
+~~~~fortran
+integer, parameter :: N
+integer :: i, j
+real, dimension(N, N) :: A
+
+forall (i=1:N, j=1:N, i <= j)
+    A(i, j) = f(i, j)
+end forall
+~~~~
+
+This would be equivalent to the following code.
+
+~~~~fortran
+integer, parameter :: N
+integer :: i, j
+real, dimension(N, N) :: A
+
+do i = 1, N
+    do j = i, N
+        A(i, j) = f(i, j)
+    end do
+end do
+~~~~
+
+Note that the iterations are independent of one another, so when the forall statement
+is used, the compiler is free to choose an efficient order for the iterations.  This
+construct also collapses the iteration space from multiple iterations into a single
+one.
+
+The general syntax for the forall statement is given below.
+
+~~~~
+forall (<iter 1>, ..., <iter n>, <logical expression>)
+    <block statements>
+end forall
+~~~~
+
+The `<iteration 1>` to `<iteration n>` have the form `<variable>=<first>:<last>`
+or `<variable>=<first>:<last>:<stride>`.  The values of `<first>`, `<last>` and
+`<stride>` should not refer to other iteration variables.  This means our example
+can not be written as follows.
+
+~~~~fortran
+forall (i=1:N, j=i:N)
+    A(i, j) = f(i, j)
+end forall
+~~~~
+
+If the conditional expression, also called the mask, is left out, it is assumed to be
+true for all iteration values.
+
+Note that only assignments to arrays are allowed in the block of a forall statement.
