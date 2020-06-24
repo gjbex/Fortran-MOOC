@@ -45,3 +45,5 @@ code examples used in videos and reading material.
 1. `computing_pi`: applications to compute pi.
 1. `kaprekar`: application that computes the Kaprekar constant.
 1. `particles`: application to illustrate user defined types.
+1. `statistics`: applications to illustrate various concepts (recursion, dynamic
+   memory management`).
