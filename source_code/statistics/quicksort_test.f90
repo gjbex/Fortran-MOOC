@@ -9,14 +9,8 @@ program quicksort_test
     real :: start_time, end_time, qsort_time, lampsort_time
 
     do i = 1, size(sizes)
-        allocate(qsort_values(sizes(i)))
-        if (.not. allocated(qsort_values)) then
-            write (unit=error_unit, fmt='(A, I0)') &
-                'error: can not allocate array of size ', sizes(i)
-            stop 1
-        end if
-        allocate(lampsort_values(sizes(i)))
-        if (.not. allocated(lampsort_values)) then
+        allocate(qsort_values(sizes(i)), lampsort_values(sizes(i)))
+        if (.not. allocated(qsort_values) .or. .not. allocated(lampsort_values)) then
             write (unit=error_unit, fmt='(A, I0)') &
                 'error: can not allocate array of size ', sizes(i)
             stop 1
@@ -42,8 +36,7 @@ program quicksort_test
                 'error: array not sorted correctly by lampsort'
             stop 2
         end if
-        deallocate(qsort_values)
-        deallocate(lampsort_values)
+        deallocate(qsort_values, lampsort_values)
     end do
 
 contains
