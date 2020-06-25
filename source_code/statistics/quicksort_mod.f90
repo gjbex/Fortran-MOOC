@@ -33,7 +33,7 @@ contains
         integer, dimension(:, :), allocatable :: indices
         integer :: current_indices, low, high, pivot
 
-        allocate(indices(2, size(values)))
+        allocate(indices(2, 1 + size(values)))
         if (.not. allocated(indices)) then
             write (unit=error_unit, fmt='(A)') &
                 'error: can not allocate indices array'
@@ -61,7 +61,6 @@ contains
                 end if
             end if
         end do
-        deallocate(indices)
     end subroutine lampsort
 
     subroutine swap_values(values, i, j)
