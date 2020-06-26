@@ -107,7 +107,7 @@ a procedure and use it in the calling context?  The answer to all these question
 
 Allocated variables can be passed as arguments to procedures, indeed, the definition
 of the subroutine `qsort` that is called in the function is shown below.  Its
-argument is simply a deferred-size one-dimensional array.
+argument is simply an assumed-shape one-dimensional array.
 
 ~~~~fortran
 subroutine qsort(values)
