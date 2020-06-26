@@ -14,3 +14,5 @@ add_executable(median_statistics.exe
     median_statistics.f90 median_stats_mod.f90 quicksort_mod.f90)
 
 add_executable(quicksort_test.exe quicksort_test.f90 quicksort_mod.f90)
+
+add_executable(median.exe median.f90 quicksort_mod.f90)

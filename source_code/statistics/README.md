@@ -17,5 +17,6 @@ concepts.
    computes the mean, median and standard deviation of the data.
 1. `quicksort_test.f90`: main program to test the quicksort and lampsort algorithm
    on random data.
+1. `median.f90`: simple application to illustrate dynamic memory allocation of arrays.
 1. `CMakeLists.txt`: CMake file to build the applications.
 1. `data1.txt`, `data2.txt`: small data files for testing purposes.
