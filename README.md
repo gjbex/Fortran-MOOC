@@ -1,6 +1,7 @@
 # Fortran-MOOC
 
-This repository contains material for the PRACE MOOC on Fortran.
+This repository contains material for the PRACE MOOC on "Fortran for scientific
+programming".
 
 The reading material can be found in the [`docs`](docs) directory, while the
 source code that is written by way of illustration for the reading material as well
