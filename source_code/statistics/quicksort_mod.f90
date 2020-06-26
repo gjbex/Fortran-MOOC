@@ -6,7 +6,7 @@ module quicksort_mod
 
 contains
 
-    recursive subroutine qsort(values)
+    subroutine qsort(values)
         implicit none
         real, dimension(:), intent(inout) :: values
 
