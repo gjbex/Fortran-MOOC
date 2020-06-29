@@ -18,5 +18,8 @@ concepts.
 1. `quicksort_test.f90`: main program to test the quicksort and lampsort algorithm
    on random data.
 1. `median.f90`: simple application to illustrate dynamic memory allocation of arrays.
+1. `dynamic_arrays_mod.f90`: implementation of a resizable array,
+   illustrating `move_alloc`.
+1. `dynamic_array_test.f90`: application to test dynamic arrays.
 1. `CMakeLists.txt`: CMake file to build the applications.
 1. `data1.txt`, `data2.txt`: small data files for testing purposes.
