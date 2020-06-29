@@ -47,3 +47,4 @@ code examples used in videos and reading material.
 1. `particles`: application to illustrate user defined types.
 1. `statistics`: applications to illustrate various concepts (recursion, dynamic
    memory management`).
+1. `primes`: some exercises on prime numbers.
