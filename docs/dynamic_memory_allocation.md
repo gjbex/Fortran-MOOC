@@ -121,4 +121,115 @@ end subroutine qsort
 
 ### Allocating in a procedure
 
+You can also pass an `allocatable` variable as an argument to a procedure
+and allocate it in that procedure.  The newly allocated variable can be
+used in the calling context.
 
+The following subroutine to initialize an allocatable one-dimensional
+array illustrates this.  If the variable passed to the procedure is
+already allocated, it first deallocates the variable to avoid a memory
+leak.  Next it will allocate the array to the given size and verify that
+the allocation succeeded.  If not, it will write an error message to
+standard error and halt the application.  Optionally, it will
+initialize the elements.
+
+~~~~fortran
+subroutine allocate_array(array, array_size, msg, init)
+    use, intrinsic :: iso_fortran_env, only : error_unit
+    implicit none
+    real, dimension(:), allocatable, intent(inout) :: array
+    integer, value :: array_size
+    character(len=*),intent(in) :: msg
+    real, value, optional :: init
+
+    ! if the array is allocated, deallocate it first
+    if (allocated(array)) &
+        deallocate(array)
+
+    ! allocate for specified size and check 
+    allocate(array(array_size))
+    if (.not. allocated(array)) then
+        write (unit=error_unit, fmt='(3A, I0)') &
+            'error: can not allocate array ', trim(msg), &
+            ' of size ', array_size
+        stop 101
+    end if
+
+    ! if necessary, initialize array
+    if (present(init)) &
+        array = init
+end subroutine allocate_array
+~~~~
+
+This subroutine can be called as follows.
+
+~~~~fortran
+...
+real, dimension(:), allocable :: array
+...
+call allocate_array(array, 100, 'data')
+...
+deallocate(array)
+...
+~~~~
+
+Note that the variable `array` has to be deallocated when it is no
+longer required.
+
+This subroutine illustrates that variables can be allocated and/or
+deallocated in procedures, even when they are passed as arguments.
+
+
+## Moving allocations
+
+Although not used very frequently, you should know about `move_alloc`
+because it can come in very handy in certain situations.
+
+The following subroutine illustrates this.  It will "resize" an array
+that is only partially filled with values to its "true" size.
+
+All the elements of the allocatable array `array` that is passed to the
+subroutine as an argument have been initialized to positive infinity.
+Values were assigned to elements in order, i.e., from the lowest index
+to some index value.  The "true" size of the array is the number of
+elements that are not infinity, so the index of first infinity minus
+the index lower bound.
+
+The subroutine determines the "true" size of the array, allocates a
+temporary array `temp` of that size, copies the elements, and moves the
+allocation of the temporary array `temp` to the subroutine argument
+`array`.
+
+~~~~fortran
+subroutine trim_array(array)
+    use, intrinsic :: ieee_arithmetic, only : ieee_is_finite, &
+                      ieee_value, ieee_positive_inf
+    implicit none
+    real, dimension(:), allocatable, intent(inout) :: array
+    real, dimension(:), allocatable :: temp
+    integer :: idx
+    real :: infinity
+    infinity = ieee_value(infinity, ieee_positive_inf)
+
+    ! if the array is not allocated, create one with size zero
+    if (.not. allocated(array)) then
+        allocate(array(0))
+        return
+    end if
+
+    ! find the location of the first infinity
+    idx = findloc(array, infinity, dim=1)
+    ! if the array is not full, create a new one of the required size
+    if (idx > 0) then
+        call allocate_array(temp, idx - 1, 'trimmed')
+        if (idx > 1) temp = array(1:idx - 1)
+        call move_alloc(temp, array)
+    end if
+end subroutine trim_array
+~~~~
+
+Note the call to `move_alloc`, this will ensure that `array` gets
+deallocated, and that the allocation to `temp` is transferred to
+`array`.  The array `array` is allocated in the calling context, while
+the array `temp` is allocated in the subroutine.  Since `arrays` is
+deallocated by `move_alloc` there is no memory leak.
