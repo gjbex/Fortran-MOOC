@@ -87,8 +87,9 @@ contains
         ! allocate for specified size and check 
         allocate(array(array_size))
         if (.not. allocated(array)) then
-            write (unit=error_unit, fmt='(2A, I0)') &
-                'error: can not allocate array ', trim(msg), ' of size ', array_size
+            write (unit=error_unit, fmt='(3A, I0)') &
+                'error: can not allocate array ', trim(msg), &
+                ' of size ', array_size
             stop 101
         end if
 
