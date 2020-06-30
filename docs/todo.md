@@ -9,3 +9,9 @@ List of things that should not be forgotten
   * dynamic memory
   * random number generation
   * block statement
+
+
+## Videos
+
+1. memory leaks
+1. `move_alloc` & dynamic arrays
