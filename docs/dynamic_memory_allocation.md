@@ -180,6 +180,34 @@ This subroutine illustrates that variables can be allocated and/or
 deallocated in procedures, even when they are passed as arguments.
 
 
+## User defined types and allocatable
+
+An element of a user defined type can be allocatable.  As an example,
+consider the following definition of a type to store statistical data.
+
+~~~~fortran
+type :: descriptive_stats_t
+    integer :: nr_values = 0
+    real :: sum = 0.0, sum2 = 0.0
+    real, dimension(:), allocatable :: values
+end type descriptive_stats_t
+~~~~
+
+The element `values is an allocatable array of real values. You can
+initialize a variable of type `descriptive_stats_t` easily.
+
+~~~~fortran
+type(descriptive_stats_t) :: stats
+...
+allocate(stats%values(100)
+...
+~~~~
+
+To create data structures such as lists and graphs, allocating
+variables of user defined types is also quite useful, but you will
+see example of that in the section on pointers.
+
+
 ## Moving allocations
 
 Although not used very frequently, you should know about `move_alloc`
