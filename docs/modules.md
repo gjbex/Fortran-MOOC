@@ -116,4 +116,51 @@ the module.
 
 ## Using modules
 
+A module can be used in any compilation unit such as program, modules and
+procedures.  The Fortran standard defines a number of modules that are
+available with any standard compliant compiler, e.g., `iso_fortran_env` and
+`ieee_arithmetic`.  Just like the procedures that Fortran defines such as
+`sqrt` or `trim` are called intrinsic procedures, these modules are called
+intrinsic as well.  When using those modules it is highly recommended to
+use the `intrinsic` attribute when you use them.  This informs the compiler
+that you are referring to one of the standard modules, and not a module
+that you have defined with the same name.
 
+~~~~fortran
+program descriptive_statistics
+    use, intrinsic :: iso_fortran_env, only : error_unit, input_unit
+    use :: stats_mod
+    implicit none
+    ...
+end program descriptive_statistics
+~~~~
+
+In the example above, the `iso_fortran_env` intrinsic module is used, but
+the code in the program unit will only use `error_unit` and `input_unit`,
+but not, e.g., `output_unit` or `REAL64`.  In order to minimize surprises
+when using modules, it is good practice to limit what is available from
+this unit by listing explicitly what is required using the `only` keyword.
+
+The second module is the one we discussed in the previous section, it is
+user defined, so the `intrinsic` attribute is obviously not used.  In this
+example you see there is no restriction using `only`, so the program unit
+has access to everything that is public in the module `stats_mod`.  This
+is not good practice.
+
+Note that use declarations must precede the `implicit none`.
+
+
+## Intrinsic modules
+
+Fortran doesn't provide many intrinsic modules but they can be quite
+useful.
+
+* `iso_fortran_env` defines many integer constants that help to write
+  portable code.  For example, the real kinds `REAL32`, `REAL64` and `REAL128`
+  as well as the unit numbers for standard input, output and error.
+* `iso_c_binding` defines a number of procedures and integer constants to
+  facilitate interoperability between Fortran and C code.
+* `ieee_arithmetic`, `ieee_exceptions` provide procedures and integer
+  constants so that you can write IEEE 754 compliant programs.
+* `omp_lib` and `omp_lib_kinds` provides procedures and integer constants
+  to facilitate shared memory programming using OpenMP.
