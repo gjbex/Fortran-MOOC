@@ -3,13 +3,13 @@ module stats_mod
 
     private
 
-    type, public :: descriptive_stats_t
+    public :: descriptive_stats_t, add_value, get_nr_values, get_mean, get_stddev
+
+    type :: descriptive_stats_t
         private
         integer :: nr_values = 0
         real :: sum = 0.0, sum2 = 0.0
     end type descriptive_stats_t
-
-    public :: add_value, get_nr_values, get_mean, get_stddev
 
 contains
 
