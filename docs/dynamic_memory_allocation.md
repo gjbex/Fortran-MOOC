@@ -1,7 +1,5 @@
 # Dynamic memory allocation
 
-## Motivation
-
 Working with arrays is pretty straightforward in general.  However, there is a bit of
 an issue when you do not know the size of an array at compile time.  For instance, you
 want to compute the median of a list of numbers in a file, and you only know at
