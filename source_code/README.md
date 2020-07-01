@@ -48,3 +48,5 @@ code examples used in videos and reading material.
 1. `statistics`: applications to illustrate various concepts (recursion, dynamic
    memory management`).
 1. `primes`: some exercises on prime numbers.
+1. `quadrature`: some code to illustrate passing functions to funciotns as
+   arguments.
