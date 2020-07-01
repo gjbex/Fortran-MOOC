@@ -1,7 +1,5 @@
 # Organizing code in modules
 
-## Motivation
-
 Using modules helps you to organize your code.  A module can for instance
 contain user defined data types, constants and procedures that belong together.
 It is also possible to ensure that variables or procedures that should only
@@ -113,6 +111,20 @@ It is good practice to make everything private, and only declare those
 entities public that should be accessible in compilation units that use
 the module.
 
+The following module defines only constants, kind parameters in this case.
+
+~~~~fortran
+module types_mod
+    use, intrinsic :: iso_fortran_env, only : REAL32, REAL64
+    implicit none
+
+    private
+    public :: SP, DP
+
+    integer, parameter :: SP = REAL32, DP = REAL64
+end module types_mod
+~~~~
+
 
 ## Using modules
 
@@ -149,6 +161,19 @@ is not good practice.
 
 Note that use declarations must precede the `implicit none`.
 
+It can be convenient to alias an entity imported from a module you use.
+The code below illustrates this.
+
+~~~~fortran
+program quad
+    use, intrinsic :: iso_fortran_env, only : DP => REAL64
+    implicit none
+    real(kind=DP) :: x = 3.12_DP
+    ...
+end program quad
+~~~~
+
+It is more convenient to use the alias `DP` rather than `REAL64`.
 
 ## Intrinsic modules
 
