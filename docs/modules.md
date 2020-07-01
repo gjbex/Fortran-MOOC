@@ -1,4 +1,4 @@
-# Modules
+# Organizing code in modules
 
 ## Motivation
 
