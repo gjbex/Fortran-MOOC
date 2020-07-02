@@ -14,3 +14,4 @@ List of things that should not be forgotten
 
 1. memory leaks
 1. `move_alloc` & dynamic arrays
+1. code organization: modules and submodules
