@@ -54,6 +54,13 @@ config%nr_iters = 0
 config%precision = 1.0e-10_DP
 ~~~~
 
+The initialization of a user defined hype variable can be done in a single
+statement, e.g.,
+
+~~~~fortran
+config = config_t(method='none', nr_iters=0, precision=1.0e-10_DP
+~~~~
+
 Elements of user defined type variables can be used like any other variable in
 expressions, or as arguments in procedure calls, e.g.,
 
