@@ -55,7 +55,7 @@ end module stats_mod
 
 The keyword `private` indicates that anything declared in this module can be
 used only in the unit itself, unless otherwise specified by an overriding
-`public` attribute.
+`public` attribute.  The following section discusses this in more detail.
 
 This module defines a public type `descriptive_stats_t` with three private
 elements `nr_values`, `sum` and `sum2`.  This implies that a compilation unit
@@ -126,6 +126,34 @@ end module types_mod
 ~~~~
 
 
+## Access to module entities
+
+It is easy to control which constants, variables and procedures defined in a
+module can be accessed by program units that use the module.  There are three
+attributes to specify access: `private`, `protected` and `public`.
+
+For procedures, only `private` and `public` are relevant.
+
+1. `private` procedures can only be called in compilation units of the
+   module itself, or its submodules.
+1. `public` procedures can be called in the compilation units of the
+   module, and all compilation units that use them.
+
+For module variables, the following semantics applies:
+
+1. `private`: the variable can only be accessed within the module itself.
+1. `protected`: the variable can be read, but not modified in a compilation
+   unit that uses the module; it can of course be modified withing the
+   module and its submodules itself.
+1. `public`: the variables can be read and modified in the module, and the
+   compilation units that use it.
+
+It is good practice to be as strict as possible since this reduces the number
+of opportunities for bugs.  This is typically achieved by having `private` as
+the default, and explicitly listing entities that should be `protected` or
+`public`.
+
+
 ## Using modules
 
 A module can be used in any compilation unit such as program, modules and
@@ -174,6 +202,7 @@ end program quad
 ~~~~
 
 It is more convenient to use the alias `DP` rather than `REAL64`.
+
 
 ## Intrinsic modules
 
