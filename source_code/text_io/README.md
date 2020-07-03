@@ -10,4 +10,6 @@ Various small programs to illustrate formatted, sequential input and output.
    written exceeds the specified width in the edit descriptor.
 1. `print_integers.f90`: program that illustrates various aspects of the
    integer edit descriptor.
+1. `print_real_f.f90`: program that illustrates various aspects of the `F`
+   real edit descriptor.
 1. `CMakeLists.txt`: CMake file to build the applications.
