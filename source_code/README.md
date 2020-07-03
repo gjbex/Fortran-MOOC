@@ -51,3 +51,4 @@ code examples used in videos and reading material.
 1. `quadrature`: some code to illustrate passing functions to funciotns as
    arguments.
 1. `generics`: some illustrations of generic programming in Fortran.
+1. `text_io`: some illustrations of formatted, sequential I/O.
