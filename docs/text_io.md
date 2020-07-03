@@ -103,4 +103,84 @@ non-trivial format specifiers come in.
 
 ## Format specification
 
+To control the format of the output, the print statement allows to provide
+a format string, also called edit descriptor.  This can either be a literal
+string, or a character variable.
 
+For each data type, one or more descriptors are available, e.g., `I` for
+integer, `E` and `F` for real values, `A` for characters and so on.  The
+descriptor is typically followed by a number indicating the number of
+characters to be used to represent the value.  If the width is not
+sufficient to represent the values, `*` characters will be printed
+instead.  It is rather frustrating to perform a long computation, and end up
+with output consisting (partly) of only asterisk symbols, so choose your width
+wisely.
+
+The following program illustrates the point.
+
+~~~~fortran
+program print_asterisks
+    implicit none
+    integer :: i = 123456
+    character(len=6) :: c = 'abcdef'
+
+    print '(I8)', i
+    print '(I4)', i
+
+    print '(A8)', c
+    print '(A4)', c
+
+end program print_asterisks
+~~~~
+
+The output produced by this application is shown below.
+
+~~~~
+  123456
+****
+  abcdef
+abcd
+~~~~
+
+As you can see, it is possible to print character values with a width
+that is less than the length of the string, but you loose information.
+
+
+### Integer descriptor
+
+The edit descriptor for integer values is `I<w>`, where `<w>` is a positive
+integer that specifies the width.  The value is right-aligned, and padded with
+spaces if necessary.  For positive values, no sign is printed.
+
+For example, the descriptor `I5` would result in the following output for
+
+| value    | output   |
+|----------|----------|
+| 123      | `##123`  |
+| -123     | `#-123`  |
+| 123456   | `*****`  |
+| -12345   | `*****`  |
+
+The character `#` is used to visually represent a space, it would of course
+not be written out.
+
+A second from of the descriptor is `I<w>.<d>` where `<w>` is again the width
+of the string to be written, and `<d>` is the number of digits.  If the number
+of characters to represent the integer is less than `<d>`, the value is padded
+with `0`.
+
+For example, the descriptor `I5.3` would result in the following output for
+
+| value    | output   |
+|----------|----------|
+| 123      | `##123`  |
+| 12       | `##012`  |
+| -1       | `#-001`  |
+| 123456   | `*****`  |
+
+Obviously, `<d>` should be less than or equal to `<w>`.
+
+It is very convenient that `<w>` can be equal to `0`, in which case the
+minimum width required to show the value is automatically computed. It can be
+combined with a specification for the number of digits, e.g., `I0.4` which
+would apply zero-padding for integer values with a width of less than 3.
