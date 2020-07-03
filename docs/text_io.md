@@ -146,7 +146,7 @@ As you can see, it is possible to print character values with a width
 that is less than the length of the string, but you loose information.
 
 
-### Integer descriptor
+### Integer edit descriptor
 
 The edit descriptor for integer values is `I<w>`, where `<w>` is a positive
 integer that specifies the width.  The value is right-aligned, and padded with
@@ -180,7 +180,69 @@ For example, the descriptor `I5.3` would result in the following output for
 
 Obviously, `<d>` should be less than or equal to `<w>`.
 
-It is very convenient that `<w>` can be equal to `0`, in which case the
+It is very convenient that `<w>` can be equal to 0, in which case the
 minimum width required to show the value is automatically computed. It can be
 combined with a specification for the number of digits, e.g., `I0.4` which
 would apply zero-padding for integer values with a width of less than 3.
+
+
+### Real edit descriptors
+
+To format real values, quite some options are available.  The most common ones
+are `F` and `E`.  They can be used for single and double precision values.
+
+#### `F` edit descriptor
+
+The `F` format the real value in floating point notation.  Similar to the
+integer edit descriptor, the width `<w>` should be specified, and optionally,
+`<d>`, the number of digits after the decimal dot.  For example, for `F6.2`
+the following strings would be written.
+
+| value    | output          |
+|----------|-----------------|
+| 1.23     | `##1.23`        |
+| 1.239    | `##1.24`        |
+| -1.23    | `#-1.23`        |
+| 1.23e-2  | `##0.01`        |
+| 1.23e-7  | `##0.00`        |
+| 1.23e7   | `******`        |
+
+
+Similar to the integer edit descriptor, the width can also be 0 and in that
+case the appropriate width will be computed, e.g., `F0.3` would write values
+with 3 digits after the decimal dot.
+
+#### `E`, `EN`, `ES` edit descriptors
+
+The `E` edit descriptor will output real values in scientific notation.  For
+example, for `E10.2` the output would be.
+
+| value    | output          |
+|----------|-----------------|
+| 1.23     | `##0.12e+01`    |
+| 1.29     | `##0.13e+01`    |
+| -1.23    | `#-0.12e+01`    |
+| 1.23e5   | `##0.12e+01`    |
+
+The results of edit descriptor can be somewhat inconsistent since leading
+zeroes will be left out in order to fit the width if required.
+
+Note that the width *can not* be equal to zero according to the Fortran
+specification.  However, some compilers support it (GCC 10.x) while others do
+not (Intel 2018).
+
+The `E` edit descriptor can take a second form: `e<w>.<d>e<x>` where `<w>` and
+`<d>` have the same semantics as previously explained.  The `<x>` is the number
+of digits used for the exponent.  For example, `E15.4e3`would write 123.45678
+as `####0.1235e+003`.
+
+The `ES` descriptor is very similar to the `E` edit descriptor, although it
+will ensure that the decimal is between 1 and 9.
+
+The `EN` produces output in engineering notation, rather than scientific
+notation.  For example, the value 12345.678 would be written as `#12.35e+03`
+when using the edit descriptor `EN10.2`.
+
+There is a relationship between the width and the number of digits.  For
+single precision numbers, `<w> >= <d> + 7`, and `<w> >= <d> + 9` for double
+precision.
