@@ -271,3 +271,12 @@ The edit descriptor for character values is `A` or `A<w>` where `<w>`
 represents the width.  If the width `<w>` is omitted, the length of the string
 will be used.  If the width is larger than the length of the string, the output
 is right-aligned, and padded with spaces.
+
+
+### General edit descriptor
+
+The general edit descriptor `G<w>.<d>` can be used for integer, real, logical
+and logical values.  Its simplest form is `G0` where it will choose the
+appropriate width for the value.  Although this is very convenient, you
+should note that for real values, the number of digits is compiler dependent,
+so the code may not be entirely portable.
