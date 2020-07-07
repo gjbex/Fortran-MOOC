@@ -280,3 +280,45 @@ and logical values.  Its simplest form is `G0` where it will choose the
 appropriate width for the value.  Although this is very convenient, you
 should note that for real values, the number of digits is compiler dependent,
 so the code may not be entirely portable.
+
+
+## Combining descriptors
+
+Up to now, we have discussed edit descriptors for individual values.  However,
+you will often use edit descriptors to output multiple values.  For instance,
+to output a real value followed by an integer value, you  would use, e.g.,
+`(E12.3, I5)'.  The following code fragment illustrates a full example.
+
+~~~~fortran
+...
+real :: x = 17.3e5
+integer :: i = 19
+...
+print '(E12.3, I5)', x, i
+...
+~~~~
+
+This would produce the following output.
+~~~~
+   0.173e+05   19
+~~~~
+
+An edit descriptor can also be repeated, for instance, to write five
+real numbers, you could use `(5E13.3)'.  This repetion factor can also be `*`
+to indicate an unlimited number of repetitions, e.g.,
+
+~~~~
+subroutine print_vector(label, vector)
+    implicit none
+    character(len=:), intent(in) :: label
+    real, dimension(:), intent(in) :: vector
+
+    print '(A, ": ", *E13.3)', label, vector
+end subroutine print_vector
+~~~~
+
+Parentheses can be used to group edit descriptors.  For instance, to
+print three pairs of a string and an integer value, you can use `(3(A, I0))`.
+
+You can use the `/` edit descriptor to start a new line, e.g., the descriptor
+`(I0,/,I0)` would write the second integer on the next line of output.
