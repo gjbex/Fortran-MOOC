@@ -17,4 +17,6 @@ Various small programs to illustrate formatted, sequential input and output.
 1. `print_characters.f90`: program that illustrates the 'A' edit desxriptor.
 1. `print_logicals.f90`: program that illustrates the 'L' edit desxriptor.
 1. `print_g.f90`: program illustrating the `G` edit descriptor.
+1. `print_boz.f90`: program illustrating the `B`, `O` and `Z` edit descriptors
+   for binary, octal and hexadecimal output respectively.
 1. `CMakeLists.txt`: CMake file to build the applications.
