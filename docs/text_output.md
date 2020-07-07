@@ -1,4 +1,4 @@
-# Text input/output
+# Text output
 
 Fortran has fairly sophisticated input/output features.  It has three access
 modes, sequential, direct and stream access.  File records can be formatted
@@ -11,7 +11,7 @@ most widely used, although there are applications for the former as well.
 In Fortran, file operations are associated with unit numbers, which you can
 compare with file descriptors in C.
 
-In this section we will concentrate on formatted, sequential input/output on
+In this section we will concentrate on formatted, sequential output on
 external files.
 
 
