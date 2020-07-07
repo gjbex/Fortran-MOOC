@@ -12,4 +12,8 @@ Various small programs to illustrate formatted, sequential input and output.
    integer edit descriptor.
 1. `print_real_f.f90`: program that illustrates various aspects of the `F`
    real edit descriptor.
+1. `print_real_e.f90`: program that illustrates various aspects of the `E`
+   real edit descriptor.
+1. `print_characters.f90`: program that illustrates the 'A' edit desxriptor.
+1. `print_logicals.f90`: program that illustrates the 'L' edit desxriptor.
 1. `CMakeLists.txt`: CMake file to build the applications.

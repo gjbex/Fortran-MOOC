@@ -237,7 +237,8 @@ of digits used for the exponent.  For example, `E15.4e3`would write 123.45678
 as `####0.1235e+003`.
 
 The `ES` descriptor is very similar to the `E` edit descriptor, although it
-will ensure that the decimal is between 1 and 9.
+will ensure that the decimal is between 1 and 9.  This output format is more
+in line with other programming languages such as C, C++ and Python.
 
 The `EN` produces output in engineering notation, rather than scientific
 notation.  For example, the value 12345.678 would be written as `#12.35e+03`
@@ -245,4 +246,28 @@ when using the edit descriptor `EN10.2`.
 
 There is a relationship between the width and the number of digits.  For
 single precision numbers, `<w> >= <d> + 7`, and `<w> >= <d> + 9` for double
-precision.
+precision.  For the second from of the edit descriptors,
+`<w> >= <d> + <x> + 5`.
+
+#### Complex numbers
+
+For complex numbers, two edit descriptors for real values have to be provided.
+They can, but don't have to be the same.  For instance, the edit
+descriptor `E10.3,E10.3` could be used.
+
+Note that this would be better written as `2E10.3` as you will see later.
+
+
+### Logical edit descriptor
+
+The edit descriptor for logical values is `L<w>`.  It will print `F` for false,
+`T` for true. The value will be right-aligned, and padded with spaces if the
+width is larger than one.
+
+
+### Character edit descriptor
+
+The edit descriptor for character values is `A` or `A<w>` where `<w>`
+represents the width.  If the width `<w>` is omitted, the length of the string
+will be used.  If the width is larger than the length of the string, the output
+is right-aligned, and padded with spaces.
