@@ -320,5 +320,111 @@ end subroutine print_vector
 Parentheses can be used to group edit descriptors.  For instance, to
 print three pairs of a string and an integer value, you can use `(3(A, I0))`.
 
+The example above also illustrates that string literals can be part f an edit
+descriptor, i.e., `": "` in this example.
+
 You can use the `/` edit descriptor to start a new line, e.g., the descriptor
 `(I0,/,I0)` would write the second integer on the next line of output.
+
+
+## Output to files
+
+Writing to a file is very similar to writing to standard output.  The write
+statement takes the unit number as its first argument.  For standard output and
+standard error, those are defined in the `iso_fortran_env` module.
+
+To write to a file, that file first has to be opened.  You can either specify
+a unit number yourself, or have the Fortran runtime assign one for you.
+
+The open statement takes a lot of arguments:
+
+1. `unit`, the unit number to use, or `newunit` to assign a new unit number;
+1. `file`, the file name to use;
+1. `access`, this can be `sequential`, `direct` or `stream`;
+1. `action`, this can be `write`, `readwrite` or `read`;
+1. `status`, this can be `new`, `old`, `replace` or `scratch`;
+1. `form`, this can be `formatted` or `unformatted`;
+1. `position`, this is the position to start writing, it can be 'rewind' or
+   `append`;
+1. `iostat`, represents the exit status of the statement, non-zero if there
+   were issues;
+1. `iomsg`, this is the error messages in case something went wrong.
+
+You will learn about the options in other sections, here we will only discuss
+`access='write'`, `status=`new``, `status='replace'`, `form='formatted'`.
+
+For example, you can use the following open statement to open a new file
+`text.txt` for writing formatted output.
+
+~~~~fortran
+program newunit_test
+    use, intrinsic :: iso_fortran_env, only : error_unit
+    implicit none
+    integer :: unit_nr, istat
+    character(len=1024) :: msg
+
+    open (newunit=unit_nr, file='text.txt', access='sequential', action='write', &
+          status='new', form='formatted', iostat=istat, iomsg=msg)
+    if (istat /= 0) then
+        write (unit=error_unit, fmt='(2A)') 'error: ', trim(msg)
+        stop 1
+     end if
+     write (unit=unit_nr, fmt='(A)') 'hello world!'
+     close (unit=unit_nr)
+end program newunit_test
+~~~~
+
+The unit number will be assigned to the variable `unit_nr` in the open
+statement, this is the most convenient way to avoid conflicting unit numbers.
+The value assigned to the variable `iostat` is checked, and if the value is
+non-zero, an error message is written to the `error_unit`.  If that is not the
+case, the unit number can be used for subsequent operations, such as the write
+statement.  When all data has been written, the unit can be closed using
+the close statement.
+
+It is good practice to always use `ioostat` to verify that I/O operations
+succeeded, also in, e.g., write and close statements where they have been
+omitted for the sake of brevity.  For instance, a write statement might fail
+because you exceed disk quota.
+
+It is also good practice to close a unit.  Failing to do so may result in data
+loss or corrupt files when the unit was open for `write` or `readwrite`.
+
+The file name can be given as an absolute path, or, as in this example, a
+relative path.  In the latter case, the path is interpreted relative to the
+current working directory as you would expect.
+
+The status of the file can be `new`, `old` or `replace` for action `write`.
+If the access is `new`, an error occurs when the file already exists.  If the
+status is `old`, an error occurs when the file does not yet exist.  If the
+status is `replace`, a new file will be created if it doesn't exist yet, or
+it will be overwritten otherwise.
+
+Most programming languages allow to open files directly in append mode, i.e.,
+new data will be added at the end of an existing file.  This is possible in
+Fortran as well, but it is somewhat more cumbersome.  You would have to open
+an existing file with status `old`, and additionally specify
+`position='append'`.
+
+
+## Creating strings
+
+Although this section is about writing to text files, as a small aside, we
+will briefly discuss creating strings.  The write statement can be applied
+to a character variable to create a formatted string.  As an example, consider
+that you might want to let the number of digits in an edit description for
+a real number on some runtime conditions.
+
+~~~~fortran
+...
+character(len=10) :: fmt_str
+integer :: nr_digits
+real :: x
+...
+write (fmt_str, "('(E', I0, '.', I0, ')') nr_digits + 7, nr_digits
+write (unit=output_unit, fmt=fmt_str) x
+...
+~~~~
+
+If the variable `nr_digits` has the value 5, the value of `fmt_str` would be
+`(E12.5)'.
