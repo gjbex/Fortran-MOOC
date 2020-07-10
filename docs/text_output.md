@@ -270,7 +270,7 @@ width is larger than one.
 The edit descriptor for character values is `A` or `A<w>` where `<w>`
 represents the width.  If the width `<w>` is omitted, the length of the string
 will be used.  If the width is larger than the length of the string, the output
-is right-aligned, and padded with spaces.
+is left-aligned, and padded with spaces.
 
 
 ### General edit descriptor
@@ -313,7 +313,7 @@ subroutine print_vector(label, vector)
     character(len=:), intent(in) :: label
     real, dimension(:), intent(in) :: vector
 
-    print '(A, ": ", *E13.3)', label, vector
+    print '(A, ": ", *(E13.3))', label, vector
 end subroutine print_vector
 ~~~~
 
