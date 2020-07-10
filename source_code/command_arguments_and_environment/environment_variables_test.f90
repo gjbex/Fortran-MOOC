@@ -27,4 +27,7 @@ program environment_variables_test
     end if
 
     print '(A, ": ''", A, "''")', trim(env_name), env_var
+
+    ! deallocate the variable
+    deallocate(env_var)
 end program environment_variables_test
