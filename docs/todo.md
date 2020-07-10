@@ -7,11 +7,11 @@ List of things that should not be forgotten
   * discuss performance  and precision impact of mixed-kind computations
   * random number generation
   * block statement
-  * procedures as arguments of procedures, interfaces
-
+  * command line arguments and environment variables
 
 ## Videos
 
 1. memory leaks
 1. `move_alloc` & dynamic arrays
 1. code organization: modules and submodules
+1. command line arguments and environment variables
