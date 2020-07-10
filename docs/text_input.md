@@ -86,6 +86,10 @@ open (newunit=unit_nr, file=file_name, access='sequential', action='read', &
       status='old', iostat=istat, iomsg=msg)
 ~~~~
 
+Although less potentially disastrous as for files that are open for writing,
+it is nevertheless good practice to close a file that is open for reading as
+well.
+
 
 ## Reading from strings
 
