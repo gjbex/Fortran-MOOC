@@ -6,7 +6,7 @@
   * data types
     * `INTEGER`
 	* `REAL`
-	* `CHARACTER`
+    * `CHARACTER`
 	* type `KIND`
   * control structure
     * `IF` statement
@@ -23,7 +23,7 @@
     * `SELECT`
     * `FORALL`
 	* `WHERE`
-	* `CYCLE`, `EXIT`
+	* `CYCLE`, EXIT`
 	* `STOP`
 	* `BLCOK`
 	* `ASSCOCIATE`
@@ -46,6 +46,7 @@
   * compilation units
     * `PROGRAM`
 	* `MODULE`
+    * submodules
   * user defined types
   * pointers
   * object-oriented programming
@@ -57,7 +58,7 @@
   * procedures as argument of procedures
   * file I/O
     * sequential access
-	* random access
+	* direct access
 	* streaming access
 	* I/O formatting
 	* best practices
@@ -68,4 +69,5 @@
 	* LAPACK
 	* FFTW3
   * file I/O using HDF5
+  * C interoperability
   * optimizing compilers
