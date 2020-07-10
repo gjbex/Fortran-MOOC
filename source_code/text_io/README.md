@@ -21,4 +21,8 @@ Various small programs to illustrate formatted, sequential input and output.
    for binary, octal and hexadecimal output respectively.
 1. `newunit_test.f90`: program to illustrate Fortran 2008's newunit feature.
 1. `append_test.f90`: program to illustrate how to append to a file.
+1. `read_messy_data.f90`: program to illustrate reading from standard input
+   using the `*` edit descriptor.
+1. `read_messy_file.f90`: program to illustrate reading from a file using the
+   `*` edit descriptor.
 1. `CMakeLists.txt`: CMake file to build the applications.
