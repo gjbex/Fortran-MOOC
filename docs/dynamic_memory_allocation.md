@@ -95,6 +95,26 @@ useful to implement dynamic data structures such as lists or trees.  However, th
 implementations are typically using pointers, so you will see examples later.
 
 
+## Allocating character variables
+
+Sometimes you do not now the length of a character variable at compile time, for
+instance when dealing with command line arguments or environment variables.  You
+can declare an assumed length variable, and allocate it at runtime.
+
+~~~~fortran
+...
+character(len=:), allocatable :: buffer
+integer :: buffer_len
+...
+allocate (character(len=buffer_len) :: buffer, stat=istat)
+...
+~~~~
+
+The length of the variable `buffer` is now determined dynamically.  As with any
+allocatable variable, `buffer` should be deallocated to avoid memory leaks,
+unless it is local to a procedure.
+
+
 ## Allocatables and procedures
 
 Can you pass an allocated variable to a procedure?  Can you allocated a variable in
