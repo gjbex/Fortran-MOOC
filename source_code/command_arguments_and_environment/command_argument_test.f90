@@ -6,7 +6,7 @@ program command_argument_test
     integer :: nr_args, i
 
     ! get the name of the command
-    call get_command(program_name)
+    call get_command_argument(0, program_name)
     print '(A, "''", A, "''")', 'command: ', program_name
 
     ! get the number of command line arguments
