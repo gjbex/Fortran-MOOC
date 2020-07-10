@@ -48,3 +48,23 @@ read (buffer, fmt='(I10)', iostat=istat, iomsg=msg) nr_values
 ~~~~
 
 This is discussed in more detail in the section on reading formatted data.
+
+
+## Command name
+
+For some applications, it can be convenient to retrieve the command as it was
+entered on the command line.  For the running example, that would be
+`./command_argument_test`.
+
+The intrinsic subroutine `get_command` can be used to get this string.
+
+~~~~fortran
+...
+character(len=128) :: command_name
+...
+call get_command(command_name)
+...
+~~~~
+
+Note that the length of the character variable should be large enough.  If not,
+the name will be incomplete.
