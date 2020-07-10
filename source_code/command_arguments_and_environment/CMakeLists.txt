@@ -9,3 +9,4 @@ file(MAKE_DIRECTORY ${CMAKE_Fortran_MODULE_DIRECTORY})
 add_compile_options(-Wall -Wextra)
 
 add_executable(command_argument_test.exe command_argument_test.f90)
+add_executable(environment_variables_test.exe environment_variables_test.f90)

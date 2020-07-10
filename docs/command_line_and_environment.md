@@ -33,8 +33,19 @@ to which the subroutine will assign the value passed on the command line.
 
 ~~~~fortran
 character(len=20) :: buffer
-call get_command_argument(1, buffer)
+integer :: istat
+call get_command_argument(1, buffer, status=istat)
+if (istat /= 0) then
+    ...
 ~~~~
+
+The status variable will be zero if the call succeeded without issues, it
+will be negative if the value was truncated, positive if the call failed.
+It is of course good practice to check the status after a call to
+`get_command_argument`.
+
+The subroutine has an additional optional argument `length` that can be used
+to retrieve the length of the command argument.
 
 Note that the values retrieved by `get_command_argument` are always
 character values, so typically they have to be converted to the appropriate
@@ -67,4 +78,25 @@ call get_command(command_name)
 ~~~~
 
 Note that the length of the character variable should be large enough.  If not,
-the name will be incomplete.
+the name will be truncated
+
+
+## Environment variables
+
+Retrieving environment variables is very similar to retrieving command line
+arguments.  The relevant intrinsic subroutine is `get_environment_variable`.
+For instance, the following code fragment retrieves the value of the `HOME`
+environment variable 
+
+~~~~fortran
+...
+character(len=256) :: home_dir
+integer :: istat
+...
+call get_environment_variable('HOME', home_dir, status=istat)
+if (istat /= 0) then
+    ...
+~~~~
+
+It should be stressed once more that it is important to check the status since
+your application may do some rather unexpected things with a value is truncated.
