@@ -8,6 +8,8 @@
 1. [Iterative statements](iteration_statements.md)
 1. [Functions and subroutines](procedures.md)
 1. [Arrays](arrays.md)
+1. [Writing formatted files](text_input.md)
+1. [Reading formatted files](text_input.md)
 1. [User defined types](user_defined_types.md)
 1. [Organizing code in modules](modules.md)
 1. [Interfaces and submodules](interfaces.md)
