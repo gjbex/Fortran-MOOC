@@ -7,7 +7,7 @@ List of things that should not be forgotten
   * discuss performance  and precision impact of mixed-kind computations
   * random number generation
   * block statement
-  * command line arguments and environment variables
+  * allocatable character variables
 
 ## Videos
 
