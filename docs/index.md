@@ -14,6 +14,7 @@
 1. [Organizing code in modules](modules.md)
 1. [Interfaces and submodules](interfaces.md)
 1. [Dynamic memory allocation.md](dynamic_memory_allocation.md)
+1. [Command line argumens and environment variables](command_line_and_environment.md)
 
 
 ## Extra material
