@@ -19,6 +19,7 @@ program quicksort_test
         end subroutine c_qsort
     end interface
 
+    print '(A12, 3A15)', 'array_size', 'qsort', 'lampsort', 'c_qsort'
     do i = 1, size(sizes)
         allocate (qsort_values(sizes(i)), lampsort_values(sizes(i)), &
                   c_qsort_values(sizes(i)))
