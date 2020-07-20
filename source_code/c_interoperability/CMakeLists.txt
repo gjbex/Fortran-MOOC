@@ -10,6 +10,8 @@ add_compile_options(-Wall -Wextra)
 
 add_executable(use_c_funcs.exe use_c_funcs.f90 functions.c)
 
+add_executable(use_fortran_funcs.exe use_fortran_funcs.c functions_mod.f90)
+
 # this project depends on GSL, find it.  Libraries will be in GSL::gsl and
 # GSL::gslcblas
 find_package(GSL REQUIRED)
