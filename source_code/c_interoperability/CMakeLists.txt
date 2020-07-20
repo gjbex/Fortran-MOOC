@@ -17,5 +17,8 @@ if (NOT GSL_FOUND)
     message(FATAL_ERROR "GSL is required, but not found")
 endif (NOT GSL_FOUND)
 
-add_executable(use_gsl.exe use_gsl.f90)
-target_link_libraries(use_gsl.exe GSL::gsl GSL::gslcblas)
+add_executable(gsl_sort.exe gsl_sort.f90)
+target_link_libraries(gsl_sort.exe GSL::gsl GSL::gslcblas)
+
+add_executable(gsl_quad.exe gsl_quad.f90 functions_mod.f90)
+target_link_libraries(gsl_quad.exe GSL::gsl GSL::gslcblas)

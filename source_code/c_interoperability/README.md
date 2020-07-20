@@ -6,5 +6,6 @@ Programs to illustrate interoperability between Fortran and C.
 
 1. `functions.c`: C functions to be called from a Fortran program.
 1. `use_c_funcs.f90`: Fortran program that calls C functions.
-1. `use_gsl.f90`: Fortran program that uses one of the GSL's sort functions.
+1. `gsl_sort.f90`: Fortran program that uses one of the GSL's sort functions.
+1. `gsl_quad.f90`: Fortran program that uses the GSL's integration functions.
 1. `CMakeLists.txt`: CMake file to build the applications.
