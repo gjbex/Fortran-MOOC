@@ -54,3 +54,4 @@ code examples used in videos and reading material.
 1. `text_io`: some illustrations of formatted, sequential I/O.
 1. `c_interoperability`: some illustrations of how to call C functions from
    Fortran.
+1. `enumerator`: illustratoin of Fortran's enumerator type.
