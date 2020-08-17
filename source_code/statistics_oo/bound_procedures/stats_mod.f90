@@ -11,7 +11,18 @@ module stats_mod
         procedure, public, pass :: add_value, get_nr_values, get_mean, get_stddev
         procedure, private :: write_stats
         generic :: write(formatted) => write_stats
+        procedure, private :: add_stats, stats_plus_value
     end type descriptive_stats_t
+
+    interface operator(+)
+        module procedure add_stats, stats_plus_value
+    end interface
+
+    interface operator(*)
+        module procedure value_times_stats
+    end interface
+    
+    public :: operator(+), operator(*)
 
 contains
 
@@ -88,5 +99,37 @@ contains
                 stats%get_nr_values(), stats%get_mean(), stats%get_stddev()
         end if
     end subroutine write_stats
+
+    function add_stats(stats_lo, stats_ro) result(stats)
+        implicit none
+        class(descriptive_stats_t), intent(in) :: stats_lo, stats_ro
+        type(descriptive_stats_t) :: stats
+        
+        stats%nr_values = stats_lo%nr_values + stats_ro%nr_values
+        stats%sum = stats_lo%sum + stats_ro%sum
+        stats%sum2 = stats_lo%sum2 + stats_ro%sum2
+    end function add_stats
+
+    function stats_plus_value(stats, val) result(new_stats)
+        implicit none
+        class(descriptive_stats_t), intent(in) :: stats
+        real, intent(in) :: val
+        type(descriptive_stats_t) :: new_stats
+
+        new_stats%nr_values = stats%nr_values
+        new_stats%sum = stats%sum + stats%nr_values*val
+        new_stats%sum2 = stats%sum2 + 2.0*val*stats%sum + stats%nr_values*val**2
+    end function stats_plus_value
+
+    function value_times_stats(val, stats) result(new_stats)
+        implicit none
+        real, intent(in) :: val
+        class(descriptive_stats_t), intent(in) :: stats
+        type(descriptive_stats_t) :: new_stats
+
+        new_stats%nr_values = stats%nr_values
+        new_stats%sum = val*stats%sum
+        new_stats%sum2 = stats%sum2*val**2
+    end function value_times_stats
 
 end module stats_mod
