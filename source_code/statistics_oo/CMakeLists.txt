@@ -9,5 +9,5 @@ file(MAKE_DIRECTORY ${CMAKE_Fortran_MODULE_DIRECTORY})
 add_compile_options(-Wall -Wextra)
 
 add_subdirectory(dtio)
-add_subdirectory(bound_procedures)
+add_subdirectory(type_bound_procedures)
 add_subdirectory(inheritance)
