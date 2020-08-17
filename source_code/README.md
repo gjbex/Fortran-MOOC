@@ -56,3 +56,4 @@ code examples used in videos and reading material.
    Fortran.
 1. `enumerator`: illustratoin of Fortran's enumerator type.
 1. `buffon_needles`: Monte-Carlo simulation of Buffon's needle problem.
+1. `statistics_oo`: illustration of object-oriented programming concepts.

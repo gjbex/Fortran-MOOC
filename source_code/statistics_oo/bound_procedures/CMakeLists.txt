@@ -1,0 +1,1 @@
+add_executable(descriptive_statistics.exe descriptive_statistics.f90 stats_mod.f90)
