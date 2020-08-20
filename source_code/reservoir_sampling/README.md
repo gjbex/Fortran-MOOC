@@ -3,6 +3,8 @@
 Reservoir sampling is a useful randomized algorithm to get a representative
 of a population of unknown size that is presented as a data stream.
 
+See the [Wikipedia entry](https://en.wikipedia.org/wiki/Reservoir_sampling)
+for details.
 
 ## What is it?
 
@@ -13,4 +15,6 @@ of a population of unknown size that is presented as a data stream.
 1. `shuffle_data.f90`: program that shuffles the values in a data file,
    illustrating read/write access and direct access I/O.
 1. `reservoir_sampling.f90`: program that does reservoir sampling on a file.
+1. `optimal_reservoir_sampling.f90`: optimal implementation of reservoir
+   sampling.
 1. `CMakeLists.txt`: CMake file to build the applications.
