@@ -12,5 +12,5 @@ of a population of unknown size that is presented as a data stream.
 1. ``create_data.f90`: program to create a data file using direct access I/O.
 1. `shuffle_data.f90`: program that shuffles the values in a data file,
    illustrating read/write access and direct access I/O.
-1. `reservioir_sampling.f90`: program that does reservoir sampling on a file.
+1. `reservoir_sampling.f90`: program that does reservoir sampling on a file.
 1. `CMakeLists.txt`: CMake file to build the applications.
