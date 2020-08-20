@@ -7,12 +7,15 @@ program resesrvoir_sampling
     character(len=1024) :: file_name, msg
 
     call get_arguments(file_name, reservoir_size)
-    allocate(reservoir(reservoir_size))
+
+    ! allocate the reservoir
+    allocate(reservoir(reservoir_size), stat=istat)
     if (.not. allocated(reservoir)) then
         write (unit=error_unit, fmt='(A)') 'error: can not allocate reservoir'
         stop 3
     end if
 
+    ! open file for direct access
     open (newunit=unit_nr, file=trim(file_name), form='formatted', &
           status='old', action='read', access='direct', recl=10, &
           iostat=istat, iomsg=msg)
@@ -20,28 +23,31 @@ program resesrvoir_sampling
         write (unit=error_unit, fmt='(2A)') 'error: ', msg
         stop 2
     end if
+
     ! fill initial reservoir
-    do i = 1, reservoir_size
+    do i = 1, size(reservoir)
         read (unit=unit_nr, fmt='(I10)', rec=i, iostat=istat, iomsg=msg) &
             reservoir(i)
         if (istat /= 0) exit
     end do
+
+    ! continue with the remainder of the file
     i = reservoir_size + 1
     do
         read (unit=unit_nr, fmt='(I10)', rec=i, iostat=istat, iomsg=msg) val
         if (istat /= 0) exit
         call random_number(r)
-        j = ceiling(r*i)
-        if (j <= reservoir_size) reservoir(j) = val
+        j = 1 + floor(r*i)
+        if (j <= size(reservoir)) reservoir(j) = val
         i = i + 1
     end do
+
     close (unit_nr)
 
-    do i = 1, reservoir_size
+    ! print sample
+    do i = 1, size(reservoir)
         print '(I10)', reservoir(i)
     end do
-
-    deallocate(reservoir)
 
 contains
 

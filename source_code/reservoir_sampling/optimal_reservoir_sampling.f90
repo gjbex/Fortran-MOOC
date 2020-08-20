@@ -45,8 +45,6 @@ program optimal_resesrvoir_sampling
         print '(I10)', reservoir(i)
     end do
 
-    deallocate(reservoir)
-
 contains
 
     subroutine get_arguments(file_name, reservoir_size)
