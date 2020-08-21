@@ -36,7 +36,7 @@ program optimal_resesrvoir_sampling
         read (unit=unit_nr, fmt='(I10)', rec=i, iostat=istat, iomsg=msg) val
         if (istat /= 0) exit
         call random_number(r)
-        j = ceiling(r*reservoir_size)
+        j = 1 + floor(r*reservoir_size)
         reservoir(j) = val
     end do
     close (unit_nr)
