@@ -1,6 +1,8 @@
 module utilities_mod
     implicit none
 
+    private
+
     public :: fisher_yates_shuffle
 
 contains
