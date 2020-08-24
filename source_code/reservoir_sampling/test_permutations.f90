@@ -1,10 +1,23 @@
+module m_hash_counter
+#define FFH_KEY_TYPE character(len=10)
+#define FFH_KEY_IS_STRING
+#define FFH_VAL_TYPE integer
+#include "ffhash_inc.f90"
+end module m_hash_counter
+
 program test_permutations
     use, intrinsic :: iso_fortran_env, only : error_unit
+    use m_hash_counter, only : ffhcounter_t => ffh_t
     use :: utilities_mod
     implicit none
-    integer, parameter :: nr_values = 15, nr_permutations = 20
+    integer, parameter :: nr_values = 15, nr_permutations = 20, &
+                          nr_stats_values = 5, nr_stats_permutations = 1000000
     integer, dimension(nr_values) :: values
-    integer :: i
+    integer, dimension(nr_stats_values) :: stats_values
+    integer :: i, old_count, idx, nr_keys, total
+    type(ffhcounter_t) :: counter
+    character(len=10) :: key
+    character(len=10), dimension(120) :: keys
 
     do i = 1, nr_values
         values(i) = i
@@ -16,6 +29,32 @@ program test_permutations
         print '(*(I3))', values
         call permutation_is_okay(values)
     end do
+
+    do i = 1, nr_stats_values
+        stats_values(i) = i
+    end do
+
+    nr_keys = 0
+    do i = 1, nr_stats_permutations
+        call fisher_yates_shuffle(stats_values)
+        write (key, fmt='(*(I2))') stats_values
+        idx = counter%get_index(key)
+        if (idx == -1) then
+            nr_keys = nr_keys + 1
+            keys(nr_keys) = key
+        end if
+        old_count = counter%fget_value_or(key, 0)
+        call counter%ustore_value(key, old_count + 1)
+    end do
+
+    total = 0
+    do i = 1, nr_keys
+        total = total + counter%fget_value(keys(i))
+        print '(A10, I10)', keys(i), counter%fget_value(keys(i))
+    end do
+    print '(A, I0)', 'keys = ', nr_keys
+    print '(A, I0)', 'total = ', total
+    print '(A, I0)', 'buckets = ', counter%n_buckets
 
 contains
 

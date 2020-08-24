@@ -11,6 +11,8 @@ for details.
 1. `utilities_mod.f90`: implementation of Fisher-Yates shuffle algorithm
    on an array.
 1. `test_permutations.f90`: program to test the Fisher-Yates algorithm.
+1. `ffhash_inc.f90`: hash table implementation,
+   [GitHub](https://github.com/jannisteunissen/ffhash)
 1. ``create_data.f90`: program to create a data file using direct access I/O.
 1. `shuffle_data.f90`: program that shuffles the values in a data file,
    illustrating read/write access and direct access I/O.
