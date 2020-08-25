@@ -1,13 +1,6 @@
-module m_hash_counter
-#define FFH_KEY_TYPE character(len=10)
-#define FFH_KEY_IS_STRING
-#define FFH_VAL_TYPE integer
-#include "ffhash_inc.f90"
-end module m_hash_counter
-
 program test_permutations
     use, intrinsic :: iso_fortran_env, only : error_unit
-    use m_hash_counter, only : ffhcounter_t => ffh_t
+    use hash_mod, only : counter_t => ffh_t
     use :: utilities_mod
     implicit none
     integer, parameter :: nr_values = 15, nr_permutations = 20, &
@@ -15,7 +8,7 @@ program test_permutations
     integer, dimension(nr_values) :: values
     integer, dimension(nr_stats_values) :: stats_values
     integer :: i, old_count, idx, nr_keys, total
-    type(ffhcounter_t) :: counter
+    type(counter_t) :: counter
     character(len=10) :: key
     character(len=10), dimension(120) :: keys
 
