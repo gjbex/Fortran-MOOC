@@ -10,3 +10,4 @@ add_compile_options(-Wall -Wextra)
 
 add_subdirectory(linked_real_list)
 add_subdirectory(linked_real_list_error_handling)
+add_subdirectory(generic_linked_list)

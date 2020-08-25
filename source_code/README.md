@@ -60,4 +60,5 @@ code examples used in videos and reading material.
 1. `direct_access_io`: illustrations of how to do direct access I/O.
 1. `reservoir_sampling`: illustration of using direct access I/O and
    read/write file access.
-1. `linked_real_list`: illustration of using pointers to build data types.
+1. `linked_real_list`: illustration of using pointers to build data types, as
+   well as generic programming using the C preprocessor..
