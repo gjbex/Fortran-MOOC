@@ -1,4 +1,4 @@
-# Linked list of real numbers
+# Linked list of real numbers with error handling
 
 This is an implementation of a single linked list containing real numbers.
 Here, error handling has been added.
