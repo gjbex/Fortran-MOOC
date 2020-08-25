@@ -1,10 +1,8 @@
 # Linked list of real numbers
 
 This is an implementation of a single linked list containing real numbers.
-Note that the implementation is very fragile on purpose.  On the one hand
-this makes the implmentation easier to understand, on the other hand it
-provides the basis of an exercise to make the code robust by adding error
-handling.
+Note that the implementation is very fragile on purpose.  Here, error
+handling has been added.
 
 ## What is it?
 
