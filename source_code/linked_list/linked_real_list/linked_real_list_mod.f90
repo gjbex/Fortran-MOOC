@@ -192,6 +192,7 @@ contains
         do i = 1, list%get_length()
             print '(I10, E15.7)', i, list%get_value(i)
         end do
+        if (list%is_empty()) print '(A)', 'empty list'
     end subroutine show
 
 end module linked_real_list_mod
