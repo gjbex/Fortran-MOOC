@@ -13,7 +13,7 @@ for details.
 1. `test_permutations.f90`: program to test the Fisher-Yates algorithm.
 1. `ffhash_inc.f90`: hash table implementation,
    [GitHub](https://github.com/jannisteunissen/ffhash)
-1. `hasd_mod.f90`: module that defines a hastable with strings as keys, and
+1. `hasd_mod.F90`: module that defines a hastable with strings as keys, and
    integers as value to serve as a counter.
 1. ``create_data.f90`: program to create a data file using direct access I/O.
 1. `shuffle_data.f90`: program that shuffles the values in a data file,
