@@ -10,7 +10,7 @@ module bitmanip_mod
 #include "lookup_table.dat"
         ]
     public :: naive_count_bits, early_stopping_count_bits, bit_repr, &
-        lookup_table_count_bits
+        lookup_table_count_bits, kernighan_count_bits
 
 contains
 
@@ -51,6 +51,18 @@ contains
             lookup_table(and(ishft(n, -16), 255_I4)) + &
             lookup_table(and(ishft(n, -24), 255_I4))
     end function lookup_table_count_bits
+
+    function kernighan_count_bits(n) result(bit_count)
+        implicit none
+        integer(kind=I4), value :: n
+        integer :: bit_count
+
+        bit_count = 0
+        do while (n /= 0)
+            n = and(n, n - 1_I4)
+            bit_count = bit_count + 1
+        end do
+    end function kernighan_count_bits
 
     function bit_repr(val) result(repr)
         implicit none

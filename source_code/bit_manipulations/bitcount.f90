@@ -8,11 +8,11 @@ program bitcount
     integer :: i, istat
     real :: r, start_time, end_time
 
-    print '(A)', 'sanity check: naive, early stopping, lookup table'
+    print '(A)', 'sanity check: naive, early stopping, lookup table Kernighan'
     do i = -16, 16
-        print '(I14, 3A, 3I3)', i, ': ', bit_repr(i), ': ', &
+        print '(I14, 3A, 4I3)', i, ': ', bit_repr(i), ': ', &
             naive_count_bits(i), early_stopping_count_bits(i), &
-            lookup_table_count_bits(i)
+            lookup_table_count_bits(i), kernighan_count_bits(i)
     end do
 
     ! create values upfront for benchmarking
@@ -55,6 +55,14 @@ program bitcount
     print '(A, I0, A, F15.6)', 'lookup table implementation ', size(vals), &
         ' iterations: ', end_time - start_time
 
+    ! time Kernighan's algorithm
+    call cpu_time(start_time)
+    do i = 1, size(vals)
+        result = xor(result, kernighan_count_bits(vals(i)))
+    end do
+    call cpu_time(end_time)
+    print '(A, I0, A, F15.6)', 'Kernighan implementation ', size(vals), &
+        ' iterations: ', end_time - start_time
 contains
 
     subroutine get_arguments(nr_vals)
