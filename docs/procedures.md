@@ -536,3 +536,11 @@ pure subroutine clamp(val, min_val, max_val)
     end if
 end subroutine clamp
 ~~~~
+
+
+## References
+
+List of intrintrinsic procedures
+[implemented by GCC](https://gcc.gnu.org/onlinedocs/gfortran/Intrinsic-Procedures.html#Intrinsic-Procedures).
+Note that not all these procedures are standard Fortran, some are GNU
+extensions.  This is clearly indicated though.
