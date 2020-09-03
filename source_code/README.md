@@ -63,3 +63,5 @@ code examples used in videos and reading material.
 1. `linked_real_list`: illustration of using pointers to build data types, as
    well as generic programming using the C preprocessor..
 1. `bit_manipulations`: illustrations of using bit-level operations.
+1. `fibonacci`: implementations of the Fibonacci sequence illustrating
+   memoization, save variables in procedures, arrays of procedures.
