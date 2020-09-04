@@ -97,3 +97,21 @@ infinity = ieee_value(0.0_DP, ieee_positive_inf)
 
 The first argument of the function `ieee_value` is a real value that is used
 to determine the kind of the result.  The second argument is the IEEE class.
+
+
+## Not a Number (NaN)
+
+Some arithmetic operations are not well-defined, e.g., division of 0 by 0,
+or the square root of a negative number.  The IEEE 754 representation of
+the "result" of such a computation is NaN (Not a Number).  Further computations
+with NaN will result in further NaN values.
+
+Interestingly, NaN is the only IEEE 754 number that is not equal to
+itself.
+
+As with infinite values, you may want to check.  This can be done using the
+`ieee_is_nan` function defined in the intrinsic module `ieee_arithmetic`.  It
+returns `.true.` if the argument is NaN, `.false.` otherwise.
+
+A NaN value can be constructed explicitly using `ieee_value` for the class
+`ieee_quiet_nan`.

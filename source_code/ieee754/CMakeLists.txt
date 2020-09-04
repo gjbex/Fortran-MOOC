@@ -10,3 +10,4 @@ add_compile_options(-Wall -Wextra)
 
 add_executable(zero_vs_non_zero.exe zero_vs_non_zero.f90)
 add_executable(infinity.exe infinity.f90)
+add_executable(nans.exe nans.f90)
