@@ -1,0 +1,10 @@
+# IEEE 754
+
+Welcome to the wonderful world of the IEEE 754 standard.
+
+
+## What is it?
+
+1. `zero_vs_non_zero.f90`: illustrates that 0.0 is equal to -0.0.
+1. `infinity.f90`: illustrates IEEE infinity.
+1. `CMakeLists.txt`: CMake file to build the applications.

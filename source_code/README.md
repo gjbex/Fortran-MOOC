@@ -65,3 +65,4 @@ code examples used in videos and reading material.
 1. `bit_manipulations`: illustrations of using bit-level operations.
 1. `fibonacci`: implementations of the Fibonacci sequence illustrating
    memoization, save variables in procedures, arrays of procedures.
+1. `ieee754`: illustration of IEEE intrinsic modules.
