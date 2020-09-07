@@ -14,4 +14,6 @@ Welcome to the wonderful world of the IEEE 754 standard.
    exceptions.
 1. `logistic_map.f90`: application to experiment with performance impact of
    trapping FPEs.
+1. `plot_logistic_map.sh`: Bash script that uses gnuplot to visualize the
+   logistic map.
 1. `CMakeLists.txt`: CMake file to build the applications.
