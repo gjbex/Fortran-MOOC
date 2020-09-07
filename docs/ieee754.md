@@ -115,3 +115,90 @@ returns `.true.` if the argument is NaN, `.false.` otherwise.
 
 A NaN value can be constructed explicitly using `ieee_value` for the class
 `ieee_quiet_nan`.
+
+
+## Controlling IEEE exception handling
+
+The IEEE 754 standard defines five execptions:
+* `IEEE_INVALID`;
+* `IEEE_DIVIDE_BY_ZERO`;
+* `IEEE_OVERFLOW`;
+* `IEEE_UNDERFLOW`;
+* `IEEE_INEXACT`.
+
+An `IEEE_INVALID` exception occurs for invalid mathematical operations such
+as the ones we discussed in the section 'Not a Number (NaN)' above.  Similarly,
+an `IEEE_OVERFLOW` exception is thrown when an arithmetic computation results
+in positive or negative infinity as discussed in the section 'Infinity' above.
+As the name implies `IEEE_DIVIDE_BY_ZERO` occurs whenever you divide by zero.
+
+This three exceptions are the ones you are mostly interested in.  `IEEE_USUAL`
+is an array that defines them for convenience.
+
+The `IEEE_UNDERFLOW` exception can sometimes be of interest.  It occurs when
+a small positive or negative value is computed that can not be represented by
+a normal number.  The IEEE 754 standard allows for gradual underflow by using
+denormalized (or subnormal) numbers.
+
+The `IEEE_INEXACT` exception occurs when precision is lost.  Since this happens
+for many floating point computations, this exception is typically not of
+interest.
+
+You can control whether a program halts when an IEEE exception occurs either
+* globally using a compiler flag (e.g., `-ffpe-trap=invalid,zero,overlow`), or
+* in your code by using the `ieee_set_halting_mode` subroutine.
+
+The latter method allows much greater control since you can switch the halting
+mode to true for specific procedures or calculations.  For instance, the
+statement below will set the halting mode for `IEEE_INVALID` to true, which
+means that the program will halt when an invalid operations occurs.
+
+~~~~fortran
+call ieee_set_halting_mode(IEEE_INVALID, .true.)
+~~~~
+
+At some later point in the code, you can switch the halting mode back to false
+by using the same call with `.false.` as the argument.
+
+The value of the halting mode can be checked at any point using
+
+~~~~fortran
+...
+logical :: stat
+...
+call ieee_get_halting_mode(IEEE_INVALID, stat)
+...
+~~~~
+
+
+## Checking for IEEE exceptions
+
+Regardless of the halting mode the processor will set flags when an exception
+occurs.  A flag can be quiet (`.false.`) or signalling (`.true.`) where the
+latter indicates that an exception was thrown.
+
+The value of a flag can be checked using the subroutine `ieee_get_flag` with
+the flag type and a logical variable as argument, e.g.,
+
+~~~~fortran
+...
+logical :: stat
+...
+call ieee_get_flag(IEEE_INVALID, stat)
+...
+~~~~
+
+Depending on the value of `stat`, appropriate action can be taken.
+
+You can also check for all the "usual suspects" at once using the array
+`IEEE_USUAL`, i.e.,
+
+~~~~fortran
+...
+local, dimension(size(IEEE_USUAL)) :: stats
+...
+call ieee_get_flag(IEEE_USUAL, stats)
+if (any(stats)) then
+    ...
+end if
+~~~~~

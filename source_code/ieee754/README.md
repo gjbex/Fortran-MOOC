@@ -10,4 +10,6 @@ Welcome to the wonderful world of the IEEE 754 standard.
 1. `nans.f90`: illustrates IEEE NaN.
 1. `ieee_inquiries.f90`: illustrations of IEEE inquery functions.
 1. `next_up.f90`: illustrates `ieee_next_after`.
+1. `exceptions.f90`: illustration of detecting and handling IEEE 754
+   exceptions.
 1. `CMakeLists.txt`: CMake file to build the applications.
