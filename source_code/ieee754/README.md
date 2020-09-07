@@ -12,4 +12,6 @@ Welcome to the wonderful world of the IEEE 754 standard.
 1. `next_up.f90`: illustrates `ieee_next_after`.
 1. `exceptions.f90`: illustration of detecting and handling IEEE 754
    exceptions.
+1. `logistic_map.f90`: application to experiment with performance impact of
+   trapping FPEs.
 1. `CMakeLists.txt`: CMake file to build the applications.
