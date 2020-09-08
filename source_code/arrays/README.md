@@ -17,4 +17,6 @@ Several short Fortran programs to illustrate arrays.
 1. `linear_transform.f90`: illustraion of an elemental function with multiple
    arguments.
 1. `identity.f90`: illustration of a function return an array.
+1. `array_timings.f90`: illustration of performance difference between array
+   expressions, nested do-loops and forall.
 1. `CMakeLists.txt`: CMake file to build the applications.
