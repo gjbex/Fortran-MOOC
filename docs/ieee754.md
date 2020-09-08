@@ -202,3 +202,10 @@ if (any(stats)) then
     ...
 end if
 ~~~~~
+
+You can also reset clear the flags when you have dealt with the exception and
+your computation is ready to proceed, e.g.,
+
+~~~~fortran
+call ieee_set_flag(IEEE_INVALID, .false.)
+~~~~
