@@ -66,3 +66,4 @@ code examples used in videos and reading material.
 1. `fibonacci`: implementations of the Fibonacci sequence illustrating
    memoization, save variables in procedures, arrays of procedures.
 1. `ieee754`: illustration of IEEE intrinsic modules.
+1. `pointers`: illustrations of pointers, basic concepts.
