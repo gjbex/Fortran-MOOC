@@ -127,7 +127,7 @@ specific target, false otherwise.
 
 Note that the function `associated` can return either true or false when
 called with an uninitialized pointer as an argument.  Hence it is good practice
-to initilize a pointer by either associating it with `null()`, or using tye
+to initialize a pointer by either associating it with `null()`, or using type
 `nullify` statement.  Both are illustrated in the code fragment above.  The
 function `associated` will return false if the pointer is nullified.
 
@@ -151,7 +151,7 @@ arrays with pointers.  In general you can target an array with a pointer of
 the same type and shape.
 
 If a pointer is associated to an array, it can be passed to a procedure that
-expects an array of that type and shape transparantly, i.e., the procedure
+expects an array of that type and shape transparently, i.e., the procedure
 is declared with standard array arguments.
 
 Another interesting application is to associate a pointer with an array slice.
@@ -203,7 +203,7 @@ Operations such as the removal of an element from the list can also be
 implemented conveniently.
 1. Find the element before the one you want to remove.
 1. Get the value of `next` of the element you want to remove.
-1. Asign that value to the `next` member of the element before the one
+1. Assign that value to the `next` member of the element before the one
    you want to remove.
 
 This is illustrated graphically below.
@@ -218,7 +218,7 @@ account.
 
 An interesting use case of the use of pointers to procedures is the creation
 of an array of procedures.  Since this can not be done directly, the pointers
-to procedures need to be "packed" into a user defined type.  The follwing code
+to procedures need to be "packed" into a user defined type.  The following code
 fragments illustrate this.
 
 The  intent is to benchmark a number of functions that have the same interface
@@ -274,6 +274,23 @@ do i = 1, size(functions)
     print '(A, F12.7, E15.7)', functions(i)%name, timing, res
 end do
 ...
+~~~~
+
+
+## Arrays of pointers
+
+For most pointer types it is possible to declare arrays of pointers directly.
+The exception is procedures as you already saw in the previous section.  For
+instance, if you would like to implement a directed acyclic graph, you could
+use the following user defined type to represent a vertex in the graph.
+tree.
+
+~~~~fortran
+type :: node_t
+    private
+    real :: value
+    type(node_t), dimension(:), pointer :: next
+end type
 ~~~~
 
 
