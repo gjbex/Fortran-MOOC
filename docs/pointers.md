@@ -12,7 +12,7 @@ with any number of targets.
 
 ## Pointer basics
 
-Condider the following mathematical relation between a vector $$A$$ at time
+Consider the following mathematical relation between a vector $$A$$ at time
 $t + 1$$ as a function of the values of $$A$$ at $$t$$:
 $$
     A_{t+1, i} = \frac{1}{4}A_{t, i-1} + \frac{1}{2}A_{t, i} + \frac{1}{4}A_{t, i+1}
@@ -134,3 +134,81 @@ function `associated` will return false if the pointer is nullified.
 In the example above you see that scalar values of types such as `integer` can
 be targets for pointers.  However, there are few applications for this.
 Arrays or variables of user defined types make much more interesting targets.
+
+
+## Targets for pointers
+
+Data of almost nay type can be a target for a pointer.  The code samples above
+illustrated that scalar variables of types such as `integer` or `real` can act
+as targets, but as mentioned before, there are few applications for this in
+Fortran.
+
+
+### Arrays
+
+A more interesting case that served as our motivating example is to target
+arrays with pointers.  In general you can target an array with a pointer of
+the same type and shape.
+
+If a pointer is associated to an array, it can be passed to a procedure that
+expects an array of that type and shape transparantly, i.e., the procedure
+is declared with standard array arguments.
+
+Another interesting application is to associate a pointer with an array slice.
+The following code fragment illustrates this.
+
+~~~~fortran
+...
+integer, dimension(3, 2), target :: A = reshape( [(i, i=1, 6)], [3, 2])
+integer, dimension(:), pointer :: p => null()
+...
+p => A(2, :)
+...
+~~~~
+
+Although `A` is a two-dimensional array, the shape of pointer and target match
+since the shape of the target for the association operator is a one-dimensional
+array.  This corresponds to the shape of the pointer `p`.
+
+
+### User defined types
+
+One of the major application for pointers is the implementation of
+sophisticated data structures such as lists, trees or graphs.  In such
+implementations, the user defined type typically has one or even several
+elements that are pointers to values of the user defined type.
+
+The following code fragment illustrates this for a declaration of elements of a
+list that contains real values.
+
+~~~~fortran
+type, public :: list_item_t
+    private
+    real :: value
+    type(list_item_t), pointer :: next => null()
+end type list_item_t
+~~~~
+
+Variables of the user defined type `list_item_t` can be used to build a linked
+list by associating the `next` element to the next item in the list.
+Typically, allocatable variables are used to build a list element by element,
+making sure that the pointer in the last element is associated with the new
+list element.
+
+Note that for such implementations the fact that a pointer is nullified has
+explicit semantics: it indicates for the linked list that the element that
+has a nullified `next` value is the last element in the list.
+
+Operations such as the removal of an element from the list can also be
+implemented conveniently.
+1. Find the element before the one you want to remove.
+1. Get the value of `next` of the element you want to remove.
+1. Asign that value to the `next` member of the element before the one
+   you want to remove.
+
+This is illustrated graphically below.
+
+![Removing an element from a linked list](linked_list.png)
+
+Of course, for an actual implementation there are edge cases to be taken into
+account.

@@ -11,4 +11,5 @@ found in other directories.
    copying data for a kernel-like code.
 1. `kernel.f90`: code used to illustrate basics of pointers.
 1. `associations.f90`: program illustrating the associated intrinsic function.
+1. `slices.f90`: illustrates how to associate a pointer with an array slice.
 1. `CMakeLists.txt`: CMake file to build the applications.
