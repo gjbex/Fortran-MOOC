@@ -212,3 +212,90 @@ This is illustrated graphically below.
 
 Of course, for an actual implementation there are edge cases to be taken into
 account.
+
+
+### Procedures
+
+An interesting use case of the use of pointers to procedures is the creation
+of an array of procedures.  Since this can not be done directly, the pointers
+to procedures need to be "packed" into a user defined type.  The follwing code
+fragments illustrate this.
+
+The  intent is to benchmark a number of functions that have the same interface
+defined below.
+
+~~~~fortran
+...
+interface
+    function func_impl_t(x) result(res)
+        use, intrinsic :: iso_fortran_env, only : DP => REAL64
+        implicit none
+        real(kind=DP), intent(in) :: x
+        real(kind=DP) :: res
+    end function func_impl_t
+end interface
+...
+~~~~
+
+The user defined type to store the name of the function and a pointer to
+the procedure that implements it is defined as follows:
+
+~~~~fortran
+...
+type :: func_t
+    character(len=20) :: name
+    procedure(func_impl_t), nopass, pointer :: func
+end type
+...
+~~~~
+
+The array can be defined and initialized as shown below.
+
+~~~~fortran
+...
+type(func_t), dimension(3) :: functions
+...
+functions(1)%name = 'sin'
+functions(1)%func => dsin
+functions(2)%name = 'cos'
+functions(2)%func => dcos
+functions(3)%name = 'tan'
+functions(3)%func => dtan
+...
+~~~~
+
+The procedures stored in the array `functions` can subsequently be used as you
+would expect, .e.g.,
+
+~~~~fortran
+...
+do i = 1, size(functions)
+    call run_benchmark(functions(i)%func, timing, res)
+    print '(A, F12.7, E15.7)', functions(i)%name, timing, res
+end do
+...
+~~~~
+
+
+## Pointers as procedure arguments
+
+Procedure arguments need only to be declared as pointers when you want to do
+explicit pointer operations on them, not if you simply want to use the data
+they are associated with.
+
+An example of a procedure with arguments that are declared pointers would be
+a procedure to swap two pointers.  The implementation of such a swap was
+already illustrated in the motivating example, but it can be turned into a
+procedure easily.
+
+~~~~fortran
+subroutine swap_pointers(a, b)
+    implicit none
+    real, dimension(:), pointer, intent(inout) :: a, b
+    real, dimension(:), pointer :: tmp
+
+    tmp => a
+    a => b
+    b => tmp
+end subroutine swap_pointers
+~~~~
