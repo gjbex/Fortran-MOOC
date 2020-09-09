@@ -10,4 +10,5 @@ found in other directories.
 1. `swap.f90`: illustrates the performance benefit of using pointers over
    copying data for a kernel-like code.
 1. `kernel.f90`: code used to illustrate basics of pointers.
+1. `associations.f90`: program illustrating the associated intrinsic function.
 1. `CMakeLists.txt`: CMake file to build the applications.

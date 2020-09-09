@@ -10,3 +10,4 @@ add_compile_options(-Wall -Wextra)
 
 add_executable(kernel.exe kernel.f90)
 add_executable(swap.exe swap.f90)
+add_executable(associations.exe associations.f90)
