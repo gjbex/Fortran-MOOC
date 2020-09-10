@@ -150,10 +150,29 @@ print '(F12.3)', stats%get_mean()
 ...
 ~~~~
 
-The signature of the subroutine `add_value` has not changed, so the first
-argument to be passed to it is still a variable of type `descriptive_stats_t`.
-This is accomplished by adding the `pass` attribute to the declaration in the
-type.  The same applies to the other procedures such as `get_mean`.
+The signature of the subroutine `add_value` has only slightly changed as you
+will see in a minute, but the first argument to be passed to it is still a
+variable of type `descriptive_stats_t`.  This is accomplished by adding the
+`pass` attribute to the declaration in the type.  The same applies to the other
+procedures such as `get_mean`.
+
+The definition of the procedures `add_value`, `get_nr_values`, `get_mean` and
+`get_stddev` has to be changed slightly.  Rather than using `type` for the
+`stats` argument, we have to use `class`, e.g., for `get_nr_values` and similar
+for the other procedures.
+
+~~~~fortran
+    function get_nr_values(stats) result(nr_values)
+        implicit none
+        class(descriptive_stats_t), intent(in) :: stats
+        integer :: nr_values
+
+        nr_values = stats%nr_values
+    end function get_nr_values
+~~~~
+
+The full implications of `class` will be discussed in the section on
+inheritance.
 
 Note that unless a type bound procedure is declared public in the module, it is
 no longer possible to call it as you normally would, i.e., the following line
@@ -166,6 +185,10 @@ call add_value(stats, 7.3)
 If you replace the `pass` attribute by `nopass`, the variable is simply
 ignored, and not passed as an argument to the procedure.  We will see
 applications of this later.
+
+A user defined type with type bound procedures roughly corresponds to the
+concept of a class in other object oriented programming languages such as C++
+or Python.
 
 
 ## Generic type bound procedures
