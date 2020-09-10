@@ -210,3 +210,64 @@ call stats%add_data(values)
 
 In the context of other programming languages this is called method
 overloading.
+
+
+## Operator overloading
+
+Suppose you want to add a bias to the represented by the `descriptive_stats_t`
+variable.  Of course, you would have to write a procedure that would implement
+this.  If a bias `delta` is added to each of the 'nr_values' data value $$x_i$$,
+the `sum` element is changed to `sum + nr_values*delta`.  The sum of the squares
+`sum2` is changed to `sum2 + 2*delta*sum + nr_values*delta**2`.
+
+The following procedure implements this and returns a new `descriptive_stats_t`
+object.
+
+~~~~fortran
+function stats_plus_value(stats, delta) result(new_stats)
+    implicit none
+    class(descriptive_stats_t), intent(in) :: stats
+    real, intent(in) :: delta
+    type(descriptive_stats_t) :: new_stats
+
+    new_stats%nr_values = stats%nr_values
+    new_stats%sum = stats%sum + stats%nr_values*delta
+    new_stats%sum2 = stats%sum2 + 2.0*delta*stats%sum + stats%nr_values*delta**2
+end function stats_plus_value
+~~~~
+
+Obviously, this function could be defined as a type bound procedure for
+`descriptive_stats_t` statistics, but it would be convenient to call it
+as an expression, i.e., `new_stats = stats + delta`.  This can be done
+easily in Fortran using operator overloading, which boils down to
+defining an interface for the operator `+`.
+
+~~~~fortran
+interface operator(+)
+    module procedure stats_plus_value
+end interface
+~~~~
+
+In general, you expect the operator `+` to be commutative, i.e.,
+`delta + stats` should work just as well as `stats + delta`.  Unfortunately,
+there is no automatic generation of the appropriate code, so you would have
+to define an additional procedure.
+
+~~~~fortran
+function value_plus_stats(val, stats) result(new_stats)
+    implicit none
+    class(descriptive_stats_t), intent(in) :: stats
+    real, intent(in) :: val
+    type(descriptive_stats_t) :: new_stats
+
+    new_stats = stats_plus_value(stats, val)
+end function value_plus_stats
+~~~~
+
+It can be added to the interface for the operator, i.e.,
+
+~~~~fortran
+interface operator(+)
+    module procedure stats_plus_value, value_plus_stats
+end interface
+~~~~

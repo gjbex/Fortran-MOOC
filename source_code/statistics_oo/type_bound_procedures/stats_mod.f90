@@ -15,7 +15,7 @@ module stats_mod
     end type descriptive_stats_t
 
     interface operator(+)
-        module procedure add_stats, stats_plus_value
+        module procedure add_stats, stats_plus_value, value_plus_stats
     end interface
 
     interface operator(*)
@@ -120,6 +120,15 @@ contains
         new_stats%sum = stats%sum + stats%nr_values*val
         new_stats%sum2 = stats%sum2 + 2.0*val*stats%sum + stats%nr_values*val**2
     end function stats_plus_value
+
+    function value_plus_stats(val, stats) result(new_stats)
+        implicit none
+        class(descriptive_stats_t), intent(in) :: stats
+        real, intent(in) :: val
+        type(descriptive_stats_t) :: new_stats
+
+        new_stats = stats_plus_value(stats, val)
+    end function value_plus_stats
 
     function value_times_stats(val, stats) result(new_stats)
         implicit none
