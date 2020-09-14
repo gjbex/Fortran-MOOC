@@ -162,13 +162,13 @@ The definition of the procedures `add_value`, `get_nr_values`, `get_mean` and
 for the other procedures.
 
 ~~~~fortran
-    function get_nr_values(stats) result(nr_values)
-        implicit none
-        class(descriptive_stats_t), intent(in) :: stats
-        integer :: nr_values
+function get_nr_values(stats) result(nr_values)
+    implicit none
+    class(descriptive_stats_t), intent(in) :: stats
+    integer :: nr_values
 
-        nr_values = stats%nr_values
-    end function get_nr_values
+    nr_values = stats%nr_values
+end function get_nr_values
 ~~~~
 
 The full implications of `class` will be discussed in the section on
@@ -187,8 +187,11 @@ ignored, and not passed as an argument to the procedure.  We will see
 applications of this later.
 
 A user defined type with type bound procedures roughly corresponds to the
-concept of a class in other object oriented programming languages such as C++
-or Python.
+concept of a *class* in other object oriented programming languages such as C++
+or Python.  We will use the term class here as well as a synonym to user
+defined type with type bound procedures.  A variable of such a class is called
+an *object*, or also an *instance* of the class.  A type bound procedure is also
+referred to as an *object method*.
 
 
 ## Generic type bound procedures

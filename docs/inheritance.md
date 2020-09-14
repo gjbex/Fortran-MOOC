@@ -64,13 +64,13 @@ type bound procedures `get_median` and `finalize_stats`.
 the procedures `init_stats` and `finalize_stats` will be discussed in a later
 section.
 
-In object oriented parlance, `descriptive_stats_t` is called the base or the
-parent class, while `median_stats_t` is called a derived or child class of
-`descriptive_stats_t`.  In this case we have only a single base class and a
-single derived class, but there may be situation in which the derived class
-is used as the base class for another class, creating a multi-level hierarchy.
-If so, the terms ancestor class and descendant class are used to refer to
-classes higher and lower in the derivation hierarchy.
+In object oriented parlance, `descriptive_stats_t` is called the *base class*
+or the *parent class*, while `median_stats_t` is called a *derived class* or
+*child class* of `descriptive_stats_t`.  In this case we have only a single base
+class and a single derived class, but there may be situation in which the
+derived class is used as the base class for another class, creating a
+multi-level hierarchy.  If so, the terms *ancestor class* and *descendant class*
+are used to refer to classes higher and lower in the derivation hierarchy.
 
 As opposed to C++ or Python, Fortran supports single inheritance only, so a
 class can have one parent class, not multiple.  This implies that the
@@ -185,9 +185,9 @@ subroutine finalize_stats(stats)
 end subroutine finalize_stats
 ~~~~
 
-Note that you could compare the procedure `init_stats` to a constructor in C++
+Note that you could compare the procedure `init_stats` to a *constructor* in C++
 or the `__init__` method in Python, while `finalize_stats` is similar to a C++
-destructor.
+*destructor*.
 
 As such, initializing/constructing and destructing objects is completely
 independent of inheritance.  It was introduced in this section because it ties
