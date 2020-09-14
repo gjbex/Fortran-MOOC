@@ -126,7 +126,7 @@ is not inherited from the parent class.  The implementation relies on a sorting
 algorithm to sort `values`; you can find it in the repository.
 
 
-## Initialization and finalization
+# Initialization and finalization
 
 In the previous section we have been using the array `values` to store data
 values and compute the median.  That array was declared `allocatable`, but
@@ -184,3 +184,11 @@ subroutine finalize_stats(stats)
     deallocate(stats%values, stat=istat)
 end subroutine finalize_stats
 ~~~~
+
+Note that you could compare the procedure `init_stats` to a constructor in C++
+or the `__init__` method in Python, while `finalize_stats` is similar to a C++
+destructor.
+
+As such, initializing/constructing and destructing objects is completely
+independent of inheritance.  It was introduced in this section because it ties
+in well with the running example and our base class didn't require either.
