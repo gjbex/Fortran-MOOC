@@ -22,7 +22,7 @@ As soon as the application doesn't require the array anymore, the memory is rele
 to the operating system and can be used for other purposes.
 
 
-## Allocation statements and procedures
+## Allocation statements and related procedures
 
 The Fortran statement to allocate dynamic memory is, not surprising `allocate`, and
 the one to release the memory is `deallocate`.  Variables that will be allocated
@@ -113,6 +113,30 @@ allocate (character(len=buffer_len) :: buffer, stat=istat)
 The length of the variable `buffer` is now determined dynamically.  As with any
 allocatable variable, `buffer` should be deallocated to avoid memory leaks,
 unless it is local to a procedure.
+
+
+## Cloning
+
+The `allocate` statement has an optional argument `source` that can be used
+to "clone" existing data structures.  For instance, you may be working with an
+array, and require a temporary helper array of the same shape.  In that case,
+the existing array can be passed as a template to the `allcoate` statement
+that will allocate the temporary array with the same shape, size and lower and
+upper index bound.  Also the elements will have the same values.
+
+~~~~fortran
+...
+real, dimension(0:10) :: values
+real, dimension(:), allocatable :: tmp_values
+...
+allocate (tmp_values, source=values)
+~~~~
+
+The array `tmp_values` will have the same size as `values, i.e., 11 elements
+nad the same lower and upper index, i.e., 0 and 10 respectively.
+
+You will see later that the `source` argument can also conveniently be used to
+initialize allocatable objects.
 
 
 ## Allocatables and procedures
