@@ -52,9 +52,9 @@ end interface
 
 The attribute `extends` ensures that the user defined type `median_stats_t`
 will have all the elements and type bound procedures that `descriptive_stats_t`
-has.  So `median_stats_t` will have the elements `n`, `sum` and `sum2` as well
-as the type bound procedures `get_nr_values`, `get_mean` and `get_stddev`,
-although they are not mentioned explicitly.
+has.  So `median_stats_t` will have the elements `nr_values`, `sum` and `sum2`
+as well as the type bound procedures `get_nr_values`, `get_mean` and
+`get_stddev`, although they are not mentioned explicitly.
 
 The user defined type `median_stats_t` has an additional element `values` to
 store all data values added with the `add_value` method.  Hence it should have
@@ -89,7 +89,7 @@ by Karla Morris if you are interested.
 
 The `add_value` procedure bound to `median_stats_t` should do more that the one
 bound to `descriptive_stats_t`.  However, it can rely on the implementation for
-`descriptive_stats_t` to update `n`, `sum` and `sum2`.  It should additionally
+`descriptive_stats_t` to update `nr_values`, `sum` and `sum2`.  It should additionally
 ensure that the new value is also stored in the array `values`.
 
 ~~~~fortran
@@ -112,13 +112,13 @@ end subroutine add_value
 
 Since the array `values` has some size, this implementation of the procedure
 `add_value` will first check whether the new value can still be stored.  If so,
-the values of `n`, `sum` and `sum2` should be updated, but this can conveniently
-be done by calling the procedure `add_value` defined in `descriptive_stats_t`.
-You can call procedures defined in an ancestor class by using its name as a
-prefix, i.e., `stats%descriptive_stats_t%add_value` in this case.
-Lastly, the procedure will add the new value to the array `values` at index
-`n` which refers to the next empty element in `values` since it was incremented
-by the call to `descriptive_stats_t`'s `add_value`.
+the values of `nr_values`, `sum` and `sum2` should be updated, but this can
+conveniently be done by calling the procedure `add_value` defined in
+`descriptive_stats_t`.  You can call procedures defined in an ancestor class by
+using its name as a prefix, i.e., `stats%descriptive_stats_t%add_value` in this
+case.  Lastly, the procedure will add the new value to the array `values` at
+index `nr_values` which refers to the next empty element in `values` since it
+was incremented by the call to `descriptive_stats_t`'s `add_value`.
 
 
 The procedure `get_median` is specific to the `median_stats_t` class, so this
@@ -126,7 +126,104 @@ is not inherited from the parent class.  The implementation relies on a sorting
 algorithm to sort `values`; you can find it in the repository.
 
 
-# Initialization and finalization
+## `class` versus `type`
+
+Now is a better time to explain why `class` is used rather than `type` to
+declare the type of arguments to type bound procedures.  When a variable or
+procedure argument is declared using `class` it can hold a value that is an
+object of that class, or of any of that class' descendant classes.
+
+This implies that for type bound procedures a procedure that is defined in
+the parent class can be used in a derived class.
+
+The use of `class` declarations is not restricted to procedure arguments
+though.  The following code fragment illustrates that you can decide at runtime
+whether to use a `descriptive_stats_t` or `median_stats_t` variable, and how to
+distinguish between the types of values.
+
+~~~~fortran
+...
+class(descriptive_stats_t), allocatable :: stats
+...
+if (stats_type == 'median') then
+    allocate (stats, source=median_stats_t(nr_values))
+else
+    allocate (stats, source=descriptive_stats_t())
+end if
+~~~~
+
+Since the variable `stats` is declared as `class(descriptive_stats_t)`, it can
+store a object of type `descriptive_stats_t`, or any of that class' descendant
+classes, i.e., `median_stats_t` in this case.
+
+Although not strictly required, a named interface `descriptive_stats_t` was
+added to create an initializer for `descriptive_stats_t`.  The `source`
+argument of the `allocate` statement is used to clone the constructed object.
+
+This is an instance of *runtime polymorphism*, i.e., the type of a variable is
+determined at runtime.  The most convenient way to exploit runtime polymorphism
+is through allocatable variables as you saw in the code sample above.
+
+
+## Selecting types and classes
+
+Since the variable `stats` can be either a `descriptive_stats_t` or a
+`median_stats_t` object, and the method `get_median` can only be called on
+objects of the class `median_stats_t`, you would need a way to determine at
+runtime what the class or type of an object is.
+
+Fortran has the `select type` statement to accomplish this.  Its general
+form is
+
+~~~~
+select type (<target>)
+    type is (<type name 1>)
+        <block statements 1>
+    type is (<type name 2>)
+        <block statements 2>
+    ...
+    class default
+        <block statements 3>
+end select
+~~~~
+
+You can replace the type-guard `type is` by `class is` if you want to check not
+only for the type itself, but also for all its descendants.  The `class default` 
+type guard is optional.  As you can guess, there can only be a single
+`case default` type guard, but you can have any number of `type is` and
+`class is` guard clauses.  However, only a single block of code is executed,
+even if multiple select clauses match.
+1. If there is a `type` clause that matches, the corresponding block of
+   statements is executed.
+1. If that is not the case, but one or more `class` clauses match, the one for
+   the type that is the highest up in the derivation hierarchy.
+1. If no `class` clauses match, and a `class default` clause is present, the
+   corresponding statement block is executed.
+
+For example, now you can check whether `stats` is of class `median_stats_t`,
+and if so, print the median.
+
+~~~~fortran
+...
+print '(A, F10.3)', 'mean   = ', stats%get_mean()
+select type (stats)
+    class is (median_stats_t)
+        print '(A, F10.3)', 'median   = ', stats%get_median()
+end select
+print '(A, F10.3)', 'stddev = ', stats%get_stddev()
+...
+~~~~
+
+Here we use `class is` because all descendants of the `median_stats_t` class
+should also either inherit or override the `get_median` function ([Liskov's
+substitution principle](https://en.wikipedia.org/wiki/Liskov_substitution_principle)).
+
+The `select type` statement has an additional features that is worth
+mentioning:  The `select type` statement can associate an alias, similar to the
+`associate` statement.
+
+
+# Interlude: initialization and finalization
 
 In the previous section we have been using the array `values` to store data
 values and compute the median.  That array was declared `allocatable`, but
@@ -152,7 +249,7 @@ function init_stats(nr_values) result(stats)
 end function init_stats
 ~~~~
 
-Since `n`, `sum` and `sum2` are already initialized in the definition of
+Since `nr_values`, `sum` and `sum2` are already initialized in the definition of
 the parent class `descriptive_stats_t`.
 
 The named interface `median_stats_t` ensures that the procedure `init_stats`
