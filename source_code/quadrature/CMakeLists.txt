@@ -10,3 +10,4 @@ add_compile_options(-Wall -Wextra)
 
 add_subdirectory(interfaces)
 add_subdirectory(submodules)
+add_subdirectory(abstract_classes)
