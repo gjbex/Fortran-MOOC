@@ -25,6 +25,7 @@
 ## Extra material
 
 1. [Fortran formatting conventions](formatting_conventions.md)
+1. [Syntax versus semantics](syntax_vs_semantics.md)
 1. [Basics of CMake](cmake_basics.md)
 1. [Compiler quirks](compiler_issues.md)
 1. [Alignment of user defined types](alignment.md)
