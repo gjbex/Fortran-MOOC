@@ -19,6 +19,7 @@
 1. [Pointers](pointers.md)
 1. [Command line argumens and environment variables](command_line_and_environment.md)
 1. [IEEE 754 arithmetic](ieee754.md)
+1. [Error handling](error_handling.md)
 
 
 ## Extra material
