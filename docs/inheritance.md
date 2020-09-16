@@ -229,6 +229,13 @@ In the previous section we have been using the array `values` to store data
 values and compute the median.  That array was declared `allocatable`, but
 where and when should it be allocated?  This is where the procedures
 `init_stats` and `finalize_stats` come in that we didn't discuss so far.
+The name interface that we defined for the `median_stats_t` was
+
+~~~~fortran
+interface median_stats_t
+    module procedure init_stats
+end interface
+~~~~
 
 When we create a new object of the the class `median_stats_t`, the array
 `values` should be allocated.  This is done using the function `init_stats`
