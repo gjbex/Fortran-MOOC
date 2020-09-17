@@ -21,6 +21,7 @@
 1. [IEEE 754 arithmetic](ieee754.md)
 1. [Error handling](error_handling.md)
 1. [Best coding practices](coding_best_practices.md)
+1. [Documentation with doxygen](doxygen.md)
 
 ## Extra material
 

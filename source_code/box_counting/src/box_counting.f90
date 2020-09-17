@@ -78,6 +78,12 @@ contains
     end function get_nr_edges
 
     !> @brief read x, y coordinates from standard input
+    !>
+    !> This subroutine reads a pair of x and y coordinates from standard input. It
+    !> will verify that the input format is correct.  The application will stop if
+    !> that is not the case (exit code 3).  If there is no more input, this will be
+    !> conveyed via the `istat` argument.
+    !>
     !> @param[out] x coordinate
     !> @param[out] y coordinate
     !> @param[out] istat is 0 upon succesful read, `iostat_end` when

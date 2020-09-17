@@ -43,3 +43,4 @@ Note that these documents are not open access.
   * [GNU Fortran](https://gcc.gnu.org/fortran/)
   * [Intel Fortran](https://software.intel.com/en-us/fortran-compilers-support/documentation)
   * [Fonts for editors](https://itnext.io/11-best-programming-fonts-724283a9ed57)
+  * [Doxygen manual](https://www.doxygen.nl/manual/)
