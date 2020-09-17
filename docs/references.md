@@ -3,6 +3,14 @@
 Here you will find a number of references to additional reading material and
 software.
 
+## Books on Fortran
+
+* *Fortran 2018 with parallel programming*, Subrata Ray, CRC Press, 2020
+* *Modern Fortran: style and usage*, Norman S. Clerman and Walter Spector,
+  Cambridge University Press, 2012
+* *Fortran 95/2003 for scientists and engineers*, Stephen Chapman, McGraw-Hill,
+  2007
+
 
 ## Reading material
 
