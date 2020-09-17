@@ -12,20 +12,26 @@ software.
   2007
 
 
-## Reading material
+## Articles on Fortran
+
+* [*Emulating multiple inheritance in Fortran 2003/2008*], Karla Morris,
+  Scientific programming, vol. 2015, article ID 126069, 2015
+* *Exception handling in Fortran*, Arjen Markus, Newsletter ACM SIGPLAN
+  Fortran Forum, volume 32, issue 2, p. 7‒13, 2013
+
+
+## Articles on software engineering
 
 * *Clean code: a handbook of agile software craftsmanship*, Robert C. Martin,
   Prentice Hall, 2008
-* [Write clean code and get rid of code smells with real life examples](https://medium.com/@maladdinsayed/write-clean-code-and-get-rid-of-code-smells-aea271f30318)
+* [*Write clean code and get rid of code smells with real life examples*](https://medium.com/@maladdinsayed/write-clean-code-and-get-rid-of-code-smells-aea271f30318)
 * *Design patterns: elements of reusable object-oriented software*,
   Erich Gamma, Richard Helm, Ralph Johnson, and John Vlissides,
   Addison-Wesley, 1994
 * *Refactoring: improving the design of existing code*, Martin Fowler,
   Addison-Wesley, 1999
-* *Exception handling in Fortran*, Arjen Markus, Newsletter ACM SIGPLAN
-  Fortran Forum, volume 32, issue 2, p. 7‒13, 2013
-* [11 signs you’re writing great code](https://www.infoworld.com/article/3268310/application-development/11-signs-youre-writing-great-code.html), Andrew C. Oliver, InfoWorld, April 2018
-* [The seven deadly sins of programming](https://hackernoon.com/the-7-deadly-sins-of-programming-a7574efc639f) 
+* [*11 signs you’re writing great code*](https://www.infoworld.com/article/3268310/application-development/11-signs-youre-writing-great-code.html), Andrew C. Oliver, InfoWorld, April 2018
+* [*The seven deadly sins of programming*](https://hackernoon.com/the-7-deadly-sins-of-programming-a7574efc639f) 
 
 
 ## Specifications
