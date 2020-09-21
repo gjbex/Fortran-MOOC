@@ -30,4 +30,5 @@
 1. [Basics of CMake](cmake_basics.md)
 1. [Compiler quirks](compiler_issues.md)
 1. [Alignment of user defined types](alignment.md)
+1. [Documentation best practices](documentation_best_practices.md)
 1. [References](references.md)
