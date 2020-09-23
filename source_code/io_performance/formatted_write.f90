@@ -3,7 +3,8 @@ program formatted_write
     implicit none
     real(kind=DP), parameter :: PI = acos(-1.0_DP), &
                                 PHI = 0.5_DP*(1.0_DP + sqrt(5.0_DP)), &
-                                B_REC = 0.5_DP*PI/log(PHI)
+                                B_REC = 0.5_DP*PI/log(PHI), &
+                                DELTA_R = 1.0e-3_DP
     integer :: nr_values, i, unit_nr, istat
     character(len=1024) :: file_name, msg
     real(kind=DP) :: r
@@ -23,7 +24,7 @@ program formatted_write
         if (istat /= 0) then
             write (unit=error_unit, fmt='(2A)') 'error: ', trim(msg)
         end if
-        r = r + 1.0D-3
+        r = r + DELTA_R
     end do
     close(unit=unit_nr)
 
