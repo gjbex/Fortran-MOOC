@@ -10,3 +10,4 @@ add_compile_options(-Wall -Wextra)
 
 add_subdirectory(sequential)
 add_subdirectory(streaming)
+add_subdirectory(asynchronous)

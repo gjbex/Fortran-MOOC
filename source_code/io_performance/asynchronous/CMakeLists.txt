@@ -1,0 +1,2 @@
+add_executable(generate_random_sync.exe generate_random_sync.f90)
+add_executable(generate_random_async.exe generate_random_async.f90)

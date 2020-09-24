@@ -7,6 +7,7 @@ Some code to experiment with various I/O modes and how they impact performance.
 
 1. `sequential`: code illustrating sequential I/O.
 1. `streaming`: code illustrating streaming I/O.
+1. `asynchronous`: code illustrating asynchronous streaming I/O.
 1. `CMakeLists.txt`: CMake file to build the applications.
 1. `plot_spiral.sh`: plot the formatted data.
 
