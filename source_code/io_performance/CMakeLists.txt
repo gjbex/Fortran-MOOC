@@ -9,3 +9,4 @@ file(MAKE_DIRECTORY ${CMAKE_Fortran_MODULE_DIRECTORY})
 add_compile_options(-Wall -Wextra)
 
 add_subdirectory(sequential)
+add_subdirectory(streaming)

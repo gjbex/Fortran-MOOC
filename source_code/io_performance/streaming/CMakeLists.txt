@@ -1,0 +1,1 @@
+add_executable(unformatted_stream_write.exe unformatted_write.f90)
