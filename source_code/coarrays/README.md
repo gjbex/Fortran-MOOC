@@ -7,6 +7,8 @@ find a few simple exaples by way of illustration.
 ## What is it?
 
 1. `coarrays.f90`: very simple example.
+1.  `cmake/Modules/FindCoarray.cmake`: CMake file to find Fortran Coarray options.
+1. `CMakeLists.txt`: CMake file to build the applications.
 
 
 ## Requirements
