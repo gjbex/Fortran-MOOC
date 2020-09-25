@@ -8,6 +8,7 @@ file(MAKE_DIRECTORY ${CMAKE_Fortran_MODULE_DIRECTORY})
 
 add_compile_options(-Wall -Wextra)
 
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
 find_package(Coarray REQUIRED)
 
 add_executable(coarrays.exe coarrays.f90)
