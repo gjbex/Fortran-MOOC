@@ -1,6 +1,6 @@
 program compute_pi
     use, intrinsic :: iso_fortran_env, only : I8 => INT64
-    !$ use, intrinsic :: omp_lib
+    !$ use :: omp_lib
     implicit none
     real, parameter :: PI = acos(-1.0)
     integer(kind=I8), parameter :: nr_tries = 500000000
