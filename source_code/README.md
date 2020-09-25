@@ -69,4 +69,6 @@ code examples used in videos and reading material.
 1. `pointers`: illustrations of pointers, basic concepts.
 1. `io_performance`: experiments with different I/O modes with respect to
    performance.
-1. `coarrays`: illustration of using coarrays for distributed computations.
+1. `openmp`: illustration of using OPenMP for shared memory programming.
+1. `coarrays`: illustration of using coarrays for shared and distributed
+   computations.
