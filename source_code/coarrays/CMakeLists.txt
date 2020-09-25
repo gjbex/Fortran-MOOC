@@ -15,3 +15,7 @@ find_package(Coarray REQUIRED)
 add_executable(coarrays.exe coarrays.f90)
 target_compile_options(coarrays.exe PRIVATE ${Coarray_COMPILE_OPTIONS})
 target_link_libraries(coarrays.exe ${Coarray_LIBRARIES})
+
+add_executable(compute_pi.exe compute_pi.f90)
+target_compile_options(compute_pi.exe PRIVATE ${Coarray_COMPILE_OPTIONS})
+target_link_libraries(compute_pi.exe ${Coarray_LIBRARIES})
