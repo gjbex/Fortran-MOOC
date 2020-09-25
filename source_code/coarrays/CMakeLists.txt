@@ -1,12 +1,13 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.3)
 
 project(coarrays LANGUAGES Fortran)
+# cmake_policy(CMP0057 NEW)
 
 set(CMAKE_Fortran_MODULE_DIRECTORY
     ${CMAKE_BINARY_DIR}/modules)
 file(MAKE_DIRECTORY ${CMAKE_Fortran_MODULE_DIRECTORY})
 
-add_compile_options(-Wall -Wextra)
+add_compile_options(-warn all -diag-enable=remark)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
 find_package(Coarray REQUIRED)
