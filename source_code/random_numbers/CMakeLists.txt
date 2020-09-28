@@ -9,3 +9,4 @@ file(MAKE_DIRECTORY ${CMAKE_Fortran_MODULE_DIRECTORY})
 add_compile_options(-Wall -Wextra)
 
 add_executable(random_numbers.exe random_numbers.f90)
+add_executable(reproduction.exe reproduction.f90)

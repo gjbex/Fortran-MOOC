@@ -8,4 +8,6 @@ of other programming languages, there are some particularities.
 
 1. `random_numbers.f90`: program to illustrate how to get the size of the arrays
    for seeding the RNG, how to get the current values, as well as how to set them.
+1. `reproduction.f90`: program to illustrate possible approach to reproducible
+   results when using a random number generator.
 1. `CMakeLists.txt`: CMake file to build the applications.
