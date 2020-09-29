@@ -71,6 +71,8 @@ code examples used in videos and reading material.
    performance.
 1. `random_numbers`: illustrations of how to work with Fortran's pseudo random
    number generator.
+1. `blas_lapack`: illustration of using the BLAS and Lapack libraries for
+   matrix computations and linear algebra respectively.
 1. `openmp`: illustration of using OPenMP for shared memory programming.
 1. `mpi`: illustration of using MPI for shared and distributed
    computations.
