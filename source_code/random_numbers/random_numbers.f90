@@ -1,4 +1,5 @@
 program random_numbers
+    use, intrinsic :: iso_fortran_env, only : error_unit
     implicit none
     integer, parameter :: nr_vals = 3
     integer :: seed_size, istat, i
@@ -11,6 +12,10 @@ program random_numbers
 
     ! allocate the array to hold the seeds
     allocate (seed_vals(seed_size), new_seed_vals(seed_size), stat=istat)
+    if (istat /= 0) then
+        write (unit=error_unit, fmt='(A)') 'error: can not allocate seed'
+        stop 1
+    end if
 
     ! get the current seed values
     call random_seed(get=seed_vals)
