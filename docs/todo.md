@@ -4,7 +4,6 @@ List of things that should not be forgotten
 
   * discuss performance impact of `REAL128`
   * discuss performance  and precision impact of mixed-kind computations
-  * random number generation
   * block statement
 
 ## Videos

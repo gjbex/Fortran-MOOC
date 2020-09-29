@@ -148,3 +148,11 @@ be used to reproduce the specific run of the application.
 
 A little more care is required in the context of parallel applications, but the
 same approach can be used.
+
+Fortran's intrinsic random number generator is fairly limited in scope.  You
+would have to write your own code to sample from a non-uniform distribution or
+over a different numeric domain.
+
+You will find some libraries that can be of interest though:
+1. [RNGlib](https://people.sc.fsu.edu/~jburkardt/f_src/rnglib/rnglib.html)
+1. [Intel MKL](https://software.intel.com/content/www/us/en/develop/documentation/mkl-vsperfdata/top.html)
