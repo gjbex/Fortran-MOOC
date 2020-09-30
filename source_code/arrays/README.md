@@ -19,4 +19,7 @@ Several short Fortran programs to illustrate arrays.
 1. `identity.f90`: illustration of a function return an array.
 1. `array_timings.f90`: illustration of performance difference between array
    expressions, nested do-loops and forall.
+1. `normalize.f90`: normalize a matrix by broadcasting a la numpy.
+1. `normalize_performance.f90`: performance test for normalization using
+   `spread` versus other methods.
 1. `CMakeLists.txt`: CMake file to build the applications.
