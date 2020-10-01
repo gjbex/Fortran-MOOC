@@ -18,3 +18,6 @@ target_link_libraries(blas_probabilities.exe PUBLIC ${BLAS_LIBRARIES})
 
 add_executable(normalize.exe normalize.f90)
 target_link_libraries(normalize.exe PUBLIC ${BLAS_LIBRARIES})
+
+add_executable(copy.exe copy.f90)
+target_link_libraries(copy.exe PUBLIC ${BLAS_LIBRARIES})
