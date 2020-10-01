@@ -23,6 +23,7 @@
 1. [Best coding practices](coding_best_practices.md)
 1. [Documentation with doxygen](doxygen.md)
 1. [Random number generation](random_numbers.md)
+1. [Linear algebra with BLAS and LAPACK](blas_lapack.md)
 
 ## Extra material
 
