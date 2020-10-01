@@ -14,5 +14,8 @@ illustrations of their use.
 1. `blas_probabilities.f90`: implementation of `no_blas_probabilities.f90` that
    uses BLAS calls.
 1. `normalize.f90`: simple program with some BLAS calls.
-1. `copy.f90`: program to explore the arguments of level 1 BLAS calls.
+1. `copy.f90`: program to explore the arguments of level 1 BLAS
+   `scopy` calls.
+1. `dot.f90`: program to explore the arguments of level 1 `sdot`
+   calls.
 1. `CMakeLists.txt`: CMake file to build the applications.

@@ -21,3 +21,6 @@ target_link_libraries(normalize.exe PUBLIC ${BLAS_LIBRARIES})
 
 add_executable(copy.exe copy.f90)
 target_link_libraries(copy.exe PUBLIC ${BLAS_LIBRARIES})
+
+add_executable(dot.exe dot.f90)
+target_link_libraries(dot.exe PUBLIC ${BLAS_LIBRARIES})
