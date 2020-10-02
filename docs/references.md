@@ -40,6 +40,7 @@ software.
 * [Fortran 2008 (ISO/IEC 1539-1:2010)](https://www.iso.org/standard/50459.html)
 * [Fortran 2018 (ISO/IEC 1539-1:2018)](https://www.iso.org/standard/72320.html)
 * [IEEE 754-2019 standard for floating point arithmetic](https://ieeexplore.ieee.org/document/8766229)
+* [Quick reference guide to the BLAS](https://www.netlib.org/lapack/lug/node145.html)
 
 Note that these documents are not open access.
 
