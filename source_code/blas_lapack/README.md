@@ -18,4 +18,6 @@ illustrations of their use.
    `scopy` calls.
 1. `dot.f90`: program to explore the arguments of level 1 `sdot`
    calls.
+1. `ddot_timing.f90`: program to time difference between `ddot` and a loop-based
+   implementation.
 1. `CMakeLists.txt`: CMake file to build the applications.
