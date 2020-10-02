@@ -50,3 +50,4 @@ Note that these documents are not open access.
   * [Intel Fortran](https://software.intel.com/en-us/fortran-compilers-support/documentation)
   * [Fonts for editors](https://itnext.io/11-best-programming-fonts-724283a9ed57)
   * [Doxygen manual](https://www.doxygen.nl/manual/)
+  * [Intel® Math Kernel Library Link Line Advisor](https://software.intel.com/content/www/us/en/develop/articles/intel-mkl-link-line-advisor.html)
