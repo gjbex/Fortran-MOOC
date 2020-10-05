@@ -123,3 +123,5 @@ algorithms, i.e.,
 $$
     \vec{y} = \vec{y} + \alpha \vec{x}
 $$
+
+Note that BLAS function need to be declared as `external`.
