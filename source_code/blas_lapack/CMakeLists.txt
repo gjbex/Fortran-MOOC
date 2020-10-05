@@ -27,3 +27,6 @@ target_link_libraries(dot.exe PUBLIC ${BLAS_LIBRARIES})
 
 add_executable(ddot_timing.exe ddot_timing.f90)
 target_link_libraries(ddot_timing.exe PUBLIC ${BLAS_LIBRARIES})
+
+add_executable(gemv.exe gemv.f90 util_mod.f90)
+target_link_libraries(gemv.exe PUBLIC ${BLAS_LIBRARIES})

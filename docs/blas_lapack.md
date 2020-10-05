@@ -125,3 +125,35 @@ $$
 $$
 
 Note that BLAS function need to be declared as `external`.
+
+
+### BLAS level 2: matrix-vector operations
+
+An example of a level 2 operation is a matrix-vector product.  For instance,
+`sgemv` implements the product of a single precision real general matrix and a
+vector.  To be more precise, the result is given by:
+$$
+    \vec{y} = \alpha A \vec{x} + \beta \vec{y}
+$$
+or
+$$
+    \vec{y} = \alpha A' \vec{x} + \beta \vec{y},
+$$
+depending on the first argument given to `sgemv`.  The signature of the
+subroutine is
+
+~~~~fortan
+subroutine sgemv(<TRANS>, <M>, <N>, <alpha>, <A>, <LDA>, <x>, <INCX>, <beta>, <y>, <INCRY>)
+~~~~
+
+The value of `<TRANS>` can be `'t'` or `'c'` to transpose or take the complex
+conjugate from `<A>` respectively, or `'n'` to use `<A>` as is.  `<M>` and `<N>`
+are the number of rows and columns of `<A>` respectively.  `<A>` is a single
+precision real two-dimensional array.  `<LDA>` is the number of rows of `<A>`.
+`<x>` and `<y>` are single precision real one-dimensional arrays.  `<INCX>` and
+`<INCY>` are typically equal to 1.  `<alpha>` and `<beta>` are single precision
+real values.  If `<beta>` is zero, `<y>` does not need to be initialized.
+
+Specific implementation of this operation are defined for special cases for
+$$A$$, e.g., when $$A$$ is a banded, symmetric, symmetric banded or triangular
+matrix.

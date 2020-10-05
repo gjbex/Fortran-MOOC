@@ -20,4 +20,5 @@ illustrations of their use.
    calls.
 1. `ddot_timing.f90`: program to time difference between `ddot` and a loop-based
    implementation.
+1. `gemv.f90`: program to illustrate matrix-vector product.
 1. `CMakeLists.txt`: CMake file to build the applications.
