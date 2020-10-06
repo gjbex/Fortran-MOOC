@@ -21,4 +21,6 @@ illustrations of their use.
 1. `ddot_timing.f90`: program to time difference between `ddot` and a loop-based
    implementation.
 1. `gemv.f90`: program to illustrate matrix-vector product.
+1. `gemv_vs_trmv.f90`: program to time `sgemv` versus `strmv` for triangular
+   matrices.
 1. `CMakeLists.txt`: CMake file to build the applications.
