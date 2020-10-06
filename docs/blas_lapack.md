@@ -168,3 +168,33 @@ $$
     A = \alpha \left\( \vec{x} \otimes \vec{y}' + \vec{y} \otimes \vec{x}' \right\) + A
 $$
 respectively.
+
+
+### BLAS level 3: matrix-matrix operations
+
+Matrix-matrix multiplication is implemented by level 3 operations for general,
+symmetric and triangular matrices.  For instance, `sgemm` implements a matrix-matrix
+multiplication for two-dimensional real arrays with single precision values.
+
+~~~~fortran
+...
+real, dimension(M, K) :: A
+real, dimension(K, N) :: B
+real, dimension(M, N) :: C
+real :: alpha, beta
+...
+call sgemm('n', 'n', M, N, K, alpha, A, K, B, N, beta, C, M)
+...
+~~~~
+The first two arguments specify which operation should be performed on the
+matrices `A` and `B` respectively. This can be `'n'` (none), `'t'` (transpose)
+or `'c'` conjugate complex.
+The sizes of the matrices are given next, `A` is an `M` by `K` matrix, `B` is
+`K` by `N` and `C` is `M` by `N`.  The operation performed is
+$$
+    C = \alpha \textrm{op}(A) \cdot \textrm{op}(B) + \beta C
+$$
+
+Other operation implemented in the level 3 BLAS library rank-$$k$$ symmetric
+updates, and solving sets of triangular linear equations with multiple
+right-hand sides.
