@@ -12,6 +12,7 @@ add_executable(no_blas_probabilities.exe no_blas_probabilities.f90 init_mod.f90)
 
 set(BLA_VENDOR OpenBLAS)
 find_package(BLAS REQUIRED)
+find_package(LAPACK REQUIRED)
 
 add_executable(blas_probabilities.exe blas_probabilities.f90 init_mod.f90)
 target_link_libraries(blas_probabilities.exe PUBLIC ${BLAS_LIBRARIES})
@@ -36,3 +37,6 @@ target_link_libraries(gemv_vs_trmv.exe PUBLIC ${BLAS_LIBRARIES})
 
 add_executable(syr.exe syr.f90 util_mod.f90)
 target_link_libraries(syr.exe PUBLIC ${BLAS_LIBRARIES})
+
+add_executable(svd.exe svd.f90 util_mod.f90)
+target_link_libraries(svd.exe PUBLIC ${BLAS_LIBRARIES} ${LAPACK_LIBRARIES})

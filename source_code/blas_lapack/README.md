@@ -24,5 +24,6 @@ illustrations of their use.
 1. `gemv_vs_trmv.f90`: program to time `sgemv` versus `strmv` for triangular
    matrices.
 1. `syr.f90`: program to illustrate level 2 symmetric rank 1 operation.
+1. `svd.f90`: program to illustrate LAPACK's singular value decomposition.
 1. `CMakeLists.txt`: CMake file to build the applications.
 1. `blas95`: illustration of using the BLAS95 interfaces.
