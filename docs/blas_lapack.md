@@ -222,6 +222,38 @@ It would lead us too far to go into all the algorithms implemented in LAPACK,
 so we will just present some examples.
 
 
+### Solving sets of linear equations
+
+Solving a set of $$n$$ linear equations in $$n$$ unknowns, given by
+$$A \cdot X = B$$ where $$A$$ is an $$n \times n$$ matrix and $$X$$ and $$B$$
+are $$n \times m$$ matrices.  If $$m > 1$$, the algorithms will solve $$m$$
+sets of equations.
+
+For general single precision real matrices `A` and `B`, the subroutine is
+`sgesv`.  In the code below, `n_matrix` represents the number of rows and
+columns of $$A$$, and `nr_rhs` the number of columns of `B` which has `n_matrix`
+rows.  Under the hood, the algorithm uses LU factorization, so a
+one-dimensional integer array of size `n_matrix` matrix is required to store
+the permutation indices.
+
+~~~~fortran
+call sgesv(n_matrix, nr_rhs, A, n_matrix, P, B, n_matrix, info)
+~~~~
+
+The arrays `A`,`B` and `P` have been declared in the usual way, and `info` will
+contain the status after the call, 0 if the algorithm succeeded, a negative
+value represents the index of an illegal argument passed to `sgesv` and a
+positive value indicates that there is no solution.
+
+The solution is stored in the array `B`, so that will contain the values of
+$$X$$.  The  original array `A` will be overwritten by the $$U$$ and $$L$$
+matrices of the LU factorization.
+
+For more information on LU factorization, you can consult a good text book on
+applied linear algebra, or
+[Wikipedia](https://en.wikipedia.org/wiki/LU_decomposition).
+
+
 ### Singular value decomposition
 
 The singular value decomposition of an $$m \times n$$  matrix $$M$$ is given by

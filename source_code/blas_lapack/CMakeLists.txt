@@ -40,3 +40,6 @@ target_link_libraries(syr.exe PUBLIC ${BLAS_LIBRARIES})
 
 add_executable(svd.exe svd.f90 util_mod.f90)
 target_link_libraries(svd.exe PUBLIC ${BLAS_LIBRARIES} ${LAPACK_LIBRARIES})
+
+add_executable(sv.exe sv.f90 util_mod.f90)
+target_link_libraries(sv.exe PUBLIC ${BLAS_LIBRARIES} ${LAPACK_LIBRARIES})

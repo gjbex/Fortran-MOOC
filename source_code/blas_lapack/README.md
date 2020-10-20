@@ -25,5 +25,7 @@ illustrations of their use.
    matrices.
 1. `syr.f90`: program to illustrate level 2 symmetric rank 1 operation.
 1. `svd.f90`: program to illustrate LAPACK's singular value decomposition.
+1. `sv.f90`: program to illustrate LAPACK's subroutine to solve sets of linear
+   equations.
 1. `CMakeLists.txt`: CMake file to build the applications.
 1. `blas95`: illustration of using the BLAS95 interfaces.
