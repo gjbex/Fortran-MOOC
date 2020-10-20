@@ -198,3 +198,80 @@ $$
 Other operation implemented in the level 3 BLAS library rank-$$k$$ symmetric
 updates, and solving sets of triangular linear equations with multiple
 right-hand sides.
+
+
+## LAPACK
+
+LAPACK implements some widely used algorithms for linear algebra for solving
+sets of linear equations, linear least square methods, eigenvalue problems,
+singular value decomposition and matrix factorization.  Like BLAS, it has
+implementation for real and complex matrices, single and double precision.
+
+LAPACK is available under an open source BSD license, but Intel's MKL library
+offers an implementation as well.  Since LAPACK is built on top of BLAS, its
+performance depends critically on that of the BLAS library implementation.
+
+The naming of LAPACK procedures is similar to BLAS in that the name of a
+procedure indicates both the type of data in the matrices (real or complex,
+single or double precision) and the type of matrix (general, bidiagonal, 
+symmetric and so on).  The name ends with a one to three letter identification
+of the algorithm.  For instance, `sgesvd` would be s singular value
+decomposition (`svd`) of a general (`ge`) single precision (`s`) matrix.
+
+It would lead us too far to go into all the algorithms implemented in LAPACK,
+so we will just present some examples.
+
+
+### Singular value decomposition
+
+The singular value decomposition of an $$m \times n$$  matrix $$M$$ is given by
+$$U \cdot \Sigma \cdot V^{*}$$.   Here $$U$$ is an $$m \times m$$ matrix and
+$$V$$ is $$n \times n$$ matrix, both unitary and their columns form an
+orthogonal basis.  The matrix $$\Sigma$$ is a diagonal $$m \times n$$ matrix
+with non-negative elements.  The LAPACK implementation returns these in
+descending order.  If $$M$$ is real-valued, so are $$U$$ and $$V$$, and
+$$V^* = V^t$$.
+
+You can find more information about singular value decomposition and its
+applications in any good book on numerical methods but for a quick introduction
+[Wikipedia](https://en.wikipedia.org/wiki/Singular_value_decomposition) will
+serve.
+
+By way of example, we will consider the `sgesvd` subroutine to compute the
+singular value decomposition of a general single precision real matrix.
+The arrays `M`, `U` and `VT` are declared as you would expect.  The number of
+rows of `M` is `nr_rows`, its number of columns is `nr_cols`.  Since $$\Sigma$$
+is a diagonal matrix, it is represented as a one-dimensional array `S` with a
+size that is the minimum of the number of rows and columns of `M` so as not to
+waste memory.
+
+The implementation of the SVD algorithm requires working space that can be
+determined by a call to the `sgesvd` subroutine with the argument representing
+the size of the work array set to -1.  The work array should have at least size
+1 at that point to accommodate the required size as a result of the call.
+It is convenient to use an allocatable array so that it can be sized
+dynamically as required.
+
+~~~~fortran
+real, dimension(:), allocatable :: work
+integer :: work_size, info, istat
+...
+allocate(work(1))
+info = 0
+call sgesvd('A', 'A', nr_rows, nr_cols, M, nr_rows, S, &
+            U, nr_rows, VT, nr_cols, work, -1, info)
+work_size = int(work(1)) + 1
+allocate(work(work_size), stat=istat)
+~~~~
+
+Most of these arguments are self-explanatory, the first two indicate what
+should be returned in the matrices `U` and `VT`.   `'A'` means that all columns
+should be returned.  You can read `sgesvd`'s documentation for other options.
+
+After this preparatory step, the actual work can be done by a second call to
+`sgesvd`.
+
+~~~~fortran
+call sgesvd('A', 'A', nr_rows, nr_cols, M, nr_rows, S, &
+            U, nr_rows, VT, nr_cols, work, work_size, info)
+~~~~
