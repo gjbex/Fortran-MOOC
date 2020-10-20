@@ -3,55 +3,55 @@ program svd
     use, intrinsic :: iso_fortran_env, only : error_unit
     implicit none
     integer, parameter :: nr_rows = 3, nr_cols = 4
-    real, dimension(nr_rows, nr_cols) :: A, A_orig, Sigma, tmp
+    real, dimension(nr_rows, nr_cols) :: M, M_orig, Sigma, tmp
     real, dimension(nr_rows, nr_rows) :: U
     real, dimension(nr_cols, nr_cols) :: VT
     real, dimension(min(nr_rows, nr_cols)) :: S
     real, dimension(:), allocatable :: work
-    integer :: istat, lwork, info
+    integer :: istat, work_size, info
 
-    call random_number(A)
-    A_orig = A
+    call random_number(M)
+    M_orig = M
 
-    ! compute full SVD of A
+    ! compute full SVD of M
     allocate(work(1))
     info = 0
-    call sgesvd('A', 'A', nr_rows, nr_cols, A, nr_rows, S, &
+    call sgesvd('A', 'A', nr_rows, nr_cols, M, nr_rows, S, &
                 U, nr_rows, VT, nr_cols, work, -1, info)
-    lwork = int(work(1)) + 1
-    write (unit=error_unit, fmt="(A, I0, A)") &
-        "work size is ", lwork, " double"
+    work_size = int(work(1)) + 1
+    write (unit=error_unit, fmt='(A, I0, A)') &
+        'work size is ', work_size, ' double'
     deallocate(work)
-    allocate(work(lwork), stat=istat)
+    allocate(work(work_size), stat=istat)
     if (istat /= 0) then
-        write (unit=error_unit, fmt="(A)") "can not allocate work array"
+        write (unit=error_unit, fmt='(A)') 'can not allocate work array'
         stop
     end if
-    call sgesvd('A', 'A', nr_rows, nr_cols, A, nr_rows, S, &
-                U, nr_rows, VT, nr_cols, work, lwork, info)
+    call sgesvd('A', 'A', nr_rows, nr_cols, M, nr_rows, S, &
+                U, nr_rows, VT, nr_cols, work, work_size, info)
 
     call compute_sigma(S, Sigma)
 
     ! print results if verbose
-    print "(A)", "U"
+    print '(A)', 'U'
     call print_matrix(U)
-    print "(A)", "Sigma"
+    print '(A)', 'Sigma'
     call print_matrix(Sigma)
-    print "(A)", "V^t"
+    print '(A)', 'V^t'
     call print_matrix(VT)
 
     call sgemm('N', 'N', nr_rows, nr_cols, nr_rows, 1.0, U, nr_rows, &
                Sigma, nr_rows, 0.0, tmp, nr_rows)
     call sgemm('N', 'N', nr_rows, nr_cols, nr_cols, 1.0, tmp, nr_rows, &
-               VT, nr_cols, 0.0, A, nr_rows)
+               VT, nr_cols, 0.0, M, nr_rows)
 
-    print "(A)", "A"
-    call print_matrix(A)
-    print "(A)", "orig. A"
-    call print_matrix(A_orig)
+    print '(A)', 'M'
+    call print_matrix(M)
+    print '(A)', 'orig. M'
+    call print_matrix(M_orig)
 
     ! compute and print relative error
-    print "(A, E10.3)", 'relative error = ', compute_error(A_orig, A)
+    print '(A, E10.3)', 'relative error = ', compute_error(M_orig, M)
 
 contains
 
