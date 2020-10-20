@@ -268,6 +268,10 @@ Most of these arguments are self-explanatory, the first two indicate what
 should be returned in the matrices `U` and `VT`.   `'A'` means that all columns
 should be returned.  You can read `sgesvd`'s documentation for other options.
 
+The argument `info` will be set to 0 upon success.  A negative value indicates
+the index of an illegal argument to `sgesvd`, a positive value signals that the
+algorithm did not converge (relevant only for the second call to `sgesvd`).
+
 After this preparatory step, the actual work can be done by a second call to
 `sgesvd`.
 
