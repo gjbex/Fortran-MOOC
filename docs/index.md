@@ -1,5 +1,7 @@
 # Fortran programming
 
+[Course information](meta_info.md)
+
 ## Reading material
 
 1. [Hello Fortran](hello_fortran.md)
