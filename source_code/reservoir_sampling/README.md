@@ -1,4 +1,4 @@
-# Resesrvoir sampling
+# Reservoir sampling
 
 Reservoir sampling is a useful randomized algorithm to get a representative
 of a population of unknown size that is presented as a data stream.
