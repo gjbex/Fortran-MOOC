@@ -10,3 +10,4 @@ add_compile_options(-Wall -Wextra)
 
 add_executable(random_numbers.exe random_numbers.f90)
 add_executable(reproduction.exe reproduction.f90)
+add_executable(random_integers.exe random_integers.f90)

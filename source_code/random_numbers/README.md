@@ -10,4 +10,6 @@ of other programming languages, there are some particularities.
    for seeding the RNG, how to get the current values, as well as how to set them.
 1. `reproduction.f90`: program to illustrate possible approach to reproducible
    results when using a random number generator.
+1. `random_integers.f90`: program to generate a sequence of random integers between
+   a lower and an upper value (inclusive).
 1. `CMakeLists.txt`: CMake file to build the applications.
