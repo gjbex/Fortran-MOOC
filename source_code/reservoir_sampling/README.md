@@ -64,3 +64,8 @@ used.
 ```bash
 $ ./show_distrubution.sh  sample.txt
 ```
+
+## Additional information
+
+* [Reservoir sampling](https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle)
+* [Fisher-Yates random shuffle](https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle)
