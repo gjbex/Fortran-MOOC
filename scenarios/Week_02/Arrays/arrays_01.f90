@@ -1,8 +1,8 @@
 program arrays
     implicit none
-    real, dimension(3) :: coords
+    real, dimension(3) :: vector
 
-    coords(2) = 5.7
-    coords(1) = 2*coords(2)
-    print *, coords
+    vector(2) = 5.7
+    vector(1) = 2*vector(2)
+    print *, vector
 end program arrays
