@@ -19,4 +19,5 @@ program arrays
     do i = 1, size(matrix3, 1)
         print *, matrix3(i, :)
     end do
+    print *, matrix1 + matrix2
 end program arrays
