@@ -1,5 +1,6 @@
 program files
-    use, intrinsic :: iso_fortran_env, only : error_unit, output_unit
+    use, intrinsic :: iso_fortran_env, only : error_unit, output_unit, &
+                                              iostat_end
     implicit none
     integer, parameter :: nr_values = 10
     character(len=50), parameter :: filename = 'data.txt'
@@ -16,7 +17,7 @@ program files
     end if
     do
         read (unit=unit_nr, fmt=*, iostat=stat, iomsg=msg) x
-        if (stat < 0) then
+        if (stat == iostat_end) then
             exit
         else if (stat > 0) then
             write (unit=error_unit,fmt='(A)') msg
