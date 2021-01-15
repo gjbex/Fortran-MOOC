@@ -21,7 +21,16 @@ A double precision floating point value in Fortran is stored using
 ## Question 3
 
 Assuming we are using GCC 10.x, which of the following is correct?
-1. `real :: x = 1.0/0.0` results in a compile time error. [Indeed, the compiler will catch this, experiment how you can deceive it.] [x]
-1. `real :: x = sqrt(-1.0)` results in a runtime error. [This will be caught by the compiler, try to deceive it.]
-1. For `real :: x = 1/3` , `x` will have the value 0.33333... [No, this is an integer division.]
-1. If `x` and `y` are declared `real`, then `x = exp(27); y = exp(x)` will result in `y` having the value `NaN`. [No, this would evaluate to Infinity.]
+1. The declaration `real :: x = 1.0/0.0` results in a compile time error. [Indeed, the compiler will catch this, experiment how you can deceive it.] [x]
+1. Using  the variable `x` declared as `real :: x = sqrt(-1.0)` results in a runtime error. [This will be caught by the compiler, try to deceive it.]
+1. For the declationn `real :: x = 1/3` , `x` will have the value will be approximately 0.33333. [No, this is an integer division.]
+1. The declationn `real :: x = exp(3)` will result in a compilation error. [Indeed, the argument for the intrinsic function `x` must be be real or complex.] [x]
+
+
+## Question 4
+
+To assign a complex constant to a variable `z` in Fortran, you use
+1. `z = 2.0 + 3.0i` [That would work in Python, not Fortran.]
+1. `z = complex(2.0, 3.0)` [`complex` is the name of the type, you need an intrinsic function with a different name.]
+1. `z = cmplx(2.0, 3.0)` [Indeed, this function creates a complex number.] [x]
+1. `z = 2.0 + 3.0*I` [This would reselt in interesting bugs if the variable `i` is declared.]
