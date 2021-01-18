@@ -53,6 +53,6 @@ integer function fac(n)
 end function fac
 ~~~~
 1. 5 [No, try it out.]
-1. There is a compile error since you can't change the value of a function argument. [No, thry it out.]
+1. There is a compile error since you can't change the value of a function argument. [No, try it out.]
 1. 1 [Indeed, variables are passed by reference in Fortran.] [x]
 1. 120 [No, try it out.]

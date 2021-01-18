@@ -1,4 +1,4 @@
-# Conditoinal statements
+# Conditional statements
 
 ## Question 1
 
