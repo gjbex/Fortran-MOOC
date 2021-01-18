@@ -57,3 +57,45 @@ do i = 1, N &
 ~~~~
 1. yes [Check the syntax again.]
 1. no [Indeed, the parenthesis are missing.] [x]
+
+
+## Question 6
+
+How many iteration will be executed by the iteration statement below?
+~~~~fortran
+do i = 1, 5, 3
+    print *, i
+end do
+~~~~
+1. 5 [No, try it out.]
+1. 2 [Indeed, for `i = 1` and `i = 4`.] [x]
+1. 1 [No, try it out.]
+1. 3 [No, try it out.]
+
+
+## Question 7
+
+How many iteration will be executed by the iteration statement below?
+~~~~fortran
+do i = 5, 5, 2
+    print *, i
+end do
+~~~~
+1. 5 [No, try it out.]
+1. 2 [No, try it out.]
+1. 1 [Indeed, for `i = 5`.] [x]
+1. 0 [No, try it out.]
+
+
+## Question 8
+
+How many iteration will be executed by the iteration statement below?
+~~~~fortran
+do i = 5, 3
+    print *, i
+end do
+~~~~
+1. 5 [No, try it out.]
+1. 3 [No, try it out.]
+1. 0 [Indeed, no iterations are executed.] [x]
+1. You get a compilation error [No, try it out.]
