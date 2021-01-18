@@ -51,3 +51,13 @@ end if
 1. `x = x - 3` [not really, check gain.]
 1. neither `x = x + 3` nor `x = x - 3` [Indeed, since `x` is less than or equal to 5.] [x]
 1. both `x = x + 3` and `x = 3 - 3` will be executed [That would be very strange since they and if-statements is a branching statement.]
+
+
+## Question 5
+
+The following statement is syntactically correct.
+~~~~fortran
+if (x > 5) then x = x + 3
+~~~~
+1. yes [Check of a logical if-statement.]
+1. no [The syntax of logical and block if-statement are being mixed here.] [x]
