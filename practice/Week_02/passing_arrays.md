@@ -2,7 +2,7 @@
 
 ## Question 1
 
-cosider the following subroutine:
+consider the following subroutine:
 ~~~~fortran
 subroutine print_array(data)
     implicit none
@@ -20,7 +20,7 @@ When you call this subroutine with an array declared as `real, dimension(4) :: x
 
 ## Question 2
 
-cosider the following subroutine:
+consider the following subroutine:
 ~~~~fortran
 subroutine print_array(data)
     implicit none
