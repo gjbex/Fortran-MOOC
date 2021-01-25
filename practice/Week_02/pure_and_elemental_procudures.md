@@ -57,3 +57,12 @@ end function scale
 1. This will not compile since the elemental function is called with two arrays as arguments. [No, you can call an elemental function with multiple arguments that are arrays.]
 1. The result is an array with element 5, 2, 15, 4, 25 [Indeed.] [x]
 1. This will result in a segmentation fault. [No, it will run just fine.]
+
+
+## Question 4
+
+Which of the following statements is correct?
+1. Each pure procedure is elemental. [No, for a procedure to be elemental, it must meet stricter criteria than a pure procedure.]
+1. A pure procedure should have only arguments with intent `in` or value arguments. [No, a pure procedure can have arguments with intent `inout` or `out`.]
+1. An elemental procedure can not have an arrays as an argument. [Indeed, it can't.] [x]
+1. A pure procedure can not have a print statement. [Indeed, that would be a side effect.] [x]
