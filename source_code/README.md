@@ -78,3 +78,4 @@ code examples used in videos and reading material.
    computations.
 1. `coarrays`: illustration of using coarrays for shared and distributed
    computations.
+1. `logistic_map`: computing the logistic map using an elemental function.
