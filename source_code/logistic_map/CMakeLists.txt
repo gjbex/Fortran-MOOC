@@ -9,3 +9,4 @@ file(MAKE_DIRECTORY ${CMAKE_Fortran_MODULE_DIRECTORY})
 add_compile_options(-Wall -Wextra)
 
 add_executable(logistic_map.exe logistic_map.f90)
+add_executable(logistic_map_2.exe logistic_map_2.f90 meshgrid_mod.f90)
