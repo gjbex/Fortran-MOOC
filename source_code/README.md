@@ -79,3 +79,4 @@ code examples used in videos and reading material.
 1. `coarrays`: illustration of using coarrays for shared and distributed
    computations.
 1. `logistic_map`: computing the logistic map using an elemental function.
+1. `block_matrices`: illustration of using a forall statement to initizlize a block matrix.
