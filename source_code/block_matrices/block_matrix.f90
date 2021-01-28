@@ -2,7 +2,6 @@ program block_matrix
     implicit none
     integer :: matrix_size, block_size
     integer, dimension(:, :), allocatable :: data
-    integer :: i
 
     call get_parameters(matrix_size, block_size)
     data = create_block_matrix(matrix_size, block_size) 
@@ -40,7 +39,7 @@ contains
         implicit none
         integer, value :: matrix_size, block_size
         integer, dimension(:, :), allocatable :: B
-        integer :: i, j, k, block_min, block_max, block_mid, status
+        integer :: i, j, k, status
 
         allocate (B(matrix_size, matrix_size), stat=status)
         if (status /= 0) then
@@ -49,11 +48,10 @@ contains
             stop 2
         end if
         B = 0
-        block_min = -block_size/2
-        block_max = block_min + block_size - 1
-        block_mid = block_size/2 + 1
-        forall (i = block_mid:size(B, 1):block_size, &
-                j = block_min:block_max, k = block_min:block_max)
+        forall (i = 1:size(B, 1):block_size, &
+                j = 0:block_size - 1, &
+                k = 0:block_size - 1, &
+                i + j <= size(B, 1) .and. i + k <= size(B, 2))
             B(i + j, i + k) = 1
         end forall
     end function create_block_matrix
