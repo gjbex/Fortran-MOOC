@@ -10,3 +10,4 @@ add_compile_options(-Wall -Wextra)
 
 add_executable(logistic_map.exe logistic_map.f90)
 add_executable(logistic_map_2.exe logistic_map_2.f90 meshgrid_mod.f90)
+add_executable(logistic_function.exe logistic_function.f90)
