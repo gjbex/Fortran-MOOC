@@ -80,3 +80,5 @@ code examples used in videos and reading material.
    computations.
 1. `logistic_map`: computing the logistic map using an elemental function.
 1. `block_matrices`: illustration of using a forall statement to initizlize a block matrix.
+1. `dynamic_libraries`: illustrates using dynamic libraries and executing system
+   commands.
