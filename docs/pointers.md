@@ -154,7 +154,7 @@ If a pointer is associated to an array, it can be passed to a procedure that
 expects an array of that type and shape transparently, i.e., the procedure
 is declared with standard array arguments.
 
-Another interesting application is to associate a pointer with an array slice.
+Another interesting application is to associate a pointer with a subarray.
 The following code fragment illustrates this.
 
 ~~~~fortran
