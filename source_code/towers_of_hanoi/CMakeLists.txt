@@ -9,3 +9,4 @@ file(MAKE_DIRECTORY ${CMAKE_Fortran_MODULE_DIRECTORY})
 add_compile_options(-Wall -Wextra)
 
 add_executable(towers_of_hanoi.exe towers_of_hanoi.f90 towers_mod.f90)
+add_executable(random_towers.exe random_towers.f90 towers_mod.f90)
