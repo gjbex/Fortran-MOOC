@@ -1,8 +1,10 @@
 program random_towers
     use, intrinsic :: iso_fortran_env, only : error_unit
-    use :: towers_mod, only : init_stacks, get_stack_height, move_disk, print_stacks
+    use :: towers_mod, only : init_stacks, get_stack_height, move_disk, &
+                              are_valid_stacks, print_stacks
     implicit none
     integer, parameter :: dest_stack = 2
+    logical, parameter :: is_paranoid = .false., is_verbose = .false.
     integer :: nr_disks, max_nr_moves, nr_moves = 0, from, to, i
     integer, dimension(:, :), allocatable :: stacks
 
@@ -13,8 +15,18 @@ program random_towers
         if (is_legal_move(stacks, from, to)) then
             call move_disk(stacks, from, to)
             nr_moves = nr_moves + 1
-            if (mod(nr_moves, 1000) == 0) &
-                write (unit=error_unit, fmt='(A, I0)') 'move ', nr_moves
+            if (is_verbose) then
+                if (mod(nr_moves, 1000) == 0) &
+                    write (unit=error_unit, fmt='(A, I0)') 'move ', nr_moves
+            end if
+            if (is_paranoid) then
+                if (.not. are_valid_stacks(stacks)) then
+                    write (unit=error_unit, fmt='(A)') &
+                        'error: invalid configuration'
+                    call print_stacks(stacks)
+                    stop 10
+                end if
+            end if
             if (all(stacks(dest_stack, :) == [ (i, i=nr_disks, 0, -1) ])) exit
         end if
     end do

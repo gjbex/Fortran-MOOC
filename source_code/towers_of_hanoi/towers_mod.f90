@@ -52,6 +52,62 @@ contains
         stacks(to, pos) = disk
     end subroutine move_disk
 
+    function are_valid_stacks(stacks) result(are_valid)
+        implicit none
+        integer, dimension(:, :), intent(in) :: stacks
+        logical :: are_valid
+        integer :: i, j, disk, status
+        logical, dimension(:), allocatable :: disk_presence
+        
+        allocate (disk_presence(size(stacks, 2) - 1), stat=status)
+        if (status /= 0) then
+            write (unit=error_unit, fmt='(A)') 'error: can not allocate array'
+            stop 3
+        end if
+        disk_presence = .false.
+        are_valid = .true.
+        ! check whether no larger disk is on top of a smaller one on all stacks
+        do i = 1, size(stacks, 1)
+            do j = 2, size(stacks, 2)
+                if (stacks(i, j - 1) < stacks(i, j)) then
+                    write (unit=error_unit, fmt='(A, I0, A, I0)') &
+                        'error: disks in inappropriate positions on stack ', i, &
+                        ' at position ', j
+                    are_valid = .false.
+                    return
+                end if
+            end do
+        end do
+        do i = 1, size(stacks, 1)
+            do j = 1, size(stacks, 2)
+                disk = stacks(i, j)
+                if (disk < 0 .or. disk > size(disk_presence)) then
+                    write (unit=error_unit, fmt='(A, I0, A)') &
+                        'error: disk ', disk, ' is not legal'
+                    are_valid = .false.
+                    return
+                end if
+                if (disk > 0) then
+                    if (disk_presence(disk)) then
+                        write (unit=error_unit, fmt='(A, I0, A)') &
+                            'error: disk ', disk, ' occurs multiple times'
+                        are_valid = .false.
+                        return
+                    end if
+                    disk_presence(disk) = .true.
+                end if
+            end do
+        end do
+        if (.not. all(disk_presence)) then
+            write (unit=error_unit, fmt='(A)') &
+                'error: not all disks are present'
+            are_valid = .false.
+            return
+        end if
+        deallocate (disk_presence)
+
+    end function are_valid_stacks
+
     subroutine print_stacks(stacks)
         implicit none
         integer, dimension(:, :), intent(in) :: stacks
