@@ -1,6 +1,6 @@
 program towers_of_hanoi
     use, intrinsic :: iso_fortran_env, only : error_unit
-    use :: towers_mod, only : init_stacks, get_stack_height, print_stacks
+    use :: towers_mod, only : init_stacks, move_disk, print_stacks
     implicit none
     integer :: nr_disks, nr_moves = 0
     integer, dimension(:, :), allocatable :: stacks
@@ -27,14 +27,10 @@ contains
         integer, dimension(:, :), intent(inout) :: stacks
         integer, value :: nr_disks, from, to
         integer, intent(inout) :: nr_moves
-        integer :: aux, disk, pos
+        integer :: aux
 
         if (nr_disks == 1) then
-            pos = get_stack_height(stacks(from, :))
-            disk = stacks(from, pos)
-            stacks(from, pos) = 0
-            pos = get_stack_height(stacks(to, :)) + 1
-            stacks(to, pos) = disk
+            call move_disk(stacks, from, to)
             call print_stacks(stacks)
             nr_moves = nr_moves + 1
         else

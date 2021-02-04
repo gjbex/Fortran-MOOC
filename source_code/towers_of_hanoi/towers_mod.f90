@@ -2,7 +2,7 @@ module towers_mod
     use, intrinsic :: iso_fortran_env, only : error_unit
     implicit none
 
-    public :: init_stacks, get_stack_height, print_stacks
+    public :: init_stacks, get_stack_height, move_disk, print_stacks
 
 contains
 
@@ -38,6 +38,19 @@ contains
 
         height = findloc(stack, 0, dim=1) - 1
     end function get_stack_height
+
+    subroutine move_disk(stacks, from, to)
+        implicit none
+        integer, dimension(:, :), intent(inout) :: stacks
+        integer, value :: from, to
+        integer :: pos, disk
+
+        pos = get_stack_height(stacks(from, :))
+        disk = stacks(from, pos)
+        stacks(from, pos) = 0
+        pos = get_stack_height(stacks(to, :)) + 1
+        stacks(to, pos) = disk
+    end subroutine move_disk
 
     subroutine print_stacks(stacks)
         implicit none
