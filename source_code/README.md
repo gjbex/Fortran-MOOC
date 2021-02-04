@@ -82,3 +82,4 @@ code examples used in videos and reading material.
 1. `block_matrices`: illustration of using a forall statement to initizlize a block matrix.
 1. `dynamic_libraries`: illustrates using dynamic libraries and executing system
    commands.
+1. `towers_of_hanoi`: illustration of recursion on the Towers of Hanoi problem.
