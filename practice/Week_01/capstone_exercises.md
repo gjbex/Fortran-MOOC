@@ -1,4 +1,4 @@
-# Capstone exercises
+# Capstone exercises week 1
 
 ## Question 1
 
