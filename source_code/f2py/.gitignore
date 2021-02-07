@@ -1,0 +1,3 @@
+*.so
+functions.f90
+.ipynb_checkpoints

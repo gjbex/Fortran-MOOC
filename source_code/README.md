@@ -83,3 +83,4 @@ code examples used in videos and reading material.
 1. `dynamic_libraries`: illustrates using dynamic libraries and executing system
    commands.
 1. `towers_of_hanoi`: illustration of recursion on the Towers of Hanoi problem.
+1. `f2py`: illustration of using f2py.
