@@ -41,6 +41,11 @@ RUN apt-get update -y && \
 
 RUN apt-get update -y && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+        doxygen && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN apt-get update -y && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
         libgsl-dev \
         libhdf5-dev \
         libhdf5-fortran-102 \

@@ -55,6 +55,12 @@ From: ubuntu:21.04
 %post
     apt-get update -y
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+        doxygen
+    rm -rf /var/lib/apt/lists/*
+
+%post
+    apt-get update -y
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
         libgsl-dev \
         libhdf5-dev \
         libhdf5-fortran-102 \

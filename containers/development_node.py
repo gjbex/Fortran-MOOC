@@ -26,6 +26,9 @@ Stage0 += apt_get(ospackages=['libopenmpi-dev', 'openmpi-common', 'openmpi-bin']
 # Install debugging tools.
 Stage0 += apt_get(ospackages=['gdb', 'valgrind', 'strace'])
 
+# Installing documentation generation
+Stage0 += apt_get(ospackages=['doxygen'])
+
 # Installing scientific libraries
 Stage0 += apt_get(ospackages=['libgsl-dev', 'libopenblas-dev', 'liblapack-dev',
                               'libhdf5-dev', 'libhdf5-fortran-102'])
