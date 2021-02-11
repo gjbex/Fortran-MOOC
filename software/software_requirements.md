@@ -30,6 +30,7 @@
 
 1. Python 3.6+
 1. numpy
+1. junpyter notebook
 
 ## Tools
 1. git
