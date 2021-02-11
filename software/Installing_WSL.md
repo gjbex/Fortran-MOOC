@@ -23,8 +23,11 @@ You will receive the message that no distribution is installed yet.
 Open the windows store and *download* Ubuntu 20.04 LTS
 When the installation is complete, click *Launch*.
 Since this is the first time you launched WSL, you are asked to create a new user account:
+
 `Enter new UNIX username:`
+
 `Enter new UNIX password:`
+
 `Retype new UNIX password:`
 
 #Tip:
