@@ -1,4 +1,4 @@
-#Installing Windows Subsystem Linux
+# Installing Windows Subsystem Linux
 
 **1.** 
 Open PowerShell as Administrator. This can be done through the start menu. 
@@ -30,7 +30,7 @@ Since this is the first time you launched WSL, you are asked to create a new use
 
 `Retype new UNIX password:`
 
-#Tip:
+## Tip:
 Accessing local files stored on your windows file system from WSL can be somewhat troublesome at first.
 You can navigate to a folder on the windows file system with 
 `cd /mnt/C/Users/...`
