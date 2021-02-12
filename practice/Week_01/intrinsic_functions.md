@@ -4,8 +4,8 @@
 
 Fortran has an intrinsic function to compute the error function, it is  called
 1. `error_function` [Good guess, but no, check https://gcc.gnu.org/onlinedocs/gfortran/Intrinsic-Procedures.html]
-1. 'erf` [Correct.] [x]
-1. `erfc` [Almost correct, the is the complementary error function.]
+1. `erf` [Correct.] [x]
+1. `erfc` [Almost correct, this is the complementary error function.]
 1. `error` [Good guess, but no, check https://gcc.gnu.org/onlinedocs/gfortran/Intrinsic-Procedures.html]
 
 
@@ -15,7 +15,7 @@ The function to strip white space from the end of a string is called
 1. `strip` [No, that would be Python.]
 1. `rtrim` [No, this is not a Fortran intrinsic function.]
 1. `rstrip` [No, that would be Python]
-1`. `trim` [Indeed, this function removes trailing whitespace characters from a string.] [x]
+1. `trim` [Indeed, this function removes trailing whitespace characters from a string.] [x]
 
 
 ## Question 3
