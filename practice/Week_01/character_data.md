@@ -12,10 +12,12 @@ When you declare a variable as `character(len=*) :: str = 'abcde'` in the progra
 
 When two variables are declared as `characber(len=5) :: s1 = 'abc', s2 = 'cde'` the concatenation of those string will be
 1. `'abccde'`
-1. ``abc  cde'`
+1. `'abc  cde'`
 1. `'abccde    '`
-1. `'abc  cde  '`
+1. `'abc  cde  '` [x]
 
+
+## Question 3
 
 The declaration `character(len=3) :: str = 'abcde'` will result in
 1. a compilation error since the string constant is too long to store in `str` [No, the compiler will happily accept this.]
