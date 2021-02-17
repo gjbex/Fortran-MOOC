@@ -9,7 +9,7 @@ while (i < 10) do
 end do
 ~~~~
 1. yes [Check the syntax again.]
-1. no [Indeed, the parenthesis are missing.] [x]
+1. no [Indeed, this looks fine, but it isn't, check the syntax.] [x]
 
 
 ## Question 2
@@ -20,8 +20,8 @@ do (i < 10) while
     x = f(x, i)
 end do
 ~~~~
-1. yes [Check the syntax again.]
-1. no [Indeed, the parenthesis are missing.] [x]
+1. yes [This is indeed correct.] [x]
+1. no [Are you sure this is not correct?]
 
 
 ## Question 3
@@ -33,7 +33,7 @@ do i = 1:N
 end do
 ~~~~
 1. yes [Check the syntax again.]
-1. no [Indeed, the parenthesis are missing.] [x]
+1. no [Indeed, this is not how the lower and upper limit are specified.] [x]
 
 
 ## Question 4
@@ -45,7 +45,7 @@ do i = 1, N
 end do
 ~~~~
 1. yes [Indeed, this syntax if correct.] [x]
-1. no [Check the syntax gain.]
+1. no [Check the syntax again.]
 
 
 ## Question 5
@@ -55,8 +55,8 @@ The following statement is syntactically correct.
 do i = 1, N &
     x = f(x, i)
 ~~~~
-1. yes [Check the syntax again.]
-1. no [Indeed, the parenthesis are missing.] [x]
+1. yes [Check the syntax again, there is no such form of the do-loop.]
+1. no [Indeed, this will not compile.] [x]
 
 
 ## Question 6
