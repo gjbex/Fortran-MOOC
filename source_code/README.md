@@ -84,3 +84,4 @@ code examples used in videos and reading material.
    commands.
 1. `towers_of_hanoi`: illustration of recursion on the Towers of Hanoi problem.
 1. `f2py`: illustration of using f2py.
+1. `CMakeLists.txt`: CMake file to build all applications.
