@@ -9,5 +9,5 @@ file(MAKE_DIRECTORY ${CMAKE_Fortran_MODULE_DIRECTORY})
 add_compile_options(-Wall -Wextra)
 
 find_package(MPI REQUIRED)
-add_executable(compute_pi.exe compute_pi.f90)
-target_link_libraries(compute_pi.exe PUBLIC MPI::MPI_Fortran)
+add_executable(compute_pi_mpi.exe compute_pi.f90)
+target_link_libraries(compute_pi_mpi.exe PUBLIC MPI::MPI_Fortran)

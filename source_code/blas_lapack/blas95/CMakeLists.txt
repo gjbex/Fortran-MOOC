@@ -8,12 +8,14 @@ file(MAKE_DIRECTORY ${CMAKE_Fortran_MODULE_DIRECTORY})
 
 add_compile_options(-Wall -Wextra)
 
-add_executable(no_blas_probabilities.exe no_blas_probabilities.f90 init_mod.f90)
-
 set(BLA_F95 ON)
 set(BLA_VENDOR Intel10_64lp)
-find_package(BLAS REQUIRED)
+find_package(BLAS)
 
-add_executable(dot_blas95.exe dot_blas95.f90)
-target_link_libraries(dot_blas95.exe PUBLIC ${BLAS95_LIBRARIES})
-target_compile_options(dot_blas95.exe PUBLIC ${BLAS_LINKER_FLAGS})
+if (BLAS_FOUND)
+    add_executable(dot_blas95.exe dot_blas95.f90)
+    target_link_libraries(dot_blas95.exe PUBLIC ${BLAS95_LIBRARIES})
+    target_compile_options(dot_blas95.exe PUBLIC ${BLAS_LINKER_FLAGS})
+else()
+    message(STATUS "BLAS95 interface not supported, ignoring project blas95")
+endif()

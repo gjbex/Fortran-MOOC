@@ -14,7 +14,7 @@ target_compile_options(create_lookup_table.exe PRIVATE -Wno-integer-division)
 add_custom_command(
     OUTPUT bitmanip_mod.f90
     COMMAND create_lookup_table.exe lookup_table.dat
-    COMMAND cpp -P -I${CMAKE_CURRENT_BINARY_DIR} -o bitmanip_mod.f90 ${CMAKE_SOURCE_DIR}/bitmanip_mod.F90
+    COMMAND cpp -P -I${CMAKE_CURRENT_BINARY_DIR} -o bitmanip_mod.f90 ${CMAKE_CURRENT_SOURCE_DIR}/bitmanip_mod.F90
     DEPENDS create_lookup_table.exe
 )
 

@@ -8,4 +8,4 @@ file(MAKE_DIRECTORY ${CMAKE_Fortran_MODULE_DIRECTORY})
 
 add_compile_options(-Wall -Wextra -mcmodel=large)
 
-add_executable(particle_array.exe particle_array.f90 particle_array_mod.f90)
+add_executable(particle_array_allocatable.exe particle_array.f90 particle_array_mod.f90)

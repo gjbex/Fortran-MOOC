@@ -17,8 +17,8 @@ find_package(LAPACK REQUIRED)
 add_executable(blas_probabilities.exe blas_probabilities.f90 init_mod.f90)
 target_link_libraries(blas_probabilities.exe PUBLIC ${BLAS_LIBRARIES})
 
-add_executable(normalize.exe normalize.f90)
-target_link_libraries(normalize.exe PUBLIC ${BLAS_LIBRARIES})
+add_executable(scal.exe scal.f90)
+target_link_libraries(scal.exe PUBLIC ${BLAS_LIBRARIES})
 
 add_executable(copy.exe copy.f90)
 target_link_libraries(copy.exe PUBLIC ${BLAS_LIBRARIES})
@@ -43,3 +43,5 @@ target_link_libraries(svd.exe PUBLIC ${BLAS_LIBRARIES} ${LAPACK_LIBRARIES})
 
 add_executable(sv.exe sv.f90 util_mod.f90)
 target_link_libraries(sv.exe PUBLIC ${BLAS_LIBRARIES} ${LAPACK_LIBRARIES})
+
+add_subdirectory(blas95)

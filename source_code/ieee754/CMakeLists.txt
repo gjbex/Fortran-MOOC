@@ -18,6 +18,6 @@ target_compile_options(trap_exceptions.exe PRIVATE -ffpe-trap=invalid,zero,overf
 add_executable(trap_underflow.exe next_up.f90)
 target_compile_options(trap_exceptions.exe PRIVATE -ffpe-trap=underflow)
 add_executable(exceptions.exe exceptions.f90)
-add_executable(logistic_map.exe logistic_map.f90)
+add_executable(logistic_map_no_fpe_trap.exe logistic_map.f90)
 add_executable(logistic_map_fpe_trap.exe logistic_map.f90)
 target_compile_options(logistic_map_fpe_trap.exe PRIVATE -ffpe-trap=invalid,zero,overflow)

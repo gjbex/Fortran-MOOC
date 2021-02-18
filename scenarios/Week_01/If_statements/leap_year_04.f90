@@ -15,9 +15,9 @@ contains
         if (mod(year, 4) == 0) then
             if (mod(year, 100) == 0) then
                 if (mod(year, 400) == 0) then
-                    is_leap_year = .false.
-                else
                     is_leap_year = .true.
+                else
+                    is_leap_year = .false.
                 end if
             else
                 is_leap_year = .true.

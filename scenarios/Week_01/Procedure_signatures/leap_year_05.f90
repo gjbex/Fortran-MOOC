@@ -6,7 +6,7 @@ program leap_year
     year = 1899
     print *, year, is_leap_year(year)
     print *, 'year is now', year
-    print *, 1448, is_leap_year(1448, has_error)
+    print *, 1448, is_leap_year(1448, has_error=has_error)
     if (has_error) &
         print *, 'opsie'
 
