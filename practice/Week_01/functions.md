@@ -3,6 +3,7 @@
 ## Question 1
 
 What will be returned by the function defined below when it is called with 5 as an argument?
+
 ~~~~fortran
 integer function f(n)
     integer :: n, i, fac
@@ -22,6 +23,7 @@ end function f
 ## Question 2
 
 What will be returned by the function defined below when it is called with 4.9 as an argument?
+
 ~~~~fortran
 integer function fac(n)
     integer :: n, i
@@ -41,6 +43,7 @@ end function fac
 ## Question 3
 
 When you call the function below with an argument declared as `integer :: p = 5`, what will the value of `p` be after that function call?
+
 ~~~~fortran
 integer function fac(n)
     integer :: n, i
