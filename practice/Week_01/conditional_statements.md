@@ -3,6 +3,7 @@
 ## Question 1
 
 The following statement is syntactically correct.
+
 ~~~~fortran
 if x > 5 then
     x = x + 3
@@ -15,6 +16,7 @@ end if
 ## Question 2
 
 The following statement is syntactically correct.
+
 ~~~~fortran
 if (x > 5)
     x = x + 3
@@ -26,6 +28,7 @@ if (x > 5)
 ## Question 3
 
 The following statement is syntactically correct.
+
 ~~~~fortran
 if (x > 5) then
     x = x + 3
@@ -38,6 +41,7 @@ end if
 ## Question 4
 
 If the value of `x` is 3 and the value of `y` is 2, which statement will be executed?
+
 ~~~~fortran
 if (x > 5) then
 if (y > 5) then
@@ -56,6 +60,7 @@ end if
 ## Question 5
 
 The following statement is syntactically correct.
+
 ~~~~fortran
 if (x > 5) then x = x + 3
 ~~~~
