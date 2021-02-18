@@ -29,7 +29,7 @@ The intrinsic function `sizeof` returns the size of its argument expressed in by
 ## Question 4
 
 The intrinsic procedure `new_line` can be used to retrieve a new line character.  It takes a character as an argument.  The argument
-1. will hold the new line character after the call to `new_line`. [No, c check the documentation]
+1. will hold the new line character after the call to `new_line`. [No, check the documentation]
 1. will determine the number of new line characters that are returned, i.e., as many as the length of the argument. [No, check the documentation.]
 1. will determine the kind of the character value that is returned. [Indeed] [x]
 
