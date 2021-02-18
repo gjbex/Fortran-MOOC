@@ -3,6 +3,7 @@
 ## Question 1
 
 The following statement is syntactically correct.
+
 ~~~~fortran
 while (i < 10) do
     x = f(x, i)
@@ -15,6 +16,7 @@ end do
 ## Question 2
 
 The following statement is syntactically correct.
+
 ~~~~fortran
 do (i < 10) while
     x = f(x, i)
@@ -27,6 +29,7 @@ end do
 ## Question 3
 
 The following statement is syntactically correct.
+
 ~~~~fortran
 do i = 1:N
     x = f(x, i)
@@ -39,6 +42,7 @@ end do
 ## Question 4
 
 The following statement is syntactically correct.
+
 ~~~~fortran
 do i = 1, N
     x = f(x, i)
@@ -51,6 +55,7 @@ end do
 ## Question 5
 
 The following statement is syntactically correct.
+
 ~~~~fortran
 do i = 1, N &
     x = f(x, i)
@@ -62,6 +67,7 @@ do i = 1, N &
 ## Question 6
 
 How many iteration will be executed by the iteration statement below?
+
 ~~~~fortran
 do i = 1, 5, 3
     print *, i
@@ -76,6 +82,7 @@ end do
 ## Question 7
 
 How many iteration will be executed by the iteration statement below?
+
 ~~~~fortran
 do i = 5, 5, 2
     print *, i
@@ -90,6 +97,7 @@ end do
 ## Question 8
 
 How many iteration will be executed by the iteration statement below?
+
 ~~~~fortran
 do i = 5, 3
     print *, i
