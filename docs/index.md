@@ -14,6 +14,7 @@
 1. [Reading formatted files](text_input.md)
 1. [User defined types](user_defined_types.md)
 1. [Organizing code in modules](modules.md)
+1. [Scope rules](scope.md)
 1. [Interfaces and submodules](interfaces.md)
 1. [Dynamic memory allocation.md](dynamic_memory_allocation.md)
 1. [Object oriented programming](object_oriented_programming.md),
