@@ -18,7 +18,7 @@ Write a program that generates the data for a plot that shows the values of $$x_
 
 ## Question 3
 
-Consider a square region in the complex plain such that $$\real(z) \le 2$$ and $$\imag(z) \le 2$$.  For each point $$z_0$$, compute the following iterations $$z_{n+1} = z_n^2 + c$$ such that $\||z_n\|| < 2$$ or $$n$$ exceeds 255.  For each point in the complex region, print the real and imaginary component, and the number of iteration $$n$$.  Use the value $$c = -0.622772 + 0.42193\i$$.
+Consider a square region in the complex plain such that $$\\real(z) \le 2$$ and $$\\imag(z) \le 2$$.  For each point $$z_0$$, compute the following iterations $$z_{n+1} = z_n^2 + c$$ such that $$\|z_n\| < 2$$ or $$n$$ exceeds 255.  For each point in the complex region, print the real and imaginary component, and the number of iteration $$n$$.  Use the value $$c = -0.622772 + 0.42193\\i$$.
 
 Visualize the data as a heat map using your favorite plotting software.  You have just computed a Julia set, [Wikipedia](https://en.wikipedia.org/wiki/Julia_set) provides more information if you are interested.
 
