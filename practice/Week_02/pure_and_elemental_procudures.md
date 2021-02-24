@@ -3,6 +3,7 @@
 ## Question 1
 
 Consider the following function, is it a valid elemental function?  An array will be passed to the function as the `x` argument.
+
 ~~~~fortran
 elemental function f(x, a, b) result(y)
     implicit none
@@ -21,6 +22,7 @@ end function f
 ## Question 2
 
 Consider the following function, is it a valid elemental function?  An array will be passed to the function as the `x` argument.
+
 ~~~~fortran
 elemental function scale(x, aggregate) result(y)
     implicit none
@@ -40,6 +42,7 @@ end function scale
 ## Question 3
 
 Consider the following function, is it a valid elemental function?  When `data` is an array declared and initialized as `integer, dimension(5) :: data = [ (i, i=1, size(data)) ]` and if the function is called as `scale(data, 5, mod(data, 2) /= 0)`, what will be returned?
+
 ~~~~fortran
 elemental function scale(x, factor, cond) result(y)
     implicit none
