@@ -1,5 +1,17 @@
 # File I/O
 
+Up to this point we only discussed a very limited subset of Fortran's file I/O
+capabilities.  You read about formatted sequential I/O to read and write text
+files.  However, Fortran can also read and write binary files.
+
+It also has two more access modes for I/O, direct and stream, which each have
+their specific use cases, although it could be argued that for new development
+stream I/O would probably be the best choice.
+
+Finally, you will also learn about eh `inquire` intrinsic procedure that can
+be used to obtain information on files.
+
+
 ## Formatted versus unformatted I/O
 
 Using formatted I/O has the advantage that files are human readable. You can
@@ -26,10 +38,10 @@ When comparing the performance of writing 200 million floating point values
 to a file, the difference between formatted and unformatted I/O is quite
 interesting.  The table below shows relative numbers.
 
-| I/O mode    | file size | walltime |
-|-------------|-----------|----------|
-| unformatted | 1.0       |  1.0     |
-| formatted   | 2.3       | 33.0     |
+| `form`          | file size | walltime |
+|-----------------|-----------|----------|
+| `'unformatted'` | 1.0       |  1.0     |
+| `'formatted'`   | 2.3       | 33.0     |
 
 The relative walltime difference depends of course on the file system that
 is used, as well as the underlying hardware.  The file size of the formatted
@@ -60,4 +72,101 @@ read (unit=unit_nr, iostat=istat, iomsg=msg) r, theta
 
 You can write any combination of types to an unformatted file, but of course,
 you would have to read it using the exact same data types.  This implies that
-the documentation of your binary file format is crucial.
+the documentation of your binary file format is crucial.  Another potential
+disadvantage is that the binary representation of data may differ from one
+hardware platform to the other.
+
+As an alternative to unformatted I/O you may consider HDF5, a file format we
+will discuss later that has many advantages.
+
+
+## Direct access I/O
+
+As the name implies, sequential I/O is, well, sequential.  When you read or
+write a file, you start at the beginning, and proceed towards the end.  This
+approach is quite suited to many use cases, but not all.  Consider for
+instance storing the results of computationally expensive calculations in a
+file for future reference, either during the same run of the application, or
+for later runs.  If you can map compute the position of the required result
+in the file, it would be if you could simply read only that particular result,
+rather than starting at the beginning of the file and having to read until
+the desired position was reached.
+
+Fortran supports direct access I/O, which is record-oriented. The file can be
+considered as a sequence of records of identical type.  A read or write
+operation addresses a specific record in that file.  The records can be written
+or read in any order.
+
+The following code fragment illustrates opening a file for direct access
+formatted writing.
+
+~~~~fortran
+open (newunit=unit_nr, file=trim(file_name), form='formatted', &
+      access='direct', recl=rec_width, action='write', status='new', &
+      iostat=istat, iomsg=msg)
+~~~~
+
+Note that access is `'direct'`, and that you have to specify a fixed
+record length `recl` when you open the file.
+
+When a record is written, you have to specify its record ID.
+
+~~~~fortran
+write (unit=unit_nr, fmt=fmt_str, rec=idx) idx, x
+~~~~
+
+The record ID is specified via the `rec` argument, and in this example, each 
+record consists of an integer and a real value.
+
+As for sequential I/O, direct access I/O can be formatted or unformatted.
+
+You should realize that I/O subsystems, especially those on HPC systems, are
+optimized for reading or writing data is is stored consecutively on disk, so
+accessing data in some random order via direct I/O will have a large impact
+on I/O performance.  Only use direct access I/O when it really fits your use
+case.
+
+
+## Stream I/O
+
+Besides sequential and direct access I/O, Fortran supports a third I/O options.
+Both of these I/O type are essentially record-based, and not compatible with
+files that have been created by non-Fortran applications.  Stream I/O is
+suitable for this use case.
+
+For stream I/O, the unit of I/O is a byte, and this ensures that files written
+by a Fortran application can be read by other applications, or that a Fortran
+application can read binary data produced by other applications.
+
+Using stream I/O is straightforward as illustrated by the open statement
+below and write statements below.
+
+~~~~fortran
+open (newunit=unit_nr, file=file_name, form='unformatted', &
+      access='stream', action='write', status='new', iostat=istat, &
+      iomsg=msg)
+~~~~
+
+The access mode is `'stream'`.
+
+~~~~fortran
+write (unit=unit_nr, iostat=istat, iomsg=msg) r, golden_spiral(r)
+~~~~
+
+The write statement as well as the read statement are identical to those for
+sequential access.
+
+The performance of stream I/O is better than that of sequential I/O, and the
+file size is also smaller due to the lack of record terminators in the
+resulting files.
+
+| `access`       | file size | walltime |
+|----------------|-----------|----------|
+| `'sequential'` | 1.5       |  1.8     |
+| `'stream'`     | 1.0       |  1.0     |
+
+As for the other access types, stream I/O can be either formatted or
+unformatted.
+
+In conclusion, for new code development stream I/O is likely the best choice
+thanks to superior performance and compatibility.
