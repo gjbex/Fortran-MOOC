@@ -5,11 +5,10 @@ capabilities.  You read about formatted sequential I/O to read and write text
 files.  However, Fortran can also read and write binary files.
 
 It also has two more access modes for I/O, direct and stream, which each have
-their specific use cases, although it could be argued that for new development
-stream I/O would probably be the best choice.
+their specific use cases.
 
-Finally, you will also learn about eh `inquire` intrinsic procedure that can
-be used to obtain information on files.
+Finally, you will also learn about eh `inquire`statement that can be used to
+obtain information on files.
 
 
 ## Formatted versus unformatted I/O
@@ -165,8 +164,75 @@ resulting files.
 | `'sequential'` | 1.5       |  1.8     |
 | `'stream'`     | 1.0       |  1.0     |
 
-As for the other access types, stream I/O can be either formatted or
-unformatted.
+As for all benchmarks, you mileage may vary depending on relative record
+size and the characteristics of your file storage.
 
-In conclusion, for new code development stream I/O is likely the best choice
-thanks to superior performance and compatibility.
+As for the other access types, stream I/O can be either formatted or
+unformatted.  However, formatted stream I/O is rarely used in practice.
+
+
+## How to get information on files?
+
+The inquire statement can be used to retrieve information on files and units.
+
+For instance, you can use it to check whether a file named 'data.txt' exists.
+
+~~~~fortran
+logical :: file_exists
+...
+inquire ('data.txt', exist=file_exists)
+
+The following statement would retrieve the size in bytes of the file `data.txt`.
+
+~~~~fortran
+integer :: file_size
+...
+inquire ('data.txt', size=file_size)
+~~~~
+
+Based on the unit number, you can retrieve the file name.  This can be
+convenient to generated meaningful error message in procedures that only get a
+unit number passed as argument.
+
+~~~~fortran
+character(len=1024) :: file_name
+...
+inquire(unit=unit_nr, name=file_name)
+~~~~
+
+When doing stream I/O, the inquire statement can be used to determine the
+current position in a file.
+
+~~~~fortran
+integer :: position
+...
+inquire (unit=unit_nr, pos=position)
+~~~~
+
+This position can subsequently be used to reposition the read or the
+write statement using the `pos` argument.
+
+## I/O performance
+
+In conclusion, for formatted I/O, sequential access is the most convenient,
+while for unformatted I/O stream access yields the best performance and
+interoperability.  Still, sequential unformatted I/O may be required if
+compatibility with other Fortran applications that use it is required.
+Direct access I/O is only used when you require random access to a file.
+
+In general, it is best to read or write as much  information as possible in a
+single statement, so rather than iterating over the elements of an array to
+write them to a file, write the entire array at once.
+
+~~~~fortran
+real, dimension(1000) :: x
+integer :: stat
+character(len=1024) :: msg
+...
+write (unit=unit_nr, iostat=stat, iomsg=msg) x
+~~~~
+
+Since latencies for file I/O are fairly high, the CPU is typically not fully
+used while files are read or written.  Fortran has features that allow to
+overlap I/O operations and computations, i.e., while I/O operations are in
+progress, the CPU can perform computations, using asynchronous I/O.
