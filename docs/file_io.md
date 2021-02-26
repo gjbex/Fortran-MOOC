@@ -232,7 +232,53 @@ character(len=1024) :: msg
 write (unit=unit_nr, iostat=stat, iomsg=msg) x
 ~~~~
 
-Since latencies for file I/O are fairly high, the CPU is typically not fully
+Since the latency for file I/O are fairly high, the CPU is typically not fully
 used while files are read or written.  Fortran has features that allow to
 overlap I/O operations and computations, i.e., while I/O operations are in
 progress, the CPU can perform computations, using asynchronous I/O.
+
+
+## Asynchronous I/O
+
+To achieve overlap between I/O operations and computation variables can
+be declared `asynchronous`, `buffer` in the code fragment below.  When opening
+a file, you have to specify that you want to do asynchronous I/O.  For instance,
+when an array `buffer` is written to a file, the write statement should have
+the `asynchronous` attribute.  While the I/O operation progresses, computations
+that do not modify the data that is currently written, i.e., the array `bufer`.
+
+Before changing the data in `buffer`, you would have to check whether the
+I/O operation is still pending, and if so, you have to wait until undone it
+is done.  The inquire statement can be used to check this, and the wait
+statement that will halt the execution until the asynchronous I/O operation is
+completed.
+
+~~~~fortran
+real, dimension(:), allocatable, asynchronous :: buffer
+...
+open (newunit=unit_nr, file=file_name, form='unformatted', &
+      asynchronous='yes', action='write', access='stream', status='replace', &
+      iostat=istat, iomsg=msg)
+...
+write (unit=unit_nr, asynchronous='yes', id=id1) buffer1
+! computation that doesn't modify buffer
+call do_some_heavy_computing(...)
+inquire (unit=unit_nr, id=id2, pending=pending)
+if (pending) wait(unit=unit_nr)
+! computation that can modify buffer
+call do_other_computations(...)
+...
+~~~~
+
+The example above is for a write operation, but this applies equally well to
+asynchronous read operations.  The important point is that while data is
+involved in an asynchronous I/O operation, that data should not be modified
+for write operations, or used during read operations.  The inquire and wait
+statements are used to ensure this.
+
+The performance improvement that you can achieve using asynchronous I/O depends
+very strongly on the level of overlap that can be achieved, and that depends in
+turn on the granularity of the I/O operations versus the computations.  Of
+course it makes no sense to invest time in asynchronous I/O unless the I/O
+operations account for a considerable fraction of the total walltime.  You
+should profile your application to determine this.
