@@ -3,6 +3,7 @@
 ## Question 1
 
 Consider the following type and variable declaration:
+
 ~~~~fortran
 type :: employee_t
     character(len=50) :: first_name, last_name
@@ -21,6 +22,7 @@ Which of the following statements is syntactically correct?
 ## Question 2
 
 Consider the following type and variable declaration:
+
 ~~~~fortran
 type :: person_t
     character(len=50) :: first_name, last_name
@@ -41,6 +43,7 @@ Which of the following statements is syntactically correct?
 Note that the `sizeof` intrinsic function is a GNU extension, so you should use it in production code.
 
 Consider the following program:
+
 ~~~~fortran
 program udf
     implicit none
