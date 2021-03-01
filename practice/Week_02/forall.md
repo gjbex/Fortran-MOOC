@@ -3,6 +3,7 @@
 ## Question 1
 
 Consider the following fragment of code.
+
 ~~~~fortran
 integer, dimension(9, 9) :: data = 0
 integer :: i, j
@@ -21,6 +22,7 @@ What will happen?
 ## Question 2
 
 Consider the following code fragment.
+
 ~~~~fortran
 integer, dimension(9, 9) :: data = 0
 integer :: i, j
@@ -39,6 +41,7 @@ What will happen?
 ## Question 3
 
 Consider the following code fragment.
+
 ~~~~fortran
 integer, dimension(5, 5) :: data = 0
 integer :: i, j
