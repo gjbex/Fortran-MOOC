@@ -9,7 +9,7 @@ For more information on Fibonacci numbers, you can have a look at the [Wikipedia
 
 ## Question 2
 
-Consider again the Julia set that you already computed in week 1. A square region in the complex plain such that $$\real(z) \le 2$$ and $$\imag(z) \le 2$$.  For each point $$z_0$$, compute the following iterations $$z_{n+1} = z_n^2 + c$$ such that $\||z_n\|| < 2$$ or $$n$$ exceeds 255.  For each point in the complex region, print the real and imaginary component, and the number of iteration $$n$$.  Use the value $$c = -0.622772 + 0.42193\i$$.  This time, however, implement an elemental function that takes a complex number as input, and outputs the number of iterations.  Apply the function to a matrix of complex number representing the square region.
+Consider again the Julia set that you already computed in week 1. A square region in the complex plain such that $$\\real(z) \le 2$$ and $$\\imag(z) \le 2$$. For each point $$z_0$$, compute the following iterations $$z_{n+1} = z_n^2 + c$$ such that $$\|z_n\| < 2$$ or $$n$$ exceeds 255.  For each point in the complex region, print the real and imaginary component, and the number of iteration $$n$$.  Use the value $$c = -0.622772 + 0.42193\\i$$.  This time, however, implement an elemental function that takes a complex number as input, and outputs the number of iterations.  Apply the function to a matrix of complex number representing the square region.
 
 
 ## Question 3
