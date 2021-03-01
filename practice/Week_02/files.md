@@ -12,9 +12,9 @@ In an open statement, which of the following combinations make sense?
 
 ## Question 2
 
-If you open a file `my_text.txt` for reading, it can be closed using the following statement `close (file='my_text.txt')`, is this
-1. true? [No, you would use the unit number.]
-1. false? [Indeed, the close statement has no file argument.] [x]
+If you open a file `my_text.txt` for reading, it can be closed using the following statement `close (file='my_text.txt')`.
+1. True [No, you would use the unit number.]
+1. False [Indeed, the close statement has no file argument.] [x]
 
 
 ## Question 3
