@@ -41,9 +41,9 @@ program infty
 end program infty
 ~~~~
 Use
-1. `ieee_is_normal` [Indeed, this function can be used.[ [x]
+1. `ieee_is_normal` [Indeed, this function can be used.] [x]
 1. `ieee_is_infinite` [No, this function doesn't exist.]
-1. `ieee_is_finite` [Indeed, this function can be used.[ [x]
+1. `ieee_is_finite` [Indeed, this function can be used.] [x]
 1. `ieee_is_nan` [No, infinity is not NaN.]
 
 
