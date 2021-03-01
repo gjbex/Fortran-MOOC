@@ -3,6 +3,7 @@
 ## Question 1
 
 Consider the following subroutine, what is the most appropriate intent for the argument `err`?
+
 ~~~~fortran
 subroutine compute(x, y, a, b, err)
     implicit none
@@ -24,6 +25,7 @@ end subroutine compute
 ## Question 2
 
 Consider the following subroutine, what is the most appropriate intent for the argument `x`?
+
 ~~~~fortran
 subroutine compute(x, y, a, b, err)
     implicit none
@@ -45,6 +47,7 @@ end subroutine compute
 ## Question 3
 
 Consider the following subroutine, what is the most appropriate intent for the argument `y`?
+
 ~~~~fortran
 subroutine compute(x, y, a, b, err)
     implicit none
@@ -62,6 +65,7 @@ end subroutine compute
 1. `out` [No, the value of `y` is used.]
 1. `inout` [Indeed, the value of `y` is used, and it is assigned to.] [x]
 
+## Question 4
 
 Which of the following statements is correct?
 1. When you declare and array argument as intent `in`, you can not assign to the array, but you can modify individual elements [No, try it out.]
