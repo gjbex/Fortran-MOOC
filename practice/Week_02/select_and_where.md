@@ -3,6 +3,7 @@
 ## Question 1
 
 Consider the following code fragment:
+
 ~~~~fortran
 select case (x)
     case (x > 0.0)
@@ -23,6 +24,7 @@ If this fragment is executed for `x` equal to 0.5, it
 ## Question 2
 
 Consider the following code fragment:
+
 ~~~~fortran
 select case (op)
     case ('+')
@@ -43,6 +45,7 @@ If this fragment is executed for `op` equal to `'+'`, it
 ## Question 3
 
 Can the following statement be replace by a select statement for `i` declared as an integer?
+
 ~~~~fortran
 if (i < 0 .or. i > 0) then
     print *, 'yes'
@@ -50,13 +53,14 @@ else
     print *, 'no'
 end if
 ~~~~
-1. yes [Indeed,] [x]
+1. yes [Indeed.] [x]
 1. no [No, it can, check the semantics of the logical value.]
 
 
 ## Question 4
 
 Consider the following program:
+
 ~~~~fortran
 program where_test
     implicit none
