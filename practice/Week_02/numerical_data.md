@@ -3,6 +3,7 @@
 ## Question 1
 
 Consider the following program.
+
 ~~~~fortran
 program infty
     implicit none
@@ -16,16 +17,17 @@ program infty
 end program infty
 ~~~~
 How many iterations print a value that is not infinite?
-1. 2
-1. 3
-1. 4
-1. 5
-1. all
+1. 2 [No, try it out.]
+1. 3 [No, try it out.]
+1. 4 [Indeed.][x]
+1. 5 [No, try it out.]
+1. all [No, try it out.]
 
 
 ## Question 2
 
 How can you check something went wrong with the numerical value in the following program?
+
 ~~~~fortran
 program infty
     implicit none
