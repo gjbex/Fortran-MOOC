@@ -20,6 +20,7 @@ For a two-dimensional array `A`, `size(A, 2)` returns
 ## Question 3
 
 Consider the two arrays declared as follows
+
 ~~~~fortran
 real, dimension(3) :: x
 real, dimension(3, 3) :: A
