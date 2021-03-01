@@ -13,6 +13,7 @@ Which of the following formatting strings are correct and will display the follo
 ## Question 2
 
 Consider the following program.
+
 ~~~~fortran
 program powers
     implicit none
@@ -24,14 +25,16 @@ program powers
 end program powers
 ~~~~
 Which is the largest value that is printed?
-1. 65536
-1. 1024
-1. 512
-1. 64
+1. 65536 [No, try it out.]
+3. 1024 [No, try it out.]
+4. 512 [Indeed.][x]
+5. 64 [No, try it out.]
 
 
 ## Question 3
+
 Consider the following code fragment:
+
 ~~~~fortran
 print '(2F4.1)', 1.0/3.0, 2.0**16
 ~~~~
