@@ -19,3 +19,7 @@ add_custom_command(
 )
 
 add_executable(bitcount.exe bitcount.f90 ${CMAKE_CURRENT_BINARY_DIR}/bitmanip_mod.f90)
+
+add_executable(bit_operations.exe
+    bit_operations.f90
+    ${CMAKE_CURRENT_BINARY_DIR}/bitmanip_mod.f90)
