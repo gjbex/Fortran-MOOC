@@ -181,7 +181,7 @@ The definition of subroutines is very similar to that of
 functions, except for the result value, which subroutines
 don't have by definition.
 
-Fortran has a number of intrinsic procedures as well, for
+Fortran has a number of intrinsic subroutines as well, for
 example to generate pseudo-random numbers.
 
 ~~~~fortran
@@ -538,9 +538,67 @@ end subroutine clamp
 ~~~~
 
 
+## Intrinsic procedures
+
+The Fortran specification defines a large number of procedures, both functions
+and subroutines as part of the language.  You already encountered the `sqrt`
+function and the `random_number` subroutine.
+
+Many mathematical functions are implemented as intrinsic functions, e.g.,
+
+1. the absolute value `abs` the complex conjugate `conjg`, the square root
+   function `sqrt` and the modulo function `mod`;
+1. the trigonometric functions `sin`, `cos`, `tan` and their inverse `asin`,
+   `acos` and `atan`;
+1. the hyper-trigonometric functions `sinh`, `cosh`, `tanh` and their inverse
+   `asinh`, `acosh` and `atanh`;
+1. the natural and base-10 logarithm `log` and `log10` as well as the
+   exponential function `exp`;
+1. Bessel functions of the first and second kind `bessel_j0`, `bessel_j1`,
+   `bessel_jn`, `bessel_y0`, `bessel_y1`, `bessel_yn`;
+1. the gamma function `gamma`, the error function `erf` and the complementary
+   error function `erfc`.
+
+All these functions are elemental functions, so they can be applied element-wise
+to arrays as well.
+
+Several mathematical functions defined on vectors or matrices are also part of
+the specification, e.g.,
+
+1. the minimum and maximum value in an array: `min` and `max`;
+1. the sum and product of array elements: `sum` and `product`;
+1. counting the number of elements in an array that satisfy some Boolean
+   condition: `count`;
+1. the Euclidean norm of an array `norm2`;
+1. the transpose of a two-dimensional array `transpose`;
+1. the dot product between two arrays `dot_product` and the product between
+   two-dimensional arrays `matmul`.
+
+Functions such as `min`, `max` and similar take optional arguments to restrict
+the operation to certain dimensions so that you can compute a row or a
+column-wise sum.  They also accept a mask so that operations can be restricted
+to elements that satisfy some Boolean condition.
+
+Although it is very unlikely that anyone would argue that Fortran is the ideal
+programming language for string manipulations, some intrinsic procedures ease
+the pain, e.g.,
+
+1. the `trim` function will remove trailing blank characters from a string;
+1. the `index` function returns the position of a substring in a string,
+   while `scan` returns the position of a set of characters in a string;
+1. the function `verify` will return `.true.` when all characters in a string
+   belong to a given set of characters;
+1. the `repeat` function creates a string by repeating a given string a
+   number of times.
+
+Obviously this is not an exhaustive list of all the intrinsic procedures
+defined in the Fortran specification, so it really pays off to check what is
+available to avoid reinventing the wheel.
+
+
 ## References
 
-List of intrintrinsic procedures
+List of intrinsic procedures
 [implemented by GCC](https://gcc.gnu.org/onlinedocs/gfortran/Intrinsic-Procedures.html#Intrinsic-Procedures).
 Note that not all these procedures are standard Fortran, some are GNU
 extensions.  This is clearly indicated though.
