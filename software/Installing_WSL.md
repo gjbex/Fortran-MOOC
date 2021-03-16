@@ -6,7 +6,7 @@ Scroll down and expand the Windows PowerShell folder.
 Right-click Windows PowerShell and choose: Run as Administrator 
 
 **2.** 
-In the PöwerShell prompt, execute the command:
+In the PowerShell prompt, execute the command:
  
 `Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux`
 
