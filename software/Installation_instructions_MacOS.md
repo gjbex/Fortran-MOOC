@@ -4,4 +4,4 @@ MacOS users can use the Homebrew package manager to install the [required softwa
 e.g.
 Installing CMake:
 
-´brew install make´
+`brew install make`
