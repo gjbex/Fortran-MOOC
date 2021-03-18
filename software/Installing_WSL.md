@@ -43,8 +43,8 @@ or alternatively, you can instantiate the bash terminal from inside the folder y
 
 ## Installing the required software within WSL
 
-Now that you have WSL installed, let's first create a working directory.
-In your home directory within WSL, execute the following command:
+Now that WSL is installed, create a working directory on the subsystem.
+In your WSL home directory, execute the following command:
 
 `mkdir workdir && cd workdir`
 
@@ -52,7 +52,7 @@ Next, clone the Fortran-MOOC git repository inside this working directory:
 
 `git clone https://github.com/gjbex/Fortran-MOOC/`
 
-Navigate to Fortran-MOOC/software/containers as follows:
+Navigate to Fortran-MOOC/software/containers:
 
 `cd Fortran-MOOC/software/containers && ls` 
 
@@ -63,3 +63,5 @@ of the bash script to 777 will allow you to execute it:
 `chmod 777 development_node_install.sh`
 
 Note that this script makes use of apt to install the software.
+
+Once this script completes, all necessary software should be installed correctly within WSL. 
