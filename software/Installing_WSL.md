@@ -62,4 +62,4 @@ of the bash script to 777 will allow you to execute it:
 
 `chmod 777 development_node_install.sh`
 
-Note that this script makes use of `apt` to install the software.
+Note that this script makes use of apt to install the software.
