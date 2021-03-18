@@ -1,4 +1,4 @@
-# Installing the software requirements in Linux
+# Installing the required software within Linux
 
 Clone the Fortran-MOOC repository into your desired location.
 
