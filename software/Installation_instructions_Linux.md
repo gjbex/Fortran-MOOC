@@ -12,6 +12,9 @@ Here you can find a README file, a makefile and the bashscript development_node_
 
 `chmod 777 development_node_install.sh`
 
-Note that this script makes use of apt to install the software.
 Use the following command to run the script:
+
 `./development_node_install.sh`
+
+Note that this script makes use of apt to install the software. 
+If you use a different package manager you can use those to install the software manually (e.g. yum or pacman)
