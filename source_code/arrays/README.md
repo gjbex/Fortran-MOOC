@@ -27,4 +27,6 @@ Several short Fortran programs to illustrate arrays.
    attempting to allocate an array that is too large.
 1. `enlarge_array.f90`: illustration of growing an array by repeated
    allocations.
+1. `double_deallocate.f90`: illustration that a double deallocation generates
+   a runtime error.
 1. `CMakeLists.txt`: CMake file to build the applications.
