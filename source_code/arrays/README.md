@@ -23,4 +23,6 @@ Several short Fortran programs to illustrate arrays.
 1. `normalize_performance.f90`: performance test for normalization using
    `spread` versus other methods.
 1. `allocate_from_source.f90`: illustrates allocating an array using source.
+1. `large_arrays.f90`: simple program to illustrate runtime error when
+   attempting to allocate an array that is too large.
 1. `CMakeLists.txt`: CMake file to build the applications.
