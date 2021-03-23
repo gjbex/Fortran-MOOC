@@ -26,4 +26,7 @@ write (unit=output_unit, fmt="(A, I3)") "node count = ", &
 write (unit=output_unit, fmt="(A, F6.3)") "max. distance =", &
         root%leaf_distance()
 
+! clean up
+call root%finalize()
+
 end program tree_test
