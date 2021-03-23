@@ -79,14 +79,15 @@ contains
         integer, value :: array_size
         character(len=*),intent(in) :: msg
         real, value, optional :: init
+        integer :: status
 
         ! if the array is allocated, deallocate it first
         if (allocated(array)) &
             deallocate(array)
 
         ! allocate for specified size and check 
-        allocate(array(array_size))
-        if (.not. allocated(array)) then
+        allocate(array(array_size), stat=status)
+        if (status /= 0) then
             write (unit=error_unit, fmt='(3A, I0)') &
                 'error: can not allocate array ', trim(msg), &
                 ' of size ', array_size

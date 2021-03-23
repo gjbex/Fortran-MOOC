@@ -59,10 +59,10 @@ contains
                                     MIN_IM = -1.8_DP, &
                                     MAX_IM =  1.8_DP
         real(kind=DP) :: delta_re, delta_im
-        integer :: i, j
+        integer :: i, j, status
 
-        allocate(z(nr_points, nr_points))
-        if (.not. allocated(z)) then
+        allocate(z(nr_points, nr_points), stat=status)
+        if (status /= 0) then
             write (unit=error_unit, fmt='(A)') &
                 'error: can not allocate z'
             stop 2
@@ -83,9 +83,10 @@ contains
         implicit none
         integer, dimension(:, :), allocatable, intent(inout) :: n
         integer, intent(in) :: nr_points
+        integer :: status
 
-        allocate(n(nr_points, nr_points))
-        if (.not. allocated(z)) then
+        allocate(n(nr_points, nr_points), stat=status)
+        if (status /= 0) then
             write (unit=error_unit, fmt='(A)') &
                 'error: can not allocate z'
             stop 2

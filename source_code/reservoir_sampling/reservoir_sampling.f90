@@ -10,7 +10,7 @@ program resesrvoir_sampling
 
     ! allocate the reservoir
     allocate(reservoir(reservoir_size), stat=istat)
-    if (.not. allocated(reservoir)) then
+    if (istat /= 0) then
         write (unit=error_unit, fmt='(A)') 'error: can not allocate reservoir'
         stop 3
     end if

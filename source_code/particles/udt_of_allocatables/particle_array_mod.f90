@@ -22,22 +22,23 @@ contains
         integer, value :: nr_particles
         type(particles_t) :: particles
         real, dimension(:), allocatable :: r
+        integer :: status
 
         call init_coords(particles%x)
         call init_coords(particles%y)
         call init_coords(particles%z)
-        allocate(particles%mass(nr_particles))
-        if (.not. allocated(particles%mass)) then
+        allocate(particles%mass(nr_particles), stat=status)
+        if (status /= 0) then
             write (unit=error_unit, fmt='(A)') 'can not allocate mass'
             stop 1
         end if
-        allocate(particles%charge(nr_particles))
-        if (.not. allocated(particles%mass)) then
+        allocate(particles%charge(nr_particles), stat=status)
+        if (status /= 0) then
             write (unit=error_unit, fmt='(A)') 'can not allocate charge'
             stop 1
         end if
-        allocate(r(size(particles%x)))
-        if (.not. allocated(r)) then
+        allocate(r(size(particles%x)), stat=status)
+        if (status /= 0) then
             write (unit=error_unit, fmt='(A)') 'can not allocate array'
             stop 1
         end if
@@ -56,9 +57,10 @@ contains
         subroutine init_coords(coords)
             implicit none
             real(kind=DP), dimension(:), allocatable :: coords
+            integer :: status
 
-            allocate(coords(nr_particles))
-            if (.not. allocated(coords)) then
+            allocate(coords(nr_particles), stat=status)
+            if (status /= 0) then
                 write (unit=error_unit, fmt='(A)') 'can not allocate coordinates'
                 stop 1
             end if

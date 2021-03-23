@@ -18,8 +18,8 @@ contains
         integer :: i, istat
         character(len=1024) :: msg
 
-        allocate (values(nr_values))
-        if (.not. allocated(values)) then
+        allocate (values(nr_values), stat=istat)
+        if (istat /= 0) then
             write (unit=error_unit, fmt='(A, I0)') &
                 'error: can not allocate array of size ', nr_values
             stop 1

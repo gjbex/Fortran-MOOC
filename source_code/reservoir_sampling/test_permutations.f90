@@ -55,10 +55,10 @@ contains
         implicit none
         integer, dimension(:), intent(inout) :: values
         logical, dimension(:), allocatable :: is_present
-        integer :: i, idx
+        integer :: i, idx, status
 
-        allocate (is_present(size(values)))
-        if (.not. allocated(is_present)) then
+        allocate (is_present(size(values)), stat=status)
+        if (status /= 0) then
             write (unit=error_unit, fmt='(A)') 'error: can not allocate logical array'
             stop 1
         end if

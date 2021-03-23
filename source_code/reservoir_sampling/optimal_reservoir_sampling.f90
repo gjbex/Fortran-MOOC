@@ -7,8 +7,8 @@ program optimal_resesrvoir_sampling
     character(len=1024) :: file_name, msg
 
     call get_arguments(file_name, reservoir_size)
-    allocate(reservoir(reservoir_size))
-    if (.not. allocated(reservoir)) then
+    allocate(reservoir(reservoir_size), stat=istat)
+    if (istat /= 0) then
         write (unit=error_unit, fmt='(A)') 'error: can not allocate reservoir'
         stop 3
     end if

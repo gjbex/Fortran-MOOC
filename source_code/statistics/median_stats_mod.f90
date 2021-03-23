@@ -20,9 +20,10 @@ contains
         use, intrinsic :: iso_fortran_env, only : error_unit
         type(descriptive_stats_t), intent(inout) :: stats
         integer, value :: nr_values
+        integer :: status
 
-        allocate(stats%values(nr_values))
-        if (.not. allocated(stats%values)) then
+        allocate(stats%values(nr_values), stat=status)
+        if (status /= 0) then
             write (unit=error_unit, fmt='(A, I0, A)') &
                 'error: can not allocated memory for ', nr_values, ' values'
             stop 3

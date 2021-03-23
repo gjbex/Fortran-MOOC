@@ -31,10 +31,10 @@ contains
         implicit none
         real, dimension(:), intent(inout) :: values
         integer, dimension(:, :), allocatable :: indices
-        integer :: current_indices, low, high, pivot
+        integer :: current_indices, low, high, pivot, status
 
-        allocate(indices(2, 1 + size(values)))
-        if (.not. allocated(indices)) then
+        allocate(indices(2, 1 + size(values)), stat=status)
+        if (status /= 0) then
             write (unit=error_unit, fmt='(A)') &
                 'error: can not allocate indices array'
             stop 51
