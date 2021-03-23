@@ -22,4 +22,5 @@ Several short Fortran programs to illustrate arrays.
 1. `normalize.f90`: normalize a matrix by broadcasting a la numpy.
 1. `normalize_performance.f90`: performance test for normalization using
    `spread` versus other methods.
+1. `allocate_from_source.f90`: illustrates allocating an array using source.
 1. `CMakeLists.txt`: CMake file to build the applications.
