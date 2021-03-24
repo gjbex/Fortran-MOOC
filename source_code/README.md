@@ -87,6 +87,7 @@ code examples used in videos and reading material.
 1. `f2py`: illustration of using f2py.
 1. `trees`: using user-defined types and pointer to create data structures,
    also illustrates object-oriented programming and inheritance.
+1. `hdf5`: using the HDF5 library to store and read data.
 1. `CMakeLists.txt`: CMake file to build all applications.
 
 
