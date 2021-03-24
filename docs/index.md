@@ -19,6 +19,7 @@
 1. [Dynamic memory allocation.md](dynamic_memory_allocation.md)
 1. [Object oriented programming](object_oriented_programming.md),
    [inheritance](inheritance.md) and [abstract classes](abstract_classes.md)
+1. [Derived type I/O](derived_type_io.md)
 1. [Pointers](pointers.md)
 1. [Command line argumens and environment variables](command_line_and_environment.md)
 1. [Bit-wise operations](bitwise_operations.md)
