@@ -46,3 +46,12 @@ What will be the value of `B(1, 2)`?
 1. 2 [Indeed] [x]
 1. 3 [No, not quite]
 1. 4 [No, try it out]
+
+
+## Question 4
+
+Which of the following statements is correct?
+1. An allocatable can not be the return value of a function. [Actually, it can]
+1. When you allocate a temporary array in a procedure, you have to deallocate it before returning from that procedure. [No, it doesn't hurt to do that, but the runtime  would take care of it for you]
+1. When you allocate an array to a procedure argument with intent out you should deallocate it before returning from that procedure. [You most certainly shouldn't do that, given that you intend to use the array in the procedure's calling context]
+1. Although useless, deallocating the same allocated variable twice is not a problem. [No, it is a problem, you will get an error]
