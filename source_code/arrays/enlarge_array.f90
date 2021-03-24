@@ -38,8 +38,8 @@ contains
             do i = size(values) + 1, size(new_values)
                 new_values(i) = i
             end do
-            ! deallocate (values)
-            values = new_values
+            deallocate (values)
+            call move_alloc(new_values, values)
         else
             allocate (values(size_incr))
             do i = 1, size(values)
