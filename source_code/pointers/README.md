@@ -13,4 +13,6 @@ found in other directories.
 1. `associations.f90`: program illustrating the associated intrinsic function.
 1. `slices.f90`: illustrates how to associate a pointer with an array slice.
 1, `benchmark.f90`: illustration of using a pointers to procedures.
+1. `pointer_to_allocatable.f90`: illustration of some of the more perplexing
+   aspects of allocatables and pointers.
 1. `CMakeLists.txt`: CMake file to build the applications.
