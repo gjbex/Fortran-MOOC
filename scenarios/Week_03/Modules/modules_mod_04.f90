@@ -45,15 +45,13 @@ contains
         type(stats_t), intent(in) :: stats
         logical, optional, value :: need_stddev
 
-        if (stats%n <= 1) then
-            if (stats%n == 0) then
+        if (stats%n < 1) then
+            write (unit=error_unit, fmt='(A)') 'error: not enough data'
+            stop 1
+        else if (present(need_stddev)) then
+            if (need_stddev .and. stats%n < 2) then
                 write (unit=error_unit, fmt='(A)') 'error: not enough data'
                 stop 1
-            else
-                if (need_stddev) then
-                    write (unit=error_unit, fmt='(A)') 'error: not enough data'
-                    stop 1
-                end if
             end if
         end if
     end subroutine validate
