@@ -55,3 +55,4 @@ Which of the following statements is correct?
 1. When you allocate a temporary array in a procedure, you have to deallocate it before returning from that procedure. [No, it doesn't hurt to do that, but the runtime  would take care of it for you]
 1. When you allocate an array to a procedure argument with intent out you should deallocate it before returning from that procedure. [You most certainly shouldn't do that, given that you intend to use the array in the procedure's calling context]
 1. Although useless, deallocating the same allocated variable twice is not a problem. [No, it is a problem, you will get an error]
+1. If an allocation fails, and the allocate statement has no `stat` argument, a runtime error is generated. [Indeed] [x]
