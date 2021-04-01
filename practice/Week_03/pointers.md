@@ -21,6 +21,7 @@ Which of the following statements is correct?
 ## Question 3
 
 When you run the following application, what will be the output generated?
+
 ~~~~fortran
 program pointer_to_allocatable
     use, intrinsic :: iso_fortran_env, only : error_unit
@@ -50,6 +51,7 @@ end program pointer_to_allocatable
 ## Question 4
 
 When you run the following application, what will be the output generated?
+
 ~~~~fortran
 program pointer_to_allocatable
     use, intrinsic :: iso_fortran_env, only : error_unit
