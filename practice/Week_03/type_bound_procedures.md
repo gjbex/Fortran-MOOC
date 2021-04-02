@@ -12,6 +12,7 @@ Which of the following statements are correct?
 ## Question 2
 
 Consider the following user defined type:
+
 ~~~~fortran
 type, public :: stats_t
     real :: sum
