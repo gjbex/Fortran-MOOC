@@ -54,8 +54,8 @@ class(derived_t), pointerjjjjjjjjjjjjjjjjjjkjjjjjjkkkjjkkk :: derived_p
 ~~~~
 
 Which of the following statements is correct?
-1. You can assign `derived` to `base`. {No, you can't]
-1. You can assign `base` to `dervied`. {No, you can't]
+1. You can assign `derived` to `base`. [No, you can't]
+1. You can assign `base` to `derived`. [No, you can't]
 1. `base_p` can point to `derived`. [Indeed] [x]
 1. `derived_p` can point to `base`. [No, it can't]
 1. `base_p` can point to `derived_p`. [Indeed] [x]
