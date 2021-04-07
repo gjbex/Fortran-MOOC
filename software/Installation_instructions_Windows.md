@@ -1,7 +1,7 @@
 # Installation instructions Windows
 
 Since this course makes use of the bash command line interface, here is how to get one on your windows opperating system.
-If you have already a WSL installed on your system, please check that it uses Ubuntu 20.04 or later.
+If you have already a WSL installed on your system, please check that it uses **Ubuntu 20.04** or later.
 
 ## Installing Windows Subsystem Linux
 
