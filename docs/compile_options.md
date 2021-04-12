@@ -73,3 +73,41 @@ By default, the Intel compilers for quite some extension to Fortran for
 historical reasons.  If you want it to be strict about a standard, you can
 force that using the `-stand <spec>` flag, where `<spec>` is any of
 `f77`, `f90`, f95`, `f03`, `f08`, `f18`.
+
+
+## Profiling
+
+If you want to improve the performance of your code, it is good practice to
+measure the time spent in procedures, so that you know which ones to
+concentrate your efforts on.  It doesn't make much sense to try and improve the
+performance of a procedure that takes only 1 % of the total run time.
+
+There are many tools to measure the performance of your code, some open source,
+some commercial.  A very simple one is `gprof` and this is supported by GCC.
+
+The `-pg` flag for both compiling and linking will instrument your application
+to generate statistics of the time spent in functions, the number of function
+calls and so on.  Once the application, e.g., `my_applexe` has run, you can
+display the performance statistics using:
+
+~~~~bash
+$ gprof my_applexe
+~~~~
+
+
+## Optimization
+
+Compilers can be used with various levels of optimization controlled via
+command line options
+* `-O0`: no optimization,
+* `-Os`: minimize the size of the executable,
+* `-O1` to `-O3`: apply increasing levels of optimization.
+
+Note that the level of optimization may impact the results.  At `-O3`,
+(GCC) the compiler can reorder numerical expressions, so you may get
+different results.  For Intel compilers, this happens even at `-O2`.
+
+It may help to let the compiler generate machine code specific for the
+hardware you are running on.  When you use `march=native` the instruction set
+most suited for the hardware you are building your application on will be used,
+in general resulting in the best performance.
