@@ -89,6 +89,8 @@ code examples used in videos and reading material.
    also illustrates object-oriented programming and inheritance.
 1. `hdf5`: using the HDF5 library to store and read data.
 1. `neighbours`: simulation of a 2D growth process.
+1. `precision`: single versus double versus mixed precsion arithmetic
+   experiments.
 1. `CMakeLists.txt`: CMake file to build all applications.
 
 
