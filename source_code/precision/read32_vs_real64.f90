@@ -44,6 +44,38 @@ program real32_vs_real64
     print '(A, F15.6)', '    result: ', sum(x_sp)
     deallocate (x_sp, y_dp)
 
+    ! mixed precision with conversion
+    allocate (x_sp(nr_values), y_dp(nr_values), stat=status)
+    if (status /= 0) then
+        write (unit=error_unit, fmt='(A)') 'error: can not allocate x_sp/y_dp'
+        stop 1
+    end if
+    call random_number(x_sp)
+    call random_number(y_dp)
+
+    call cpu_time(start_time)
+    x_sp = alpha_sp*x_sp + real(y_dp, kind=kind(x_sp))
+    call cpu_time(end_time)
+    print '(A, F12.6)', 'mixed precision with conversion: ', end_time - start_time
+    print '(A, F15.6)', '    result: ', sum(x_sp)
+    deallocate (x_sp, y_dp)
+
+    ! single precision, double constant
+    allocate (x_sp(nr_values), y_sp(nr_values), stat=status)
+    if (status /= 0) then
+        write (unit=error_unit, fmt='(A)') 'error: can not allocate x_sp/y_sp'
+        stop 1
+    end if
+    call random_number(x_sp)
+    call random_number(y_sp)
+
+    call cpu_time(start_time)
+    x_sp = alpha_dp*x_sp + y_sp 
+    call cpu_time(end_time)
+    print '(A, F12.6)', 'single precision, double constant: ', end_time - start_time
+    print '(A, F15.6)', '    result: ', sum(x_sp)
+    deallocate (x_sp, y_sp)
+
     ! single precision
     allocate (x_sp(nr_values), y_sp(nr_values), stat=status)
     if (status /= 0) then
