@@ -9,7 +9,7 @@ Which of the following statements are correct?
 1. Names for user defined types and modules have conventional suffixes, `_t` and `_mod` respectively. [Indeed, it is good practice to use those] [x]
 
 
-@# Question 2
+## Question 2
 
 Which of the following statements are correct?
 
