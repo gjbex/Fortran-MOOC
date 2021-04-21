@@ -1,7 +1,9 @@
 program coins_change
     use, intrinsic :: iso_fortran_env, only : error_unit
-    use coins_mod, only : nr_change_coins_greedy, change_coins_greedy, &
-        nr_change_coins_dyn_prog, change_coins_dyn_prog
+    use greedy_coins_mod, only : nr_change_coins_greedy => nr_change_coins, &
+                                 change_coins_greedy => change_coins
+    use dyn_prog_coins_mod, only : nr_change_coins_dyn_prog => nr_change_coins, &
+                                 change_coins_dyn_prog => change_coins
     implicit none
     integer :: amount
     integer, dimension(:), allocatable :: coins, change

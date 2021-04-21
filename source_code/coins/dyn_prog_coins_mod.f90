@@ -1,49 +1,14 @@
-module coins_mod
+module dyn_prog_coins_mod
     use, intrinsic :: iso_fortran_env, only : error_unit
     implicit none
 
     private
 
-    public :: nr_change_coins_greedy, change_coins_greedy, &
-        nr_change_coins_dyn_prog, change_coins_dyn_prog
+    public :: nr_change_coins, change_coins
 
 contains
 
-    function nr_change_coins_greedy(amount, coins) result(nr_coins)
-        implicit none
-        integer, value :: amount
-        integer, dimension(:), intent(in) :: coins
-        integer :: nr_coins
-        integer :: coin_nr, coin
-
-        nr_coins = 0
-        do coin_nr = size(coins), 1, -1
-            coin = coins(coin_nr)
-            nr_coins = nr_coins + amount/coin
-            amount = mod(amount, coin)
-        end do
-    end function nr_change_coins_greedy
-
-    function change_coins_greedy(amount, coins) result(change)
-        implicit none
-        integer, value :: amount
-        integer, dimension(:), intent(in) :: coins
-        integer, dimension(:), allocatable :: change
-        integer :: status, coin_nr, coin
-
-        allocate (change(size(coins)), stat=status)
-        if (status /= 0) then
-            write (unit=error_unit, fmt='(A)') 'error: can not allocate change'
-            stop 1
-        end if
-        do coin_nr = size(coins), 1, -1
-            coin = coins(coin_nr)
-            change(coin_nr) = amount/coin
-            amount = mod(amount, coin)
-        end do
-    end function change_coins_greedy
-
-    function nr_change_coins_dyn_prog(amount, coins) result(nr_coins)
+    function nr_change_coins(amount, coins) result(nr_coins)
         implicit none
         integer, value :: amount
         integer, dimension(:), intent(in) :: coins
@@ -69,7 +34,7 @@ contains
 
         nr_coins = array(amount)
         deallocate (array)
-    end function nr_change_coins_dyn_prog
+    end function nr_change_coins
 
     function compute_change(matrix, coins) result(change)
         implicit none
@@ -97,7 +62,7 @@ contains
         end do
     end function compute_change
 
-    function change_coins_dyn_prog(amount, coins) result(change)
+    function change_coins(amount, coins) result(change)
         implicit none
         integer, value :: amount
         integer, dimension(:), intent(in) :: coins
@@ -120,6 +85,6 @@ contains
         end do
         change = compute_change(matrix, coins)
         deallocate (matrix)
-    end function change_coins_dyn_prog
+    end function change_coins
 
-end module coins_mod
+end module dyn_prog_coins_mod

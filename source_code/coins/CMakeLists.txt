@@ -8,4 +8,5 @@ file(MAKE_DIRECTORY ${CMAKE_Fortran_MODULE_DIRECTORY})
 
 add_compile_options(-Wall -Wextra)
 
-add_executable(change.exe coins_mod.f90 change.f90)
+add_executable(change.exe
+    greedy_coins_mod.f90 dyn_prog_coins_mod.f90 change.f90)
