@@ -91,6 +91,7 @@ code examples used in videos and reading material.
 1. `neighbours`: simulation of a 2D growth process.
 1. `precision`: single versus double versus mixed precsion arithmetic
    experiments.
+1. `coins`: illustration of greedy versus dynamic programming.
 1. `CMakeLists.txt`: CMake file to build all applications.
 
 
