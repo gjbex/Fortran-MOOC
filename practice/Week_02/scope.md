@@ -3,6 +3,7 @@
 ## Question 1
 
 Consider the following program.
+
 ~~~~fortran
 program scope_01
     implicit none
@@ -23,6 +24,7 @@ contains
 
 end program scope_01
 ~~~~
+
 What happens?
 1. This will not compile. [No, it Will.]
 1. This will print '3    5'. [No, it doesn't, try it out.]
@@ -34,6 +36,7 @@ What happens?
 ## Question 2
 
 Consider the following program.
+
 ~~~~fortran
 program xope_02
     implicit none
@@ -49,6 +52,7 @@ program xope_02
 
 end program xope_02
 ~~~~
+
 What happens?
 1. This will not compile. [No, it Will.]
 1. This will print '2    7' and '3    5'. [No, it doesn't, try it out.]
