@@ -20,8 +20,10 @@ software.
   Fortran Forum, volume 32, issue 2, p. 7‒13, 2013
 
 
-## Articles on software engineering
+## Articles and books on software engineering
 
+* *The practice of programming*, Brian W. Kernighan and Rob Pike
+  Addison-Wesley, 1999
 * *Clean code: a handbook of agile software craftsmanship*, Robert C. Martin,
   Prentice Hall, 2008
 * [*Write clean code and get rid of code smells with real life examples*](https://medium.com/@maladdinsayed/write-clean-code-and-get-rid-of-code-smells-aea271f30318)
@@ -40,15 +42,31 @@ software.
 * [Fortran 2008 (ISO/IEC 1539-1:2010)](https://www.iso.org/standard/50459.html)
 * [Fortran 2018 (ISO/IEC 1539-1:2018)](https://www.iso.org/standard/72320.html)
 * [IEEE 754-2019 standard for floating point arithmetic](https://ieeexplore.ieee.org/document/8766229)
-* [Quick reference guide to the BLAS](https://www.netlib.org/lapack/lug/node145.html)
 
 Note that these documents are not open access.
 
 
+## Library documentation
+
+* [Quick reference guide to the BLAS](https://www.netlib.org/lapack/lug/node145.html)
+* [netlib BLAS documentation](http://www.netlib.org/blas/)
+* [netlib LAPACK documentation](http://www.netlib.org/lapack/)
+* [HDF5 documentation](https://support.hdfgroup.org/HDF5/doc/)
+
+
 ## Software stack
 
-  * [GNU Fortran](https://gcc.gnu.org/fortran/)
-  * [Intel Fortran](https://software.intel.com/en-us/fortran-compilers-support/documentation)
-  * [Fonts for editors](https://itnext.io/11-best-programming-fonts-724283a9ed57)
-  * [Doxygen manual](https://www.doxygen.nl/manual/)
-  * [Intel® Math Kernel Library Link Line Advisor](https://software.intel.com/content/www/us/en/develop/articles/intel-mkl-link-line-advisor.html)
+* [GNU Fortran](https://gcc.gnu.org/fortran/)
+* [Intel Fortran](https://software.intel.com/en-us/fortran-compilers-support/documentation)
+* [Fonts for editors](https://itnext.io/11-best-programming-fonts-724283a9ed57)
+* [Doxygen manual](https://www.doxygen.nl/manual/)
+* [Intel® Math Kernel Library Link Line Advisor](https://software.intel.com/content/www/us/en/develop/articles/intel-mkl-link-line-advisor.html)
+
+
+## Books on HPC and parallel programming
+
+* *Patterns for parallel programming*, Timothy Mattson, Beverly Sanders and Berna Massingill, Addison-Wesley, 2005
+* [*Introduction to high performance computing for scientists and engineers*](https://www.routledge.com/Introduction-to-High-Performance-Computing-for-Scientists-and-Engineers/Hager-Wellein/p/book/9781439811924),
+   Georg Hager and Gerhard Wellein, Routledge, 2011
+* *Structured parallel programming*, Michael McCool, Arch Robinson and James Reinders, MOrgan-Kaufmann, 2012
+
