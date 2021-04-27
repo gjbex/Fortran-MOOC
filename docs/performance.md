@@ -115,7 +115,6 @@ that are executed concurrently have to be independent.
 Consider the following code fragment.
 
 ~~~~fortran
-~~~~fortran
 use, intrinsic :: iso_fortran_env, only : SP => REAL32, DP => REAL64
 real(kind=DP), dimension(N) :: x, y
 real(kind=DP) :: alpha = 0.5_DP
@@ -145,6 +144,20 @@ do i = 2, N
     x(i) = alpha*x(i - 1) + y(i)
 end do
 ~~~~
+
+Note that expressing computations as array expressions makes it abundantly clear
+to the compiler that it can generate vector instructions, e.g.,
+
+~~~~fortran
+use, intrinsic :: iso_fortran_env, only : DP => REAL64
+real(kind=DP), dimension(N) :: x, y
+real(kind=DP) :: alpha = 0.5_DP
+
+x = alpha * x + y
+~~~~
+
+This also stresses the importantce of elemental procedures since the compiler can
+sometimes generate versions of such procedures that are vectorized.
 
 The use of vector instructions can significantly speed up your application.
 It also follows that vectorized single precision arithmetic will be faster
