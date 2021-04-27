@@ -3,7 +3,9 @@
 Here you will find a number of references to additional reading material and
 software.
 
-## Books on Fortran
+## Fortran
+
+###  Books
 
 * *Fortran 2018 with parallel programming*, Subrata Ray, CRC Press, 2020
 * *Modern Fortran: style and usage*, Norman S. Clerman and Walter Spector,
@@ -12,15 +14,24 @@ software.
   2007
 
 
-## Articles on Fortran
+### Articles
 
 * [*Emulating multiple inheritance in Fortran 2003/2008*], Karla Morris,
   Scientific programming, vol. 2015, article ID 126069, 2015
 * *Exception handling in Fortran*, Arjen Markus, Newsletter ACM SIGPLAN
   Fortran Forum, volume 32, issue 2, p. 7‒13, 2013
 
+### Specifications
 
-## Articles and books on software engineering
+* [Fortran 2003 (ISO/IEC 1539-1:2004)](https://www.iso.org/standard/39691.html)
+* [Fortran 2008 (ISO/IEC 1539-1:2010)](https://www.iso.org/standard/50459.html)
+* [Fortran 2018 (ISO/IEC 1539-1:2018)](https://www.iso.org/standard/72320.html)
+* [IEEE 754-2019 standard for floating point arithmetic](https://ieeexplore.ieee.org/document/8766229)
+
+Note that these documents are not open access.
+
+
+## Software engineering: articles and books
 
 * *The practice of programming*, Brian W. Kernighan and Rob Pike
   Addison-Wesley, 1999
@@ -36,14 +47,7 @@ software.
 * [*The seven deadly sins of programming*](https://hackernoon.com/the-7-deadly-sins-of-programming-a7574efc639f) 
 
 
-## Specifications
 
-* [Fortran 2003 (ISO/IEC 1539-1:2004)](https://www.iso.org/standard/39691.html)
-* [Fortran 2008 (ISO/IEC 1539-1:2010)](https://www.iso.org/standard/50459.html)
-* [Fortran 2018 (ISO/IEC 1539-1:2018)](https://www.iso.org/standard/72320.html)
-* [IEEE 754-2019 standard for floating point arithmetic](https://ieeexplore.ieee.org/document/8766229)
-
-Note that these documents are not open access.
 
 
 ## Library documentation
@@ -63,10 +67,17 @@ Note that these documents are not open access.
 * [Intel® Math Kernel Library Link Line Advisor](https://software.intel.com/content/www/us/en/develop/articles/intel-mkl-link-line-advisor.html)
 
 
-## Books on HPC and parallel programming
+## Parallel programming
+
+### Books
 
 * *Patterns for parallel programming*, Timothy Mattson, Beverly Sanders and Berna Massingill, Addison-Wesley, 2005
 * [*Introduction to high performance computing for scientists and engineers*](https://www.routledge.com/Introduction-to-High-Performance-Computing-for-Scientists-and-Engineers/Hager-Wellein/p/book/9781439811924),
    Georg Hager and Gerhard Wellein, Routledge, 2011
 * *Structured parallel programming*, Michael McCool, Arch Robinson and James Reinders, MOrgan-Kaufmann, 2012
 
+
+### Specifications
+
+* [OpenMP](https://www.openmp.org/specifications/)
+* [Message Passing Interface](https://www.mpi-forum.org/docs/)
