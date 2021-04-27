@@ -8,7 +8,7 @@ file(MAKE_DIRECTORY ${CMAKE_Fortran_MODULE_DIRECTORY})
 
 add_compile_options(-Wall -Wextra)
 
-add_executable(test_permutations.exe test_permutations.f90 utilities_mod.f90 hasd_mod.F90)
+add_executable(test_permutations.exe test_permutations.f90 utilities_mod.f90 hash_mod.F90)
 add_executable(create_data.exe create_data.f90)
 add_executable(shuffle_data.exe shuffle_data.f90)
 add_executable(reservoir_sampling.exe reservoir_sampling.f90)
