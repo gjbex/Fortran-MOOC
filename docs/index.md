@@ -33,6 +33,7 @@
 1. [Random number generation](random_numbers.md)
 1. [Linear algebra with BLAS and LAPACK](blas_lapack.md)
 1. [HDF5 file I/O](hdf5.md)
+1. [C and Python interoperability](interoperability.md)
 1. [Parallel programming](parallel_programming.md)
 
 ## Extra material
