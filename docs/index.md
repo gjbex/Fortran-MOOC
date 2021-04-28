@@ -21,15 +21,19 @@
    [inheritance](inheritance.md) and [abstract classes](abstract_classes.md)
 1. [Derived type I/O](derived_type_io.md)
 1. [Pointers](pointers.md)
-1. [Command line argumens and environment variables](command_line_and_environment.md)
+1. [Command line arguments and environment variables](command_line_and_environment.md)
 1. [Bit-wise operations](bitwise_operations.md)
 1. [IEEE 754 arithmetic](ieee754.md)
-1. [Error handling](error_handling.md)
 1. [Best coding practices](coding_best_practices.md)
+1. [Error handling](error_handling.md)
 1. [Submodules](submodules.md)
+1. [Performance pitfalls](performance.md)
+1. [Direct and streaming I/O](file_io.md)
 1. [Documentation with doxygen](doxygen.md)
 1. [Random number generation](random_numbers.md)
 1. [Linear algebra with BLAS and LAPACK](blas_lapack.md)
+1. [HDF5 file I/O](hdf5.md)
+1. [Parallel programming](parallel_programming.md)
 
 ## Extra material
 
