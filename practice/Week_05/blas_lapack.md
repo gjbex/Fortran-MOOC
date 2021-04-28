@@ -1,4 +1,4 @@
-# BLAS and Lapack
+# BLAS and LAPACK
 
 ## Question 1
 
@@ -22,10 +22,10 @@ Which of the following statements are correct?
 
 Which of the following statements are correct?
 
-1. Lapack has procedures to compute Fast Fourier Transformation (FFT). [No, it hasn't]
-1. Lapack has procedures to compute linear regressions. [Indeed] [x]
-1. Lapack uses BLAS under the hood. [Indeed] [x]
-1. Lapack has many procedures for matrix decomposition algorithms. [Indeed] [x]
+1. LAPACK has procedures to compute Fast Fourier Transformation (FFT). [No, it hasn't]
+1. LAPACK has procedures to compute linear regressions. [Indeed] [x]
+1. LAPACK uses BLAS under the hood. [Indeed] [x]
+1. LAPACK has many procedures for matrix decomposition algorithms. [Indeed] [x]
 
 
 ## Question 4
@@ -33,6 +33,6 @@ Which of the following statements are correct?
 Which of the following statements are correct?
 
 1. A good BLAS implementation is optimized with vectorization and cache usage. [Indeed] [x]
-1. Efficient implementations of BLAS and Lapack are available as open source. [Indeed] [x]
+1. Efficient implementations of BLAS and LAPACK are available as open source. [Indeed] [x]
 1. netlib BLAS is the best open source BLAS implementation. [No, absolutely not]
 1. Most BLAS implementation are interchangeable. [Indeed] [x]
