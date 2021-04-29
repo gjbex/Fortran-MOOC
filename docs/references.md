@@ -58,6 +58,17 @@ Note that these documents are not open access.
 * [HDF5 documentation](https://support.hdfgroup.org/HDF5/doc/)
 
 
+## Additional libraries
+
+* [BLACS](https://www.netlib.org/blacs/)
+* [ScaLAPACK](http://www.netlib.org/scalapack/)
+* [SLEPc](https://slepc.upv.es/)
+* [FFTW3](http://www.fftw.org/)
+* [PETSc](https://www.mcs.anl.gov/petsc/)
+* [Pardiso](https://www.pardiso-project.org/)
+* [NetCDF](https://www.unidata.ucar.edu/software/netcdf/)
+
+
 ## Software stack
 
 * [GNU Fortran](https://gcc.gnu.org/fortran/)
