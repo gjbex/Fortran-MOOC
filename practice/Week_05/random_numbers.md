@@ -16,4 +16,4 @@ Which of the following statements are correct?
 1. The size of the random seed can be determined using the `random_seed` intrinsic procedure. [Indeed] [x]
 1. The random number generator can be seeded using the `random_seed` intrinsic procedure. [Indeed] [x]
 1. The size of the array  used to seed the random number generator determines precision of the pseudo-random numbers generated. [No, absolutely not]
-1. The optional `distribution` argument of the `random_number` intrinsic procedure allows to specify the distribution to sample, e.g., `'normal'` or `'gamma'`. [No, this argument dones't exist]
+1. The optional `distribution` argument of the `random_number` intrinsic procedure allows to specify the distribution to sample, e.g., `'normal'` or `'gamma'`. [No, this argument doesn't exist]
