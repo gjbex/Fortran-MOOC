@@ -101,7 +101,7 @@ respectively are 1, but they can be used creatively in some situations.
 Another very useful BLAS level 1 function is `sdot`, the single precision dot
 product of two vectors, i.e.,
 $$
-   d = \Sum_{i=1}^{N} u_I v_i
+   d = \sum_{i=1}^{N} u_I v_i
 $$
 
 ~~~~fortran
@@ -160,13 +160,17 @@ matrix.
 
 There are a few other useful level 2 operations such as solving a triangular
 set of equations and performing a symmetric rank 1 and rank 2 operation, i.e.,
+
 $$
     A = \alpha \vec{x} \otimes \vec{x}' + A
 $$
+
 and
+
 $$
-    A = \alpha \left\( \vec{x} \otimes \vec{y}' + \vec{y} \otimes \vec{x}' \right\) + A
+    A = \alpha ( \vec{x} \otimes \vec{y}' + \vec{y} \otimes \vec{x}' ) + A
 $$
+
 respectively.
 
 
