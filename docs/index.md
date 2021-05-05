@@ -48,3 +48,4 @@
 1. [Documentation best practices](documentation_best_practices.md)
 1. [History of Fortran](history.md)
 1. [References](references.md)
+1. [Fortran humor](humor.md)
