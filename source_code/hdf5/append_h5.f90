@@ -8,7 +8,7 @@ program append_h5
     character(len=1024) :: file_name
     logical :: file_exists
     integer :: status, ierr
-    integer(hid_t) :: file_id, dset_id, dspace_id, all_dspace_id, &
+    integer(hid_t) :: file_id, dset_id, dspace_id, &
                       dset_prop_id, fspace_id
     integer(hsize_t), dimension(pos_rank) :: pos_dim, max_pos_dim, &
                                              pos_chunk_dim, pos_offset, &
@@ -86,7 +86,7 @@ program append_h5
     ! compute data
     do j = 1, nr_pos
         do i = 1, pos_space_rank
-            data(i, j) = 1.0_sp*i*j + pos_dim(2)
+            data(i, j) = 1.0_sp*i*j + real(pos_dim(2))
         end do
     end do
 
