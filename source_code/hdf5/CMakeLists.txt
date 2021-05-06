@@ -10,7 +10,7 @@ add_compile_options(-Wall -Wextra)
 
 find_package(HDF5 REQUIRED Fortran)
 add_compile_options(${HDF5_Fortran_DEFINITIONS})
-include_directories(${HDF5_Fortran_INCLUDE_DIR})
+include_directories(${HDF5_Fortran_INCLUDE_DIRS})
 
 add_executable(create_h5.exe create_h5.f90)
 target_link_libraries(create_h5.exe ${HDF5_Fortran_LIBRARIES})
