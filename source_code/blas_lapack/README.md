@@ -29,3 +29,5 @@ illustrations of their use.
    equations.
 1. `CMakeLists.txt`: CMake file to build the applications.
 1. `blas95`: illustration of using the BLAS95 interfaces.
+1. `linear_equations`: example of solving a set of linear equations using
+   LAPACK on sets defined in files.

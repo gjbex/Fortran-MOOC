@@ -45,3 +45,5 @@ add_executable(sv.exe sv.f90 util_mod.f90)
 target_link_libraries(sv.exe PUBLIC ${BLAS_LIBRARIES} ${LAPACK_LIBRARIES})
 
 add_subdirectory(blas95)
+
+add_subdirectory(linear_equations)
