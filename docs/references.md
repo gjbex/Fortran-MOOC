@@ -31,6 +31,14 @@ software.
 Note that these documents are not open access.
 
 
+## Software stack
+
+* [GNU Fortran](https://gcc.gnu.org/fortran/)
+* [Intel Fortran](https://software.intel.com/en-us/fortran-compilers-support/documentation)
+* [Fonts for editors](https://itnext.io/11-best-programming-fonts-724283a9ed57)
+* [Doxygen manual](https://www.doxygen.nl/manual/)
+
+
 ## Software engineering: articles and books
 
 * *The practice of programming*, Brian W. Kernighan and Rob Pike
@@ -47,10 +55,9 @@ Note that these documents are not open access.
 * [*The seven deadly sins of programming*](https://hackernoon.com/the-7-deadly-sins-of-programming-a7574efc639f) 
 
 
+## Libraries
 
-
-
-## Library documentation
+### Documentation
 
 * [Quick reference guide to the BLAS](https://www.netlib.org/lapack/lug/node145.html)
 * [netlib BLAS documentation](http://www.netlib.org/blas/)
@@ -58,7 +65,7 @@ Note that these documents are not open access.
 * [HDF5 documentation](https://support.hdfgroup.org/HDF5/doc/)
 
 
-## Additional libraries
+### Additional libraries
 
 * [BLACS](https://www.netlib.org/blacs/)
 * [ScaLAPACK](http://www.netlib.org/scalapack/)
@@ -67,14 +74,6 @@ Note that these documents are not open access.
 * [PETSc](https://www.mcs.anl.gov/petsc/)
 * [Pardiso](https://www.pardiso-project.org/)
 * [NetCDF](https://www.unidata.ucar.edu/software/netcdf/)
-
-
-## Software stack
-
-* [GNU Fortran](https://gcc.gnu.org/fortran/)
-* [Intel Fortran](https://software.intel.com/en-us/fortran-compilers-support/documentation)
-* [Fonts for editors](https://itnext.io/11-best-programming-fonts-724283a9ed57)
-* [Doxygen manual](https://www.doxygen.nl/manual/)
 * [Intel® Math Kernel Library Link Line Advisor](https://software.intel.com/content/www/us/en/develop/articles/intel-mkl-link-line-advisor.html)
 
 
