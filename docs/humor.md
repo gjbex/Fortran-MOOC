@@ -2,12 +2,12 @@
 
 There are jokes about most programming languages, and Fortran is no exception.  some of them are a little dated and mention programming languages you've never heard of.
 
-* [Real programmers don't use PASCAL](https://www-users.cs.york.ac.uk/susan/joke/quiche.htm), letter to the editor of Datamation, volume 29 number 7, pp. 263-265, July 1983.
 * In Fortran, god is real, unless declared otherwise.
 * [Fortran programming class](https://comic.browserling.com/tag/fortran-programming)
 * A computer without COBOL and Fortran is like a piece of chocolate cake without ketchup and mustard.
 * Q: What does a Fortran77 programmer call a pointer? A: A dummy argument.
 * [Xkcd on go to statements](https://xkcd.com/292/)
+* [Real programmers don't use PASCAL](https://www-users.cs.york.ac.uk/susan/joke/quiche.htm), letter to the editor of Datamation, volume 29 number 7, pp. 263-265, July 1983.
 * Programming Languages are Like Cars
 
   * Assembler: A formula I race car.  Very fast but difficult to drive and maintain.

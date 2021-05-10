@@ -20,6 +20,8 @@ software.
   Scientific programming, vol. 2015, article ID 126069, 2015
 * *Exception handling in Fortran*, Arjen Markus, Newsletter ACM SIGPLAN
   Fortran Forum, volume 32, issue 2, p. 7‒13, 2013
+*  [*Ce vieux langage de programmation connaît un regain d'intérêt.Mais son avenir est encore loin d'être assuré*](https://www.zdnet.fr/actualites/ce-vieux-langage-de-programmation-conna-t-un-regain-d-interet-mais-son-avenir-est-encore-loin-d-etre-assure-39922309.htm)
+
 
 ### Specifications
 
