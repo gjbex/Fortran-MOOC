@@ -40,7 +40,7 @@ Although Fortran 90 didn't remove any features, a number of them were tagged as 
 
 Fortran 95 introduced some quite interesting additions to the language.  For example the `FORALL`  and nested `WHERE` statements that can help the compiler to better vectorize code.  You could also declare your procedures to be pure or elemental.  The do loop with floating point values got deleted from the language.
 
-Fortran 2003 was again a major leap forward, especially with respect to support for object-oriented programming.  The introduction of streaming I/O helped to ensure that files could much more easily be exchanged with applications written in other programming languages.  A start was made to standardize the interoperability with C and compliance with the IEEE 745 standard on floating point arithmetic.
+Fortran 2003 was again a major leap forward, especially with respect to support for object-oriented programming.  The introduction of streaming I/O helped to ensure that files could much more easily be exchanged with applications written in other programming languages.  A start was made to standardize the interoperability with C and compliance with the IEEE 754 standard on floating point arithmetic.
 
 Submodules were introduced in Fortran 2008 to reduce build times of large projects.  It also defined coarrays for parallel programming in pure Fortran, and the `DO CONCURRENT` statement to help the compiler detect independent iterations.
 
