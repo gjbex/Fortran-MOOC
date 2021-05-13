@@ -3,26 +3,32 @@
 This repository contains material for the PRACE MOOC on "Fortran for scientific
 programming".
 
-The reading material can be found in the [`docs`](docs) directory, while the
-source code that is written by way of illustration for the reading material as well
-as the videos can be found in the [`source_code`](source_code) directory
+
+## Content
+
+* [Reading material](docs/): the reading material.md).
+* [Source code](source_code/): the source code illustrating the concepts in this course, as well as
+  the exercises.
+* [Software stack](software/): installation instructions for the software stack.
 
 
-## Reading material
+## Contributors
 
-The reading material can be found in the [`docs`](docs/index.md).
+* [Geert Jan Bex](geertjan.bex@uhasselt.be)
+  * Content
+* Jan Ooghe
+  * Project coordination
+* Mag Selwa
+  * Adding content to FutureLearn platform
+* Wauter Van Assche
+  * Typo and formatting fixes
+  * Adding content to FutureLearn platform
+* Jakob Randa
+  * Exercise
+
+You are welcom to contribute, please follow the [guidelines](CONTRIBUTING.md).ggjkkkkkkkkkkkkkkjjjjj
 
 
-## Source code
+## License
 
-The source code illustrating the concepts in this course, as well as the exercises can be found in the [`source_code`](source_code/) directory.
-
-
-## Software stack
-
-Installation instructions for the software stack can be found in [`software`](software/) directory.
-
-
-## Practice
-
-The [`practice`](practice/) directory contains the exercises for the course.
+All material is licensed under the [CCBY 4](LICENSE) license agreement.
