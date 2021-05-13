@@ -1,4 +1,4 @@
-# Fortran-MOOC
+# Fortran MOOC
 
 This repository contains material for the PRACE MOOC on "Fortran for scientific
 programming".
