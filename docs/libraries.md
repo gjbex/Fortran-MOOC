@@ -2,7 +2,14 @@
 
 Reinventing the wheel is typically not your best option.  Many libraries are
 available that implement data structures and algorithms for scientific
-computing.
+computing.  Although it is very useful to understand the algorithms you are
+using, perhaps even by implementing proof of concept, it shouldn't be your
+choice for production code if a mature library is available.
+
+In this section a number of libraries are mentioned that cover the
+fundamentals of scientific computing.  Of course, there are many more out
+there, so it pays off to do a thorough search before you embark on your
+own development adventure.
 
 Fast Fourier Transforms are important mathematical tools in many domains.
 The [FFTW3](http://www.fftw.org/) library is an excellent implementation
