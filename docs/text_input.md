@@ -102,7 +102,7 @@ character(len=64) :: buffer
 integer :: nr_values, istat
 character(len=1024) :: msg
 ...
-read(buffer, fmt='(I64)', iostat=istat, iomsg=msg) nr_values
+read (buffer, fmt='(I64)', iostat=istat, iomsg=msg) nr_values
 if (istat /= 0) then
     write (unit=error_unit, fmt='(2A)') 'error: ', msg
     stop 1
