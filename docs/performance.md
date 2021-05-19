@@ -164,6 +164,11 @@ It also follows that vectorized single precision arithmetic will be faster
 than double precision, so if you don't need the accuracy of double precision
 you can speed up your application.
 
+However, array expressions may lead to temporary arrays being created in some
+circumentances.  Using statements such as where and do concurrent can help in
+such situations since this also indicates clearly to the compiler that iterations
+are independent.
+
 
 ## Double promotion
 
