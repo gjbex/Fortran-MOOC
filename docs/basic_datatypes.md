@@ -307,7 +307,7 @@ The function `cmplx` will convert two numbers to a complex value.
 
 The type logical represents Boolean values.  It has only two constant values,
 `.TRUE.` and `.FALSE.`.  The unary `.not.` operator represents the Boolean negation.
-The semantics of the unary and binary operators `.and.`, `.or.`, .eqv.` and `.neqv.`
+The semantics of the unary and binary operators `.and.`, `.or.`, `.eqv.` and `.neqv.`
 is summarized in the table below.
 
 | p         | q         | `.not.`   | `.and.`   | `.or.`    | `.eqv.`   | `.neqv.`  |
