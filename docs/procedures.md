@@ -595,10 +595,7 @@ Obviously this is not an exhaustive list of all the intrinsic procedures
 defined in the Fortran specification, so it really pays off to check what is
 available to avoid reinventing the wheel.
 
-
-## References
-
-List of intrinsic procedures
+You can find a list of intrinsic procedures 
 [implemented by GCC](https://gcc.gnu.org/onlinedocs/gfortran/Intrinsic-Procedures.html#Intrinsic-Procedures).
 Note that not all these procedures are standard Fortran, some are GNU
 extensions.  This is clearly indicated though.
