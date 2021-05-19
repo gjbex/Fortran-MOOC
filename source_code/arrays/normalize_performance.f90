@@ -3,7 +3,8 @@ program normalize_performance
     implicit none
     integer :: matrix_size
     real(kind=DP), dimension(:, :), allocatable :: matrix
-    integer :: row, istat
+    real(kind=DP) :: row_norm
+    integer :: row, col, istat
     real :: start_time, end_time
 
     call get_arguments(matrix_size)
@@ -20,6 +21,22 @@ program normalize_performance
     if (.not. is_normed(matrix, abs_tol=1e-4_DP)) then
         write (unit=error_unit, fmt='(A)') 'error: array is not normalized (row-wise)'
     end if
+
+    ! reinitialize the matrix to avoid cache effects
+    call random_number(matrix)
+    call cpu_time(start_time)
+    do concurrent (row = 1:size(matrix, 1))
+        row_norm = 1.0_DP/sum(matrix(row, :))
+        do concurrent (col = 1:size(matrix, 2))
+            matrix(row, col) = matrix(row, col)*row_norm
+        end do
+    end do
+    call cpu_time(end_time)
+    print '(A, F10.6)', 'do concurrent row-wise norm: ', end_time - start_time
+    if (.not. is_normed(matrix, abs_tol=1e-4_DP)) then
+        write (unit=error_unit, fmt='(A)') 'error: array is not normalized (row-wise)'
+    end if
+
 
 
     ! initialize the matrix
