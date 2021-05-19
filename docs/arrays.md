@@ -467,6 +467,12 @@ contains
 end program linear_transform
 ~~~~
 
+Many of Fortran's intrinsic functions are elemental, e.g., `sqrt` or the trigonometric
+functions.  It is quite useful that you can define your own functions that can be
+applied to an entire array at once.
+
+Note that also subroutines can be elemental.
+
 
 ### Arrays as return values
 
