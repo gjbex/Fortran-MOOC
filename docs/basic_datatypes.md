@@ -310,12 +310,53 @@ The type logical represents Boolean values.  It has only two constant values,
 The semantics of the unary and binary operators `.and.`, `.or.`, `.eqv.` and `.neqv.`
 is summarized in the table below.
 
-| p         | q         | `.not.`   | `.and.`   | `.or.`    | `.eqv.`   | `.neqv.`  |
-|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
-| `.TRUE.`  | `.TRUE.`  | `.FALSE.` | `.TRUE.`  | `.TRUE.`  | `.TRUE.`  | `.FALSE.` |
-| `.TRUE.`  | `.FALSE.` | `.FALSE.` | `.FALSE.` | `.TRUE.`  | `.FALSE.` | `.TRUE.`  |
-| `.FALSE.` | `.TRUE.`  | `.TRUE.`  | `.FALSE.` | `.TRUE.`  | `.FALSE.` | `.TRUE.`  |
-| `.FALSE.` | `.FALSE.` | `.TRUE.`  | `.FALSE.` | `.FALSE.` | `.TRUE.`  | `.FALSE.` |
+### Negation
+
+| p         | `.not.`   |
+|-----------|-----------|
+| `.TRUE.`  | `.FALSE.` |
+| `.TRUE.`  | `.FALSE.` |
+| `.FALSE.` | `.TRUE.`  |
+| `.FALSE.` | `.TRUE.`  |
+
+### Conjunction
+
+| p         | q         | `.and.`   |
+|-----------|-----------|-----------|
+| `.TRUE.`  | `.TRUE.`  | `.TRUE.`  |
+| `.TRUE.`  | `.FALSE.` | `.FALSE.` |
+| `.FALSE.` | `.TRUE.`  | `.FALSE.` |
+| `.FALSE.` | `.FALSE.` | `.FALSE.` |
+
+
+### Disjunction
+
+| p         | q         | `.or.`    |
+|-----------|-----------|-----------|
+| `.TRUE.`  | `.TRUE.`  | `.TRUE.`  |
+| `.TRUE.`  | `.FALSE.` | `.TRUE.`  |
+| `.FALSE.` | `.TRUE.`  | `.TRUE.`  |
+| `.FALSE.` | `.FALSE.` | `.FALSE.` |
+
+### Equivalence
+
+| p         | q         | `.eqv.`   |
+|-----------|-----------|-----------|
+| `.TRUE.`  | `.TRUE.`  | `.TRUE.`  |
+| `.TRUE.`  | `.FALSE.` | `.FALSE.` |
+| `.FALSE.` | `.TRUE.`  | `.FALSE.` |
+| `.FALSE.` | `.FALSE.` | `.TRUE.`  |
+
+
+### Exclusive or
+
+| p         | q         | `.neqv.   |
+|-----------|-----------|-----------|
+| `.TRUE.`  | `.TRUE.`  | `.FALSE.  |
+| `.TRUE.`  | `.FALSE.` | `.TRUE.`  |
+| `.FALSE.` | `.TRUE.`  | `.TRUE.`  |
+| `.FALSE.` | `.FALSE.` | `.FALSE.  |
+
 
 
 ## Character values
