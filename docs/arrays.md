@@ -644,7 +644,7 @@ The general syntax for the forall statement is given below.
 
 ~~~~
 forall (<iter 1>, ..., <iter n>, <logical expression>)
-    <block statements>
+    <array assignments>
 end forall
 ~~~~
 
@@ -663,3 +663,50 @@ If the conditional expression, also called the mask, is left out, it is assumed 
 true for all iteration values.
 
 Note that only assignments to arrays are allowed in the block of a forall statement.
+
+
+## do concurrent
+
+Whereas the forall statement can be used for array assignment only, the do
+concurrent statement is more general.  The syntax is very similar to that of
+forall.
+
+For instance, the example in the previous section can be written using do
+concurrent.
+
+~~~~fortran
+do concurrent (i=1:N, j=i:N)
+    A(i, j) = f(i, j)
+end do
+~~~~
+
+The general syntax for the do concurrent statement is given below.
+
+~~~~
+do concurrent (<iter 1>, ..., <iter n>, <logical expression>)
+    <block statements>
+end do
+~~~~
+
+The `<iteration 1>` to `<iteration n>` have the form `<variable>=<first>:<last>`
+or `<variable>=<first>:<last>:<stride>`.  The values of `<first>`, `<last>` and
+`<stride>` should not refer to other iteration variables.  This means our example
+can not be written as follows.
+
+The `<block statements>` should be independent, i.e., the order of the
+iterations should not matter.  This means there are some restrictions of what
+can be done in a do concurrent statement:
+
+* conditional statements should not transfer control out of the iteration;
+* procedures called must be pure.
+
+Note that do concurrent statements can be nested.
+
+~~~~fortran
+do concurrent (row = 1:size(matrix, 1))
+    row_norm = 1.0_DP/sum(matrix(row, :))
+    do concurrent (col = 1:size(matrix, 2))
+        matrix(row, col) = matrix(row, col)*row_norm
+    end do
+end do
+~~~~
