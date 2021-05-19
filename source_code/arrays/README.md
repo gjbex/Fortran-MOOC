@@ -18,7 +18,7 @@ Several short Fortran programs to illustrate arrays.
    arguments.
 1. `identity.f90`: illustration of a function return an array.
 1. `array_timings.f90`: illustration of performance difference between array
-   expressions, nested do-loops and forall.
+   expressions, nested do-loops, forall and do concurrent.
 1. `normalize.f90`: normalize a matrix by broadcasting a la numpy.
 1. `normalize_performance.f90`: performance test for normalization using
    `spread` versus other methods.
