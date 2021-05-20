@@ -14,9 +14,11 @@ with any number of targets.
 
 Consider the following mathematical relation between a vector $$A$$ at time
 $t + 1$$ as a function of the values of $$A$$ at $$t$$:
+
 $$
     A_{t+1, i} = \frac{1}{4}A_{t, i-1} + \frac{1}{2}A_{t, i} + \frac{1}{4}A_{t, i+1}
 $$
+
 Starting from some initial values for $$A$$ at $$t = 0$$, what is the values
 of $$A$$ after `nr_steps` time steps?
 
@@ -82,6 +84,7 @@ The benefit of using pointers in this code fragment is that the data in array
 in better performance for large arrays.
 
 Note that a pointer can be associated with a variable if and only if
+
 * their types match, and
 * the variable is a target.
 
@@ -201,6 +204,7 @@ has a nullified `next` value is the last element in the list.
 
 Operations such as the removal of an element from the list can also be
 implemented conveniently.
+
 1. Find the element before the one you want to remove.
 1. Get the value of `next` of the element you want to remove.
 1. Assign that value to the `next` member of the element before the one
