@@ -38,7 +38,7 @@ Note that these documents are not open access.
 
 ### Articles
 
-* [*Emulating multiple inheritance in Fortran 2003/2008*], Karla Morris,
+* *Emulating multiple inheritance in Fortran 2003/2008*, Karla Morris,
   Scientific programming, vol. 2015, article ID 126069, 2015
 
 

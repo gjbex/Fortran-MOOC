@@ -16,7 +16,7 @@ software.
 
 ### Articles
 
-* [*Emulating multiple inheritance in Fortran 2003/2008*], Karla Morris,
+* *Emulating multiple inheritance in Fortran 2003/2008*, Karla Morris,
   Scientific programming, vol. 2015, article ID 126069, 2015
 * *Exception handling in Fortran*, Arjen Markus, Newsletter ACM SIGPLAN
   Fortran Forum, volume 32, issue 2, p. 7‒13, 2013
