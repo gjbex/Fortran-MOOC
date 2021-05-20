@@ -9,10 +9,12 @@ programming langauges, including Fortran.
 
 Writing API (Application Programming Interface) documentation simply boils down
 to adding comments to a procedure that mentions
+
 * its intent,
 * a description,
 * its arguments, including the type and semantics,
 * its return type, if any.
+
 Documentation at the level of modules can be added as comments as well.
 
 The doxygen tool will read the source code, extract the documentation and
@@ -96,7 +98,7 @@ end program box_counting
 
 This will be rendered as follows:
 
-![proram-level doxygen documentation](doxygen_procedure.png)
+![program-level doxygen documentation](doxygen_program.png)
 
 
 ## Main page
@@ -145,6 +147,7 @@ $ doxygen  -g
 ~~~~
 
 There are a number of configuration options you definitely want to set such as
+
 * `PROJECT_NAME`: the name of your project;
 * `PROJECT_NUMBER`: the version number of your project;
 * `PROJECT_BRIEF`: a brief description of the project;
