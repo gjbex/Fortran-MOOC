@@ -372,7 +372,9 @@ end function factorial
 
 Please note that although it may be more convenient to formulate a recursive
 algorithm, this will typically use more system resources and have worse efficiency
-than its iterative counterpart.
+than its iterative counterpart.  In fact, any recursive algorithm can be converted
+into an iterative algorithm, see for instance this
+[blog post](https://blog.moertel.com/posts/2013-05-11-recursive-to-iterative.html).
 
 
 ## Keyword arguments
