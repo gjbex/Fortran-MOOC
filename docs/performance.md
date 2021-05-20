@@ -221,7 +221,7 @@ data reuse, and that is at least partly under your control.
 
 The figure below shows the latencies for various operations.
 
-![Latencies][latency.png]
+![Latencies](latency.png)
 
 Another limiting factor is the bandwidth available between various
 components of your computer, e.g., that between RAM and CPU.  It is best
