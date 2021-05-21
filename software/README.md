@@ -11,3 +11,9 @@ containers that contain all the required software.
   * [MacOS](Installation_instructions_MacOS.md)
   * [Linux](Installation_instructions_Linux.md)
 * [`containers`](containers): container definitions.
+
+The docker image is available on [Docker Hub](https://hub.docker.com/) and can be pulled
+using:
+```bash
+$ docker pull gjbex/fortran-mooc:latest
+```
