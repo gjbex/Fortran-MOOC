@@ -23,6 +23,8 @@ programming".
 * Wauter Van Assche
   * Typo and formatting fixes
   * Adding content to FutureLearn platform
+  * Graphics for the activities
+  * Instructions for software installation
 * Jakob Randa
   * Exercise
 
