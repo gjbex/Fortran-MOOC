@@ -89,7 +89,7 @@ contains
 
     function compute_center_of_mass(particles) result(coordinates)
         implicit none
-        type(particles_t(*)), intent(in) :: particles
+        type(particles_t), intent(in) :: particles
         type(coordinates_t) :: coordinates
         real(kind=DP) :: total_mass
 
