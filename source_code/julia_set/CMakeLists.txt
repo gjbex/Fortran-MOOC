@@ -2,7 +2,14 @@ cmake_minimum_required(VERSION 3.0)
 
 project(julia_set LANGUAGES Fortran)
 
-add_compile_options(-Wall -Wextra)
+if (CMAKE_Fortran_COMPILER_ID STREQUAL "GNU")
+    add_compile_options(-Wall -Wextra)
+elseif(CMAKE_Fortran_COMPILER_ID STREQUAL "Intel")
+    add_compile_options(-warn all -diag-enable remark)
+else()
+    message(WARNING "comppiler ${CMAKE_Fortran_COMPILER_ID} not supported")
+endif()
+
 
 # set directory to store .mod files
 set(CMAKE_Fortran_MODULE_DIRECTORY
