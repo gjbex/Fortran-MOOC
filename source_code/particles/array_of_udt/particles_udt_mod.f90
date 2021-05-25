@@ -74,7 +74,6 @@ contains
         implicit none
         type(particle_t), intent(in) :: p1, p2
         real(kind=DP) :: dist
-        integer :: i
 
         associate(c1 => p1%coords, c2 => p2%coords)
             dist = sqrt((c1%x - c2%x)**2 + (c1%y - c2%y)**2 + (c1%z - c2%z)**2)
