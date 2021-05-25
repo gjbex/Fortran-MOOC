@@ -10,3 +10,7 @@ Implementations of linked lists to show various Fortran features.
 1. 'generic_linked_list`: generic snigle linked list implementation using the
    C preprocessor.
 1. 'CMakeLists.txt`: CMake file to build the applications.
+
+Note: the compiler generates a warning about comparing real numbers for lists
+that have real numbers as values.  Can this warning be ignored, and if not,
+how would you remedy the underlying issue?
