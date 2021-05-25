@@ -9,5 +9,9 @@ Dockerfile: development_node.py
 development_node_install.sh: development_node.py
 	hpccm --recipe $< --format bash > $@
 
+development_node_20_04_install.sh: development_node_20_04.py
+	hpccm --recipe $< --format bash > $@
+
 clean:
-	$(RM) development_node.def Dockerfile development_node_install.sh
+	$(RM) development_node.def Dockerfile development_node_install.sh \
+		development_node_20_04_install.sh
