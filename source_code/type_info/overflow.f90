@@ -7,6 +7,6 @@ program overflow
     val = 125
     do i = 1, 6
         print *, val
-        val = val + 1
+        val = val + 1_INT8
     end do
 end program overflow
