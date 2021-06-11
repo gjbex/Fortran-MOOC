@@ -20,7 +20,7 @@ programming".
   * Project coordination
 * Mag Selwa
   * Adding content to FutureLearn platform
-* Wauter Van Assche
+* Wouter Van Assche
   * Typo and formatting fixes
   * Adding content to FutureLearn platform
   * Graphics for the activities
@@ -28,7 +28,7 @@ programming".
 * Jakob Randa
   * Exercise
 
-You are welcom to contribute, please follow the [guidelines](CONTRIBUTING.md).ggjkkkkkkkkkkkkkkjjjjj
+You are welcom to contribute, please follow the [guidelines](CONTRIBUTING.md).
 
 
 ## License

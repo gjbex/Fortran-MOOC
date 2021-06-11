@@ -128,7 +128,7 @@ end submodule(quad_mod) quad_gauss_smod
 
 Note that the interface of the function `quad_gauss` is not repeated
 in the submodule.  Also, changing the implementation of `quad_gauss` will
-cause the file that contains it to be recompiled, but the files that contain
+cause the file that contains it to be recompiled, but not the files that contain
 the implementations of other functions.
 
 Of course, creating a submodule for each individual function is likely
