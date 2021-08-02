@@ -52,6 +52,6 @@ When you consider the evolution of the Fortran programming language, it is clear
 
 * [Kathleen Booth](https://en.wikipedia.org/wiki/Kathleen_Booth)
 * [John Backus](https://en.wikipedia.org/wiki/John_Backus)
-* [Programming with puched cards](http://www.columbia.edu/cu/computinghistory/fisk.pdf), Dale Fisk
+* [Programming with punched cards](http://www.columbia.edu/cu/computinghistory/fisk.pdf), Dale Fisk
 * [Punch card computer data processing overview IBM 029 Key Punch Machine](https://youtu.be/3fVRGQT1CoM)
 
