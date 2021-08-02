@@ -16,7 +16,7 @@ Which of the following statements is syntactically correct?
 1. `type(employee_t), dimension(5) :: employees` [Indeed, that is correct.] [x]
 1. `employee.first_name = 'Jack'` [No, elements are not accessed using a `.`.]
 1. `employee(age) = 35` [No, this syntax is not correct.]
-1. `employee % wages = 2553.5` [Indeed, this is correct.]
+1. `employee % wages = 2553.5` [Indeed, this is correct.] [x]
 
 
 ## Question 2
