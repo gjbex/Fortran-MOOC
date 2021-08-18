@@ -7,7 +7,7 @@ files.  However, Fortran can also read and write binary files.
 It also has two more access modes for I/O, direct and stream, which each have
 their specific use cases.
 
-Finally, you will also learn about eh `inquire`statement that can be used to
+Finally, you will also learn about the `inquire`statement that can be used to
 obtain information on files.
 
 
@@ -20,10 +20,10 @@ open them in a text editor or inspect them using tools such as `cat` or
 However, there are some disadvantages as well.
 1. text files are typically larger than binary files that contain the same
    information.
-1. Formatted I/O is requires converting data to a textual representation,
+1. Formatted I/O requires converting data to a textual representation,
    or vice versa.  This has a performance impact, increasing the time
    required for I/O.
-1. When you convert a floating point value to a text representation when you
+1. When you convert a floating point value to a text representation you
    write to a file, and subsequently convert that text representation back to
    a floating point value when you read the file, these two floating point
    values may not be identical.
