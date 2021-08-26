@@ -18,7 +18,7 @@ end do
 The following statement is syntactically correct.
 
 ~~~~fortran
-do (i < 10) while
+do while (i < 10)
     x = f(x, i)
 end do
 ~~~~
@@ -48,7 +48,7 @@ do i = 1, N
     x = f(x, i)
 end do
 ~~~~
-1. yes [Indeed, this syntax if correct.] [x]
+1. yes [Indeed, this syntax is correct.] [x]
 1. no [Check the syntax again.]
 
 

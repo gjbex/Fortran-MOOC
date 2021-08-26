@@ -10,7 +10,7 @@ When you declare a variable as `character(len=*) :: str = 'abcde'` in the progra
 
 ## Question 2
 
-When two variables are declared as `characber(len=5) :: s1 = 'abc', s2 = 'cde'` the concatenation of those string will be
+When two variables are declared as `character(len=5) :: s1 = 'abc', s2 = 'cde'` the concatenation of those string will be
 1. `'abccde'`
 1. `'abc  cde'`
 1. `'abccde    '`

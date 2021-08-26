@@ -54,7 +54,7 @@ end if
 1. `x = x + 3` [Not really, check again.]
 1. `x = x - 3` [not really, check gain.]
 1. neither `x = x + 3` nor `x = x - 3` [Indeed, since `x` is less than or equal to 5.] [x]
-1. both `x = x + 3` and `x = 3 - 3` will be executed [That would be very strange since they and if-statements is a branching statement.]
+1. both `x = x + 3` and `x = 3 - 3` will be executed [That would be very strange an if-statement is a branching statement.]
 
 
 ## Question 5

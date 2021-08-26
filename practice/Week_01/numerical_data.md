@@ -24,7 +24,7 @@ Assuming we are using GCC 10.x, which of the following is correct?
 1. The declaration `real :: x = 1.0/0.0` results in a compile time error. [Indeed, the compiler will catch this, experiment how you can deceive it.] [x]
 1. Using  the variable `x` declared as `real :: x = sqrt(-1.0)` results in a runtime error. [This will be caught by the compiler, try to deceive it.]
 1. For the declaration `real :: x = 1/3` , `x` will have the value will be approximately 0.33333. [No, this is an integer division.]
-1. The declaration `real :: x = exp(3)` will result in a compilation error. [Indeed, the argument for the intrinsic function `x` must be be real or complex.] [x]
+1. The declaration `real :: x = exp(3)` will result in a compilation error. [Indeed, the argument for the intrinsic function `exp` must be be real or complex.] [x]
 
 
 ## Question 4

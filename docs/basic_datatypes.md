@@ -316,8 +316,6 @@ is summarized in the table below.
 | p         | `.not.`   |
 |-----------|-----------|
 | `.TRUE.`  | `.FALSE.` |
-| `.TRUE.`  | `.FALSE.` |
-| `.FALSE.` | `.TRUE.`  |
 | `.FALSE.` | `.TRUE.`  |
 
 ### Conjunction
@@ -353,10 +351,10 @@ is summarized in the table below.
 
 | p         | q         | `.neqv.   |
 |-----------|-----------|-----------|
-| `.TRUE.`  | `.TRUE.`  | `.FALSE.  |
+| `.TRUE.`  | `.TRUE.`  | `.FALSE.` |
 | `.TRUE.`  | `.FALSE.` | `.TRUE.`  |
 | `.FALSE.` | `.TRUE.`  | `.TRUE.`  |
-| `.FALSE.` | `.FALSE.` | `.FALSE.  |
+| `.FALSE.` | `.FALSE.` | `.FALSE.` |
 
 
 
