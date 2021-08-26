@@ -46,9 +46,9 @@ The intrinsic `iso_fortran_env` module defines four integer kinds:
 So, 8, 16, 32 and 64 are the number of bits to represent an integer value.
 
   * `integer(kind=IN8)  :: i` implies that $$-2^7  \le i < 2^7$$
-  * `integer(kind=IN16) :: i` implies that $$-2^15 \le i < 2^15$$
-  * `integer(kind=IN32) :: i` implies that $$-2^31 \le i < 2^31$$
-  * `integer(kind=IN64) :: i` implies that $$-2^63 \le i < 2^63$$
+  * `integer(kind=IN16) :: i` implies that $$-2^{15} \le i < 2^{15}$$
+  * `integer(kind=IN32) :: i` implies that $$-2^{31} \le i < 2^{31}$$
+  * `integer(kind=IN64) :: i` implies that $$-2^{63} \le i < 2^{63}$$
 
 As you see, the largest integer that can be represented in Fortran is $$2^63 - 1$$.
 The largest value for a kind can be computed using the `huge` function, e.g.,
@@ -89,6 +89,7 @@ However, note that the kind is `INT8`, so the maximum value that can be stored i
 127
 -128
 -127
+-126
 ~~~~
 
 
@@ -113,8 +114,8 @@ program sqrt_2
     use, intrinsic :: iso_fortran_env, only : SP => REAL32, DP => REAL64
     implicit none
 
-    print *, sqrt(2.0_SP) == 2.0_SP
-    print *, sqrt(2.0_DP) == 2.0_DP
+    print *, sqrt(2.0_SP)**2 == 2.0_SP
+    print *, sqrt(2.0_DP)**2 == 2.0_DP
 end program sqrt_2
 ~~~~
 
