@@ -9,7 +9,7 @@ evaluates to true.
 
 The do statement will repeat a block of statements a number of times.  As a very
 simple example, consider the following program that computes the factorial function
-for a number of integers.  The general from is given below.
+for a number of integers.  The general form is given below.
 
 ~~~~
 do <variable> = <start>, <end>, <step>

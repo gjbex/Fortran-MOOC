@@ -45,7 +45,7 @@ variables, mathematical expression or function calls.
 
 The simplest value for the format specifier `<fmt>` is simply `*`.  This
 leaves it up to the Fortran runtime to determine the appropriate output
-format.  For very simple I/O this may be sufficient.  the following code
+format.  For very simple I/O this may be sufficient.  The following code
 illustrates the default output format for various data types.
 
 ~~~~fortran
@@ -94,7 +94,7 @@ scalar values such as real and integer numbers, logical and character values,
 but also user defined types and (multi-) dimensional arrays.
 
 Note the single space at the start of each line.  Each print statement will
-write to a new line of the output file.  It 
+write to a new line of the output file.
 
 Although this is no doubt the easiest way to write to standard output, the
 formatting is likely not always what you want it to look like.  This is where
@@ -344,11 +344,11 @@ The open statement takes a lot of arguments:
 1. `action`, this can be `write`, `readwrite` or `read`;
 1. `status`, this can be `new`, `old`, `replace` or `scratch`;
 1. `form`, this can be `formatted` or `unformatted`;
-1. `position`, this is the position to start writing, it can be 'rewind' or
+1. `position`, this is the position to start writing, it can be `rewind` or
    `append`;
 1. `iostat`, represents the exit status of the statement, non-zero if there
    were issues;
-1. `iomsg`, this is the error messages in case something went wrong.
+1. `iomsg`, this is the error message in case something went wrong.
 
 You will learn about the options in other sections, here we will only discuss
 `access='write'`, `status=`new``, `status='replace'`, `form='formatted'`.
@@ -382,7 +382,7 @@ case, the unit number can be used for subsequent operations, such as the write
 statement.  When all data has been written, the unit can be closed using
 the close statement.
 
-It is good practice to always use `ioostat` to verify that I/O operations
+It is good practice to always use `iostat` to verify that I/O operations
 succeeded, also in, e.g., write and close statements where they have been
 omitted for the sake of brevity.  For instance, a write statement might fail
 because you exceed disk quota.

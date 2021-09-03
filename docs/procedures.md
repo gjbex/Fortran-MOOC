@@ -37,7 +37,7 @@ real or complex number as an argument and returns a real or
 complex value, the square root of its argument.
 
 Note: as opposed to C, C++, Java and Python, mathematical
-function are intrinsic to the language, no header files
+functions are intrinsic to the language, no header files
 or modules need to be included.  This is of course due to
 Fortran's primary focus: scientific computing.
 
@@ -548,7 +548,7 @@ function and the `random_number` subroutine.
 
 Many mathematical functions are implemented as intrinsic functions, e.g.,
 
-1. the absolute value `abs` the complex conjugate `conjg`, the square root
+1. the absolute value `abs`, the complex conjugate `conjg`, the square root
    function `sqrt` and the modulo function `mod`;
 1. the trigonometric functions `sin`, `cos`, `tan` and their inverse `asin`,
    `acos` and `atan`;

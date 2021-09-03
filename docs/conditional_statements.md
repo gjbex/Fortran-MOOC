@@ -67,7 +67,7 @@ If `<logical expression 2>` also evaluates to false,
 
 You can have as many `else if` cases as you require.
 
-The following code snippets checks whether an integer that
+The following code snippet checks whether an integer that
 represents a year is a leap year or not.
 
 ~~~~fortran
@@ -100,18 +100,18 @@ Fortran's second if-statement is the logical if.  It is
 syntactically simpler that the block if, and is a single
 line of code.
 
-The general for is:
+The general form is:
 
 ~~~~
 if (<logical expression>) <statement>
 ~~~~
 
-The logical if will execute a single statements
+The logical if will execute a single statement
 `<statement>` if `<logical expression>` evaluates to true.
 
 Note that a logical if
 
-* can only execute a single stat,
+* can only execute a single statement,
 * has no `else`, and
 * requires no `end if`.
 

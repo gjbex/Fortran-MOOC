@@ -377,7 +377,7 @@ A single binary operator `//` is defined on strings, representing concatenation.
 
 The comparison operators can be used to compare strings, but note that they will use
 the order defined on characters by the CPU, which (in very rare cases) may not be
-ASCII as you would expect.  There are intrinsic function that guarantee comparison
+ASCII as you would expect.  There are intrinsic functions that guarantee comparison
 according to lexicographic order.
 
   * `llt(x, y)`: less than,
@@ -398,7 +398,7 @@ Consequently, the length of `str` will always be 5.
 
 Selecting a substring from a string variable is straightforward, e.g., `str(2:4)`
 would select the second through the fourth character, i.e., `'bc '`.  Somewhat
-counter-intuitively, individual characters also have t be selected as a range, e.g.,
+counter-intuitively, individual characters also have to be selected as a range, e.g.,
 `str(2:2)` would be the second character, i.e., `'b'`.
 
 The intrinsic function `len` returns the length of a string, but including the padding

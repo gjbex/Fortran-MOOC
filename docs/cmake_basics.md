@@ -75,7 +75,7 @@ $ ./hello_fortran.exe
 
 ## Multiple source files
 
-suppose that your application is implemented using multiple source files, i.e.,
+Suppose that your application is implemented using multiple source files, i.e.,
 some modules are stored in their own files. CMake can handle this very easily,
 you just have to specify the dependency.  For example, the following specification
 would use the files `cellular_automata.f90` as well as `cellular_automata_mod.f90`
