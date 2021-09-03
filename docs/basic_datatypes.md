@@ -50,7 +50,7 @@ So, 8, 16, 32 and 64 are the number of bits to represent an integer value.
   * `integer(kind=IN32) :: i` implies that $$-2^{31} \le i < 2^{31}$$
   * `integer(kind=IN64) :: i` implies that $$-2^{63} \le i < 2^{63}$$
 
-As you see, the largest integer that can be represented in Fortran is $$2^63 - 1$$.
+As you see, the largest integer that can be represented in Fortran is $$2^{63} - 1$$.
 The largest value for a kind can be computed using the `huge` function, e.g.,
 `huge(int(0, kind=INT16)) == 32767`.  Another useful function to determine properties
 of an integer kind is `range`, it returns the order of (decimal) magnitude for the
@@ -215,7 +215,7 @@ intrinsic procedures to convert a value to a different kind of the same type.
 #### Kind conversions
 
 Every conversion procedure has an optional `kind` argument. 
-from an `INT32` to an `INT64`, you would use
+From an `INT32` to an `INT64`, you would use
 
 ~~~~fortran
 program type_conversion
