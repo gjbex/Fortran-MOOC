@@ -97,7 +97,7 @@ However, note that the kind is `INT8`, so the maximum value that can be stored i
 
 The `real` type in Fortran represents mathematical real numbers.  Always bear in mind
 that values of this type have a limited precision.  Constants of this type are, e.g.,
-`-3.5`, `0.0032`, `13.6e6` ($$1.36 \cdot 10^6$$) , `-1.3e-4` ($$-1.3 \cdot 10^{-4}$$).
+`-3.5`, `0.0032`, `1.36e6` ($$1.36 \cdot 10^6$$) , `-1.3e-4` ($$-1.3 \cdot 10^{-4}$$).
 
 The operators defined on real numbers are the same as for integers, except that `/`
 is the division, so `1.0/2.0 == 0.5`.
@@ -106,7 +106,7 @@ The comparison operators for real values are the same as for integers, but of co
 you have to bear in mind that testing for equality (`==`) and inequality (`/=`) may
 not make much sense since values are computed, and hence subject to round-off errors.
 
-For instance, while mathematically, $$\sqrt{2}^2 = 2$$, this does not hold for
+For instance, while mathematically, $$(\sqrt{2})^2 = 2$$, this does not hold for
 floating point values.
 
 ~~~~fortran
@@ -189,9 +189,9 @@ computes the conjugate of a complex number.
 
 Somewhat confusingly, you can use a tuple notation to assign a constant to a complex
 variable, but for non-constant real and/or imaginary part, you would have to use
-the function that creates a complex value out of a real and an imaginary part is called
-`cmplx`. as the following code fragment illustrates that initializing a complex
-constant `C`, and assigning to a complex variable, `cval`.
+the function that creates a complex value out of a real and an imaginary part.
+This function is called `cmplx`. as the following code fragment illustrates that
+initializes two complex variables `z1` and `z2`.
 
 ~~~~fortran
 ...

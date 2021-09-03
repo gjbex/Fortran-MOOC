@@ -29,10 +29,9 @@ so on till the last iteration.
     `<start>` < `<end>`.
   * Otherwise, the number of iterations is `<nr_iter>` = (`<end>` - `<start>` + `<step>`)/`<step>`.
 
-In the
-last iteration, `<variable>` will have the value `<start>` + (`<nr_iter>` - 1)\*`<step>`,
-and after the execution of the do statement `<variable>` will have the value
-`<start>` + `<nr_iter>`\*`<step>`.
+In the last iteration, `<variable>` will have the value
+`<start>` + (`<nr_iter>` - 1)\*`<step>`, and after the execution of the do
+statement `<variable>` will have the value `<start>` + `<nr_iter>`\*`<step>`.
 
 Here, the expression $$m/n$$ denotes the integer division.
 
@@ -146,7 +145,7 @@ do while (<variable> <= <end>)
 end do
 ~~~~
 
-Here, we assume that `<step>` is positive.  A similar conversion can be defined
+Here, we assume that `<step>` is positive.  A similar equivalence can be defined
 for negative values of `<step>`.
 
 Obviously, the do statement conveys your intentions much better than the while
