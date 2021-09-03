@@ -27,10 +27,13 @@ programming".
   * Instructions for software installation
 * Jakob Randa (UHasselt)
   * Exercise
-* Ehsan Moravveji (KU Leuven)
-  * Reporting typos
 
-You are welcom to contribute, please follow the [guidelines](CONTRIBUTING.md).
+Beta testers (many thanks for feedback and corrections):
+* Jonas Kaerts (KU Leuven)
+* Ehsan Moravveji (KU Leuven)
+* Steven Vandenbrande (KU Leuven)
+
+You are welcome to contribute, please follow the [guidelines](CONTRIBUTING.md).
 
 
 ## License
