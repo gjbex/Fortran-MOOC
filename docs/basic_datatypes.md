@@ -241,7 +241,7 @@ be what you expect.
 ~~~~
 
 The conversion resulted in an overflow.  This is the result of converting a larger
-kind into a smaller one: information is lost.  Note that a inadvertent conversion
+kind into a smaller one: information is lost.  Note that an inadvertent conversion
 such as this may give rise to very nasty bugs (hence the compiler warning).
 
 On the other hand, converting from a smaller kind to a larger one works perfectly

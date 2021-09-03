@@ -66,7 +66,7 @@ do i = 1, N &
 
 ## Question 6
 
-How many iteration will be executed by the iteration statement below?
+How many iterations will be executed by the iteration statement below?
 
 ~~~~fortran
 do i = 1, 5, 3
@@ -81,7 +81,7 @@ end do
 
 ## Question 7
 
-How many iteration will be executed by the iteration statement below?
+How many iterations will be executed by the iteration statement below?
 
 ~~~~fortran
 do i = 5, 5, 2
@@ -96,7 +96,7 @@ end do
 
 ## Question 8
 
-How many iteration will be executed by the iteration statement below?
+How many iterations will be executed by the iteration statement below?
 
 ~~~~fortran
 do i = 5, 3
