@@ -18,22 +18,24 @@ end do
 ~~~~
 
 The `<variable>` has to be of type `integer`, while `<start>`, `<end>` and `<step>`
-should be integer expressions.  The `do` and `end do` bracket the `<statements>`
-hat will be repeated.  In the first iteration, `<variable>` will have the value
+should be integer expressions.  The `do` and `end do` delimit the `<statements>`
+that will be repeated.  In the first iteration, `<variable>` will have the value
 `<start>`, in the second iteration its value will be `<start>` + `<step>` and
-so on till the last iteration where its value will be equal to
-`<end>` - mod(`<end>`, `<step>`).
+so on till the last iteration.
 
   * If `<step>` is zero, the program will crash.
   * If `<step>` is positive and `<start>` > `<end>`, then the do statement is not
     executed.  Similarly, it will also not be executed if `<step>` is negative, and
     `<start>` < `<end>`.
-  * Otherwise, the number of iterations is (`<end>` - `<start>` + `<step>`)/`<step>`.
+  * Otherwise, the number of iterations is `<nr_iter>` = (`<end>` - `<start>` + `<step>`)/`<step>`.
 
-Here, the expression *m*/*n* denotes the integer division.
+In the
+last iteration, `<variable>` will have the value `<start>` + (`<nr_iter>` - 1)\*`<step>`,
+and after the execution of the do statement `<variable>` will have the value
+`<start>` + `<nr_iter>`\*`<step>`.
 
-When the do statement terminates, the value of `<variable>` is
-`<start>` + `<step>` \* number of iterations.
+Here, the expression $$m/n$$ denotes the integer division.
+
 
 The step needs not to be specified, and in that case will have the default value 1.
 
@@ -143,6 +145,9 @@ do while (<variable> <= <end>)
     <variable> = <variable> + <step>
 end do
 ~~~~
+
+Here, we assume that `<step>` is positive.  A similar conversion can be defined
+for negative values of `<step>`.
 
 Obviously, the do statement conveys your intentions much better than the while
 statement.
