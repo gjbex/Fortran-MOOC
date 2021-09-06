@@ -44,7 +44,7 @@ If this fragment is executed for `op` equal to `'+'`, it
 
 ## Question 3
 
-Can the following statement be replace by a select statement for `i` declared as an integer?
+Can the following statement be replaced by a select statement for `i` declared as an integer?
 
 ~~~~fortran
 if (i < 0 .or. i > 0) then

@@ -50,7 +50,7 @@ subroutine fill_array(A)
 
     do j = 1, size(A, 1)
         do i = 1, size(A, 2)
-            A(i, j) = A(i, j) = (i - 1)*size(A, 2) + j
+            A(i, j) = (i - 1)*size(A, 2) + j
         end do
     end do
 end subroutine fill_array

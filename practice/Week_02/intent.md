@@ -68,7 +68,7 @@ end subroutine compute
 ## Question 4
 
 Which of the following statements is correct?
-1. When you declare and array argument as intent `in`, you can not assign to the array, but you can modify individual elements [No, try it out.]
+1. When you declare an array argument as intent `in`, you can not assign to the array, but you can modify individual elements [No, try it out.]
 1. When you don't specify an intent, the default is `in` [No, try it out.]
 1. Specifying the intent will help the compiler catch potential bugs. [Indeed.] [x]
 1. Declaring a `value` argument is synonymous to intent `in`. [No, you can assign to an argument that was declared `value`.]

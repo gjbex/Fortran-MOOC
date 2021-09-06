@@ -258,7 +258,7 @@ variable.  Changing that local variable doesn't change the value of the variable
 caller's context.
 
 If you would do the same in Fortran, the value of the variable in the caller's context
-will be changed, Fortran has call-by-referred semantics.  The following program
+will be changed, Fortran has call-by-reference semantics.  The following program
 illustrates this.
 
 ~~~~fortran
@@ -305,7 +305,7 @@ Error: Non-variable expression in variable definition context (actual argument t
 Indeed, it doesn't make sense to call a subroutine that has an `inout` argument with
 a constant.
 
-However, clearly, there situation in which you would prefer call-by-value semantics.
+However, clearly, there are situations in which you would prefer call-by-value semantics.
 Consider the following implementation of the factorial function.
 
 ~~~~fortran
@@ -379,7 +379,7 @@ into an iterative algorithm, see for instance this
 
 ## Keyword arguments
 
-Fortran support keyword arguments, which can be very convenient when you have
+Fortran supports keyword arguments, which can be very convenient when you have
 procedures with multiple arguments.  Consider the example of the `clamp` subroutine
 we defined above.  Do you remember the signature?  Perhaps you don't, if so, keyword
 arguments can help, and make your code easier to understand.  You can call the
@@ -458,7 +458,7 @@ you can use `save`.
 
 The following example uses a uniform random number distribution to generate numbers
 from a normal distribution.  The algorithm actually generates two random values, so
-the second one is stored for the next call in the `save` variable `next_val.  The
+the second one is stored for the next call in the `save` variable `next_val`.  The
 variable `is_next_val` will be true when a value is available, false when two new
 values need to be computed.
 
@@ -497,8 +497,8 @@ You can help the compiler to generate more efficient code by writing pure proced
 and marking them as such.  A pure procedure is a function or a subroutine that has
 no side effects.
 
-More specifically, all non-pointer argument must be of intent `in. For subroutines,
-all arguments must have their intent specified.
+More specifically, all non-pointer arguments must be of intent `in`. For subroutines,
+all arguments must have their intent specified as `in` or `inout`.
 
 For procedures in general:
 

@@ -52,6 +52,6 @@ end forall
 ~~~~
 How many elements of `data` will be equal to 1?
 1. 0 [No, try it out.]
-1. 12 [No, check the mask expression.]
-1. 13 [Indeed.] [x]
+1. 13 [No, check the mask expression.]
+1. 12 [Indeed.] [x]
 1. 25 [No, check the mask expression.]

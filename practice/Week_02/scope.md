@@ -7,7 +7,7 @@ Consider the following program.
 ~~~~fortran
 program scope_01
     implicit none
-    integer :: x = 3 y = 5
+    integer :: x = 3, y = 5
 
     call compute(x)
     print *, x, y

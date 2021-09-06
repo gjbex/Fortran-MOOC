@@ -184,7 +184,7 @@ on what you want to accomplish that will terminate any iteration statement:
 
 The following program illustrates both an infinite loop, and the use of an exit
 statement.  It reads floating point values from standard input, and computes the sum.
-When there is no more input, `stat` will have a negative values (end-of-file), and
+When there is no more input, `stat` will have a negative value (end-of-file), and
 the iteration statement is terminated using the `exit` statement. The next statement
 prints the sum.
 

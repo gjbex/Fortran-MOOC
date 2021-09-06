@@ -164,7 +164,7 @@ For example, the descriptor `I5` would result in the following output for
 The character `#` is used to visually represent a space, it would of course
 not be written out.
 
-A second from of the descriptor is `I<w>.<d>` where `<w>` is again the width
+A second form of the descriptor is `I<w>.<d>` where `<w>` is again the width
 of the string to be written, and `<d>` is the number of digits.  If the number
 of characters to represent the integer is less than `<d>`, the value is padded
 with `0`.
@@ -276,7 +276,7 @@ is left-aligned, and padded with spaces.
 ### General edit descriptor
 
 The general edit descriptor `G<w>.<d>` can be used for integer, real, logical
-and logical values.  Its simplest form is `G0` where it will choose the
+and character values.  Its simplest form is `G0` where it will choose the
 appropriate width for the value.  Although this is very convenient, you
 should note that for real values, the number of digits is compiler dependent,
 so the code may not be entirely portable.
@@ -304,7 +304,7 @@ This would produce the following output.
 ~~~~
 
 An edit descriptor can also be repeated, for instance, to write five
-real numbers, you could use `(5E13.3)'.  This repetion factor can also be `*`
+real numbers, you could use `(5E13.3)`.  This repetion factor can also be `*`
 to indicate an unlimited number of repetitions, e.g.,
 
 ~~~~
@@ -320,7 +320,7 @@ end subroutine print_vector
 Parentheses can be used to group edit descriptors.  For instance, to
 print three pairs of a string and an integer value, you can use `(3(A, I0))`.
 
-The example above also illustrates that string literals can be part f an edit
+The example above also illustrates that string literals can be part of an edit
 descriptor, i.e., `": "` in this example.
 
 You can use the `/` edit descriptor to start a new line, e.g., the descriptor
@@ -413,7 +413,7 @@ Although this section is about writing to text files, as a small aside, we
 will briefly discuss creating strings.  The write statement can be applied
 to a character variable to create a formatted string.  As an example, consider
 that you might want to let the number of digits in an edit description for
-a real number on some runtime conditions.
+a real number depend on some runtime conditions.
 
 ~~~~fortran
 ...
@@ -421,7 +421,7 @@ character(len=10) :: fmt_str
 integer :: nr_digits
 real :: x
 ...
-write (fmt_str, "('(E', I0, '.', I0, ')') nr_digits + 7, nr_digits
+write (fmt_str, "('(E', I0, '.', I0, ')')" nr_digits + 7, nr_digits
 write (unit=output_unit, fmt=fmt_str) x
 ...
 ~~~~
