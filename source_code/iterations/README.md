@@ -9,3 +9,4 @@ Illustrations of Fortran's iteration statements.
 1. `verify_do_loop.f90`: check the number of iterations, last value and iteration
    variables.
 1. `zero_step.f90`: confirm that a step of zero crashes.
+1. `check_doubles.f90`: illustration of named block statement.
