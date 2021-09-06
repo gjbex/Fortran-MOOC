@@ -234,3 +234,58 @@ end program sum_values
 
 Arguably, the code in this version of the program is even cleaner that the first one,
 but it will be hard to generalize to more complex situations.
+
+
+## Named blocks
+
+Fortran allows you to name block statements.  This is illustrated in the code
+fragment below.
+
+~~~~fortran
+function has_duplicates(data) result(result)
+    integer, dimension(:), intent(in) :: data
+    logical :: result
+    integer :: i, j
+
+    result = .false.
+    outer: do i = 1, size(data) - 1
+        do j = i + 1, size(data)
+            if (data(i) == data(j)) then
+                result = .true.
+                exit outer
+            end if
+        end do
+    end do outer
+end function has_duplicates
+~~~~
+
+This function checks whether an array contains duplicate elements. If so, it
+returns `.true.`, otherwise `.false.`.  If there is a duplicate, this is
+detected in the inner do loop, and the result is known.  Hence you want
+to exit the outer do loop.  Simply using the exit statement would terminate
+the inner loop, but the outer loop would continue with its next iteration.
+
+However, we can give block statements a name, `outer` in the example above.
+The name of the do loop can then be used in the exit statement to specify
+which  loop should be exited.
+
+This is likely the most common application of named blocks, but since names
+can be given to any block statement (do and do while loops, block if
+statements, select, where, do concurrent, block.  It may help to add names
+to block statements to make code more readable and help the compiler catch
+semantic errors.
+
+The general form of a named block statement is:
+
+~~~~
+<name>: <block-statement> ...
+    ...
+end <block-statement> <name>
+~~~~
+
+Using the `<name>` for ending the block is optional, but may help you
+interpret your code more easily.
+
+Note that the example is slightly contrived.  In practice you would
+likely use a return statement rather than an exit statement in this
+situation.
