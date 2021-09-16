@@ -38,7 +38,7 @@ name of a type.
 
 ## Variable declaration and use
 
-`config_t` is a type, so if you can declare variables that have this type, e.g.,
+`config_t` is a type, so you can declare variables of this type, e.g.,
 
 ~~~~fortran
 type(config_t) :: config
@@ -54,11 +54,13 @@ config%nr_iters = 0
 config%precision = 1.0e-10_DP
 ~~~~
 
+Note that Fortran uses `%` to access members of a user defined type.
+
 The initialization of a user defined hype variable can be done in a single
 statement, e.g.,
 
 ~~~~fortran
-config = config_t(method='none', nr_iters=0, precision=1.0e-10_DP
+config = config_t(method='none', nr_iters=0, precision=1.0e-10_DP)
 ~~~~
 
 Elements of user defined type variables can be used like any other variable in
@@ -84,7 +86,7 @@ type :: particle_t
 end type particle_t
 ~~~~
 
-The following function takes to arguments of type `particle_t` as argument, and
+The following function takes two arguments of type `particle_t` as argument, and
 computes the Euclidean distance between them.
 
 ~~~~fortran
