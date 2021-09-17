@@ -222,7 +222,7 @@ example, for `E10.2` the output would be.
 | 1.23     | `##0.12e+01`    |
 | 1.29     | `##0.13e+01`    |
 | -1.23    | `#-0.12e+01`    |
-| 1.23e5   | `##0.12e+01`    |
+| 1.23e5   | `##0.12e+06`    |
 
 The results of edit descriptor can be somewhat inconsistent since leading
 zeroes will be left out in order to fit the width if required.
