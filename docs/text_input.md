@@ -17,7 +17,8 @@ descriptors are not allowed.
 This raises the issue that if you use edit descriptors to read data, the
 data must be formatted *exactly* as specified by the descriptor.  If that is
 the case, you risk reading garbage values into your variables or crashing your
-program.  Best practice is to use the exact for input and output of data.
+program.  Best practice is to use the exact same format for input and output
+of data.
 
 If you can not control the format of the data precisely, you can still read
 the data using `*` as format specifier.  Consider the following somewhat
@@ -67,7 +68,7 @@ read statement.  If everything went well, the I/O status will be zero.
 Typically, two categories of problems can arise.  The characters read from
 the input can not be converted to the data type of the corresponding variable,
 or the end of the input is reached.  You can easily distinguish between these
-two situation based on the value of the I/O status variable.  The status will
+two situations based on the value of the I/O status variable.  The status will
 be `iostat_end`, defined in the `iso_fortran_env` module if the end of the
 file was reached.  The value will be strictly positive if the input could not
 be converted to the appropriate data type.
@@ -102,7 +103,7 @@ character(len=64) :: buffer
 integer :: nr_values, istat
 character(len=1024) :: msg
 ...
-read(buffer, fmt='(I64)', iostat=istat, iomsg=msg) nr_values
+read (buffer, fmt='(I64)', iostat=istat, iomsg=msg) nr_values
 if (istat /= 0) then
     write (unit=error_unit, fmt='(2A)') 'error: ', msg
     stop 1

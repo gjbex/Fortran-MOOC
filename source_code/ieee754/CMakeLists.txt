@@ -6,7 +6,14 @@ set(CMAKE_Fortran_MODULE_DIRECTORY
     ${CMAKE_BINARY_DIR}/modules)
 file(MAKE_DIRECTORY ${CMAKE_Fortran_MODULE_DIRECTORY})
 
-add_compile_options(-Wall -Wextra)
+if (CMAKE_Fortran_COMPILER_ID STREQUAL "GNU")
+    add_compile_options(-Wall -Wextra)
+elseif(CMAKE_Fortran_COMPILER_ID STREQUAL "Intel")
+    add_compile_options(-warn all -diag-enable remark)
+else()
+    message(WARNING "comppiler ${CMAKE_Fortran_COMPILER_ID} not supported")
+endif()
+
 
 add_executable(zero_vs_non_zero.exe zero_vs_non_zero.f90)
 add_executable(infinity.exe infinity.f90)
@@ -18,6 +25,6 @@ target_compile_options(trap_exceptions.exe PRIVATE -ffpe-trap=invalid,zero,overf
 add_executable(trap_underflow.exe next_up.f90)
 target_compile_options(trap_exceptions.exe PRIVATE -ffpe-trap=underflow)
 add_executable(exceptions.exe exceptions.f90)
-add_executable(logistic_map.exe logistic_map.f90)
+add_executable(logistic_map_no_fpe_trap.exe logistic_map.f90)
 add_executable(logistic_map_fpe_trap.exe logistic_map.f90)
 target_compile_options(logistic_map_fpe_trap.exe PRIVATE -ffpe-trap=invalid,zero,overflow)

@@ -24,7 +24,7 @@ no fundamental difference.
 
 1. `fib_mod.f90`:  five implementations of the Fibonacci sequence.
 1. `fibonacci_verify.f90`: program that verifies the various implementations.
-1. `fibonacci_skewed.f90`: program that times vairous implementations of the
+1. `fibonacci_skewed.f90`: program that times various implementations of the
    Fibonacci sequence, subsequent function calls are in order, favoring
    the memoization implementation.
 1. `fibonacci.f90`: program that times various implementations of the

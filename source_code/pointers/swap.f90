@@ -42,10 +42,10 @@ program swap_test
 
     ! check results
     if (mod(nr_steps, 2) == 0) then
-        if (any(vector /= old_vector)) &
+        if (any(abs(vector - old_vector) > epsilon(1.0))) &
             write (unit=error_unit, fmt='(A)') 'warning: results differ'
     else
-        if (any(vector /= new_vector)) &
+        if (any(abs(vector - new_vector) > epsilon(1.0))) &
             write (unit=error_unit, fmt='(A)') 'warning: results differ'
     end if
 
@@ -69,10 +69,10 @@ program swap_test
 
     ! check results
     if (mod(nr_steps, 2) == 0) then
-        if (any(vector /= old_vector)) &
+        if (any(abs(vector - old_vector) > epsilon(1.0))) &
             write (unit=error_unit, fmt='(A)') 'warning: results differ'
     else
-        if (any(vector /= new_vector)) &
+        if (any(abs(vector - new_vector) > epsilon(1.0))) &
             write (unit=error_unit, fmt='(A)') 'warning: results differ'
     end if
 

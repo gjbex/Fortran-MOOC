@@ -24,7 +24,7 @@ contains
         stats%n = size(data)
         data_sum = sum(data)
         data_sum2 = sum(data**2)
-        associate(n => stats%n)
+        associate (n => stats%n)
             stats%mean = data_sum/n
             stats%stddev = sqrt((data_sum2 - data_sum**2/n)/(n - 1))
         end associate

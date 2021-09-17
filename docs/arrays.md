@@ -160,7 +160,7 @@ increment.
    `<start>` is less than or equal to `<end>`.
   * If `<delta>` is negative, the array indices are similarly, but the last value
     will be `<start> + i_max*<delta>` such that it is larger than or equal to
-    `<end>`.  Note that in that case `<start>` larger than or equal to `<end>`.
+    `<end>`.  Note that in that case `<start>` should be larger than or equal to `<end>`.
 
 If `<delta>` is omitted, it defaults to 1.
 
@@ -253,7 +253,7 @@ dimension as an optional argument for use with multidimensional arrays, e.g.,
 columns.
 
 The `shape` intrinsic function returns a one dimensional array with the dimensions
-for the array.  So for a $$3 \times 5$$ array, the `shape` function return the array
+for the array.  So for a $$3 \times 5$$ array, the `shape` function returns the array
 `[3, 5]`.
 
 The `rank` intrinsic function returns the rank of an array, i.e., its number of
@@ -277,7 +277,7 @@ Most mathematical function such as the trigonometric functions and their inverse
 exponential and logarithmic functions and the square root can be applied to an array of
 any rank to produce a new array of the same rank with elements that are the result of
 applying the function to the corresponding element in the original array.  So
-`A_new(i) = <func>(A(i))`.  Such procedure are called elemental and you'll see in one
+`A_new(i) = <func>(A(i))`.  Such procedures are called elemental and you'll see in one
 of the next section how to create your own.
 
 The scalar product of two vectors (i.e, one dimensional arrays) can be computed using
@@ -305,7 +305,7 @@ Obviously, the intrinsic functions `minval` and `minloc` are similar to `maxval`
 
 ### Masks and dimension
 
-Intrinsic unctions similar to `sum` and `maxval` accept two optional arguments
+Intrinsic functions similar to `sum` and `maxval` accept two optional arguments
 `dim` and `mask`.
 
 If `dim` is specified, the result returned by the function is an array with a rank one
@@ -370,7 +370,7 @@ in the array `A`.  It takes an optional argument `dim` as well.
 
 ## Extent
 
-Although the default indices of a Fortran array ranges from 1 to the size of the
+Although the default indices of a Fortran array range from 1 to the size of the
 array, it is possible to declare arrays with a non-default extent.  Consider the
 following array declaration.
 
@@ -378,18 +378,18 @@ following array declaration.
 real, dimension(-10:10) :: A
 ~~~~
 
-This declares an array named `A` that has 21 elements of type `integer`.  The first
+This declares an array named `A` that has 21 elements of type `real`.  The first
 element is at index -10, the second at -9, and so on.  The last element has index
 10.
 
-The intrinsic function `lbound` and `ubound` return the lower and upper bound(s) of
+The intrinsic functions `lbound` and `ubound` return the lower and upper bound(s) of
 an array respectively.  Similar to the `size` function, these intrinsic functions
 take an optional argument `dim` to specify the dimension for which you want the
 upper or lower bound.
 
 If you feel tempted at this point to emulate 0-based indices because that is what you
 are used to in some other programming language, please don't.  It adds complexity to
-your code and make it harder to read for seasoned Fortran programmers (also, they
+your code and makes it harder to read for seasoned Fortran programmers (also, they
 will make fun of you).
 
 Regardless, arrays with non-default upper and lower bounds indices definitely have
@@ -406,7 +406,7 @@ act on individual array elements just like intrinsic procedures such as, e.g.,
 
 ### Assumed-shape arguments
 
-You may think that there is an a problem when you have to declare an argument of
+You may think that there is a problem when you have to declare an argument of
 a procedure that is an array: how to specify its shape?  If the shape would have
 to be specified explicitly, e.g, `dimension(3, 4)` writing and using procedures
 involving arrays would be *very* cumbersome.  Fortunately, Fortran offers a very
@@ -443,7 +443,8 @@ will return the values corresponding to the array in the calling context.
 
 ### Elemental procedures
 
-Elemental procedures are pure procedures that operate on a single scalar value.  The
+Elemental procedures are pure procedures that operate on a single scalar value.
+When it receives an array as an argument, it is applied element-wise  The
 following Fortran program shows an elemental function and its application.
 
 ~~~~fortran
@@ -466,6 +467,12 @@ contains
 
 end program linear_transform
 ~~~~
+
+Many of Fortran's intrinsic functions are elemental, e.g., `sqrt` or the trigonometric
+functions.  It is quite useful that you can define your own functions that can be
+applied to an entire array at once.
+
+Note that also subroutines can be elemental.
 
 
 ### Arrays as return values
@@ -516,11 +523,11 @@ integer :: i
 do i = 1, nr_particles
     call random_number(probability)
     if (probability < 0.5) then
-        masses = proton_mass
-        charges = proton_charge
+        masses(i) = proton_mass
+        charges(i) = proton_charge
     else
-        masses = electron_mass
-        charges = electron_charge
+        masses(i) = electron_mass
+        charges(i) = electron_charge
     end if
 end do
 ...
@@ -534,10 +541,10 @@ elegant alternative using the where statement.
 
 ~~~~fortran
 ...
-real, dimension(nr_particles) :: masses, charges, probabilies
+real, dimension(nr_particles) :: masses, charges, probabilities
 
-call random_number(probabilies)
-where (probabilies < 0.5)
+call random_number(probabilities)
+where (probabilities < 0.5)
     masses = proton_mass
     charges = proton_charge
 elsewhere
@@ -552,16 +559,16 @@ statement which is functionally equivalent.
 
 ~~~~fortran
 ...
-real, dimension(nr_particles) :: masses, charges, probabilies
+real, dimension(nr_particles) :: masses, charges, probabilities
 
-call random_number(probabilies)
+call random_number(probabilities)
 do i = 1, nr_particles
     if (probabilities(i) < 0.5) then
-        masses = proton_mass
-        charges = proton_charge
+        masses(i) = proton_mass
+        charges(i) = proton_charge
     else
-        masses = electron_mass
-        charges = electron_charge
+        masses(i) = electron_mass
+        charges(i) = electron_charge
     end if
 end do
 ...
@@ -594,11 +601,11 @@ function can be a nice alternative.
 
 ~~~~fortran
 ...
-real, dimension(nr_particles) :: masses, charges, probabilies
+real, dimension(nr_particles) :: masses, charges, probabilities
 
-call random_number(probabilies)
-masses = merge( probabilies < 0.5, proton_mass, electron_mass)
-charges = merge( probabilies < 0.5, proton_charg, electron_charg)
+call random_number(probabilities)
+masses = merge( probabilities < 0.5, proton_mass, electron_mass)
+charges = merge( probabilities < 0.5, proton_charg, electron_charg)
 ...
 ~~~~
 
@@ -644,14 +651,14 @@ The general syntax for the forall statement is given below.
 
 ~~~~
 forall (<iter 1>, ..., <iter n>, <logical expression>)
-    <block statements>
+    <array assignments>
 end forall
 ~~~~
 
 The `<iteration 1>` to `<iteration n>` have the form `<variable>=<first>:<last>`
 or `<variable>=<first>:<last>:<stride>`.  The values of `<first>`, `<last>` and
 `<stride>` should not refer to other iteration variables.  This means our example
-can not be written as follows.
+can not be written as follows since `j` is initialized using the value of `i`.
 
 ~~~~fortran
 forall (i=1:N, j=i:N)
@@ -663,3 +670,50 @@ If the conditional expression, also called the mask, is left out, it is assumed 
 true for all iteration values.
 
 Note that only assignments to arrays are allowed in the block of a forall statement.
+
+
+## do concurrent
+
+Whereas the forall statement can be used for array assignment only, the do
+concurrent statement is more general.  The syntax is very similar to that of
+forall.
+
+For instance, the example in the previous section can be written using do
+concurrent.
+
+~~~~fortran
+do concurrent (i=1:N, j=i:N)
+    A(i, j) = f(i, j)
+end do
+~~~~
+
+The general syntax for the do concurrent statement is given below.
+
+~~~~
+do concurrent (<iter 1>, ..., <iter n>, <logical expression>)
+    <block statements>
+end do
+~~~~
+
+The `<iteration 1>` to `<iteration n>` have the form `<variable>=<first>:<last>`
+or `<variable>=<first>:<last>:<stride>`.  The values of `<first>`, `<last>` and
+`<stride>` should not refer to other iteration variables.  This means our example
+can not be written as follows.
+
+The `<block statements>` should be independent, i.e., the order of the
+iterations should not matter.  This means there are some restrictions of what
+can be done in a do concurrent statement:
+
+* conditional statements should not transfer control out of the iteration;
+* procedures called must be pure.
+
+Note that do concurrent statements can be nested.
+
+~~~~fortran
+do concurrent (row = 1:size(matrix, 1))
+    row_norm = 1.0_DP/sum(matrix(row, :))
+    do concurrent (col = 1:size(matrix, 2))
+        matrix(row, col) = matrix(row, col)*row_norm
+    end do
+end do
+~~~~

@@ -5,7 +5,7 @@ program quicksort_test
     implicit none
     integer, parameter, dimension(12) :: sizes = [ 0, 1, 2, 3, 5, 10, 100, 1000, &
                                                    10000, 100000, 1000000, 10000000 ]
-    integer :: i
+    integer :: i, status
     real, dimension(:), allocatable :: qsort_values, lampsort_values
     real, dimension(:), allocatable, target :: c_qsort_values
     real :: start_time, end_time, qsort_time, lampsort_time, c_qsort_time
@@ -22,9 +22,8 @@ program quicksort_test
     print '(A12, 3A15)', 'array_size', 'qsort', 'lampsort', 'c_qsort'
     do i = 1, size(sizes)
         allocate (qsort_values(sizes(i)), lampsort_values(sizes(i)), &
-                  c_qsort_values(sizes(i)))
-        if (.not. allocated(qsort_values) .or. .not. allocated(lampsort_values) .or. &
-            .not. allocated(c_qsort_values)) then
+                  c_qsort_values(sizes(i)), stat=status)
+        if (status /= 0) then
             write (unit=error_unit, fmt='(A, I0)') &
                 'error: can not allocate array of size ', sizes(i)
             stop 1

@@ -9,7 +9,7 @@ program compute_pi_omp
     delta = 1.0_DP/nr_iters
     x = 0.0_DP
 
-    !$omp parallel do default(none) private(x) shared(delta) reduction(+:pi_val)
+    !$omp parallel do default(none) private(x) shared(delta, nr_iters) reduction(+:pi_val)
     do i = 1, nr_iters
         x = i*delta
         pi_val = pi_val + sqrt(1.0_DP - x**2)

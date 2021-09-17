@@ -46,11 +46,11 @@ The intrinsic `iso_fortran_env` module defines four integer kinds:
 So, 8, 16, 32 and 64 are the number of bits to represent an integer value.
 
   * `integer(kind=IN8)  :: i` implies that $$-2^7  \le i < 2^7$$
-  * `integer(kind=IN16) :: i` implies that $$-2^15 \le i < 2^15$$
-  * `integer(kind=IN32) :: i` implies that $$-2^31 \le i < 2^31$$
-  * `integer(kind=IN64) :: i` implies that $$-2^63 \le i < 2^63$$
+  * `integer(kind=IN16) :: i` implies that $$-2^{15} \le i < 2^{15}$$
+  * `integer(kind=IN32) :: i` implies that $$-2^{31} \le i < 2^{31}$$
+  * `integer(kind=IN64) :: i` implies that $$-2^{63} \le i < 2^{63}$$
 
-As you see, the largest integer that can be represented in Fortran is $$2^63 - 1$$.
+As you see, the largest integer that can be represented in Fortran is $$2^{63} - 1$$.
 The largest value for a kind can be computed using the `huge` function, e.g.,
 `huge(int(0, kind=INT16)) == 32767`.  Another useful function to determine properties
 of an integer kind is `range`, it returns the order of (decimal) magnitude for the
@@ -89,6 +89,7 @@ However, note that the kind is `INT8`, so the maximum value that can be stored i
 127
 -128
 -127
+-126
 ~~~~
 
 
@@ -96,7 +97,7 @@ However, note that the kind is `INT8`, so the maximum value that can be stored i
 
 The `real` type in Fortran represents mathematical real numbers.  Always bear in mind
 that values of this type have a limited precision.  Constants of this type are, e.g.,
-`-3.5`, `0.0032`, `13.6e6` ($$1.36 \cdot 10^6$$) , `-1.3e-4` ($$-1.3 \cdot 10^{-4}$$).
+`-3.5`, `0.0032`, `1.36e6` ($$1.36 \cdot 10^6$$) , `-1.3e-4` ($$-1.3 \cdot 10^{-4}$$).
 
 The operators defined on real numbers are the same as for integers, except that `/`
 is the division, so `1.0/2.0 == 0.5`.
@@ -105,7 +106,7 @@ The comparison operators for real values are the same as for integers, but of co
 you have to bear in mind that testing for equality (`==`) and inequality (`/=`) may
 not make much sense since values are computed, and hence subject to round-off errors.
 
-For instance, while mathematically, $$\sqrt{2}^2 = 2$$, this does not hold for
+For instance, while mathematically, $$(\sqrt{2})^2 = 2$$, this does not hold for
 floating point values.
 
 ~~~~fortran
@@ -113,8 +114,8 @@ program sqrt_2
     use, intrinsic :: iso_fortran_env, only : SP => REAL32, DP => REAL64
     implicit none
 
-    print *, sqrt(2.0_SP) == 2.0_SP
-    print *, sqrt(2.0_DP) == 2.0_DP
+    print *, sqrt(2.0_SP)**2 == 2.0_SP
+    print *, sqrt(2.0_DP)**2 == 2.0_DP
 end program sqrt_2
 ~~~~
 
@@ -188,9 +189,9 @@ computes the conjugate of a complex number.
 
 Somewhat confusingly, you can use a tuple notation to assign a constant to a complex
 variable, but for non-constant real and/or imaginary part, you would have to use
-the function that creates a complex value out of a real and an imaginary part is called
-`cmplx`. as the following code fragment illustrates that initializing a complex
-constant `C`, and assigning to a complex variable, `cval`.
+the function that creates a complex value out of a real and an imaginary part.
+This function is called `cmplx`. as the following code fragment illustrates that
+initializes two complex variables `z1` and `z2`.
 
 ~~~~fortran
 ...
@@ -214,7 +215,7 @@ intrinsic procedures to convert a value to a different kind of the same type.
 #### Kind conversions
 
 Every conversion procedure has an optional `kind` argument. 
-from an `INT32` to an `INT64`, you would use
+From an `INT32` to an `INT64`, you would use
 
 ~~~~fortran
 program type_conversion
@@ -240,7 +241,7 @@ be what you expect.
 ~~~~
 
 The conversion resulted in an overflow.  This is the result of converting a larger
-kind into a smaller one: information is lost.  Note that a inadvertent conversion
+kind into a smaller one: information is lost.  Note that an inadvertent conversion
 such as this may give rise to very nasty bugs (hence the compiler warning).
 
 On the other hand, converting from a smaller kind to a larger one works perfectly
@@ -307,15 +308,54 @@ The function `cmplx` will convert two numbers to a complex value.
 
 The type logical represents Boolean values.  It has only two constant values,
 `.TRUE.` and `.FALSE.`.  The unary `.not.` operator represents the Boolean negation.
-The semantics of the unary and binary operators `.and.`, `.or.`, .eqv.` and `.neqv.`
+The semantics of the unary and binary operators `.and.`, `.or.`, `.eqv.` and `.neqv.`
 is summarized in the table below.
 
-| p         | q         | `.not.`   | `.and.`   | `.or.`    | `.eqv.`   | `.neqv.`  |
-|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
-| `.TRUE.`  | `.TRUE.`  | `.FALSE.` | `.TRUE.`  | `.TRUE.`  | `.TRUE.`  | `.FALSE.` |
-| `.TRUE.`  | `.FALSE.` | `.FALSE.` | `.FALSE.` | `.TRUE.`  | `.FALSE.` | `.TRUE.`  |
-| `.FALSE.` | `.TRUE.`  | `.TRUE.`  | `.FALSE.` | `.TRUE.`  | `.FALSE.` | `.TRUE.`  |
-| `.FALSE.` | `.FALSE.` | `.TRUE.`  | `.FALSE.` | `.FALSE.` | `.TRUE.`  | `.FALSE.` |
+### Negation
+
+| p         | `.not.`   |
+|-----------|-----------|
+| `.TRUE.`  | `.FALSE.` |
+| `.FALSE.` | `.TRUE.`  |
+
+### Conjunction
+
+| p         | q         | `.and.`   |
+|-----------|-----------|-----------|
+| `.TRUE.`  | `.TRUE.`  | `.TRUE.`  |
+| `.TRUE.`  | `.FALSE.` | `.FALSE.` |
+| `.FALSE.` | `.TRUE.`  | `.FALSE.` |
+| `.FALSE.` | `.FALSE.` | `.FALSE.` |
+
+
+### Disjunction
+
+| p         | q         | `.or.`    |
+|-----------|-----------|-----------|
+| `.TRUE.`  | `.TRUE.`  | `.TRUE.`  |
+| `.TRUE.`  | `.FALSE.` | `.TRUE.`  |
+| `.FALSE.` | `.TRUE.`  | `.TRUE.`  |
+| `.FALSE.` | `.FALSE.` | `.FALSE.` |
+
+### Equivalence
+
+| p         | q         | `.eqv.`   |
+|-----------|-----------|-----------|
+| `.TRUE.`  | `.TRUE.`  | `.TRUE.`  |
+| `.TRUE.`  | `.FALSE.` | `.FALSE.` |
+| `.FALSE.` | `.TRUE.`  | `.FALSE.` |
+| `.FALSE.` | `.FALSE.` | `.TRUE.`  |
+
+
+### Exclusive or
+
+| p         | q         | `.neqv.   |
+|-----------|-----------|-----------|
+| `.TRUE.`  | `.TRUE.`  | `.FALSE.` |
+| `.TRUE.`  | `.FALSE.` | `.TRUE.`  |
+| `.FALSE.` | `.TRUE.`  | `.TRUE.`  |
+| `.FALSE.` | `.FALSE.` | `.FALSE.` |
+
 
 
 ## Character values
@@ -337,7 +377,7 @@ A single binary operator `//` is defined on strings, representing concatenation.
 
 The comparison operators can be used to compare strings, but note that they will use
 the order defined on characters by the CPU, which (in very rare cases) may not be
-ASCII as you would expect.  There are intrinsic function that guarantee comparison
+ASCII as you would expect.  There are intrinsic functions that guarantee comparison
 according to lexicographic order.
 
   * `llt(x, y)`: less than,
@@ -358,7 +398,7 @@ Consequently, the length of `str` will always be 5.
 
 Selecting a substring from a string variable is straightforward, e.g., `str(2:4)`
 would select the second through the fourth character, i.e., `'bc '`.  Somewhat
-counter-intuitively, individual characters also have t be selected as a range, e.g.,
+counter-intuitively, individual characters also have to be selected as a range, e.g.,
 `str(2:2)` would be the second character, i.e., `'b'`.
 
 The intrinsic function `len` returns the length of a string, but including the padding

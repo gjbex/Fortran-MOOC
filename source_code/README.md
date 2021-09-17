@@ -78,3 +78,36 @@ code examples used in videos and reading material.
    computations.
 1. `coarrays`: illustration of using coarrays for shared and distributed
    computations.
+1. `logistic_map`: computing the logistic map using an elemental function.
+1. `block_matrices`: illustration of using a forall statement to initizlize a
+   block matrix.
+1. `dynamic_libraries`: illustrates using dynamic libraries and executing system
+   commands.
+1. `towers_of_hanoi`: illustration of recursion on the Towers of Hanoi problem.
+1. `f2py`: illustration of using f2py.
+1. `trees`: using user-defined types and pointer to create data structures,
+   also illustrates object-oriented programming and inheritance.
+1. `hdf5`: using the HDF5 library to store and read data.
+1. `neighbours`: simulation of a 2D growth process.
+1. `precision`: single versus double versus mixed precsion arithmetic
+   experiments.
+1. `coins`: illustration of greedy versus dynamic programming.
+1. `CMakeLists.txt`: CMake file to build all applications.
+
+
+## Building the code
+
+The entire sample code can be build using the `CMakeLists.txt` CMake file in
+directory.
+
+```bash
+$ mkdir build; cd build
+$ cmake ..
+$ make
+```
+
+Note:
+1. Some projects depend on the Intel compiler and will be skipped when building
+   with another compiler.
+1. Some project will generate warnigns, but that is mainly on purpose to
+   illustrate certain points.

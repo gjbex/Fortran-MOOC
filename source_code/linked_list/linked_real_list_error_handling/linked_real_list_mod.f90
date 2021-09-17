@@ -53,9 +53,11 @@ contains
         implicit none
         class(list_t), intent(inout) :: list
         real, intent(in) :: val
+        class(list_item_t), pointer :: first
         integer :: istat
         
-        allocate (list%first, source=list_item_t(val, list%first), stat=istat)
+        first => list%first
+        allocate (list%first, source=list_item_t(val, first), stat=istat)
         call validate_allocation(istat)
         if (list%is_empty()) list%last => list%first
         list%length = list%length + 1

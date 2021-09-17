@@ -9,7 +9,7 @@ evaluates to true.
 
 The do statement will repeat a block of statements a number of times.  As a very
 simple example, consider the following program that computes the factorial function
-for a number of integers.  The general from is given below.
+for a number of integers.  The general form is given below.
 
 ~~~~
 do <variable> = <start>, <end>, <step>
@@ -18,22 +18,23 @@ end do
 ~~~~
 
 The `<variable>` has to be of type `integer`, while `<start>`, `<end>` and `<step>`
-should be integer expressions.  The `do` and `end do` bracket the `<statements>`
-hat will be repeated.  In the first iteration, `<variable>` will have the value
+should be integer expressions.  The `do` and `end do` delimit the `<statements>`
+that will be repeated.  In the first iteration, `<variable>` will have the value
 `<start>`, in the second iteration its value will be `<start>` + `<step>` and
-so on till the last iteration where its value will be equal to
-`<end>` - mod(`<end>`, `<step>`).
+so on till the last iteration.
 
   * If `<step>` is zero, the program will crash.
   * If `<step>` is positive and `<start>` > `<end>`, then the do statement is not
     executed.  Similarly, it will also not be executed if `<step>` is negative, and
     `<start>` < `<end>`.
-  * Otherwise, the number of iterations is (`<end>` - `<start>` + `<step>`)/`<step>`.
+  * Otherwise, the number of iterations is `<nr_iter>` = (`<end>` - `<start>` + `<step>`)/`<step>`.
 
-Here, the expression *m*/*n* denotes the integer division.
+In the last iteration, `<variable>` will have the value
+`<start>` + (`<nr_iter>` - 1)\*`<step>`, and after the execution of the do
+statement `<variable>` will have the value `<start>` + `<nr_iter>`\*`<step>`.
 
-When the do statement terminates, the value of `<variable>` is
-`<start>` + `<step>` \* number of iterations.
+Here, the expression $$m/n$$ denotes the integer division.
+
 
 The step needs not to be specified, and in that case will have the default value 1.
 
@@ -144,6 +145,9 @@ do while (<variable> <= <end>)
 end do
 ~~~~
 
+Here, we assume that `<step>` is positive.  A similar equivalence can be defined
+for negative values of `<step>`.
+
 Obviously, the do statement conveys your intentions much better than the while
 statement.
 
@@ -180,7 +184,7 @@ on what you want to accomplish that will terminate any iteration statement:
 
 The following program illustrates both an infinite loop, and the use of an exit
 statement.  It reads floating point values from standard input, and computes the sum.
-When there is no more input, `stat` will have a negative values (end-of-file), and
+When there is no more input, `stat` will have a negative value (end-of-file), and
 the iteration statement is terminated using the `exit` statement. The next statement
 prints the sum.
 
@@ -230,3 +234,58 @@ end program sum_values
 
 Arguably, the code in this version of the program is even cleaner that the first one,
 but it will be hard to generalize to more complex situations.
+
+
+## Named blocks
+
+Fortran allows you to name block statements.  This is illustrated in the code
+fragment below.
+
+~~~~fortran
+function has_duplicates(data) result(result)
+    integer, dimension(:), intent(in) :: data
+    logical :: result
+    integer :: i, j
+
+    result = .false.
+    outer: do i = 1, size(data) - 1
+        do j = i + 1, size(data)
+            if (data(i) == data(j)) then
+                result = .true.
+                exit outer
+            end if
+        end do
+    end do outer
+end function has_duplicates
+~~~~
+
+This function checks whether an array contains duplicate elements. If so, it
+returns `.true.`, otherwise `.false.`.  If there is a duplicate, this is
+detected in the inner do loop, and the result is known.  Hence you want
+to exit the outer do loop.  Simply using the exit statement would terminate
+the inner loop, but the outer loop would continue with its next iteration.
+
+However, we can give block statements a name, `outer` in the example above.
+The name of the do loop can then be used in the exit statement to specify
+which  loop should be exited.
+
+This is likely the most common application of named blocks, but since names
+can be given to any block statement (do and do while loops, block if
+statements, select, where, do concurrent, block.  It may help to add names
+to block statements to make code more readable and help the compiler catch
+semantic errors.
+
+The general form of a named block statement is:
+
+~~~~
+<name>: <block-statement> ...
+    ...
+end <block-statement> <name>
+~~~~
+
+Using the `<name>` for ending the block is optional, but may help you
+interpret your code more easily.
+
+Note that the example is slightly contrived.  In practice you would
+likely use a return statement rather than an exit statement in this
+situation.

@@ -43,8 +43,10 @@ contains
         implicit none
         class(list_t), intent(inout) :: list
         real, intent(in) :: val
+        class(list_item_t), pointer :: first
         
-        allocate (list%first, source=list_item_t(val, list%first))
+        first => list%first
+        allocate (list%first, source=list_item_t(val, first))
         if (list%is_empty()) list%last => list%first
         list%length = list%length + 1
     end subroutine prepend

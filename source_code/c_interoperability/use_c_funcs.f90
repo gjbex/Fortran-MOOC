@@ -21,8 +21,8 @@ program use_c_funcs
             use, intrinsic :: iso_c_binding
             implicit none
             real(kind=c_double), value :: x
-            real(kind=c_double), dimension(degree) :: coeff
             integer(kind=c_int), value :: degree
+            real(kind=c_double), dimension(degree) :: coeff
             real(kind=c_double) :: res
         end function polynomial
     end interface

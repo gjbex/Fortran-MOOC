@@ -21,6 +21,7 @@ contains
         implicit none
         type(particles_t(*)) :: particles
         real, dimension(:), allocatable :: r
+        integer :: status
 
         call random_number(particles%x)
         call rescale(particles%x)
@@ -28,8 +29,8 @@ contains
         call rescale(particles%y)
         call random_number(particles%x)
         call rescale(particles%x)
-        allocate(r(size(particles%x)))
-        if (.not. allocated(r)) then
+        allocate(r(size(particles%x)), stat=status)
+        if (status /= 0) then
             write (unit=error_unit, fmt='(A)') 'can not allocate array'
             stop 1
         end if

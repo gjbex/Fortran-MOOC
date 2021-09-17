@@ -37,7 +37,7 @@ real or complex number as an argument and returns a real or
 complex value, the square root of its argument.
 
 Note: as opposed to C, C++, Java and Python, mathematical
-function are intrinsic to the language, no header files
+functions are intrinsic to the language, no header files
 or modules need to be included.  This is of course due to
 Fortran's primary focus: scientific computing.
 
@@ -181,7 +181,7 @@ The definition of subroutines is very similar to that of
 functions, except for the result value, which subroutines
 don't have by definition.
 
-Fortran has a number of intrinsic procedures as well, for
+Fortran has a number of intrinsic subroutines as well, for
 example to generate pseudo-random numbers.
 
 ~~~~fortran
@@ -258,7 +258,7 @@ variable.  Changing that local variable doesn't change the value of the variable
 caller's context.
 
 If you would do the same in Fortran, the value of the variable in the caller's context
-will be changed, Fortran has call-by-referred semantics.  The following program
+will be changed, Fortran has call-by-reference semantics.  The following program
 illustrates this.
 
 ~~~~fortran
@@ -305,7 +305,7 @@ Error: Non-variable expression in variable definition context (actual argument t
 Indeed, it doesn't make sense to call a subroutine that has an `inout` argument with
 a constant.
 
-However, clearly, there situation in which you would prefer call-by-value semantics.
+However, clearly, there are situations in which you would prefer call-by-value semantics.
 Consider the following implementation of the factorial function.
 
 ~~~~fortran
@@ -372,12 +372,14 @@ end function factorial
 
 Please note that although it may be more convenient to formulate a recursive
 algorithm, this will typically use more system resources and have worse efficiency
-than its iterative counterpart.
+than its iterative counterpart.  In fact, any recursive algorithm can be converted
+into an iterative algorithm, see for instance this
+[blog post](https://blog.moertel.com/posts/2013-05-11-recursive-to-iterative.html).
 
 
 ## Keyword arguments
 
-Fortran support keyword arguments, which can be very convenient when you have
+Fortran supports keyword arguments, which can be very convenient when you have
 procedures with multiple arguments.  Consider the example of the `clamp` subroutine
 we defined above.  Do you remember the signature?  Perhaps you don't, if so, keyword
 arguments can help, and make your code easier to understand.  You can call the
@@ -456,7 +458,7 @@ you can use `save`.
 
 The following example uses a uniform random number distribution to generate numbers
 from a normal distribution.  The algorithm actually generates two random values, so
-the second one is stored for the next call in the `save` variable `next_val.  The
+the second one is stored for the next call in the `save` variable `next_val`.  The
 variable `is_next_val` will be true when a value is available, false when two new
 values need to be computed.
 
@@ -495,8 +497,8 @@ You can help the compiler to generate more efficient code by writing pure proced
 and marking them as such.  A pure procedure is a function or a subroutine that has
 no side effects.
 
-More specifically, all non-pointer argument must be of intent `in. For subroutines,
-all arguments must have their intent specified.
+More specifically, all non-pointer arguments must be of intent `in`. For subroutines,
+all arguments must have their intent specified as `in` or `inout`.
 
 For procedures in general:
 
@@ -538,9 +540,64 @@ end subroutine clamp
 ~~~~
 
 
-## References
+## Intrinsic procedures
 
-List of intrintrinsic procedures
+The Fortran specification defines a large number of procedures, both functions
+and subroutines as part of the language.  You already encountered the `sqrt`
+function and the `random_number` subroutine.
+
+Many mathematical functions are implemented as intrinsic functions, e.g.,
+
+1. the absolute value `abs`, the complex conjugate `conjg`, the square root
+   function `sqrt` and the modulo function `mod`;
+1. the trigonometric functions `sin`, `cos`, `tan` and their inverse `asin`,
+   `acos` and `atan`;
+1. the hyper-trigonometric functions `sinh`, `cosh`, `tanh` and their inverse
+   `asinh`, `acosh` and `atanh`;
+1. the natural and base-10 logarithm `log` and `log10` as well as the
+   exponential function `exp`;
+1. Bessel functions of the first and second kind `bessel_j0`, `bessel_j1`,
+   `bessel_jn`, `bessel_y0`, `bessel_y1`, `bessel_yn`;
+1. the gamma function `gamma`, the error function `erf` and the complementary
+   error function `erfc`.
+
+All these functions are elemental functions, so they can be applied element-wise
+to arrays as well.
+
+Several mathematical functions defined on vectors or matrices are also part of
+the specification, e.g.,
+
+1. the minimum and maximum value in an array: `min` and `max`;
+1. the sum and product of array elements: `sum` and `product`;
+1. counting the number of elements in an array that satisfy some Boolean
+   condition: `count`;
+1. the Euclidean norm of an array `norm2`;
+1. the transpose of a two-dimensional array `transpose`;
+1. the dot product between two arrays `dot_product` and the product between
+   two-dimensional arrays `matmul`.
+
+Functions such as `min`, `max` and similar take optional arguments to restrict
+the operation to certain dimensions so that you can compute a row or a
+column-wise sum.  They also accept a mask so that operations can be restricted
+to elements that satisfy some Boolean condition.
+
+Although it is very unlikely that anyone would argue that Fortran is the ideal
+programming language for string manipulations, some intrinsic procedures ease
+the pain, e.g.,
+
+1. the `trim` function will remove trailing blank characters from a string;
+1. the `index` function returns the position of a substring in a string,
+   while `scan` returns the position of a set of characters in a string;
+1. the function `verify` will return `.true.` when all characters in a string
+   belong to a given set of characters;
+1. the `repeat` function creates a string by repeating a given string a
+   number of times.
+
+Obviously this is not an exhaustive list of all the intrinsic procedures
+defined in the Fortran specification, so it really pays off to check what is
+available to avoid reinventing the wheel.
+
+You can find a list of intrinsic procedures 
 [implemented by GCC](https://gcc.gnu.org/onlinedocs/gfortran/Intrinsic-Procedures.html#Intrinsic-Procedures).
 Note that not all these procedures are standard Fortran, some are GNU
 extensions.  This is clearly indicated though.

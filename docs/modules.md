@@ -143,7 +143,7 @@ For module variables, the following semantics applies:
 
 1. `private`: the variable can only be accessed within the module itself.
 1. `protected`: the variable can be read, but not modified in a compilation
-   unit that uses the module; it can of course be modified withing the
+   unit that uses the module; it can of course be modified within the
    module and its submodules itself.
 1. `public`: the variables can be read and modified in the module, and the
    compilation units that use it.

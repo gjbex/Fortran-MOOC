@@ -54,6 +54,17 @@ program array_timings
     if (.not. are_almost_equal(A, A_old, delta)) &
         print '(A, E7.2)', 'warning: not equal up to ', delta
 
+    ! compute do concurrent
+    call cpu_time(start_time)
+    do concurrent (row = 1:nr_rows, col=1:nr_cols)
+        A(row, col) = 5.0_DP*B(row, col) + sqrt(2.5_DP*C(row, col))/3.2_DP
+        end do
+    call cpu_time(end_time)
+    print '(A, F12.6)', 'do concurrent: ', end_time - start_time
+
+    ! check result
+    if (.not. are_almost_equal(A, A_old, delta)) &
+        print '(A, E7.2)', 'warning: not equal up to ', delta
     ! deallocate arrays
     deallocate(A, B, C, A_old)
     

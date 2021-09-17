@@ -1,4 +1,4 @@
-program normalize
+program scal
     use, intrinsic :: iso_fortran_env, only : error_unit, DP => REAL64
     implicit none
     integer, parameter :: rows = 3, cols = 4
@@ -36,4 +36,4 @@ contains
         end do
     end subroutine print_matrix
 
-end program normalize
+end program scal

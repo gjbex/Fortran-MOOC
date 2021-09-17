@@ -19,8 +19,20 @@
 ## Scientific libraries
 1. OpenBLAS
 1. Lapack
+1. FFTW3
 1. HDF5
 
 ## C interoperability
 1. GCC C compiler
 1. GSL
+
+## Python integration
+
+1. Python 3.6+
+1. numpy
+1. junpyter notebook
+
+## Tools
+1. git
+1. nano/emacs/vim
+1. gnuplot

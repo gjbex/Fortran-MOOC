@@ -2,6 +2,7 @@
 
 It may come as a surprise that you can do object oriented programming in
 Fortran.  The key syntactic features that are used for this are
+
 1. access control attributes for data encapsulation and
 1. type bound procedures,
 1. operator/procedure overloading,
@@ -23,20 +24,26 @@ mean and standard deviation of some real numbers.
 
 Consider data values $$x_i$$ for $$i \in [1, N$$, then the mean value $$\nu$$
 is given by
+
 $$
     \mu = \frac{1}{N} \sum_{i=1}^{N} x_i
 $$
+
 The standard deviation $$\sigma$$ is given by
+
 $$
    \sigma = \sqrt{\frac{1}{N-1} \sum_{i=1}^{N} (x_i - \mu)^2}
 $$
 
 Using a little algebra, the formula for $$\mu$$ can be transformed into
+
 $$
   \sigma = \sqrt{\frac{1}{N-1} \large\( \sum_{i=1}^N x_i^2 - \frac{1}{N} \large\( \sum_{i=1}{N} x_i \large\)^2 \large\)}
 $$
+
 Using this formulation of the standard deviation, it is clear that we do not
 require the mean value to compute it, but rather simply
+
 1. the sum of the values,
 1. the sum of the square of the values,
 1. and the number of values

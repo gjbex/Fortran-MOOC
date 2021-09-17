@@ -96,6 +96,34 @@ You would have to check the documentation to know the order of the function argu
 The two last versions of this call are easier to understand, since the meaning of the numbers is clear.  Moreover, since you can use any order, it eliminates a source of bugs.
 
 
+## Named blocks
+
+Although it is best to try to avoid deeply nested blocks of code, sometimes that is hard to avoid.  In that case, you can use named blocks to mitigate the complexity a little bit.  The following code fragment illustrates this.
+
+~~~~fortran
+...
+integer :: i, j
+real, dimenstion(10, 15) :: A
+...
+column_loop: do j = 1, size(A, 2)
+    row_loop: do i = 1, size(A, 1)
+        ...
+        neg_vals: if (A(i, j) < 0.0) then
+            ...
+        end if neg_vals
+        ...
+    end do row_loop
+    ...
+    sum_cond:  if (sum(A(:, j) > 0.0) then
+        ...
+    end if sum_cond
+    ...
+end do column_loop
+~~~~
+
+Simplifying the code by introducing some procedures is likely to be the better option though.
+
+
 ## Limit scope
 
 Many programmers will declare all variables at the start of a compilation unit. This is a syntax requirement in Fortran.

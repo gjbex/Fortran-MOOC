@@ -2,6 +2,7 @@
 
 For best performance, data items should be aligned on certain address
 boundaries in memory.
+
 * 8-bit data (e.g., `character` or integer kind `INT8`) can be placed anywhere;
 * 16-bit data (e.g., integer kind `INT16`) should be placed on addresses that
   are multiples of 4 bytes;

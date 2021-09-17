@@ -37,3 +37,6 @@
 
 # CMake build directories
 build/
+
+# aspell backup files
+*.bak

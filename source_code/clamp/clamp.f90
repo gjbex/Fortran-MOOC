@@ -18,16 +18,16 @@ program clamp_program
 
 contains
 
-    subroutine check_status(status, msg)
+    subroutine check_status(stat, msg)
         use, intrinsic :: iso_fortran_env, only : error_unit
         implicit none
-        integer, intent(in) :: status
+        integer, value :: stat
         character(len=*), intent(in) :: msg
         
-        if (status > 0) then
+        if (stat > 0) then
             write (unit=error_unit, fmt='(2A)') &
                 'I/O error: ', trim(msg)
-            stop status
+            stop 1
         end if
     end subroutine check_status
 

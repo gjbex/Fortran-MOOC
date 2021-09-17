@@ -45,7 +45,7 @@ variables, mathematical expression or function calls.
 
 The simplest value for the format specifier `<fmt>` is simply `*`.  This
 leaves it up to the Fortran runtime to determine the appropriate output
-format.  For very simple I/O this may be sufficient.  the following code
+format.  For very simple I/O this may be sufficient.  The following code
 illustrates the default output format for various data types.
 
 ~~~~fortran
@@ -94,7 +94,7 @@ scalar values such as real and integer numbers, logical and character values,
 but also user defined types and (multi-) dimensional arrays.
 
 Note the single space at the start of each line.  Each print statement will
-write to a new line of the output file.  It 
+write to a new line of the output file.
 
 Although this is no doubt the easiest way to write to standard output, the
 formatting is likely not always what you want it to look like.  This is where
@@ -164,7 +164,7 @@ For example, the descriptor `I5` would result in the following output for
 The character `#` is used to visually represent a space, it would of course
 not be written out.
 
-A second from of the descriptor is `I<w>.<d>` where `<w>` is again the width
+A second form of the descriptor is `I<w>.<d>` where `<w>` is again the width
 of the string to be written, and `<d>` is the number of digits.  If the number
 of characters to represent the integer is less than `<d>`, the value is padded
 with `0`.
@@ -276,7 +276,7 @@ is left-aligned, and padded with spaces.
 ### General edit descriptor
 
 The general edit descriptor `G<w>.<d>` can be used for integer, real, logical
-and logical values.  Its simplest form is `G0` where it will choose the
+and character values.  Its simplest form is `G0` where it will choose the
 appropriate width for the value.  Although this is very convenient, you
 should note that for real values, the number of digits is compiler dependent,
 so the code may not be entirely portable.
@@ -304,7 +304,7 @@ This would produce the following output.
 ~~~~
 
 An edit descriptor can also be repeated, for instance, to write five
-real numbers, you could use `(5E13.3)'.  This repetion factor can also be `*`
+real numbers, you could use `(5E13.3)`.  This repetion factor can also be `*`
 to indicate an unlimited number of repetitions, e.g.,
 
 ~~~~
@@ -320,7 +320,7 @@ end subroutine print_vector
 Parentheses can be used to group edit descriptors.  For instance, to
 print three pairs of a string and an integer value, you can use `(3(A, I0))`.
 
-The example above also illustrates that string literals can be part f an edit
+The example above also illustrates that string literals can be part of an edit
 descriptor, i.e., `": "` in this example.
 
 You can use the `/` edit descriptor to start a new line, e.g., the descriptor
@@ -344,11 +344,11 @@ The open statement takes a lot of arguments:
 1. `action`, this can be `write`, `readwrite` or `read`;
 1. `status`, this can be `new`, `old`, `replace` or `scratch`;
 1. `form`, this can be `formatted` or `unformatted`;
-1. `position`, this is the position to start writing, it can be 'rewind' or
+1. `position`, this is the position to start writing, it can be `rewind` or
    `append`;
 1. `iostat`, represents the exit status of the statement, non-zero if there
    were issues;
-1. `iomsg`, this is the error messages in case something went wrong.
+1. `iomsg`, this is the error message in case something went wrong.
 
 You will learn about the options in other sections, here we will only discuss
 `access='write'`, `status='new'`, `status='replace'`, `form='formatted'`.
@@ -382,7 +382,7 @@ case, the unit number can be used for subsequent operations, such as the write
 statement.  When all data has been written, the unit can be closed using
 the close statement.
 
-It is good practice to always use `ioostat` to verify that I/O operations
+It is good practice to always use `iostat` to verify that I/O operations
 succeeded, also in, e.g., write and close statements where they have been
 omitted for the sake of brevity.  For instance, a write statement might fail
 because you exceed disk quota.
@@ -413,7 +413,7 @@ Although this section is about writing to text files, as a small aside, we
 will briefly discuss creating strings.  The write statement can be applied
 to a character variable to create a formatted string.  As an example, consider
 that you might want to let the number of digits in an edit description for
-a real number on some runtime conditions.
+a real number depend on some runtime conditions.
 
 ~~~~fortran
 ...
@@ -421,7 +421,7 @@ character(len=10) :: fmt_str
 integer :: nr_digits
 real :: x
 ...
-write (fmt_str, "('(E', I0, '.', I0, ')') nr_digits + 7, nr_digits
+write (fmt_str, "('(E', I0, '.', I0, ')')" nr_digits + 7, nr_digits
 write (unit=output_unit, fmt=fmt_str) x
 ...
 ~~~~

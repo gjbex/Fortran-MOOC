@@ -13,7 +13,6 @@ contains
     integer function gcd(a, b)
         implicit none
         integer, value :: a, b
-        integer :: x, y
 
         do while (a /= b)
             if (a > b) then

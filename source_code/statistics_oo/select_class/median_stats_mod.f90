@@ -22,9 +22,10 @@ contains
         use, intrinsic :: iso_fortran_env, only : error_unit
         integer, value :: nr_values
         type(median_stats_t) :: stats
+        integer :: status
 
-        allocate(stats%values(nr_values))
-        if (.not. allocated(stats%values)) then
+        allocate(stats%values(nr_values), stat=status)
+        if (status /= 0) then
             write (unit=error_unit, fmt='(A, I0, A)') &
                 'error: can not allocated memory for ', nr_values, ' values'
             stop 3
