@@ -351,7 +351,7 @@ The open statement takes a lot of arguments:
 1. `iomsg`, this is the error messages in case something went wrong.
 
 You will learn about the options in other sections, here we will only discuss
-`access='write'`, `status=`new``, `status='replace'`, `form='formatted'`.
+`access='write'`, `status='new'`, `status='replace'`, `form='formatted'`.
 
 For example, you can use the following open statement to open a new file
 `text.txt` for writing formatted output.
