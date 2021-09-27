@@ -38,7 +38,7 @@ name of a type.
 
 ## Variable declaration and use
 
-`config_t` is a type, so you can declare variables that have this type, e.g.,
+`config_t` is a type, so you can declare variables of this type, e.g.,
 
 ~~~~fortran
 type(config_t) :: config
@@ -54,7 +54,9 @@ config%nr_iters = 0
 config%precision = 1.0e-10_DP
 ~~~~
 
-The initialization of a user defined type variable can be done in a single
+Note that Fortran uses `%` to access members of a user defined type.
+
+The initialization of a user defined hype variable can be done in a single
 statement, e.g.,
 
 ~~~~fortran

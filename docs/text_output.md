@@ -222,7 +222,7 @@ example, for `E10.2` the output would be.
 | 1.23     | `##0.12e+01`    |
 | 1.29     | `##0.13e+01`    |
 | -1.23    | `#-0.12e+01`    |
-| 1.23e5   | `##0.12e+01`    |
+| 1.23e5   | `##0.12e+06`    |
 
 The results of edit descriptor can be somewhat inconsistent since leading
 zeroes will be left out in order to fit the width if required.
@@ -351,7 +351,7 @@ The open statement takes a lot of arguments:
 1. `iomsg`, this is the error message in case something went wrong.
 
 You will learn about the options in other sections, here we will only discuss
-`access='write'`, `status=`new``, `status='replace'`, `form='formatted'`.
+`access='write'`, `status='new'`, `status='replace'`, `form='formatted'`.
 
 For example, you can use the following open statement to open a new file
 `text.txt` for writing formatted output.

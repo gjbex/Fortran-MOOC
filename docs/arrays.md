@@ -655,7 +655,7 @@ forall (<iter 1>, ..., <iter n>, <logical expression>)
 end forall
 ~~~~
 
-The `<iteration 1>` to `<iteration n>` have the form `<variable>=<first>:<last>`
+The `<iter 1>` to `<iter n>` have the form `<variable>=<first>:<last>`
 or `<variable>=<first>:<last>:<stride>`.  The values of `<first>`, `<last>` and
 `<stride>` should not refer to other iteration variables.  This means our example
 can not be written as follows since `j` is initialized using the value of `i`.
@@ -695,10 +695,9 @@ do concurrent (<iter 1>, ..., <iter n>, <logical expression>)
 end do
 ~~~~
 
-The `<iteration 1>` to `<iteration n>` have the form `<variable>=<first>:<last>`
+The `<iter 1>` to `<iter n>` have the form `<variable>=<first>:<last>`
 or `<variable>=<first>:<last>:<stride>`.  The values of `<first>`, `<last>` and
-`<stride>` should not refer to other iteration variables.  This means our example
-can not be written as follows.
+`<stride>` should not refer to other iteration variables.
 
 The `<block statements>` should be independent, i.e., the order of the
 iterations should not matter.  This means there are some restrictions of what
