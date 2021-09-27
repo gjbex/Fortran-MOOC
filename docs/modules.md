@@ -31,7 +31,7 @@ end module <module-name>
 It is good practice to name modules with a suffix `_mod` to avoid confusion
 with other entities.
 
-Consider the following example of a (very simple) module to compute compute
+Consider the following example of a (very simple) module to compute
 descriptive statistics of a data set.
 
 ~~~~fortran
@@ -60,7 +60,7 @@ used only in the unit itself, unless otherwise specified by an overriding
 This module defines a public type `descriptive_stats_t` with three private
 elements `nr_values`, `sum` and `sum2`.  This implies that a compilation unit
 that uses this module can use the type `descriptive_stats_t`, but the
-element of the compilation unit's variables of this type can not be accessed.
+elements of the compilation unit's variables of this type can not be accessed.
 
 However, although declared private, the elements can be accessed from within
 the procedures defined in the module itself.
@@ -143,7 +143,7 @@ For module variables, the following semantics applies:
 
 1. `private`: the variable can only be accessed within the module itself.
 1. `protected`: the variable can be read, but not modified in a compilation
-   unit that uses the module; it can of course be modified withing the
+   unit that uses the module; it can of course be modified within the
    module and its submodules itself.
 1. `public`: the variables can be read and modified in the module, and the
    compilation units that use it.

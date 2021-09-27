@@ -50,7 +50,7 @@ end type derived_t
 type(base_t), target :: base
 type(derived_t), target :: derived
 class(base_t), pointer :: base_p
-class(derived_t), pointerjjjjjjjjjjjjjjjjjjkjjjjjjkkkjjkkk :: derived_p
+class(derived_t), pointer :: derived_p
 ~~~~
 
 Which of the following statements is correct?

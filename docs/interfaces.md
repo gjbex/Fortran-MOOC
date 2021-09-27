@@ -3,7 +3,7 @@
 Interface blocks serve a number of purposes in Fortran.  In general, they
 provide the compiler with information about procedures.  Interface blocks
 contain the signature of procedures, i.e., their name and the type of
-arguments, and for return type for functions.
+arguments, and the return type for functions.
 
 
 ## procedures as arguments of procedures

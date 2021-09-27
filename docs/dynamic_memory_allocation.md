@@ -7,7 +7,7 @@ runtime how many data points there are.
 
 The median of a sequence of numbers is obtained by sorting the sorting the numbers
 first. If there is an odd number of values, the median is the middle value.  If the 
-them number of values is even, the median is the average of the two middle values.
+number of values is even, the median is the average of the two middle values.
 
 You could just create an array that is "large enough" to store all the numbers, but
 what does "large enough" mean, a thousand, a million, a billion?  If the size of the
@@ -97,7 +97,7 @@ implementations are typically using pointers, so you will see examples later.
 
 ## Allocating character variables
 
-Sometimes you do not now the length of a character variable at compile time, for
+Sometimes you do not know the length of a character variable at compile time, for
 instance when dealing with command line arguments or environment variables.  You
 can declare an assumed length variable, and allocate it at runtime.
 
@@ -133,7 +133,7 @@ allocate (tmp_values, source=values)
 ~~~~
 
 The array `tmp_values` will have the same size as `values, i.e., 11 elements
-nad the same lower and upper index, i.e., 0 and 10 respectively.
+and the same lower and upper index, i.e., 0 and 10 respectively.
 
 You will see later that the `source` argument can also conveniently be used to
 initialize allocatable objects.
@@ -141,7 +141,7 @@ initialize allocatable objects.
 
 ## Allocatables and procedures
 
-Can you pass an allocated variable to a procedure?  Can you allocated a variable in
+Can you pass an allocated variable to a procedure?  Can you allocate a variable in
 a procedure and use it in the calling context?  The answer to all these questions is
 "yes" as we will discuss below.
 
@@ -235,7 +235,7 @@ type :: descriptive_stats_t
 end type descriptive_stats_t
 ~~~~
 
-The element `values is an allocatable array of real values. You can
+The element `values` is an allocatable array of real values. You can
 initialize a variable of type `descriptive_stats_t` easily.
 
 ~~~~fortran
@@ -247,7 +247,7 @@ allocate(stats%values(100)
 
 To create data structures such as lists and graphs, allocating
 variables of user defined types is also quite useful, but you will
-see example of that in the section on pointers.
+see examples of that in the section on pointers.
 
 
 ## Moving allocations
@@ -301,5 +301,5 @@ end subroutine trim_array
 Note the call to `move_alloc`, this will ensure that `array` gets
 deallocated, and that the allocation to `temp` is transferred to
 `array`.  The array `array` is allocated in the calling context, while
-the array `temp` is allocated in the subroutine.  Since `arrays` is
+the array `temp` is allocated in the subroutine.  Since `array` is
 deallocated by `move_alloc` there is no memory leak.

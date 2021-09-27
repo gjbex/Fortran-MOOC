@@ -1,7 +1,7 @@
 # Pointers
 
 Although pointers are typically associated with programming languages such as
-C and C++, but you can in fact use pointers in Fortran as well.  However, there
+C and C++, you can in fact use pointers in Fortran as well.  However, there
 are substantial conceptual differences between pointers in C/C++ and Fortran.
 
 In C/C++ a pointer is simply an address of data in memory.  In Fortran, a
@@ -13,7 +13,7 @@ with any number of targets.
 ## Pointer basics
 
 Consider the following mathematical relation between a vector $$A$$ at time
-$t + 1$$ as a function of the values of $$A$$ at $$t$$:
+$$t + 1$$ as a function of the values of $$A$$ at $$t$$:
 
 $$
     A_{t+1, i} = \frac{1}{4}A_{t, i-1} + \frac{1}{2}A_{t, i} + \frac{1}{4}A_{t, i+1}
@@ -70,7 +70,7 @@ Pointers can be associated with variables using the `=>` operator.  The left
 hand side operator is the pointer, the right hand side operator the target.
 
 In this code fragment, the pointer `pA` is originally associated with the array
-`A`, but in the iteration statement it gets associated with the array `A_new
+`A`, but in the iteration statement it gets associated with the array `A_new`
 for each iteration where `t` is odd, and back to `A` for each iteration where
 `t` is even.
 
@@ -95,7 +95,7 @@ A pointer variable is not necessarily associated with a target during its
 entire life time.  It is for instance possible that  the data the pointer is
 to be associated with has not been created yet.
 
-You can test whether a pointer has been associated with target using the
+You can test whether a pointer has been associated with a target using the
 intrinsic function `associated`.  It can be called with either a single or
 with two arguments.  Consider the following code fragment.
 
@@ -141,7 +141,7 @@ Arrays or variables of user defined types make much more interesting targets.
 
 ## Targets for pointers
 
-Data of almost nay type can be a target for a pointer.  The code samples above
+Data of almost any type can be a target for a pointer.  The code samples above
 illustrated that scalar variables of types such as `integer` or `real` can act
 as targets, but as mentioned before, there are few applications for this in
 Fortran.
@@ -287,7 +287,6 @@ For most pointer types it is possible to declare arrays of pointers directly.
 The exception is procedures as you already saw in the previous section.  For
 instance, if you would like to implement a directed acyclic graph, you could
 use the following user defined type to represent a vertex in the graph.
-tree.
 
 ~~~~fortran
 type :: node_t

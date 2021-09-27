@@ -40,7 +40,7 @@ Which of the following statements is syntactically correct?
 
 ## Question 3
 
-Note that the `sizeof` intrinsic function is a GNU extension, so you should use it in production code.
+Note that the `sizeof` intrinsic function is a GNU extension, so you should not use it in production code.
 
 Consider the following program:
 

@@ -26,7 +26,7 @@ $$
 $$
 
 The name of that  procedure will be the same for all three algorithms, i.e.,
-`copmute`, but the implementation will vary.
+`compute`, but the implementation will vary.
 
 For the Legendre-Gauss algorithm, a procedure to initialize the abscissae and
 weights is required.  That procedure will have the same name for both
@@ -276,6 +276,7 @@ end function create_quad
 The constructor will call the procedure to initialize the object.
 
 Finally, the quadrature algorithm to use can be selected at runtime easily.
+
 ~~~~fortran
 ...
 use :: quad_mod

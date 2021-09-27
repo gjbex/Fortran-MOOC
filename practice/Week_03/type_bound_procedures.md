@@ -4,7 +4,7 @@
 
 Which of the following statements are correct?
 1. To call a type-bound procedure, the '%' notation is used. [Indeed] [x]
-1. The first argument of a type-bound procedure is always the variable on which the procedure is call. [No, the procedure can be declared `nopass`]
+1. The first argument of a type-bound procedure is always the variable on which the procedure is called. [No, the procedure can be declared `nopass`]
 1. If a type-bound procedure requires access to elements in the variable, the procedure has to have a `pass` attribute. [Indeed] [x]
 1. Type-bound procedures can only be functions, not subroutines. [No, subroutines can be type-bound procedures]
 

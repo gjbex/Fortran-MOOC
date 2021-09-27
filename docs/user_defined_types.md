@@ -13,7 +13,7 @@ represented as an integer.
 It would of course be possible to define three independent variables to store these
 values, but it makes more sense to aggregate this data into a special purpose data
 structure.  For this purpose, Fortran offers user defined types.  These are very
-similar to `struct` is C/C++ or named tuples in Python.
+similar to `struct` in C/C++ or named tuples in Python.
 
 
 ## Type definition
@@ -28,7 +28,7 @@ The definition of a new type `config_t` is given below.
     end type config_t
 ~~~~
 
-The type `config_t` has three element, named `method`, `nr_iters` and `precision`.
+The type `config_t` has three elements, named `method`, `nr_iters` and `precision`.
 Note that the elements have distinct types, e.g., `nr_iters` is an integer, while
 `method` is a string.
 
@@ -38,7 +38,7 @@ name of a type.
 
 ## Variable declaration and use
 
-`config_t` is a type, so if you can declare variables that have this type, e.g.,
+`config_t` is a type, so you can declare variables that have this type, e.g.,
 
 ~~~~fortran
 type(config_t) :: config
@@ -54,11 +54,11 @@ config%nr_iters = 0
 config%precision = 1.0e-10_DP
 ~~~~
 
-The initialization of a user defined hype variable can be done in a single
+The initialization of a user defined type variable can be done in a single
 statement, e.g.,
 
 ~~~~fortran
-config = config_t(method='none', nr_iters=0, precision=1.0e-10_DP
+config = config_t(method='none', nr_iters=0, precision=1.0e-10_DP)
 ~~~~
 
 Elements of user defined type variables can be used like any other variable in
@@ -84,7 +84,7 @@ type :: particle_t
 end type particle_t
 ~~~~
 
-The following function takes to arguments of type `particle_t` as argument, and
+The following function takes two arguments of type `particle_t` as argument, and
 computes the Euclidean distance between them.
 
 ~~~~fortran
@@ -160,7 +160,7 @@ since this makes the code somewhat easier to read.
 ### Arrays as elements of user defined types
 
 Note that elements of user defined types are not restricted to basic types, they can
-be arrays or event user defined types.  For instance, you could represent the particle's
+be arrays or even user defined types.  For instance, you could represent the particle's
 coordinates as an array.
 
 ~~~~fortran

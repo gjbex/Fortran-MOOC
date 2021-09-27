@@ -22,7 +22,7 @@ and introduce various concepts is descriptive statistics.  We start quite
 simple with a user defined type to collect the relevant data to compute the
 mean and standard deviation of some real numbers.
 
-Consider data values $$x_i$$ for $$i \in [1, N$$, then the mean value $$\nu$$
+Consider data values $$x_i$$ for $$i \in [1, N]$$, then the mean value $$\nu$$
 is given by
 
 $$
@@ -247,7 +247,7 @@ overloading.
 
 ## Operator overloading
 
-Suppose you want to add a bias to the represented by the `descriptive_stats_t`
+Suppose you want to add a bias to the data represented by the `descriptive_stats_t`
 variable.  Of course, you would have to write a procedure that would implement
 this.  If a bias `delta` is added to each of the 'nr_values' data value $$x_i$$,
 the `sum` element is changed to `sum + nr_values*delta`.  The sum of the squares

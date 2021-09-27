@@ -12,8 +12,8 @@ Which of the following statements is correct?
 ## Question 2
 
 Which of the following statements is correct?
-1. Before using the `nulligy` statement, you should always do a `deallcoate` first. [No, you may end up destroying your data in many cases.]
-1. Using the `nullify` statement you can break the association a pointer has. [Indeed, that is the purpose of `nullity`] [x]
+1. Before using the `nullify` statement, you should always do a `deallcoate` first. [No, you may end up destroying your data in many cases.]
+1. Using the `nullify` statement you can break the association a pointer has. [Indeed, that is the purpose of `nullify`] [x]
 1. In the association `a => p` the variable `a` should be a pointer. {indeed, that is the semantics of the association operator] [x]
 1. You can associate a pointer variable to a variable of any type. [No, the types of the pointer and what it points to should match]
 
