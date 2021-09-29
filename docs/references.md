@@ -33,6 +33,12 @@ software.
 Note that these documents are not open access.
 
 
+o## Discussion forums and communities
+
+* [fortran-lang.orgf(https://fortran-lang.org/)
+* [Discourse group](https://fortran-lang.discourse.group/)
+
+
 ## Software stack
 
 * [GNU Fortran](https://gcc.gnu.org/fortran/)
