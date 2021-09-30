@@ -1,7 +1,8 @@
 # Fortran MOOC
 
 This repository contains material for the PRACE MOOC on "Fortran for scientific
-programming".
+programming".  The MOOC is hosted by FutureLearn
+(https://www.futurelearn.com/courses/fortran-for-scientific-computing).
 
 
 ## Content
