@@ -225,7 +225,7 @@ program type_conversion
     integer(kind=i64) :: i_i64
 
     i_i64 = 2**40
-    i_i32 = int(i_i64, kind=I64)
+    i_i32 = int(i_i64, kind=I32)
     print *, i_i32
 end program type_conversion
 ~~~~
