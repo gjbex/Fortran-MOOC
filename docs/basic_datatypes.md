@@ -201,7 +201,7 @@ complex(kind=DP) :: z1, z2
 real(kind=DP) :: re, im
 ...
 z1 = (-0.622772_DP, 0.42193_DP)
-z2 = cmplx(re, im)
+z2 = cmplx(re, im, kind=DP)
 ...
 ~~~~
 
