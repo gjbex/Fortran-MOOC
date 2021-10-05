@@ -204,7 +204,7 @@ complex(kind=DP) :: z1, z2
 real(kind=DP) :: re, im
 ...
 z1 = (-0.622772_DP, 0.42193_DP)
-z2 = cmplx(re, im)
+z2 = cmplx(re, im, kind=DP)
 ...
 ~~~~
 
@@ -228,7 +228,7 @@ program type_conversion
     integer(kind=i64) :: i_i64
 
     i_i64 = 2**40
-    i_i32 = int(i_i64, kind=I64)
+    i_i32 = int(i_i64, kind=I32)
     print *, i_i32
 end program type_conversion
 ~~~~
@@ -258,7 +258,7 @@ program type_conversion
     integer(kind=i64) :: i_i64
 
     i_i32 = 2**10
-    i_i64 = int(i_i32, kind=I32)
+    i_i64 = int(i_i32, kind=I64)
     print *, i_i64
 end program type_conversion
 ~~~~
