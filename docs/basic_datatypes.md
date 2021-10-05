@@ -24,6 +24,9 @@ binary operators are defined on integers:
   * `/`: integer division, e.g., `3/2 == 1`
   * '**`: exponentiation
 
+These operators are listed according to increasing precedence, so `1 + 2*3**4`
+evaluates to 163.
+
 Integers can be compared using the following binary operators.
 
   * `==`: equal,
@@ -308,8 +311,8 @@ The function `cmplx` will convert two numbers to a complex value.
 
 The type logical represents Boolean values.  It has only two constant values,
 `.TRUE.` and `.FALSE.`.  The unary `.not.` operator represents the Boolean negation.
-The semantics of the unary and binary operators `.and.`, `.or.`, `.eqv.` and `.neqv.`
-is summarized in the table below.
+The semantics of this unary and binary operators `.and.`, `.or.`, `.xor.`,`.eqv.` and
+`.neqv.` are summarized in the tables below.
 
 ### Negation
 
@@ -327,12 +330,20 @@ is summarized in the table below.
 | `.FALSE.` | `.TRUE.`  | `.FALSE.` |
 | `.FALSE.` | `.FALSE.` | `.FALSE.` |
 
-
 ### Disjunction
 
 | p         | q         | `.or.`    |
 |-----------|-----------|-----------|
 | `.TRUE.`  | `.TRUE.`  | `.TRUE.`  |
+| `.TRUE.`  | `.FALSE.` | `.TRUE.`  |
+| `.FALSE.` | `.TRUE.`  | `.TRUE.`  |
+| `.FALSE.` | `.FALSE.` | `.FALSE.` |
+
+### Exclusive or
+
+| p         | q         | `.neqv.   |
+|-----------|-----------|-----------|
+| `.TRUE.`  | `.TRUE.`  | `.FALSE.` |
 | `.TRUE.`  | `.FALSE.` | `.TRUE.`  |
 | `.FALSE.` | `.TRUE.`  | `.TRUE.`  |
 | `.FALSE.` | `.FALSE.` | `.FALSE.` |
@@ -346,16 +357,21 @@ is summarized in the table below.
 | `.FALSE.` | `.TRUE.`  | `.FALSE.` |
 | `.FALSE.` | `.FALSE.` | `.TRUE.`  |
 
+### Non-equivalence
 
-### Exclusive or
-
-| p         | q         | `.neqv.   |
+| p         | q         | `.eqv.`   |
 |-----------|-----------|-----------|
-| `.TRUE.`  | `.TRUE.`  | `.FALSE.` |
+| `.TRUE.`  | `.TRUE.`  | `.FALSE.  |
 | `.TRUE.`  | `.FALSE.` | `.TRUE.`  |
 | `.FALSE.` | `.TRUE.`  | `.TRUE.`  |
 | `.FALSE.` | `.FALSE.` | `.FALSE.` |
 
+The precedence of the operators is from lowest to highest:
+
+  * `.xor.`, `.eqv.`, `.neqv.`
+  * `.or.`
+  * `.and.`
+  * `.not.`
 
 
 ## Character values
