@@ -28,6 +28,7 @@ elemental function scale(x, aggregate) result(y)
     implicit none
     real, value :: x
     real, intent(inout) :: aggregate 
+    real :: y
 
     y = x**2 + x + 1.0
     aggregate = aggregate + y

@@ -29,4 +29,6 @@ Several short Fortran programs to illustrate arrays.
    allocations.
 1. `double_deallocate.f90`: illustration that a double deallocation generates
    a runtime error.
+1. `reshape.f90`: illustrates using reshape to produce arrays of different
+   sizes to the original.
 1. `CMakeLists.txt`: CMake file to build the applications.

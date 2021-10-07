@@ -489,7 +489,7 @@ matrix (represented as two dimensional array).
         integer :: i
 
         matrix = 0.0
-        do i = 1, size(A, 1)
+        do i = 1, size(matrix, 1)
             matrix(i, i) = 1.0
         end do
     end function eye
