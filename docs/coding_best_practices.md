@@ -199,7 +199,7 @@ In summary:
 
 ## Variable initialization
 
-The specifications for Fortran does not define the value an uninitialized variable will have. So you should always initialize variables explicitly, otherwise your code will have undefined, and potentially non-deterministic behavior. When you forget to initialize a variable, the compilers will typically let you get away with it. However, most compilers have optional flags that catch expressions involving uninitialized variables. We will discuss these and other compiler flags in a later section.
+The specification for Fortran does not define the value an uninitialized variable will have. So you should always initialize variables explicitly, otherwise your code will have undefined, and potentially non-deterministic behavior. When you forget to initialize a variable, the compilers will typically let you get away with it. However, most compilers have optional flags that catch expressions involving uninitialized variables. We will discuss these and other compiler flags in a later section.
 
 When initializing or, more generally, assigning a value to a variable that involves constants, your code will be easier to understand when those values indicate the intended type. For example, using `1.0` rather than `1` for floating point is more explicit. This may also avoid needless conversions. This also prevents arithmetic bugs since `1/2` will evaluate to `0`.  Perhaps even more subtly, `1.25 + 1/2` will also evaluate to `1.25`, since the division will be computed using integer values, evaluating to `0`, which is subsequently converted to the floating point value `0.0`, and added to `1.25`.
 
@@ -220,7 +220,7 @@ Moreover, when you use a version control system such as git or subversion in you
 
 ## Stick to the standard
 
-The official syntax and semantics of a programming language like Fortran is defined in official specifications. All compilers that claim compliance with these standards have to implement these specifications.
+The official syntax and semantics of a programming language like Fortran are defined in official specifications. All compilers that claim compliance with these standards have to implement these specifications.
 
 However, over the years, compiler developers have added extensions to the specifications. The Intel Fortran compiler for instance can trace its ancestry back to the DEC compiler, and implements quite a number of Fortran extensions. Similarly, the GCC `gfortran` compiler supports some non-standard features as well.
 
