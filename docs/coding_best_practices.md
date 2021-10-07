@@ -42,7 +42,7 @@ Using idioms, i.e., expressions that are particular to a (programming) language,
 
 ## Choose descriptive names
 
-In a way, programming is storytelling. The data are the protagonist in the story, and the procedures are the actions they take, or what happens to them. Hence variable names should be nouns and procedures names should be verbs. If a procedure returns a property, it should be phrased as a question.
+In a way, programming is storytelling. The data are the protagonists in the story, and the procedures are the actions they take, or what happens to them. Hence variable names should be nouns and procedures names should be verbs. If a procedure returns a property, it should be phrased as a question.
 
 Any editor worth its salt provides completion, so you can't argue in favor of short but less descriptive names to save typing. A long but descriptive name is just a tab character away.
 
@@ -103,7 +103,7 @@ Although it is best to try to avoid deeply nested blocks of code, sometimes that
 ~~~~fortran
 ...
 integer :: i, j
-real, dimenstion(10, 15) :: A
+real, dimension(10, 15) :: A
 ...
 column_loop: do j = 1, size(A, 2)
     row_loop: do i = 1, size(A, 1)

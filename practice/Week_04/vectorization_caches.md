@@ -20,7 +20,7 @@ Can the following do loop be vectorized?
 
 ~~~~fortran
 do i = 2, 1000
-    a[i-1] = alpha*a[i] + b[i]
+    a(i + 1) = alpha*a(i) + b(i)
 end do
 ~~~~
 

@@ -180,7 +180,8 @@ The code fragment below will open a file, read it line by line, and do some unsp
 
 ~~~~fortran
 open (unit=read_unit, file=file_name, access='sequential', &
-      action='read', status='old', form='formatted')
+      action='read', status='old', form='formatted', &
+      iostat=status, iomsg=msg)
 do
     read (unit=read_unit, fmt="(A10, E25.16)", &
           iostat=ierr, iomsg=msg) name, value
@@ -189,7 +190,14 @@ end do
 close (unit=read_unit)
 ~~~~
 
-You might hope that when you run the application and `file_name` doesn't contain the name of an existing file, or the file can not be opened, your application may terminate with an error message. However, that will not happen. The `read` statement will set `ierr` to a negative value, indicating the end of the input file, and everyone will live happily ever after, except that it is quite likely your application will produce unexpected results. The user of your application gets no indication that the file she wanted to be read was completely ignored.
+You might hope that when you run the application and `file_name` doesn't
+contain the name of an existing file, or the file can not be opened, your
+application may terminate with an error message. However, that will not happen.
+The `read` statement will set `ierr` to a negative value, indicating the end of
+the input file, and everyone will live happily ever after, except that it is
+quite likely your application will produce unexpected results. The user of your
+application gets no indication that the file she wanted to be read was
+completely ignored.
 
 ~~~~fortran
 use :: error_status

@@ -80,6 +80,9 @@ call get_command(command_name)
 Note that the length of the character variable should be large enough.  If not,
 the name will be truncated
 
+If you only want to retrieve the actual command and not its arguments, you can 
+call `get_command_argument` with 0 as its first argument.
+
 
 ## Environment variables
 
