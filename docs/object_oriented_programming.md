@@ -22,7 +22,7 @@ and introduce various concepts is descriptive statistics.  We start quite
 simple with a user defined type to collect the relevant data to compute the
 mean and standard deviation of some real numbers.
 
-Consider data values $$x_i$$ for $$i \in [1, N]$$, then the mean value $$\nu$$
+Consider data values $$x_i$$ for $$i \in [1, N]$$, then the mean value $$\mu$$
 is given by
 
 $$
@@ -35,7 +35,7 @@ $$
    \sigma = \sqrt{\frac{1}{N-1} \sum_{i=1}^{N} (x_i - \mu)^2}
 $$
 
-Using a little algebra, the formula for $$\mu$$ can be transformed into
+Using a little algebra, the formula for $$\sigma$$ can be transformed into
 
 $$
   \sigma = \sqrt{\frac{1}{N-1} \large\( \sum_{i=1}^N x_i^2 - \frac{1}{N} \large\( \sum_{i=1}{N} x_i \large\)^2 \large\)}

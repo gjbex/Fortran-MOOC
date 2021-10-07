@@ -241,7 +241,7 @@ initialize a variable of type `descriptive_stats_t` easily.
 ~~~~fortran
 type(descriptive_stats_t) :: stats
 ...
-allocate(stats%values(100)
+allocate(stats%values(100))
 ...
 ~~~~
 
@@ -298,7 +298,7 @@ subroutine trim_array(array)
 end subroutine trim_array
 ~~~~
 
-Note the call to `move_alloc`, this will ensure that `array` gets
+Note that the call to `move_alloc` will ensure that `array` gets
 deallocated, and that the allocation to `temp` is transferred to
 `array`.  The array `array` is allocated in the calling context, while
 the array `temp` is allocated in the subroutine.  Since `array` is

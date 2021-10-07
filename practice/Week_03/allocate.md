@@ -13,7 +13,7 @@ Which of the following statements is correct?
 
 ## Question 2
 
-Assume that the following variables has been declared:
+Assume that the following variables have been declared:
 
 ~~~~fortran
 integer, dimension(:), allocatable :: values

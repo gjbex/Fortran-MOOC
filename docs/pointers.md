@@ -176,7 +176,7 @@ array.  This corresponds to the shape of the pointer `p`.
 
 ### User defined types
 
-One of the major application for pointers is the implementation of
+One of the major applications for pointers is the implementation of
 sophisticated data structures such as lists, trees or graphs.  In such
 implementations, the user defined type typically has one or even several
 elements that are pointers to values of the user defined type.
@@ -220,7 +220,7 @@ account.
 
 ### Procedures
 
-An interesting use case of the use of pointers to procedures is the creation
+An interesting use case for pointers to procedures is the creation
 of an array of procedures.  Since this can not be done directly, the pointers
 to procedures need to be "packed" into a user defined type.  The following code
 fragments illustrate this.
