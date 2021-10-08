@@ -15,7 +15,7 @@ Consider the following code, the subroutine takes arrays as arguments that may h
 
 ~~~~fortran
 subroutine create_array(x, n)
-    implicit nonse
+    implicit none
     real, dimension(:), allocatable, intent(inout) :: x
     integer, intent(in) :: n
     allocate(x(n))
@@ -41,7 +41,7 @@ In this particular case, the procedure `create_vector` should check whether `all
 ~~~~fortran
 subroutine create_array(x, n)
     use, intrinsic :: iso_fortran_env, only: error_unit
-    implicit nonse
+    implicit none
     real, dimension(:), allocatable, intent(inoout) :: x
     integer, intent(in) :: n
     integer :: istat
@@ -80,7 +80,7 @@ You can use this in the `create_vector` procedure, i.e.,
 subroutine create_array(x, n)
     use, intrinsic :: iso_fortran_env, only: error_unit
     use :: error_status, only : ALLOCATION_ERR
-    implicit nonse
+    implicit none
     real, dimension(:), allocatable, intent(inoout) :: x
     integer, intent(in) :: n
     integer :: istat
@@ -111,7 +111,7 @@ Using these compiler macros, the `create_array` procedure can be implemented as 
 subroutine create_array(x, n)
     use, intrinsic :: iso_fortran_env, only: error_unit
     use :: error_status, only : ALLOCATION_ERR
-    implicit nonse
+    implicit none
     real, dimension(:), allocatable, intent(inoout) :: x
     integer, intent(in) :: n
     integer :: istat
@@ -296,7 +296,7 @@ At which level do you report an error?  This is a non-trivial question.
 
 Suppose you are developing an application that reads some parameters from a configuration file, it creates data structures, initialises them, and starts to compute.  One of the configuration parameters is the size of the vectors your computation uses, and those are dynamically allocated.
 
-Now you already know that your should check the result of `allocate` to ensure that the allocation succeeded.  Failing to do so will most likely result in a segmentation fault.
+Now you already know that you should check the result of `allocate` to ensure that the allocation succeeded.  Failing to do so will most likely result in a segmentation fault.
 
 However, the user of your application (potentially you) enters a vector size in the configuration file that is too large to be allocated.  No problem though, your application handles error conditions and reports to the user.
 
@@ -309,7 +309,7 @@ Handling errors in the appropriate context is not that easy.  It requires carefu
 Note that proper error handling will be fairly complex and potentially increase the size of your code base.
 
 
-## Floating point expectations
+## Floating point exceptions
 
 There are a number of problems that may arise during numerical computations and that go unnoticed, or are only noticed late, i.e., when a lot of expensive computations have been performed.
 
