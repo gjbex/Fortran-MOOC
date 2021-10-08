@@ -20,7 +20,7 @@ Documentation at the level of modules can be added as comments as well.
 The doxygen tool will read the source code, extract the documentation and
 render it as HTML or LaTeX.  The latter can easily be turned into a PDF
 document.  Doxygen integrates nicely with CMake, hence the generation of
-documenation is part of your build process.
+documentation is part of your build process.
 
 Doxygen is quite sophisticated and offer many features and opportunities for
 custimization that are beyond the scope of this introduction.  Here you will
@@ -63,7 +63,7 @@ end subroutine get_coordinates
 ~~~~
 
 The `@brief` entry is intended for a brief description of the procedure.  This
-can (optionally) be follow by a longer description of one or more paragraphs.
+can (optionally) be followed by a longer description of one or more paragraphs.
 The arguments' intent (`in`, `out`, `inout`) and description can be specified
 using `@param`.  For functions, you can use `@return` to describe the result.
 
@@ -194,7 +194,7 @@ else (DOXYGEN_FOUND)
 endif (DOXYGEN_FOUND)
 ~~~~
 
-As you can see, the `Doxyfile.in` is first configure using the information for
+As you can see, the `Doxyfile.in` is first configured using the information for
 the current build and transformed into `Doxyfile` in the binary directory.
 Moreover, a custom target `doc_doxygen` is added for generating the
 documentation.
