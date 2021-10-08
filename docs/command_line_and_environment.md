@@ -28,7 +28,7 @@ nr_args = command_argument_count()
 The subroutine `get_command_argument` takes two arguments, the first
 is the number of the command line argument you want to retrieve, so it should
 be between 1 and the number of command line arguments as returned by
-`command_argument_count`.  The second argument is a character variable that
+`command_argument_count`.  The second argument is a character variable
 to which the subroutine will assign the value passed on the command line.
 
 ~~~~fortran
@@ -102,4 +102,4 @@ if (istat /= 0) then
 ~~~~
 
 It should be stressed once more that it is important to check the status since
-your application may do some rather unexpected things with a value is truncated.
+your application may do some rather unexpected things when a value is truncated.

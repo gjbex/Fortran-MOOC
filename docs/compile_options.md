@@ -57,7 +57,7 @@ a build that you intend for production or release.
 
 ###  Intel
 
-For ifort, the relevant option is `-warn all`, and ``-diag-enable remark` will
+For ifort, the relevant option is `-warn all`, and `-diag-enable remark` will
 turn on many warnings.
 
 You can have the compiler insert code to check that you don't try to access
@@ -69,10 +69,10 @@ a build that you intend for production or release.
 The Intel compiler can check explicitly at runtime for the use of
 uninitialized variables if you use the `-check uninit` flag.
 
-By default, the Intel compilers for quite some extension to Fortran for
+By default, the Intel compilers support quite some extensions to Fortran for
 historical reasons.  If you want it to be strict about a standard, you can
 force that using the `-stand <spec>` flag, where `<spec>` is any of
-`f77`, `f90`, f95`, `f03`, `f08`, `f18`.
+`f77`, `f90`, `f95`, `f03`, `f08`, `f18`.
 
 
 ## Profiling

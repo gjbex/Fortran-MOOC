@@ -6,7 +6,7 @@ Which of the following statements is correct?
 
 1. In Austria you are required by law to run a profiler on your application before you start tweaking your code to improve performance. [No, but it would better be true in any country]
 1. `gprof` will show you the time spent in each line of your source code. [No, that is unfortunately not the case]
-1. `grpof` will give you the number of times a procedure is called during the execution of your application. [Indeed, that is one of the things that is recorded] [x]
+1. `gprof` will give you the number of times a procedure is called during the execution of your application. [Indeed, that is one of the things that is recorded] [x]
 1. The profile will depend on the optimization level used to build the application. [Indeed, procedures may be inlined at higher levels of optimization, and hence "disappear" from the profile] [x]
 
 
@@ -15,7 +15,7 @@ Which of the following statements is correct?
 Which of the following applications are profilers you can use for Fortran applications?
 
 1. ArmForge DDT [No, that's a debugger]
-1. Valgrind [Indeed, callgrind is a profiler] [x]
+1. Callgrind [Indeed, callgrind is a profiler] [x]
 1. Scalasca [Indeed, this is a profiler for parallel applications] [x]
 1. Tau [Indeed, this is a profiler for parallel applications] [x]
 

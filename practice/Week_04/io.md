@@ -24,7 +24,7 @@ Which of the following statements is correct?
 
 Which of the following statements is correct?
 
-1. Streaming I/O was introduced to allow the creation of binary files that can be read using application developed in other programming languages. [Indeed] [x]
+1. Streaming I/O was introduced to allow the creation of binary files that can be read using applications developed in other programming languages. [Indeed] [x]
 1. Asynchronous I/O is required when you want to write to multiple files in your application. [No, check what asynchronous I/O is for]
 1. In Fortran, you can overlap computation and I/O operations. [Indeed] [x]
 1. The I/O mode (sequential, direct or streaming) is set using the mode argument in the open statement. [No, check that again]

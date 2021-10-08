@@ -14,5 +14,5 @@ Which of the following statements is correct?
 
 1. You can not use mathematical formulas in doxygen documentation. [Actually, you can]
 1. Doxygen can be used with many programming languages besides Fortran. [Indeed, see the website for a list] [x]
-1. The properties of the generated documentation are determined in a configuration file that you have to write by and. [No, you can let doxygen generate a default one, and make a few changes to fit your specific needs]
+1. The properties of the generated documentation are determined in a configuration file that you have to write by hand. [No, you can let doxygen generate a default one, and make a few changes to fit your specific needs]
 1. You need to know $$LaTeX$$ to be able to use doxygen. [No, you don't, unless you want to include mathematical formulas]

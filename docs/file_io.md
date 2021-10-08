@@ -18,6 +18,7 @@ open them in a text editor or inspect them using tools such as `cat` or
 `less`.
 
 However, there are some disadvantages as well.
+
 1. text files are typically larger than binary files that contain the same
    information.
 1. Formatted I/O requires converting data to a textual representation,
@@ -129,7 +130,7 @@ case.
 ## Stream I/O
 
 Besides sequential and direct access I/O, Fortran supports a third I/O options.
-Both of these I/O type are essentially record-based, and not compatible with
+Both of these I/O types are essentially record-based, and not compatible with
 files that have been created by non-Fortran applications.  Stream I/O is
 suitable for this use case.
 
@@ -164,7 +165,7 @@ resulting files.
 | `'sequential'` | 1.5       |  1.8     |
 | `'stream'`     | 1.0       |  1.0     |
 
-As for all benchmarks, you mileage may vary depending on relative record
+As for all benchmarks, your mileage may vary depending on relative record
 size and the characteristics of your file storage.
 
 As for the other access types, stream I/O can be either formatted or
@@ -240,15 +241,16 @@ progress, the CPU can perform computations, using asynchronous I/O.
 
 ## Asynchronous I/O
 
-To achieve overlap between I/O operations and computation variables can
-be declared `asynchronous`, `buffer` in the code fragment below.  When opening
-a file, you have to specify that you want to do asynchronous I/O.  For instance,
-when an array `buffer` is written to a file, the write statement should have
-the `asynchronous` attribute.  While the I/O operation progresses, computations
-that do not modify the data that is currently written, i.e., the array `bufer`.
+To achieve overlap between I/O operations and computation, variables can
+be declared `asynchronous`, `buffer` as shown in the code fragment below.
+When opening a file, you have to specify that you want to do asynchronous
+I/O.  For instance, when an array `buffer` is written to a file, the write
+statement should have the `asynchronous` attribute.  While the I/O operation
+progresses, computations that do not modify the data that is currently
+written can be executed, i.e., the array `buffer`.
 
 Before changing the data in `buffer`, you would have to check whether the
-I/O operation is still pending, and if so, you have to wait until undone it
+I/O operation is still pending, and if so, you have to wait until it
 is done.  The inquire statement can be used to check this, and the wait
 statement that will halt the execution until the asynchronous I/O operation is
 completed.

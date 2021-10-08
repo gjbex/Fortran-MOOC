@@ -31,7 +31,7 @@ recursive function fib_recursive(n) result(fib)
 ~~~~
 
 It is easy to see that the number of steps to compute the Fibonacci number for
-$$n$$ is $$O(2^n)$$$, so exponential, i.e., very unpleasant.
+$$n$$ is $$O(2^n)$$, so exponential, i.e., very unpleasant.
 
 However, an alternative algorithm is linear in $$n$$, so $$O(n)$$. 
 
@@ -66,21 +66,21 @@ optimization problems.
 
 When you think about performance in terms of hardware, the clock frequency of
 your Central Processing Unit (CPU) is obviously a factor that plays a role.
-t what does that mean? 
+But what does that mean?
 This frequency is the number of cycles a CPU will perform per second.  In a cycle
 elementary operations can be performed.  For instance, a multiplication takes
 approximately 5 cycles to complete.  However, if your application does many of
 them, one after the other without interruption, on average it takes only a
-single cycle for an addition of a multiplication of two floating point values.
-(Addition and multiplication are performed in approximately 5 stages, each
-in dedicated hardware components.  Hence, when a pair of number is added, at
+single cycle for an addition or a multiplication of two floating point values.
+Addition and multiplication are performed in approximately 5 stages, each
+in dedicated hardware components.  Hence, when a pair of numbers is added, at
 cycle 2 the first stage is idle, and can handle the first stage of a second pair
 of numbers, while the second stage of the first pair is handled by second stage
 hardware.  This continues for the five stages, so at any moment, 5 additions
 are carried out, although they are each in a different stage.  This is called
 pipe lining.
 
-Since in scientific computing it is quite common to perform arithmetic on long
+Since in scientific computing, it is quite common to perform arithmetic on long
 sequences of floating point value, you can say that you can do an addition or
 a multiplication in one cycle.
 
@@ -89,7 +89,7 @@ division or a square root takes some 10 cycles, while computing an exponential
 takes up to 20.
 
 This offers some opportunities to improve performance.  For instance, when you
-have to check wither a point $$(x, y)$$ is in a circle with radius $$R$$, you
+have to check whether a point $$(x, y)$$ is in a circle with radius $$R$$, you
 can either check `sqrt(x*x + y*y) < R` or `x*x + y*y < R*R`.  The latter avoids
 an expensive square root operation.
 
@@ -136,7 +136,7 @@ can be performed simultaneously
 The compiler will generate vector instructions for such a loop automatically
 (if the optimization level is high enough, `-O3` for Fortran).
 
-Of course this is not possible is there is a dependency between the loops as
+Of course this is not possible if there is a dependency between the loops as
 in the example below.
 
 ~~~~fortran
@@ -237,7 +237,6 @@ network communication or data exchange with an accelerator.
 
 When a value, e.g., a single precision floating number, is transferred
 from RAM to CPU, in reality 64 bytes are transferred, 4 of which contain the
-w
 relevant data value.  These 64 bytes are a cache line, and all values of a
 cache line are transferred and stored in L2 and L1 caches.
 
