@@ -1,4 +1,4 @@
-# Documentation best practices: reading material
+# Documentation best practices
 
 When you consider using a new software library, you probably like to start by looking at some example code. You'll do a few experiments of your own, based on those examples.  Once you start using the new library for non-trivial applications, you will most likely have to refer to the reference guide.  All this documentation is a great help if its quality is good.
 
@@ -62,9 +62,10 @@ When doing object oriented programming, the documentation of type bound procedur
 
 ### Documenting modules
 
-Code is typically aggregated according to functionality in Fortran modules for separate compilation.  Hence this aggregation has a purpose, and you should document that as well. What is the overall purpose of the module? Another question that you can answer in module documentation is the interaction between various components. How can the output of one procedure be used as the input for another, are the various procedure independent, or should they be called in a certain order?
+Code is typically aggregated according to functionality in Fortran modules for separate compilation.  Hence this aggregation has a purpose, and you should document that as well. What is the overall purpose of the module? Another question that you can answer in module documentation is the interaction between various components. How can the output of one procedure be used as the input for another, are the various procedures independent, or should they be called in a certain order?
 
 As an example, if you have a procedure that initializes a data structure, a few that manipulate such data structures, and a finalization procedure that releases the resources in that data structure, then the module documentation should probably mention that you should
+
   1. call the initialization procedure to get a valid data structure;
   1. call procedures that use the data structure; and
   1. call the finalization procedure to avoid memory leaks.
