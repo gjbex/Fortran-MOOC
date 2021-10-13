@@ -54,9 +54,9 @@ do t = 1, nr_steps
     do i = 2, size(A) - 1
         pA_new(i) = 0.25*pA(i - 1) + 0.5*pA(i) + 0.25*pA(i + 1)
     end do
-    tmp => A
-    A => A_new
-    A_new => tmp
+    tmp => pA
+    pA => pA_new
+    pA_new => tmp
 end do
 ...
 ~~~~
