@@ -20,14 +20,6 @@ module quad_gauss_mod
         end subroutine init_quad_t
     end interface
 
-    interface
-        function func_t(x) result(res)
-            implicit none
-            real, value :: x
-            real :: res
-        end function func_t
-    end interface
-
 contains
 
     function compute_gauss(this, func, a, b) result(res)

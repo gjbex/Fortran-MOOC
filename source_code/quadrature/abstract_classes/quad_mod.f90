@@ -1,6 +1,9 @@
 module quad_mod
     implicit none
 
+    private
+    public :: func_t
+
     interface
         function func_t(x) result(res)
             implicit none
@@ -9,7 +12,6 @@ module quad_mod
         end function func_t
     end interface
 
-    private
 
     type, public, abstract :: quad_t
     contains

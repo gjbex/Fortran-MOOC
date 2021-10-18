@@ -8,14 +8,6 @@ module quad_simpson_mod
         procedure :: compute => compute_simpson
     end type
 
-    interface
-        function func_t(x) result(res)
-            implicit none
-            real, value :: x
-            real :: res
-        end function func_t
-    end interface
-
     interface quad_simpson_t
         module procedure :: create_quad
     end interface
