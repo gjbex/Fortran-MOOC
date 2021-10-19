@@ -56,11 +56,11 @@ The elements of the vectors and matrices can be single precision real numbers
 Although the problems solved by the BLAS library seem fairly simple, the
 algorithms that implement them are the result of decades of research and
 painstaking optimizations.  Good implementations will use vector instructions
-that get every drop of efficiency out of advance CPU design.  They have also
+that get every drop of efficiency out of advanced CPU design.  They have also
 been written to take advantage of multiple cores, so your code automatically
 executes in parallel, typically using OpenMP under the hood.
 
-LAPACK is implement on top of BLAS, and hence will benefit from the
+LAPACK is implemented on top of BLAS, and hence will benefit from the
 optimization and parallelization of that library as well.
 
 
@@ -86,9 +86,10 @@ call dcopy(size(matrix1), matrix1, 1, matrix2, 1)
 
 Note that although level 1 focuses on vector operations, you can use this
 subroutine to copy data from a multidimensional array to another
-multidimensional, not necessarily of the same rank and dimensions.
+multidimensional array, not necessarily of the same rank and dimensions.
 
-The signature of of this subroutine is
+The signature of this subroutine is
+
 ~~~~
 subroutine dcopy(<N>, <DX>, <INCX>, <DY>, <INCY>)
 ~~~~
@@ -101,7 +102,7 @@ respectively are 1, but they can be used creatively in some situations.
 Another very useful BLAS level 1 function is `sdot`, the single precision dot
 product of two vectors, i.e.,
 $$
-   d = \sum_{i=1}^{N} u_I v_i
+   d = \sum_{i=1}^{N} u_i v_i
 $$
 
 ~~~~fortran
@@ -124,7 +125,7 @@ $$
     \vec{y} = \vec{y} + \alpha \vec{x}
 $$
 
-Note that BLAS function need to be declared as `external`.
+Note that BLAS functions need to be declared as `external`.
 
 
 ### BLAS level 2: matrix-vector operations
@@ -199,17 +200,17 @@ $$
     C = \alpha \textrm{op}(A) \cdot \textrm{op}(B) + \beta C
 $$
 
-Other operation implemented in the level 3 BLAS library rank-$$k$$ symmetric
+Other operations implemented in the level 3 BLAS library rank-$$k$$ symmetric
 updates, and solving sets of triangular linear equations with multiple
 right-hand sides.
 
 
 ## LAPACK
 
-LAPACK implements some widely used algorithms for linear algebra for solving
+LAPACK implements some widely used algorithms for linear algebra, e.g., for solving
 sets of linear equations, linear least square methods, eigenvalue problems,
 singular value decomposition and matrix factorization.  Like BLAS, it has
-implementation for real and complex matrices, single and double precision.
+implementations for real and complex matrices, single and double precision.
 
 LAPACK is available under an open source BSD license, but Intel's MKL library
 offers an implementation as well.  Since LAPACK is built on top of BLAS, its
@@ -219,7 +220,7 @@ The naming of LAPACK procedures is similar to BLAS in that the name of a
 procedure indicates both the type of data in the matrices (real or complex,
 single or double precision) and the type of matrix (general, bidiagonal, 
 symmetric and so on).  The name ends with a one to three letter identification
-of the algorithm.  For instance, `sgesvd` would be s singular value
+of the algorithm.  For instance, `sgesvd` would be a singular value
 decomposition (`svd`) of a general (`ge`) single precision (`s`) matrix.
 
 It would lead us too far to go into all the algorithms implemented in LAPACK,

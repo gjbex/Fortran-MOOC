@@ -10,7 +10,7 @@ to very large matrices.  You can initialize the matrices with random numbers.
 
 ## Question 2
 
-Use grpof to see how much time is spent on initializing the matrices versus computing the matrix-matrix
+Use gprof to see how much time is spent on initializing the matrices versus computing the matrix-matrix
 product in the previous expercise.
 
 
@@ -37,5 +37,5 @@ Have a look at the `schedule` OpemMP clause to see whether that would improve ef
 
 ## Question 6
 
-Use the GSL (Gnu Scientific Library) to solve the set of linear equations you did with LAPaCK in
+Use the GSL (Gnu Scientific Library) to solve the set of linear equations you did with LAPACK in
 a previous exercise.  Use C bindings.  Compare the performance of using LAPACK versus GSL.

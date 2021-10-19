@@ -1,7 +1,7 @@
 # Random numbers
 
 Fortran has intrinsic procedures for pseudo-random number generation.  You can
-easily generate a sequence of pseudo-random floating point values form a uniform
+easily generate a sequence of pseudo-random floating point values from a uniform
 distribution in the half-closed interval $$[0, 1[$$.  The start of the sequence
 is determined by a seed, i.e., a state of the algorithm that changes each time a
 random number is generated.
@@ -31,7 +31,7 @@ end do
 ~~~~
 
 Each time the subroutine `random_number` is called, it assigns a new real value
-to `r` such that $$0 \e \textrm{r} < 1$$.
+to `r` such that $$0 \le \textrm{r} < 1$$.
 
 In the following code snippet, `coords` is an array of double precision
 floating point values.
@@ -154,5 +154,6 @@ would have to write your own code to sample from a non-uniform distribution or
 over a different numeric domain.
 
 You will find some libraries that can be of interest though:
+
 1. [RNGlib](https://people.sc.fsu.edu/~jburkardt/f_src/rnglib/rnglib.html)
 1. [Intel MKL](https://software.intel.com/content/www/us/en/develop/documentation/mkl-vsperfdata/top.html)

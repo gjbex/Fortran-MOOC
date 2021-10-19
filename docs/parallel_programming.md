@@ -56,7 +56,7 @@ end do
 !$omp end parallel
 ~~~~
 
-The OpenMP `parallel` directive opens a parallel regions, i.e., multiple threads
+The OpenMP `parallel` directive opens a parallel region, i.e., multiple threads
 will be executing the code up to the point where the parallel region is closed
 again.  When a parallel region is opened, the variables that are intended as
 thread-private or shared are declared.
@@ -79,7 +79,7 @@ In this example, the iterations are *not* independent.  Indeed, the variable
 iteration.  However, semantically, it is a reduction, so it can be done locally
 in each thread, and when all threads have finished, their respective results
 can be reduced to the final value of `nr_success`.  All the instructions
-required to do this are generated automatically by the the compiler.
+required to do this are generated automatically by the compiler.
 
 The semantics is defined by the `reduction` clause of the `do` work sharing
 directive.  The reduction operation is a sum, and the variable(s) involved in
@@ -122,7 +122,7 @@ A third alternative is OpenCL, for which Fortran bindings are available.
 
 ## Distributed programming
 
-At the next level of parallelization you can use multiple computer, typically
+At the next level of parallelization you can use multiple computers, typically
 compute nodes in an HPC cluster.  The processes of your application will need
 to communicate and exchange state and data.  The de-facto standard for distributed
 computing for scientific applications is the Message Passing Interface (MPI).
@@ -132,7 +132,7 @@ However, Fortran 2018 defines an alternative: coarrays.
 ### MPI
 
 MPI is a standard that has a number of implementations, both open source and
-commercial e.g., Open MPI, MVAPICH2, Intel MPI and so on.  All implementation
+commercial e.g., Open MPI, MVAPICH2, Intel MPI and so on.  All implementations
 are standard compliant, so an application can be linked to any library
 implementation.
 
@@ -178,7 +178,7 @@ use :: mpi_f08
 call MPI_Init()
 
 ! get rank in and size of communicator
-call MPI_Comm_rank(Mcomm=PI_COMM_WORLD, rank=my_rank)
+call MPI_Comm_rank(Mcomm=MPI_COMM_WORLD, rank=my_rank)
 call MPI_Comm_size(comm=MPI_COMM_WORLD, size=my_size)
 
 ! show number of processes, only rank 0
@@ -220,7 +220,7 @@ data types that help the compiler catch mistakes.
 
 As opposed to OpenMP, there are no shared variables, all data is private
 to the process.  However, MPI also offers facilities for shared memory
-programming, but is beyond the scope of this very brief introduction.
+programming, but this is beyond the scope of this very brief introduction.
 
 Note that parallelizing a sequential application using MPI is typically
 more work than making it multi-threaded with OpenMP, but MPI applications
@@ -242,7 +242,7 @@ other images by using the image ID as codimension index.
 Several coarray procedures are defined, e.g., `co_sum`, which is similar to
 `MPI_Reduce`.
 
-The following program would compute $$pi$$ as the example for OpenMP and MPI,
+The following program would compute $$\pi$$ as the example for OpenMP and MPI,
 but implemented using a coarray.
 
 ~~~~fortran
@@ -252,7 +252,7 @@ program compute_pi
     real, parameter :: PI = acos(-1.0)
     integer(kind=I8), parameter :: nr_tries = 500000000
     integer(kind=I8), codimension[*] :: nr_success
-    integer(Kind=I8) :: i
+    integer(kind=I8) :: i
     real :: x, y
 
     nr_success = 0

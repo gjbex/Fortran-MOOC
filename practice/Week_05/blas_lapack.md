@@ -35,4 +35,4 @@ Which of the following statements are correct?
 1. A good BLAS implementation is optimized with vectorization and cache usage. [Indeed] [x]
 1. Efficient implementations of BLAS and LAPACK are available as open source. [Indeed] [x]
 1. netlib BLAS is the best open source BLAS implementation. [No, absolutely not]
-1. Most BLAS implementation are interchangeable. [Indeed] [x]
+1. Most BLAS implementations are interchangeable. [Indeed] [x]
