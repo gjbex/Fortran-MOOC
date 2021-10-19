@@ -7,7 +7,7 @@ program zero_vs_minus_zero
     if (zero == minus_zero) then
         print '(A)', '0 == -0'
     else
-        print '(A)', '0 / -0'
+        print '(A)', '0 /= -0'
     end if
     print '(A, F5.1)', 'sqrt(0.0) = ', sqrt(zero)
     print '(A, F5.1)', 'sqrt(-0.0) = ', sqrt(minus_zero)
