@@ -13,7 +13,7 @@ applications written in other programming languages.
 
 The Fortran 2003 specification adds explicit C interoperability, the 2018
 specification improved on the initial version.  This allows to define interfaces
-to call C functions from Fortran code.  the `iso_c_bnding` module defines
+to call C functions from Fortran code.  The `iso_c_binding` module defines
 conversion functions and data kinds to facilitate interoperability, while the
 `bind` keyword allows to specify that a function is intended for interoperability.
 
@@ -121,7 +121,7 @@ deallocate(random_values)
 ~~~~
 
 Note that the memory is allocated in the C function using `malloc`, but
-deallocated in the Fortran program unit with a `deallocate` statement.Go
+deallocated in the Fortran program unit with a `deallocate` statement.
 
 
 ### Real world example

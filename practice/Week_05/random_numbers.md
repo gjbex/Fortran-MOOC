@@ -6,7 +6,7 @@ Which of the following statements are correct?
 
 1. If you run a Fortran application that uses the `random_number` intrinsic procedure twice, the application will run identically if it is not explicitely seeded. [No, the Fortran runtime will seed automatically]
 1. The `random_number` intrinsic procedure generates floating point numbers between 0 and 1 (exclusive). [Indeed] [x]
-1. You can use the `random_nubmer` intrinsic procedure to initialize multi-dimensional arrays. [Indeed] [x]
+1. You can use the `random_number` intrinsic procedure to initialize multi-dimensional arrays. [Indeed] [x]
 
 
 ## Question 2

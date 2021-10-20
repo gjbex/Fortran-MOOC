@@ -132,7 +132,7 @@ an `IEEE_OVERFLOW` exception is thrown when an arithmetic computation results
 in positive or negative infinity as discussed in the section 'Infinity' above.
 As the name implies `IEEE_DIVIDE_BY_ZERO` occurs whenever you divide by zero.
 
-This three exceptions are the ones you are mostly interested in.  `IEEE_USUAL`
+These three exceptions are the ones you are mostly interested in.  `IEEE_USUAL`
 is an array that defines them for convenience.
 
 The `IEEE_UNDERFLOW` exception can sometimes be of interest.  It occurs when
@@ -145,13 +145,14 @@ for many floating point computations, this exception is typically not of
 interest.
 
 You can control whether a program halts when an IEEE exception occurs either
+
 * globally using a compiler flag (e.g., `-ffpe-trap=invalid,zero,overlow`), or
 * in your code by using the `ieee_set_halting_mode` subroutine.
 
 The latter method allows much greater control since you can switch the halting
 mode to true for specific procedures or calculations.  For instance, the
 statement below will set the halting mode for `IEEE_INVALID` to true, which
-means that the program will halt when an invalid operations occurs.
+means that the program will halt when an invalid operation occurs.
 
 ~~~~fortran
 call ieee_set_halting_mode(IEEE_INVALID, .true.)
@@ -203,7 +204,7 @@ if (any(stats)) then
 end if
 ~~~~~
 
-You can also reset clear the flags when you have dealt with the exception and
+You can also clear the flags when you have dealt with the exception and
 your computation is ready to proceed, e.g.,
 
 ~~~~fortran

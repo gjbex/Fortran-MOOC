@@ -13,7 +13,7 @@ own development adventure.
 
 Fast Fourier Transforms are important mathematical tools in many domains.
 The [FFTW3](http://www.fftw.org/) library is an excellent implementation
-that has Fortran bindings and can be for sequential, multi-threaded and
+that has Fortran bindings and can be used for sequential, multi-threaded and
 distributed code.
 
 For linear algebra, BLAS and LAPACK have already been mentioned and
@@ -32,14 +32,14 @@ equations.  It uses MPI for communication, supports GPUs either through CUDA
 or OpenCL as well as hybrid MPI-GPU.  It implements a wide range of linear and
 non-linear solvers.
 
-For eigenvalue problems at scale, [SLEPc](https://slepc.upv.es/) (Scalable
+For eigenvalue problems at scale, there is [SLEPc](https://slepc.upv.es/) (Scalable
 Library for Eigenvalue Problems Computations).  It is an extension of PETSc.
 It can for instance be used to compute partial Singular Value Decompositions
 (SVD).
 
 [NetCDF](https://www.unidata.ucar.edu/software/netcdf/) (Network Common Data
 Form) is used in some scientific domains as an alternative to HDF5.  It
-has some advantages, e.e., it is easier to with spherical coordinate systems.
+has some advantages, e.g., it is easier to with spherical coordinate systems.
 It uses HDF5 under the hood. It has a counterpart for parallel I/O,
 [PnetCDF](https://parallel-netcdf.github.io/).
 

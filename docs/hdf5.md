@@ -38,7 +38,7 @@ multiple threads or processes of an application to perform I/O operations in
 parallel.
 
 HDF5 has excellent support for partial reads or writes of datasets through
-hyperslabs.  You can view a hyperslab as subarrays in Fortran, or slices in
+hyperslabs.  You can view a hyperslab as subarray in Fortran, or slices in
 other programming languages.  Unfortunately, using hyperslabs requires
 a considerable number of lines of code, and is out of scope for this course.
 
@@ -137,7 +137,7 @@ in the format native to the platform the application runs on.  Note the`d`-prefi
 
 ### Writing data
 
-Finally, data can be writing to the dataset you just created.
+Finally, data can be written to the dataset you just created.
 
 ~~~~~fortran
 real(kind=sp), dimension(pos_space_rank, nr_particles) :: pos
@@ -170,7 +170,7 @@ call h5close_f(error)
 ## Wrap up
 
 As you've seen, working with HDF5 files in Fortran is quite labor intensive
-and finicky.  However, given the advantages of the data format, it is well owrth
+and finicky.  However, given the advantages of the data format, it is well worth
 the investment.
 
 This only scratched the surface of HDF5 features.  If you are interested to
