@@ -1,0 +1,63 @@
+WEBVTT
+
+00:00:00.000 --> 00:00:02.130 align:middle line:90%
+
+
+00:00:02.130 --> 00:00:04.050 align:middle line:84%
+Welcome to the second
+week of Fortran
+
+00:00:04.050 --> 00:00:06.460 align:middle line:90%
+for scientific programming.
+
+00:00:06.460 --> 00:00:10.770 align:middle line:84%
+So the main new thing which
+we learn about this week
+
+00:00:10.770 --> 00:00:12.990 align:middle line:84%
+is in fact arrays
+and of course it's
+
+00:00:12.990 --> 00:00:15.900 align:middle line:84%
+a very important part
+of scientific computing,
+
+00:00:15.900 --> 00:00:19.530 align:middle line:84%
+since they're used to
+represent vectors and matrices.
+
+00:00:19.530 --> 00:00:24.450 align:middle line:84%
+We will also go more in-depth
+into various Fortran features
+
+00:00:24.450 --> 00:00:29.805 align:middle line:84%
+which were introduced before,
+but not in sufficient detail.
+
+00:00:29.805 --> 00:00:31.680 align:middle line:84%
+So at the end of this
+week, you will actually
+
+00:00:31.680 --> 00:00:34.060 align:middle line:84%
+have a pretty good
+overview of Fortran
+
+00:00:34.060 --> 00:00:35.490 align:middle line:90%
+as a programming language.
+
+00:00:35.490 --> 00:00:39.420 align:middle line:84%
+A few things are missing,
+but that's for weeks to come.
+
+00:00:39.420 --> 00:00:41.160 align:middle line:84%
+Don't forget the
+capstone exercises
+
+00:00:41.160 --> 00:00:45.710 align:middle line:84%
+because those are your
+main learning opportunity.
+
+00:00:45.710 --> 00:00:47.500 align:middle line:90%
+Let's go for it.
+
+00:00:47.500 --> 00:00:48.000 align:middle line:90%

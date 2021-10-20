@@ -1,0 +1,254 @@
+WEBVTT
+
+00:00:00.000 --> 00:00:04.290 align:middle line:90%
+
+
+00:00:04.290 --> 00:00:05.910 align:middle line:90%
+Let's set the problem.
+
+00:00:05.910 --> 00:00:09.090 align:middle line:84%
+You have a sequence of
+numbers or data in general.
+
+00:00:09.090 --> 00:00:12.000 align:middle line:84%
+And that can be an
+array or a file.
+
+00:00:12.000 --> 00:00:16.030 align:middle line:84%
+The idea is to create random
+permutations of that sequence.
+
+00:00:16.030 --> 00:00:19.780 align:middle line:84%
+And each permutation
+should be equally likely.
+
+00:00:19.780 --> 00:00:22.790 align:middle line:84%
+Additionally, it
+should happen in place.
+
+00:00:22.790 --> 00:00:26.560 align:middle line:84%
+So basically, you have
+just a single array.
+
+00:00:26.560 --> 00:00:29.920 align:middle line:84%
+You rearrange the elements so
+that you get a permutation.
+
+00:00:29.920 --> 00:00:32.940 align:middle line:84%
+And that happens in
+that array itself.
+
+00:00:32.940 --> 00:00:35.890 align:middle line:84%
+All permutations
+are equally likely.
+
+00:00:35.890 --> 00:00:39.600 align:middle line:84%
+So for instance, this could
+be one permutation, another,
+
+00:00:39.600 --> 00:00:42.110 align:middle line:90%
+yet another, and so on.
+
+00:00:42.110 --> 00:00:44.580 align:middle line:84%
+There is a nice
+algorithm for that.
+
+00:00:44.580 --> 00:00:47.840 align:middle line:84%
+It's called Fisher-Yates,
+after its inventors.
+
+00:00:47.840 --> 00:00:51.170 align:middle line:84%
+You start off with an
+array with N values.
+
+00:00:51.170 --> 00:00:55.280 align:middle line:84%
+For each i starting from
+1 and going to N minus 1,
+
+00:00:55.280 --> 00:00:59.900 align:middle line:84%
+you choose a random integer
+between i and N inclusive.
+
+00:00:59.900 --> 00:01:05.019 align:middle line:84%
+And you exchange the
+element at indices i and j.
+
+00:01:05.019 --> 00:01:07.370 align:middle line:90%
+The Fortran code is available.
+
+00:01:07.370 --> 00:01:11.420 align:middle line:84%
+And as you can see, we have
+an array with N values.
+
+00:01:11.420 --> 00:01:16.430 align:middle line:84%
+So that would be, for instance,
+real dimension N values.
+
+00:01:16.430 --> 00:01:18.640 align:middle line:84%
+And then for each
+iteration in our loop,
+
+00:01:18.640 --> 00:01:22.630 align:middle line:84%
+we get a random number that
+is between i and N inclusive.
+
+00:01:22.630 --> 00:01:25.140 align:middle line:90%
+And that's assigned to j.
+
+00:01:25.140 --> 00:01:26.970 align:middle line:84%
+Then we simply
+exchange the values
+
+00:01:26.970 --> 00:01:31.390 align:middle line:84%
+of positions i and position
+j in our array values.
+
+00:01:31.390 --> 00:01:33.030 align:middle line:84%
+And of course, we
+need a function
+
+00:01:33.030 --> 00:01:36.800 align:middle line:84%
+to provide a random
+integer shown here.
+
+00:01:36.800 --> 00:01:39.280 align:middle line:84%
+So when we run that
+algorithm, let's
+
+00:01:39.280 --> 00:01:45.110 align:middle line:84%
+start with the array which
+has the values 1, 2, 3, 4, 5.
+
+00:01:45.110 --> 00:01:47.860 align:middle line:84%
+It doesn't matter, the
+values can be anything.
+
+00:01:47.860 --> 00:01:50.080 align:middle line:90%
+We start with i and j.
+
+00:01:50.080 --> 00:01:54.370 align:middle line:84%
+i is going to be equal to 1,
+the first iteration of do loop.
+
+00:01:54.370 --> 00:01:56.680 align:middle line:84%
+And suppose that the
+random_integer function
+
+00:01:56.680 --> 00:01:59.300 align:middle line:90%
+returns 3 as its value.
+
+00:01:59.300 --> 00:02:04.690 align:middle line:84%
+So i is going to be equal to
+1, j is going to be equal to 3.
+
+00:02:04.690 --> 00:02:07.810 align:middle line:84%
+We swap the values at the
+first and the third position
+
+00:02:07.810 --> 00:02:09.009 align:middle line:90%
+in the array.
+
+00:02:09.009 --> 00:02:13.840 align:middle line:84%
+And we end up with the
+array 3, 2, 1, 4, 5.
+
+00:02:13.840 --> 00:02:17.110 align:middle line:84%
+So the values at the first and
+third position of the array
+
+00:02:17.110 --> 00:02:19.150 align:middle line:90%
+have been exchanged.
+
+00:02:19.150 --> 00:02:23.500 align:middle line:84%
+For the next iteration of
+the do loop, i is equal to 2.
+
+00:02:23.500 --> 00:02:27.460 align:middle line:84%
+And suppose that the function
+random_integer returns 5
+
+00:02:27.460 --> 00:02:29.090 align:middle line:90%
+as value.
+
+00:02:29.090 --> 00:02:31.510 align:middle line:84%
+So we exchange the
+values at position 2
+
+00:02:31.510 --> 00:02:33.720 align:middle line:90%
+and position 5 in that array.
+
+00:02:33.720 --> 00:02:36.540 align:middle line:90%
+
+
+00:02:36.540 --> 00:02:41.541 align:middle line:90%
+We end up with 3, 5, 1, 4, 2.
+
+00:02:41.541 --> 00:02:45.090 align:middle line:90%
+Third iteration i is equal to 3.
+
+00:02:45.090 --> 00:02:47.160 align:middle line:84%
+And suppose that the
+random choice is 4.
+
+00:02:47.160 --> 00:02:50.130 align:middle line:90%
+So j is equal to 4.
+
+00:02:50.130 --> 00:02:54.720 align:middle line:84%
+We exchange the third
+and fourth element.
+
+00:02:54.720 --> 00:02:58.590 align:middle line:84%
+And we end up with
+3, 5, 4, 1, 2.
+
+00:02:58.590 --> 00:03:02.010 align:middle line:84%
+Last iteration, because
+i goes from 1 to 4.
+
+00:03:02.010 --> 00:03:07.300 align:middle line:84%
+So obviously, i will be 4,
+and j happens to be 4 as well.
+
+00:03:07.300 --> 00:03:09.090 align:middle line:84%
+So essentially, nothing
+happens because we
+
+00:03:09.090 --> 00:03:13.350 align:middle line:84%
+exchange the value position 4
+with the value at position 4.
+
+00:03:13.350 --> 00:03:16.440 align:middle line:84%
+Nothing happens, and this
+is our final permutation.
+
+00:03:16.440 --> 00:03:19.890 align:middle line:90%
+We have 3, 5, 4, 1, 2.
+
+00:03:19.890 --> 00:03:23.310 align:middle line:84%
+And you can prove mathematically
+that all permutations
+
+00:03:23.310 --> 00:03:26.740 align:middle line:84%
+are, in fact, equally
+likely as required.
+
+00:03:26.740 --> 00:03:28.950 align:middle line:84%
+So how do you do
+this for large files?
+
+00:03:28.950 --> 00:03:31.800 align:middle line:84%
+It's not really possible
+to just copy that file,
+
+00:03:31.800 --> 00:03:34.480 align:middle line:84%
+because you can just
+run out of disc space.
+
+00:03:34.480 --> 00:03:36.870 align:middle line:84%
+But that is one application
+where direct access
+
+00:03:36.870 --> 00:03:39.470 align:middle line:90%
+files are quite useful.
+
+00:03:39.470 --> 00:03:40.000 align:middle line:90%

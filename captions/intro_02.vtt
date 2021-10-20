@@ -1,0 +1,181 @@
+WEBVTT
+
+00:00:00.000 --> 00:00:01.580 align:middle line:90%
+
+
+00:00:01.580 --> 00:00:03.170 align:middle line:84%
+Welcome to this
+course on Fortran
+
+00:00:03.170 --> 00:00:05.150 align:middle line:90%
+for scientific computing.
+
+00:00:05.150 --> 00:00:09.652 align:middle line:84%
+So why would you want to learn
+Fortran in the first place?
+
+00:00:09.652 --> 00:00:11.360 align:middle line:84%
+Well, it's a language
+that's specifically
+
+00:00:11.360 --> 00:00:14.550 align:middle line:84%
+designed with scientific
+computing in mind.
+
+00:00:14.550 --> 00:00:18.500 align:middle line:84%
+So it's easy to develop
+scientific applications.
+
+00:00:18.500 --> 00:00:22.160 align:middle line:84%
+Also, it will give you a very
+decent performance just out
+
+00:00:22.160 --> 00:00:23.990 align:middle line:90%
+of the box.
+
+00:00:23.990 --> 00:00:26.150 align:middle line:84%
+Those are compelling
+reasons to use Fortran
+
+00:00:26.150 --> 00:00:30.200 align:middle line:84%
+as a programming language
+for scientific computing.
+
+00:00:30.200 --> 00:00:32.330 align:middle line:84%
+It's actually a
+pretty old language.
+
+00:00:32.330 --> 00:00:34.760 align:middle line:84%
+But it has evolved
+over the decades
+
+00:00:34.760 --> 00:00:37.940 align:middle line:84%
+and embraced new ideas
+and new paradigms.
+
+00:00:37.940 --> 00:00:41.030 align:middle line:84%
+And we will be discussing
+the latest Fortran standard,
+
+00:00:41.030 --> 00:00:45.110 align:middle line:90%
+which is Fortran 2018.
+
+00:00:45.110 --> 00:00:47.990 align:middle line:84%
+In week one, you'll learn how
+to set up your own development
+
+00:00:47.990 --> 00:00:48.860 align:middle line:90%
+environment.
+
+00:00:48.860 --> 00:00:52.730 align:middle line:84%
+And you will also be covering
+the basics of the Fortran
+
+00:00:52.730 --> 00:00:54.920 align:middle line:90%
+programming language.
+
+00:00:54.920 --> 00:00:57.980 align:middle line:84%
+In week two, we will
+go more in-depth
+
+00:00:57.980 --> 00:01:04.560 align:middle line:84%
+into the concepts of Fortran
+and learn more about those.
+
+00:01:04.560 --> 00:01:06.720 align:middle line:84%
+Week three will
+concentrate mostly
+
+00:01:06.720 --> 00:01:09.510 align:middle line:84%
+on object-oriented
+programming with Fortran.
+
+00:01:09.510 --> 00:01:12.930 align:middle line:84%
+While week 4 is
+concerned with software
+
+00:01:12.930 --> 00:01:16.830 align:middle line:84%
+engineering issues, but
+mostly, with performance,
+
+00:01:16.830 --> 00:01:18.510 align:middle line:84%
+which is, of course,
+very important
+
+00:01:18.510 --> 00:01:21.360 align:middle line:90%
+in scientific computing.
+
+00:01:21.360 --> 00:01:25.800 align:middle line:84%
+In week five will be
+covering scientific libraries.
+
+00:01:25.800 --> 00:01:28.745 align:middle line:84%
+So basically, it's no good
+to reinvent the wheel.
+
+00:01:28.745 --> 00:01:30.120 align:middle line:84%
+So you should be
+aware that there
+
+00:01:30.120 --> 00:01:33.090 align:middle line:84%
+are many scientific libraries
+available in the Fortran
+
+00:01:33.090 --> 00:01:34.740 align:middle line:90%
+ecosystem.
+
+00:01:34.740 --> 00:01:36.840 align:middle line:84%
+We'll also discuss
+parallel programming
+
+00:01:36.840 --> 00:01:39.180 align:middle line:84%
+a little bit, not
+in depth, but just
+
+00:01:39.180 --> 00:01:43.670 align:middle line:84%
+to give you an idea of
+what's possible with Fortran.
+
+00:01:43.670 --> 00:01:47.360 align:middle line:84%
+Each week, there are
+capstone exercises.
+
+00:01:47.360 --> 00:01:50.900 align:middle line:84%
+And those are, in fact,
+the most important thing,
+
+00:01:50.900 --> 00:01:54.710 align:middle line:84%
+which you should do because
+they're open exercises, which
+
+00:01:54.710 --> 00:01:56.810 align:middle line:84%
+have been selected
+to be somewhat
+
+00:01:56.810 --> 00:01:58.850 align:middle line:84%
+challenging and
+somewhat interesting
+
+00:01:58.850 --> 00:02:00.920 align:middle line:90%
+from a scientific perspective.
+
+00:02:00.920 --> 00:02:04.400 align:middle line:84%
+And we hope that you
+will enjoy those.
+
+00:02:04.400 --> 00:02:08.210 align:middle line:84%
+Those are the best learning
+opportunities, actually.
+
+00:02:08.210 --> 00:02:10.639 align:middle line:90%
+OK, so let's get started.
+
+00:02:10.639 --> 00:02:13.730 align:middle line:84%
+We hope you will have some
+fun and that definitely you
+
+00:02:13.730 --> 00:02:17.500 align:middle line:84%
+learn something that's useful
+for you in your career.
+
+00:02:17.500 --> 00:02:18.000 align:middle line:90%

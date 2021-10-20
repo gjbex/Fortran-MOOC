@@ -1,0 +1,55 @@
+WEBVTT
+
+00:00:00.000 --> 00:00:01.110 align:middle line:90%
+
+
+00:00:01.110 --> 00:00:04.865 align:middle line:84%
+Welcome to week 4 of Fortran
+for Scientific Computing.
+
+00:00:04.865 --> 00:00:06.240 align:middle line:84%
+This week we'll
+talk a little bit
+
+00:00:06.240 --> 00:00:09.120 align:middle line:84%
+about software
+engineering aspects
+
+00:00:09.120 --> 00:00:11.760 align:middle line:90%
+of scientific computing.
+
+00:00:11.760 --> 00:00:15.360 align:middle line:84%
+So best practises in coding,
+writing documentation,
+
+00:00:15.360 --> 00:00:17.020 align:middle line:90%
+that kind of thing.
+
+00:00:17.020 --> 00:00:20.610 align:middle line:84%
+But most importantly, we'll
+talk about performance.
+
+00:00:20.610 --> 00:00:23.370 align:middle line:84%
+What determines the
+performance of an application?
+
+00:00:23.370 --> 00:00:24.760 align:middle line:90%
+How do you measure it?
+
+00:00:24.760 --> 00:00:28.960 align:middle line:84%
+And, how does your programming
+style influence performance?
+
+00:00:28.960 --> 00:00:32.700 align:middle line:84%
+How can you programme in such
+a way that you get fast running
+
+00:00:32.700 --> 00:00:34.900 align:middle line:90%
+code?
+
+00:00:34.900 --> 00:00:38.310 align:middle line:84%
+This should be pretty
+interesting for HPC people,
+
+00:00:38.310 --> 00:00:40.370 align:middle line:90%
+so enjoy.

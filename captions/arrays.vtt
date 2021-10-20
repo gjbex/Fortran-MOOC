@@ -1,0 +1,491 @@
+WEBVTT
+
+00:00:00.000 --> 00:00:00.690 align:middle line:90%
+
+
+00:00:00.690 --> 00:00:03.750 align:middle line:84%
+For scientific computing,
+arrays are really useful data
+
+00:00:03.750 --> 00:00:04.950 align:middle line:90%
+structures.
+
+00:00:04.950 --> 00:00:07.800 align:middle line:84%
+A one dimensional array
+can represent a vector.
+
+00:00:07.800 --> 00:00:12.120 align:middle line:84%
+A two dimensional array can
+represent a matrix, and so on.
+
+00:00:12.120 --> 00:00:14.880 align:middle line:84%
+From its inception,
+Fortran was intended
+
+00:00:14.880 --> 00:00:17.340 align:middle line:84%
+as a programming language
+for scientific computing.
+
+00:00:17.340 --> 00:00:19.320 align:middle line:84%
+And hence, it has
+very good support
+
+00:00:19.320 --> 00:00:21.900 align:middle line:90%
+for multi-dimensional arrays.
+
+00:00:21.900 --> 00:00:25.300 align:middle line:84%
+Arrays are, in fact, first
+class citizens in the language.
+
+00:00:25.300 --> 00:00:27.660 align:middle line:84%
+And there are many features
+that are quite useful,
+
+00:00:27.660 --> 00:00:28.410 align:middle line:90%
+as we will see.
+
+00:00:28.410 --> 00:00:31.420 align:middle line:90%
+
+
+00:00:31.420 --> 00:00:33.890 align:middle line:84%
+Declaring a vector is
+quite straightforward.
+
+00:00:33.890 --> 00:00:37.280 align:middle line:84%
+We just specify the
+type, real in this case,
+
+00:00:37.280 --> 00:00:40.420 align:middle line:84%
+the attribute
+dimension, 3, which
+
+00:00:40.420 --> 00:00:43.780 align:middle line:84%
+means that we will have an array
+with three elements of type
+
+00:00:43.780 --> 00:00:44.590 align:middle line:90%
+real.
+
+00:00:44.590 --> 00:00:49.510 align:middle line:84%
+And the name of the array
+is going to be vector.
+
+00:00:49.510 --> 00:00:51.760 align:middle line:84%
+Assigning values to
+individual array elements
+
+00:00:51.760 --> 00:00:54.440 align:middle line:90%
+is quite simply done by index.
+
+00:00:54.440 --> 00:00:59.580 align:middle line:84%
+So vector brackets
+2, parentheses 2,
+
+00:00:59.580 --> 00:01:02.740 align:middle line:84%
+means the second element
+of that particular array.
+
+00:01:02.740 --> 00:01:06.400 align:middle line:84%
+And we assign the
+value 5.7 to it.
+
+00:01:06.400 --> 00:01:09.790 align:middle line:90%
+Using a value equally simple.
+
+00:01:09.790 --> 00:01:15.070 align:middle line:84%
+Just vector(2), so the second
+element, we multiply that by 2.
+
+00:01:15.070 --> 00:01:19.160 align:middle line:84%
+And we assign it to the
+first element of the vector.
+
+00:01:19.160 --> 00:01:21.880 align:middle line:84%
+So as opposed to
+C, C++, and Python,
+
+00:01:21.880 --> 00:01:26.920 align:middle line:84%
+Fortran has one base for
+its indices of arrays,
+
+00:01:26.920 --> 00:01:31.120 align:middle line:84%
+rather than zero base as
+those other languages.
+
+00:01:31.120 --> 00:01:34.100 align:middle line:84%
+Printing a vector is also
+pretty straightforward.
+
+00:01:34.100 --> 00:01:37.420 align:middle line:84%
+We can just use the asterisks
+formatting specifier.
+
+00:01:37.420 --> 00:01:38.920 align:middle line:90%
+And print will do the writing.
+
+00:01:38.920 --> 00:01:45.250 align:middle line:84%
+It will print the three
+elements of our array vector.
+
+00:01:45.250 --> 00:01:47.260 align:middle line:90%
+We can compile and run the code.
+
+00:01:47.260 --> 00:01:51.250 align:middle line:84%
+And as you can see, all
+three elements of that vector
+
+00:01:51.250 --> 00:01:53.800 align:middle line:90%
+are indeed printed.
+
+00:01:53.800 --> 00:01:57.220 align:middle line:84%
+It's straightforward to
+initialize all elements
+
+00:01:57.220 --> 00:02:00.580 align:middle line:84%
+to a constant value
+just by assigning
+
+00:02:00.580 --> 00:02:04.690 align:middle line:90%
+a scalar to the array.
+
+00:02:04.690 --> 00:02:09.430 align:middle line:84%
+And it's also very
+easy to add a scalar
+
+00:02:09.430 --> 00:02:15.790 align:middle line:84%
+to each element of an array just
+by using the addition operator,
+
+00:02:15.790 --> 00:02:19.420 align:middle line:84%
+and very similar, for the
+multiplication operator.
+
+00:02:19.420 --> 00:02:24.580 align:middle line:84%
+So each element of the
+vector is multiplied by 2.5.
+
+00:02:24.580 --> 00:02:26.410 align:middle line:84%
+When we compile
+and run the code,
+
+00:02:26.410 --> 00:02:30.500 align:middle line:84%
+you see that we get
+the expected results.
+
+00:02:30.500 --> 00:02:34.970 align:middle line:84%
+Also the exponentiation
+operator works element-wise.
+
+00:02:34.970 --> 00:02:37.760 align:middle line:84%
+And that might be a
+little bit unexpected.
+
+00:02:37.760 --> 00:02:41.870 align:middle line:84%
+So if you want to compute
+the dot product between two
+
+00:02:41.870 --> 00:02:45.020 align:middle line:84%
+1-dimensional arrays or
+two vectors if you want,
+
+00:02:45.020 --> 00:02:48.770 align:middle line:84%
+you can use the intrinsic
+procedure dot_product.
+
+00:02:48.770 --> 00:02:53.940 align:middle line:84%
+And that, of course, will
+just produce a scalar value.
+
+00:02:53.940 --> 00:02:55.920 align:middle line:90%
+We compile and run the code.
+
+00:02:55.920 --> 00:03:00.220 align:middle line:84%
+And as you can see, you get
+the expected results again.
+
+00:03:00.220 --> 00:03:02.160 align:middle line:84%
+Arrays can also be
+initialized just
+
+00:03:02.160 --> 00:03:06.390 align:middle line:84%
+as a sequence of values
+in square brackets,
+
+00:03:06.390 --> 00:03:08.430 align:middle line:84%
+and even with an
+implied do-loop, which
+
+00:03:08.430 --> 00:03:10.650 align:middle line:84%
+is, of course,
+much easier if you
+
+00:03:10.650 --> 00:03:13.500 align:middle line:90%
+have large vectors, long arrays.
+
+00:03:13.500 --> 00:03:16.390 align:middle line:90%
+
+
+00:03:16.390 --> 00:03:20.250 align:middle line:84%
+There are several functions,
+intrinsic functions,
+
+00:03:20.250 --> 00:03:23.620 align:middle line:84%
+which are quite useful
+in the context of arrays.
+
+00:03:23.620 --> 00:03:25.920 align:middle line:84%
+One of them is
+the size function.
+
+00:03:25.920 --> 00:03:31.080 align:middle line:84%
+And that just gives the number
+of elements of an array.
+
+00:03:31.080 --> 00:03:33.810 align:middle line:84%
+But also, the sum
+function, which computes,
+
+00:03:33.810 --> 00:03:37.980 align:middle line:84%
+as you can guess, the sum of
+all the elements of a vector.
+
+00:03:37.980 --> 00:03:39.780 align:middle line:90%
+And there are many more of them.
+
+00:03:39.780 --> 00:03:43.050 align:middle line:84%
+And it's a good idea to
+have a look at documentation
+
+00:03:43.050 --> 00:03:47.730 align:middle line:84%
+of Fortran's intrinsic procedures
+to see what kind of things
+
+00:03:47.730 --> 00:03:53.510 align:middle line:84%
+you can do using arrays
+with intrinsic procedures.
+
+00:03:53.510 --> 00:03:56.360 align:middle line:84%
+And, again, when we compile
+and run the application,
+
+00:03:56.360 --> 00:04:00.840 align:middle line:84%
+there are no
+surprises to be found.
+
+00:04:00.840 --> 00:04:03.160 align:middle line:84%
+To declare a two
+dimensional array.
+
+00:04:03.160 --> 00:04:07.530 align:middle line:84%
+We just list the type,
+which is real in this case.
+
+00:04:07.530 --> 00:04:11.790 align:middle line:84%
+And then, as an attribute, we
+can specify dimension, but now,
+
+00:04:11.790 --> 00:04:16.500 align:middle line:84%
+with the number of rows and the
+number of columns as arguments.
+
+00:04:16.500 --> 00:04:19.649 align:middle line:84%
+So matrix1 is a
+2-dimensional array
+
+00:04:19.649 --> 00:04:23.880 align:middle line:84%
+with two rows and three
+columns, and similar
+
+00:04:23.880 --> 00:04:27.370 align:middle line:90%
+for matrix2 and matrix3.
+
+00:04:27.370 --> 00:04:30.170 align:middle line:84%
+To initialize a
+2-dimensional array,
+
+00:04:30.170 --> 00:04:32.470 align:middle line:90%
+we can use implied do loops.
+
+00:04:32.470 --> 00:04:35.920 align:middle line:84%
+But then we get a one
+dimensional array.
+
+00:04:35.920 --> 00:04:39.220 align:middle line:84%
+And in fact, we need
+a 2-dimensional one.
+
+00:04:39.220 --> 00:04:43.930 align:middle line:84%
+So we can use the intrinsic
+function reshape in order
+
+00:04:43.930 --> 00:04:48.970 align:middle line:84%
+to turn that 1-dimensional array
+into a 2-dimensional array.
+
+00:04:48.970 --> 00:04:52.250 align:middle line:84%
+And we use another
+intrinsic function shape,
+
+00:04:52.250 --> 00:04:56.950 align:middle line:84%
+which will return an array with
+the dimensions of the array
+
+00:04:56.950 --> 00:05:01.390 align:middle line:90%
+in rows and in columns.
+
+00:05:01.390 --> 00:05:05.410 align:middle line:84%
+To print the array the
+two dimensional array,
+
+00:05:05.410 --> 00:05:08.050 align:middle line:84%
+actually, it's more
+convenient to use a do loop
+
+00:05:08.050 --> 00:05:10.750 align:middle line:90%
+over the number of rows.
+
+00:05:10.750 --> 00:05:14.470 align:middle line:84%
+And notice that we use the
+intrinsic function size
+
+00:05:14.470 --> 00:05:17.770 align:middle line:84%
+with an optional argument,
+in this case 1, which
+
+00:05:17.770 --> 00:05:19.430 align:middle line:90%
+means the first dimension.
+
+00:05:19.430 --> 00:05:22.600 align:middle line:84%
+That's the number of
+rows of our matrix1
+
+00:05:22.600 --> 00:05:27.190 align:middle line:84%
+And then, we just use the
+asterisks default formatting
+
+00:05:27.190 --> 00:05:32.290 align:middle line:84%
+to print a single row
+of the matrix row i.
+
+00:05:32.290 --> 00:05:35.620 align:middle line:84%
+And the colon
+indicates that we want
+
+00:05:35.620 --> 00:05:41.920 align:middle line:84%
+to print all the columns
+of that particular row.
+
+00:05:41.920 --> 00:05:45.850 align:middle line:84%
+There is a function matmul,
+which does, as you can imagine,
+
+00:05:45.850 --> 00:05:51.310 align:middle line:84%
+the matrix-matrix multiplication
+of two 2-dimensional arrays.
+
+00:05:51.310 --> 00:05:54.370 align:middle line:84%
+And of course, the
+dimensions should match just
+
+00:05:54.370 --> 00:05:57.350 align:middle line:90%
+like in mathematics.
+
+00:05:57.350 --> 00:05:59.930 align:middle line:84%
+We can compile and
+execute a code,
+
+00:05:59.930 --> 00:06:03.260 align:middle line:84%
+and as you can see,
+again, not many surprises.
+
+00:06:03.260 --> 00:06:06.830 align:middle line:84%
+Note, however, that if we just
+apply a size function to a two
+
+00:06:06.830 --> 00:06:10.630 align:middle line:84%
+dimensional array, we
+get a number of elements.
+
+00:06:10.630 --> 00:06:15.110 align:middle line:84%
+If we add an additional optional
+argument, for instance, 1,
+
+00:06:15.110 --> 00:06:17.040 align:middle line:90%
+we get the number of rows.
+
+00:06:17.040 --> 00:06:20.330 align:middle line:84%
+If we add 2 as
+optional argument,
+
+00:06:20.330 --> 00:06:24.710 align:middle line:90%
+we get the number of columns.
+
+00:06:24.710 --> 00:06:29.390 align:middle line:84%
+Fortran supports operations
+on arrays, for instance,
+
+00:06:29.390 --> 00:06:31.220 align:middle line:90%
+you can just add two arrays.
+
+00:06:31.220 --> 00:06:35.850 align:middle line:84%
+And that means element wise
+addition of the array elements.
+
+00:06:35.850 --> 00:06:39.090 align:middle line:84%
+And the same applies to
+multiplication, division,
+
+00:06:39.090 --> 00:06:41.180 align:middle line:90%
+and subtraction.
+
+00:06:41.180 --> 00:06:45.890 align:middle line:84%
+Of course, the dimensions
+of the matrices must match.
+
+00:06:45.890 --> 00:06:48.260 align:middle line:84%
+Otherwise, you will get
+a compilation error,
+
+00:06:48.260 --> 00:06:50.270 align:middle line:90%
+as you will see in a minute.
+
+00:06:50.270 --> 00:06:52.370 align:middle line:84%
+When we compile the code,
+you see, that indeed,
+
+00:06:52.370 --> 00:06:53.700 align:middle line:90%
+we get an error.
+
+00:06:53.700 --> 00:06:59.000 align:middle line:84%
+So the shapes for the operands
+of the addition operator
+
+00:06:59.000 --> 00:07:00.330 align:middle line:90%
+do not match.
+
+00:07:00.330 --> 00:07:03.440 align:middle line:84%
+And so basically, we know
+that we made a mistake.
+
+00:07:03.440 --> 00:07:08.060 align:middle line:84%
+And indeed, if you look at the
+definition of matrix1 it is a 2
+
+00:07:08.060 --> 00:07:12.620 align:middle line:84%
+by 3 array, while matrix2
+is a 3 by 2 array.
+
+00:07:12.620 --> 00:07:17.840 align:middle line:84%
+So we cannot meaningfully
+add those two arrays.
+
+00:07:17.840 --> 00:07:19.940 align:middle line:84%
+Support for
+multidimensional arrays
+
+00:07:19.940 --> 00:07:23.180 align:middle line:84%
+makes Fortran a really powerful
+and convenient language
+
+00:07:23.180 --> 00:07:26.230 align:middle line:90%
+for scientific computing.

@@ -1,0 +1,431 @@
+WEBVTT
+
+00:00:00.000 --> 00:00:00.690 align:middle line:90%
+
+
+00:00:00.690 --> 00:00:05.040 align:middle line:84%
+User-defined types allow you
+to create your own data types.
+
+00:00:05.040 --> 00:00:08.220 align:middle line:84%
+They can have elements
+with distinct types.
+
+00:00:08.220 --> 00:00:12.540 align:middle line:84%
+And they make your life as a
+programmer really a lot easier.
+
+00:00:12.540 --> 00:00:14.130 align:middle line:84%
+User-defined types
+can also serve
+
+00:00:14.130 --> 00:00:18.940 align:middle line:84%
+as building blocks for more
+sophisticated data types.
+
+00:00:18.940 --> 00:00:22.390 align:middle line:84%
+We're going to introduce them
+with a motivating example.
+
+00:00:22.390 --> 00:00:24.240 align:middle line:84%
+So suppose you
+have an array which
+
+00:00:24.240 --> 00:00:26.640 align:middle line:84%
+you want to pass
+into a function,
+
+00:00:26.640 --> 00:00:31.410 align:middle line:84%
+and you want to compute its
+mean and standard deviation.
+
+00:00:31.410 --> 00:00:35.270 align:middle line:90%
+How are you going to do that?
+
+00:00:35.270 --> 00:00:37.990 align:middle line:84%
+One way to do this is
+to define a subroutine.
+
+00:00:37.990 --> 00:00:41.080 align:middle line:84%
+Since actually, we want to
+compute multiple values.
+
+00:00:41.080 --> 00:00:46.720 align:middle line:84%
+And using out or
+in-out intent arguments
+
+00:00:46.720 --> 00:00:49.930 align:middle line:90%
+is the only way to do that.
+
+00:00:49.930 --> 00:00:53.410 align:middle line:84%
+So we pass in data as
+a one-dimensional array
+
+00:00:53.410 --> 00:00:55.750 align:middle line:90%
+and of course, intent in.
+
+00:00:55.750 --> 00:01:00.070 align:middle line:84%
+And we pass in mean standard
+deviation and n, and those
+
+00:01:00.070 --> 00:01:03.100 align:middle line:84%
+of intent out, because
+those are supposed to hold
+
+00:01:03.100 --> 00:01:06.560 align:middle line:90%
+the values we want to compute.
+
+00:01:06.560 --> 00:01:09.610 align:middle line:84%
+Mean and standard
+deviation are real,
+
+00:01:09.610 --> 00:01:12.820 align:middle line:90%
+and n is, of course, an integer.
+
+00:01:12.820 --> 00:01:16.870 align:middle line:84%
+And then we compute
+the values for the mean
+
+00:01:16.870 --> 00:01:19.210 align:middle line:90%
+and the standard deviation.
+
+00:01:19.210 --> 00:01:20.790 align:middle line:90%
+So that's easy.
+
+00:01:20.790 --> 00:01:23.270 align:middle line:90%
+And of course it would work.
+
+00:01:23.270 --> 00:01:26.130 align:middle line:84%
+We compile the code,
+run the application,
+
+00:01:26.130 --> 00:01:29.780 align:middle line:90%
+and we get the expected result.
+
+00:01:29.780 --> 00:01:33.790 align:middle line:84%
+So yes it works, but
+is it a good solution?
+
+00:01:33.790 --> 00:01:36.250 align:middle line:84%
+Well, suppose that
+you want to compute
+
+00:01:36.250 --> 00:01:40.060 align:middle line:84%
+more descriptive statistics
+measures such as, for instance,
+
+00:01:40.060 --> 00:01:45.090 align:middle line:84%
+the minimum and the maximum,
+or the median of our data set.
+
+00:01:45.090 --> 00:01:48.510 align:middle line:84%
+The current approach
+would force us to have
+
+00:01:48.510 --> 00:01:51.960 align:middle line:90%
+one argument for each measure.
+
+00:01:51.960 --> 00:01:54.480 align:middle line:84%
+And that gets out
+of hand pretty soon.
+
+00:01:54.480 --> 00:01:57.900 align:middle line:84%
+And the code is not
+so easy to maintain,
+
+00:01:57.900 --> 00:02:01.180 align:middle line:90%
+and it's going to get confusing.
+
+00:02:01.180 --> 00:02:04.390 align:middle line:90%
+So there should be a better way.
+
+00:02:04.390 --> 00:02:05.640 align:middle line:90%
+And yes, there is.
+
+00:02:05.640 --> 00:02:09.520 align:middle line:84%
+And that's where
+user-defined types come in.
+
+00:02:09.520 --> 00:02:13.030 align:middle line:84%
+To define the type, we use
+the keyword type followed
+
+00:02:13.030 --> 00:02:15.200 align:middle line:90%
+by the name of the new type.
+
+00:02:15.200 --> 00:02:19.490 align:middle line:84%
+So in this particular
+example, statistics.
+
+00:02:19.490 --> 00:02:23.040 align:middle line:84%
+Then we list all the
+elements of that type.
+
+00:02:23.040 --> 00:02:27.590 align:middle line:84%
+So first, their type and
+then the name of the element.
+
+00:02:27.590 --> 00:02:30.170 align:middle line:84%
+In this case, we
+have three of them.
+
+00:02:30.170 --> 00:02:34.010 align:middle line:84%
+Mean and standard
+deviation, both are real.
+
+00:02:34.010 --> 00:02:36.710 align:middle line:90%
+And n, which is an integer.
+
+00:02:36.710 --> 00:02:41.600 align:middle line:84%
+And finally we have end type
+followed by the name again.
+
+00:02:41.600 --> 00:02:45.290 align:middle line:84%
+So this just defines
+a type, nothing more.
+
+00:02:45.290 --> 00:02:47.930 align:middle line:84%
+If you want the
+variable of that type,
+
+00:02:47.930 --> 00:02:50.040 align:middle line:90%
+we can declare that as well.
+
+00:02:50.040 --> 00:02:56.110 align:middle line:84%
+And then we would use type with
+the statistics in parentheses.
+
+00:02:56.110 --> 00:02:59.500 align:middle line:84%
+So with name of the
+type, and then of course,
+
+00:02:59.500 --> 00:03:01.210 align:middle line:84%
+the variable which
+we're defining,
+
+00:03:01.210 --> 00:03:03.580 align:middle line:90%
+which is stats in this case.
+
+00:03:03.580 --> 00:03:06.090 align:middle line:90%
+
+
+00:03:06.090 --> 00:03:09.830 align:middle line:84%
+The subroutine
+signature also changes.
+
+00:03:09.830 --> 00:03:13.250 align:middle line:84%
+Rather than having three
+separate arguments, one
+
+00:03:13.250 --> 00:03:16.250 align:middle line:84%
+for the mean value, one
+for the standard deviation,
+
+00:03:16.250 --> 00:03:19.670 align:middle line:84%
+and the last one for the
+number of elements n,
+
+00:03:19.670 --> 00:03:23.000 align:middle line:90%
+we just have a single argument.
+
+00:03:23.000 --> 00:03:29.570 align:middle line:84%
+Stats and its type is indeed a
+user-defined type, statistics.
+
+00:03:29.570 --> 00:03:33.500 align:middle line:84%
+And just like before, the intent
+is of course out, because you
+
+00:03:33.500 --> 00:03:38.360 align:middle line:84%
+are going to compute the values
+of the elements of stats,
+
+00:03:38.360 --> 00:03:41.700 align:middle line:90%
+in our subroutine, compute_stats
+
+00:03:41.700 --> 00:03:46.620 align:middle line:84%
+Apart from that, the computation
+is, of course, the same.
+
+00:03:46.620 --> 00:03:48.650 align:middle line:84%
+The only thing which
+we need to do here
+
+00:03:48.650 --> 00:03:54.350 align:middle line:84%
+is, we need to
+initialize the elements
+
+00:03:54.350 --> 00:03:58.040 align:middle line:90%
+of the stats user-defined type.
+
+00:03:58.040 --> 00:04:01.850 align:middle line:84%
+And we can access an element
+of a user-defined type using
+
+00:04:01.850 --> 00:04:03.920 align:middle line:90%
+a percentage sign.
+
+00:04:03.920 --> 00:04:10.520 align:middle line:84%
+So stats%n refers to the element
+with name n in the user-defined
+
+00:04:10.520 --> 00:04:12.290 align:middle line:90%
+type statistics.
+
+00:04:12.290 --> 00:04:15.440 align:middle line:84%
+And stats, of course, is a
+variable of that user-defined
+
+00:04:15.440 --> 00:04:21.260 align:middle line:84%
+type, and very similar for
+stats%mean and stats%stddev
+
+00:04:21.260 --> 00:04:23.210 align:middle line:90%
+standard deviation.
+
+00:04:23.210 --> 00:04:26.270 align:middle line:84%
+We would also have to make
+the appropriate changes
+
+00:04:26.270 --> 00:04:31.160 align:middle line:84%
+in our programme itself, where
+the subroutine compute_stats is
+
+00:04:31.160 --> 00:04:32.330 align:middle line:90%
+actually called.
+
+00:04:32.330 --> 00:04:38.420 align:middle line:84%
+So it gets a single
+argument of type statistics.
+
+00:04:38.420 --> 00:04:42.470 align:middle line:84%
+But if you look at the
+computation of, for instance,
+
+00:04:42.470 --> 00:04:46.670 align:middle line:84%
+standard deviation in our
+subroutine compute_stats then
+
+00:04:46.670 --> 00:04:51.560 align:middle line:84%
+you see that it gets less
+readable in the sense that we
+
+00:04:51.560 --> 00:04:58.460 align:middle line:84%
+have to use stats%n each time we
+want the number of data values.
+
+00:04:58.460 --> 00:05:04.710 align:middle line:84%
+And that makes reading our
+formula a lot more difficult.
+
+00:05:04.710 --> 00:05:07.580 align:middle line:84%
+So there is a good
+solution to that as well.
+
+00:05:07.580 --> 00:05:13.130 align:middle line:84%
+We can use an associate
+statement to create an alias
+
+00:05:13.130 --> 00:05:16.890 align:middle line:84%
+for stats%n which is a bit
+inconvenient in our formula.
+
+00:05:16.890 --> 00:05:21.020 align:middle line:84%
+So we want to refer to
+that using the alias n.
+
+00:05:21.020 --> 00:05:24.560 align:middle line:84%
+So within the block for
+the associate statement,
+
+00:05:24.560 --> 00:05:29.930 align:middle line:84%
+we can use n instead of stats n,
+and that simplifies our formula
+
+00:05:29.930 --> 00:05:34.800 align:middle line:84%
+considerably, and brings it
+back to what it was before.
+
+00:05:34.800 --> 00:05:38.690 align:middle line:84%
+So this is just a convenience,
+but it makes our code much more
+
+00:05:38.690 --> 00:05:39.980 align:middle line:90%
+readable.
+
+00:05:39.980 --> 00:05:43.340 align:middle line:84%
+Perhaps it's more elegant to
+have a function rather than
+
+00:05:43.340 --> 00:05:46.610 align:middle line:84%
+a subroutine in this situation,
+since we are computing
+
+00:05:46.610 --> 00:05:51.080 align:middle line:84%
+something on input, which is
+our one-dimensional array data,
+
+00:05:51.080 --> 00:05:53.600 align:middle line:84%
+and we're producing
+something new.
+
+00:05:53.600 --> 00:05:55.820 align:middle line:90%
+Remember, it's intent out.
+
+00:05:55.820 --> 00:06:01.440 align:middle line:84%
+And that could also just be
+the return value of a function.
+
+00:06:01.440 --> 00:06:07.355 align:middle line:84%
+So we can just do that by
+having result stats of type,
+
+00:06:07.355 --> 00:06:09.350 align:middle line:90%
+type statistics.
+
+00:06:09.350 --> 00:06:12.060 align:middle line:84%
+And apart from that,
+it's the same thing.
+
+00:06:12.060 --> 00:06:15.050 align:middle line:84%
+So now, rather than do
+a call of a subroutine,
+
+00:06:15.050 --> 00:06:18.230 align:middle line:84%
+we can actually just do a
+function call in our main
+
+00:06:18.230 --> 00:06:19.550 align:middle line:90%
+programme.
+
+00:06:19.550 --> 00:06:22.460 align:middle line:84%
+And in a way,
+that's more elegant
+
+00:06:22.460 --> 00:06:26.050 align:middle line:90%
+than the previous solution.
+
+00:06:26.050 --> 00:06:28.080 align:middle line:84%
+User-defined types
+are not only very
+
+00:06:28.080 --> 00:06:30.420 align:middle line:84%
+convenient for the
+programmer and the basis
+
+00:06:30.420 --> 00:06:33.300 align:middle line:84%
+for sophisticated
+data structures,
+
+00:06:33.300 --> 00:06:35.598 align:middle line:84%
+but as we'll see
+later, they also
+
+00:06:35.598 --> 00:06:37.515 align:middle line:84%
+form the basis for
+object-oriented programming
+
+00:06:37.515 --> 00:06:39.410 align:middle line:90%
+in Fortran.
+
+00:06:39.410 --> 00:06:40.000 align:middle line:90%

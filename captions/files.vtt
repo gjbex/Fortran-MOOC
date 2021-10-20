@@ -1,0 +1,582 @@
+WEBVTT
+
+00:00:00.000 --> 00:00:02.840 align:middle line:90%
+
+
+00:00:02.840 --> 00:00:07.040 align:middle line:84%
+In scientific computing, but in
+fact in computing in general,
+
+00:00:07.040 --> 00:00:09.980 align:middle line:84%
+input is very often
+stored in files.
+
+00:00:09.980 --> 00:00:12.860 align:middle line:84%
+And of course, when
+you have results
+
+00:00:12.860 --> 00:00:15.990 align:middle line:90%
+those will be written to files.
+
+00:00:15.990 --> 00:00:20.750 align:middle line:84%
+So in general, I/O is
+perceived as a bit boring,
+
+00:00:20.750 --> 00:00:25.040 align:middle line:84%
+but in fact that's not really
+true because performance often
+
+00:00:25.040 --> 00:00:29.780 align:middle line:84%
+depends on how well you do
+your input/output So here
+
+00:00:29.780 --> 00:00:33.200 align:middle line:84%
+we'll deal with fairly
+straightforward text input
+
+00:00:33.200 --> 00:00:37.040 align:middle line:84%
+and output, and we'll reserve
+some more sophisticated topics
+
+00:00:37.040 --> 00:00:37.670 align:middle line:90%
+for later.
+
+00:00:37.670 --> 00:00:43.180 align:middle line:90%
+
+
+00:00:43.180 --> 00:00:46.500 align:middle line:84%
+So we do a very simple
+computation in a do loop.
+
+00:00:46.500 --> 00:00:50.520 align:middle line:84%
+We just multiply an integer
+with x being initialized
+
+00:00:50.520 --> 00:00:54.560 align:middle line:90%
+to 5.1, nothing special.
+
+00:00:54.560 --> 00:00:55.070 align:middle line:90%
+OK.
+
+00:00:55.070 --> 00:00:57.960 align:middle line:84%
+We want to write result
+to a file though.
+
+00:00:57.960 --> 00:01:01.730 align:middle line:84%
+So the first thing that we
+need to do is to open the file,
+
+00:01:01.730 --> 00:01:04.800 align:middle line:84%
+and this we do with
+open statement.
+
+00:01:04.800 --> 00:01:07.470 align:middle line:84%
+We always have to
+specify a unit number,
+
+00:01:07.470 --> 00:01:09.330 align:middle line:84%
+and this is actually
+just an integer.
+
+00:01:09.330 --> 00:01:12.990 align:middle line:84%
+So we could choose
+one ourselves or--
+
+00:01:12.990 --> 00:01:17.550 align:middle line:84%
+and that's better practise-- we
+could have the Fortran runtime
+
+00:01:17.550 --> 00:01:19.350 align:middle line:90%
+choose one for us.
+
+00:01:19.350 --> 00:01:23.430 align:middle line:84%
+And this is done using
+the newunit attribute.
+
+00:01:23.430 --> 00:01:26.770 align:middle line:84%
+And we just provide
+an integer variable,
+
+00:01:26.770 --> 00:01:32.070 align:middle line:84%
+which will be assigned
+a proper unit number.
+
+00:01:32.070 --> 00:01:34.950 align:middle line:84%
+Then we specified a file,
+and it's just a string,
+
+00:01:34.950 --> 00:01:37.740 align:middle line:90%
+it denotes a filename.
+
+00:01:37.740 --> 00:01:40.890 align:middle line:84%
+We set the access, and
+that would be sequential,
+
+00:01:40.890 --> 00:01:45.340 align:middle line:84%
+so we plan to write this file
+from beginning to the end.
+
+00:01:45.340 --> 00:01:48.150 align:middle line:90%
+And the action we take is write.
+
+00:01:48.150 --> 00:01:50.760 align:middle line:84%
+The status is
+replace, that means
+
+00:01:50.760 --> 00:01:55.690 align:middle line:84%
+that if the file does not
+exist, it will be created.
+
+00:01:55.690 --> 00:01:59.160 align:middle line:84%
+If the file does exist though,
+it will be overwritten.
+
+00:01:59.160 --> 00:02:02.130 align:middle line:84%
+Status could also be
+new in this case, which
+
+00:02:02.130 --> 00:02:05.830 align:middle line:84%
+means that if it does
+not exist, it's created.
+
+00:02:05.830 --> 00:02:08.340 align:middle line:84%
+If it does exist,
+the application
+
+00:02:08.340 --> 00:02:11.410 align:middle line:90%
+will exit with an error message.
+
+00:02:11.410 --> 00:02:14.070 align:middle line:84%
+And finally, we have
+the form, and we
+
+00:02:14.070 --> 00:02:19.550 align:middle line:84%
+choose formatted since
+we want textual output.
+
+00:02:19.550 --> 00:02:21.980 align:middle line:84%
+Then we have the write
+statement in a do loop,
+
+00:02:21.980 --> 00:02:24.140 align:middle line:90%
+and that takes the unit number.
+
+00:02:24.140 --> 00:02:27.470 align:middle line:84%
+So that is associated with
+the file we were writing to.
+
+00:02:27.470 --> 00:02:29.990 align:middle line:84%
+And it also takes a
+formal specification,
+
+00:02:29.990 --> 00:02:33.330 align:middle line:90%
+the fmt argument.
+
+00:02:33.330 --> 00:02:38.030 align:middle line:84%
+And this is a description of
+what a textual representation
+
+00:02:38.030 --> 00:02:40.460 align:middle line:90%
+of our data would look like.
+
+00:02:40.460 --> 00:02:42.390 align:middle line:84%
+F means that it's
+a floating point
+
+00:02:42.390 --> 00:02:46.160 align:middle line:84%
+value, in this case
+with a width of 3,
+
+00:02:46.160 --> 00:02:51.410 align:middle line:84%
+and one digit after
+the decimal dot.
+
+00:02:51.410 --> 00:02:55.130 align:middle line:84%
+That is followed by the value
+which you want to write,
+
+00:02:55.130 --> 00:02:58.350 align:middle line:90%
+i times x in this case.
+
+00:02:58.350 --> 00:03:02.030 align:middle line:84%
+So when all iterations are
+done and all our computations
+
+00:03:02.030 --> 00:03:04.040 align:middle line:84%
+are done and
+written to the file,
+
+00:03:04.040 --> 00:03:06.440 align:middle line:84%
+we have to close
+the file. Otherwise
+
+00:03:06.440 --> 00:03:09.740 align:middle line:84%
+we might end up
+with corrupt files.
+
+00:03:09.740 --> 00:03:12.140 align:middle line:84%
+And for this we used
+a close statement,
+
+00:03:12.140 --> 00:03:16.040 align:middle line:84%
+and we just have to provide the
+unit number which is associated
+
+00:03:16.040 --> 00:03:19.540 align:middle line:90%
+with this particular file.
+
+00:03:19.540 --> 00:03:24.910 align:middle line:84%
+We can now build the
+application and run it,
+
+00:03:24.910 --> 00:03:26.080 align:middle line:90%
+and inspect the file.
+
+00:03:26.080 --> 00:03:29.060 align:middle line:90%
+
+
+00:03:29.060 --> 00:03:32.560 align:middle line:84%
+And as you can see,
+there is an issue.
+
+00:03:32.560 --> 00:03:36.970 align:middle line:84%
+The first two values
+are OK, 0 and 5.1,
+
+00:03:36.970 --> 00:03:42.160 align:middle line:84%
+that's what we expect when we
+multiply 5.1 by 0 and by 1.
+
+00:03:42.160 --> 00:03:46.420 align:middle line:84%
+But then the output
+is just asterisks,
+
+00:03:46.420 --> 00:03:48.740 align:middle line:90%
+and that's a problem.
+
+00:03:48.740 --> 00:03:52.060 align:middle line:90%
+So what went wrong?
+
+00:03:52.060 --> 00:03:59.750 align:middle line:84%
+The result of the third
+iteration is in fact 10.2,
+
+00:03:59.750 --> 00:04:04.530 align:middle line:84%
+and that's a width
+of four characters.
+
+00:04:04.530 --> 00:04:08.850 align:middle line:84%
+We specified a format
+specifier with three,
+
+00:04:08.850 --> 00:04:12.990 align:middle line:84%
+and that's a problem
+for the Fortran runtime.
+
+00:04:12.990 --> 00:04:16.500 align:middle line:84%
+So it will replace the
+output by asterisks
+
+00:04:16.500 --> 00:04:20.579 align:middle line:84%
+in order to indicate that
+the format specifier was not
+
+00:04:20.579 --> 00:04:25.030 align:middle line:84%
+sufficient in width
+to display the data.
+
+00:04:25.030 --> 00:04:26.820 align:middle line:84%
+So that's something
+we shall need to fix.
+
+00:04:26.820 --> 00:04:30.260 align:middle line:90%
+
+
+00:04:30.260 --> 00:04:32.600 align:middle line:84%
+Although the programme
+actually worked,
+
+00:04:32.600 --> 00:04:37.580 align:middle line:84%
+it's not really good practise
+because with I/O operations
+
+00:04:37.580 --> 00:04:42.470 align:middle line:84%
+something can go wrong, and you
+should actually test for that.
+
+00:04:42.470 --> 00:04:46.280 align:middle line:84%
+The way to do that is to
+provide some extra arguments
+
+00:04:46.280 --> 00:04:50.990 align:middle line:84%
+in the open statement,
+like iostat and iomsg.
+
+00:04:50.990 --> 00:04:53.600 align:middle line:84%
+iostat is just an
+integer, and it
+
+00:04:53.600 --> 00:04:57.020 align:middle line:84%
+will be set to 0 if
+everything went fine,
+
+00:04:57.020 --> 00:05:00.260 align:middle line:84%
+to a non-zero value
+if there was an issue.
+
+00:05:00.260 --> 00:05:03.080 align:middle line:84%
+iomsg is a string,
+and here we've
+
+00:05:03.080 --> 00:05:08.040 align:middle line:84%
+taken a string of length 1024
+just to be on the safe side.
+
+00:05:08.040 --> 00:05:10.670 align:middle line:84%
+And that will be set to a
+meaningful error message,
+
+00:05:10.670 --> 00:05:14.880 align:middle line:84%
+depending on what went
+wrong in the open statement.
+
+00:05:14.880 --> 00:05:19.350 align:middle line:84%
+So for instance, it could be
+that a file cannot be created
+
+00:05:19.350 --> 00:05:22.580 align:middle line:84%
+and because there's no write
+permission in the directory,
+
+00:05:22.580 --> 00:05:26.160 align:middle line:84%
+and then you would get a
+meaningful error message.
+
+00:05:26.160 --> 00:05:31.650 align:middle line:84%
+So after the open statement, we
+check the value of the status.
+
+00:05:31.650 --> 00:05:35.330 align:middle line:84%
+And if it's non-zero, then we
+write an error message and we
+
+00:05:35.330 --> 00:05:36.780 align:middle line:90%
+stop the programme.
+
+00:05:36.780 --> 00:05:40.100 align:middle line:84%
+Of course, error handling could
+be a bit more sophisticated.
+
+00:05:40.100 --> 00:05:42.600 align:middle line:90%
+Other things are possible.
+
+00:05:42.600 --> 00:05:44.790 align:middle line:84%
+We do the same thing
+in the write statement.
+
+00:05:44.790 --> 00:05:50.580 align:middle line:84%
+So also we provide the extra
+arguments, iostat and iomsg,
+
+00:05:50.580 --> 00:05:54.800 align:middle line:84%
+and again we check for
+a non-zero value of stat
+
+00:05:54.800 --> 00:05:59.660 align:middle line:84%
+in the next if statement, and
+we handle potential problems.
+
+00:05:59.660 --> 00:06:01.550 align:middle line:84%
+For instance, here we
+could have an issue
+
+00:06:01.550 --> 00:06:06.530 align:middle line:84%
+if we write a large file to disk
+and actually the disk quota
+
+00:06:06.530 --> 00:06:08.750 align:middle line:90%
+gets exceeded.
+
+00:06:08.750 --> 00:06:12.620 align:middle line:84%
+And of course, we should also
+fix the format specifier.
+
+00:06:12.620 --> 00:06:17.510 align:middle line:84%
+And basically here we choose
+for width of 8 and 1 digit
+
+00:06:17.510 --> 00:06:20.720 align:middle line:84%
+after the decimal dot,
+which should be plenty.
+
+00:06:20.720 --> 00:06:23.120 align:middle line:84%
+When we build and run
+the programme and display
+
+00:06:23.120 --> 00:06:26.420 align:middle line:84%
+the results, you see that indeed
+now we get properly formatted
+
+00:06:26.420 --> 00:06:28.490 align:middle line:90%
+output.
+
+00:06:28.490 --> 00:06:31.430 align:middle line:84%
+Reading a file is similar
+to writing a file.
+
+00:06:31.430 --> 00:06:34.640 align:middle line:84%
+The first thing to do is
+to open the file, again
+
+00:06:34.640 --> 00:06:38.030 align:middle line:84%
+with the open statement, very
+similar to the one for writing
+
+00:06:38.030 --> 00:06:43.640 align:middle line:84%
+except that now the action is
+read and the status is old.
+
+00:06:43.640 --> 00:06:47.960 align:middle line:84%
+So that means that file
+is required to exist.
+
+00:06:47.960 --> 00:06:50.630 align:middle line:84%
+And of course just
+as before, we check
+
+00:06:50.630 --> 00:06:53.420 align:middle line:84%
+the value passed
+to iostat in order
+
+00:06:53.420 --> 00:06:57.990 align:middle line:84%
+to see whether something went
+wrong when opening the file.
+
+00:06:57.990 --> 00:07:00.510 align:middle line:84%
+For the read statement,
+we also specify
+
+00:07:00.510 --> 00:07:04.920 align:middle line:84%
+iostat and iomsg to check
+whether things went fine,
+
+00:07:04.920 --> 00:07:08.110 align:middle line:84%
+but we use it for
+different purposes as well.
+
+00:07:08.110 --> 00:07:10.350 align:middle line:84%
+So if we reach the
+end of the file,
+
+00:07:10.350 --> 00:07:12.900 align:middle line:90%
+stat will have a specific value.
+
+00:07:12.900 --> 00:07:16.920 align:middle line:84%
+And that is defined in the
+iso_fortran_env module.
+
+00:07:16.920 --> 00:07:22.530 align:middle line:84%
+It's a constant, which
+is called iostat_end.
+
+00:07:22.530 --> 00:07:27.340 align:middle line:84%
+So if stat is equal
+to iostat_end,
+
+00:07:27.340 --> 00:07:32.370 align:middle line:84%
+we simply end the do loop
+by an exit statement.
+
+00:07:32.370 --> 00:07:36.570 align:middle line:84%
+Of course, we also have to
+verify that the read as such
+
+00:07:36.570 --> 00:07:40.680 align:middle line:84%
+went fine, so if stat
+would be larger than 0,
+
+00:07:40.680 --> 00:07:44.120 align:middle line:84%
+then there is an issue and
+we do some error handling.
+
+00:07:44.120 --> 00:07:47.990 align:middle line:84%
+So another thing to note here
+is the format passed to the read
+
+00:07:47.990 --> 00:07:51.500 align:middle line:90%
+statement, fmt is asterisk.
+
+00:07:51.500 --> 00:07:56.590 align:middle line:84%
+So basically that means that the
+Fortran runtime should actually
+
+00:07:56.590 --> 00:08:02.360 align:middle line:84%
+use the type of the variables
+passed in the read statement,
+
+00:08:02.360 --> 00:08:05.590 align:middle line:84%
+so in this case x of
+type real, in order
+
+00:08:05.590 --> 00:08:08.350 align:middle line:84%
+to do the correct
+conversion from string
+
+00:08:08.350 --> 00:08:10.570 align:middle line:84%
+representation of a
+floating point value
+
+00:08:10.570 --> 00:08:14.080 align:middle line:90%
+to a real value in Fortran.
+
+00:08:14.080 --> 00:08:16.150 align:middle line:84%
+And of course, when
+we're done reading
+
+00:08:16.150 --> 00:08:20.330 align:middle line:84%
+we should also close
+the file as usual.
+
+00:08:20.330 --> 00:08:24.840 align:middle line:84%
+When we build and run the code,
+we get the expected results.
+
+00:08:24.840 --> 00:08:26.930 align:middle line:84%
+So we get the square
+of each number
+
+00:08:26.930 --> 00:08:30.870 align:middle line:90%
+that was in the file data.txt.
+
+00:08:30.870 --> 00:08:32.809 align:middle line:84%
+So as I already
+mentioned, there's
+
+00:08:32.809 --> 00:08:36.020 align:middle line:84%
+a lot more to say
+about I/O. However,
+
+00:08:36.020 --> 00:08:38.450 align:middle line:84%
+this is enough to
+get you started.
+
+00:08:38.450 --> 00:08:40.820 align:middle line:84%
+And later on we will
+discuss other topics
+
+00:08:40.820 --> 00:08:44.300 align:middle line:84%
+such as binary I/O, which
+gives you better performance,
+
+00:08:44.300 --> 00:08:47.570 align:middle line:84%
+and also other access
+modes that give you
+
+00:08:47.570 --> 00:08:50.390 align:middle line:84%
+some features that may be
+interesting for certain use
+
+00:08:50.390 --> 00:08:51.500 align:middle line:90%
+cases.
+
+00:08:51.500 --> 00:08:52.000 align:middle line:90%

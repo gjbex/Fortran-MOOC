@@ -1,0 +1,58 @@
+WEBVTT
+
+00:00:00.000 --> 00:00:01.660 align:middle line:90%
+
+
+00:00:01.660 --> 00:00:05.230 align:middle line:84%
+Welcome to week one of Fortran
+for Scientific Computing.
+
+00:00:05.230 --> 00:00:07.810 align:middle line:84%
+This week will help
+you set up your system
+
+00:00:07.810 --> 00:00:10.570 align:middle line:84%
+so that you have a
+development environment
+
+00:00:10.570 --> 00:00:12.910 align:middle line:90%
+appropriate for Fortran.
+
+00:00:12.910 --> 00:00:17.260 align:middle line:84%
+There are options for all major
+operating systems, Windows,
+
+00:00:17.260 --> 00:00:20.710 align:middle line:90%
+macOS and Linux.
+
+00:00:20.710 --> 00:00:23.620 align:middle line:84%
+Then we'll cover the
+basics of Fortran,
+
+00:00:23.620 --> 00:00:26.600 align:middle line:84%
+so that you are able to
+write very simple programmes,
+
+00:00:26.600 --> 00:00:27.670 align:middle line:90%
+nothing special.
+
+00:00:27.670 --> 00:00:31.190 align:middle line:84%
+We will go more
+in-depth in later weeks.
+
+00:00:31.190 --> 00:00:34.060 align:middle line:84%
+It's important that you
+do the capstone exercises,
+
+00:00:34.060 --> 00:00:36.670 align:middle line:84%
+because those are the ones
+which actually will teach you
+
+00:00:36.670 --> 00:00:38.420 align:middle line:90%
+the most.
+
+00:00:38.420 --> 00:00:41.500 align:middle line:84%
+Alright, have fun
+and let's start.
+
+00:00:41.500 --> 00:00:42.000 align:middle line:90%

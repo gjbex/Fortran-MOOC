@@ -1,0 +1,497 @@
+WEBVTT
+
+00:00:00.000 --> 00:00:04.210 align:middle line:90%
+
+
+00:00:04.210 --> 00:00:06.010 align:middle line:84%
+There are quite a
+number of similarities
+
+00:00:06.010 --> 00:00:08.470 align:middle line:90%
+between arrays and lists.
+
+00:00:08.470 --> 00:00:10.630 align:middle line:90%
+Both are sequential data types.
+
+00:00:10.630 --> 00:00:14.020 align:middle line:84%
+That means they have a first
+element, a second element,
+
+00:00:14.020 --> 00:00:16.010 align:middle line:90%
+and a last element.
+
+00:00:16.010 --> 00:00:19.400 align:middle line:84%
+Note that the elements are not
+sorted, but they have an order.
+
+00:00:19.400 --> 00:00:21.660 align:middle line:90%
+First, second, and so on.
+
+00:00:21.660 --> 00:00:24.680 align:middle line:84%
+However, there are
+also some distinctions.
+
+00:00:24.680 --> 00:00:27.740 align:middle line:84%
+An array typically
+has a fixed length
+
+00:00:27.740 --> 00:00:31.460 align:middle line:84%
+and all the elements are stored
+contiguously in memory, so one
+
+00:00:31.460 --> 00:00:32.840 align:middle line:90%
+after the other.
+
+00:00:32.840 --> 00:00:35.720 align:middle line:84%
+That has quite a lot of
+advantages with respect
+
+00:00:35.720 --> 00:00:38.560 align:middle line:90%
+to performance.
+
+00:00:38.560 --> 00:00:41.980 align:middle line:84%
+However, such a storage scheme
+also has some drawbacks,
+
+00:00:41.980 --> 00:00:44.790 align:middle line:84%
+and that's where lists
+may be a good alternative
+
+00:00:44.790 --> 00:00:47.420 align:middle line:84%
+because they're
+much more flexible.
+
+00:00:47.420 --> 00:00:50.037 align:middle line:84%
+So let's see what we
+mean by flexibility.
+
+00:00:50.037 --> 00:00:51.620 align:middle line:84%
+One of the things
+you might want to do
+
+00:00:51.620 --> 00:00:54.290 align:middle line:84%
+is, you have a
+sequence of numbers
+
+00:00:54.290 --> 00:00:57.020 align:middle line:84%
+and you want to insert a
+new number at some arbitrary
+
+00:00:57.020 --> 00:00:58.370 align:middle line:90%
+position.
+
+00:00:58.370 --> 00:01:00.380 align:middle line:84%
+You end up with a
+list, or a sequence,
+
+00:01:00.380 --> 00:01:02.900 align:middle line:90%
+which has one more element.
+
+00:01:02.900 --> 00:01:05.269 align:middle line:84%
+Alternatively, you
+might have a sequence,
+
+00:01:05.269 --> 00:01:08.510 align:middle line:84%
+and you want to delete
+a specific element.
+
+00:01:08.510 --> 00:01:12.440 align:middle line:84%
+Now you end up with a sequence
+which is one element shorter,
+
+00:01:12.440 --> 00:01:14.770 align:middle line:90%
+but it's still a sequence.
+
+00:01:14.770 --> 00:01:17.080 align:middle line:84%
+You can do that with
+arrays, but this
+
+00:01:17.080 --> 00:01:20.570 align:middle line:84%
+can result in several
+implementation issues.
+
+00:01:20.570 --> 00:01:23.680 align:middle line:84%
+So before doing anything, one of
+the things you should decide on
+
+00:01:23.680 --> 00:01:27.070 align:middle line:84%
+is what the length of
+that array is going to be.
+
+00:01:27.070 --> 00:01:29.200 align:middle line:84%
+And given that you
+might not a priori
+
+00:01:29.200 --> 00:01:32.410 align:middle line:84%
+know how many elements
+the list should hold,
+
+00:01:32.410 --> 00:01:34.400 align:middle line:90%
+you may have an issue here.
+
+00:01:34.400 --> 00:01:37.570 align:middle line:84%
+Of course, you can simply
+specify something and hope
+
+00:01:37.570 --> 00:01:38.620 align:middle line:90%
+for the best.
+
+00:01:38.620 --> 00:01:42.160 align:middle line:84%
+Or, alternatively, you
+could use allocatable
+
+00:01:42.160 --> 00:01:45.220 align:middle line:84%
+and do dynamic
+memory management,
+
+00:01:45.220 --> 00:01:47.620 align:middle line:84%
+but then again, that
+requires some bookkeeping
+
+00:01:47.620 --> 00:01:50.940 align:middle line:84%
+and it will complicate
+your life a little bit.
+
+00:01:50.940 --> 00:01:53.640 align:middle line:84%
+Another issue might be even
+more important because it
+
+00:01:53.640 --> 00:01:55.770 align:middle line:90%
+has to do with performance.
+
+00:01:55.770 --> 00:01:58.530 align:middle line:84%
+Suppose we want to
+insert an element, that
+
+00:01:58.530 --> 00:02:01.800 align:middle line:84%
+means that you have to shift all
+elements from that position one
+
+00:02:01.800 --> 00:02:03.800 align:middle line:90%
+place to the right.
+
+00:02:03.800 --> 00:02:05.960 align:middle line:84%
+And that is quite a
+lot of operations,
+
+00:02:05.960 --> 00:02:07.910 align:middle line:90%
+which are kind of expensive.
+
+00:02:07.910 --> 00:02:10.699 align:middle line:84%
+Because the data has to be
+transferred from the RAM
+
+00:02:10.699 --> 00:02:15.720 align:middle line:84%
+to the CPU and back again,
+and that is a bit of overhead.
+
+00:02:15.720 --> 00:02:18.530 align:middle line:84%
+So it's lots of copying,
+but you would end up
+
+00:02:18.530 --> 00:02:20.210 align:middle line:84%
+with an array
+representing a list
+
+00:02:20.210 --> 00:02:22.250 align:middle line:90%
+with a new number included.
+
+00:02:22.250 --> 00:02:24.230 align:middle line:84%
+And, of course, the
+same applies if you
+
+00:02:24.230 --> 00:02:26.300 align:middle line:90%
+want to delete an element.
+
+00:02:26.300 --> 00:02:28.580 align:middle line:84%
+You would have to shift
+all elements, following
+
+00:02:28.580 --> 00:02:32.010 align:middle line:84%
+the deleted element, one
+position to the left.
+
+00:02:32.010 --> 00:02:34.470 align:middle line:84%
+And, again, that is
+a lot of copying.
+
+00:02:34.470 --> 00:02:36.830 align:middle line:84%
+So you would prefer
+to avoid that.
+
+00:02:36.830 --> 00:02:41.860 align:middle line:84%
+To define a list we can actually
+use a user defined type.
+
+00:02:41.860 --> 00:02:45.140 align:middle line:84%
+The first element is the data
+we want to store in the list
+
+00:02:45.140 --> 00:02:47.920 align:middle line:84%
+And in this case, that
+would be a real number.
+
+00:02:47.920 --> 00:02:51.430 align:middle line:84%
+The second element is a pointer
+to another list element type
+
+00:02:51.430 --> 00:02:52.460 align:middle line:90%
+variable.
+
+00:02:52.460 --> 00:02:56.200 align:middle line:84%
+So, basically, that is next,
+and then for convenience we
+
+00:02:56.200 --> 00:02:58.780 align:middle line:84%
+can define another
+user defined type
+
+00:02:58.780 --> 00:03:02.710 align:middle line:84%
+which represents the list itself
+rather than a list element.
+
+00:03:02.710 --> 00:03:06.880 align:middle line:84%
+That has two pointers as
+elements, first and last,
+
+00:03:06.880 --> 00:03:09.580 align:middle line:84%
+those are intended to point
+to the list elements that
+
+00:03:09.580 --> 00:03:13.530 align:middle line:84%
+are the first and the
+last in that list.
+
+00:03:13.530 --> 00:03:18.420 align:middle line:84%
+A new empty list would just
+be a variable of type list_t
+
+00:03:18.420 --> 00:03:22.790 align:middle line:84%
+and we would set the first
+and the last element to null.
+
+00:03:22.790 --> 00:03:24.620 align:middle line:84%
+A new list element
+itself would be
+
+00:03:24.620 --> 00:03:27.920 align:middle line:84%
+a variable of list element
+type and, preferably,
+
+00:03:27.920 --> 00:03:29.720 align:middle line:90%
+an allocatable.
+
+00:03:29.720 --> 00:03:32.510 align:middle line:90%
+So we allocate a new element.
+
+00:03:32.510 --> 00:03:36.380 align:middle line:84%
+We set its value,
+in this case to 7.3,
+
+00:03:36.380 --> 00:03:39.050 align:middle line:90%
+and next we set to null.
+
+00:03:39.050 --> 00:03:41.120 align:middle line:84%
+These are very simple
+ways to create,
+
+00:03:41.120 --> 00:03:45.860 align:middle line:84%
+on the one hand, a list, and
+the other hand, a list element.
+
+00:03:45.860 --> 00:03:48.660 align:middle line:84%
+Building a list is
+fairly straightforward.
+
+00:03:48.660 --> 00:03:50.630 align:middle line:84%
+We simply start
+with an empty list
+
+00:03:50.630 --> 00:03:52.760 align:middle line:90%
+and then we add a new element.
+
+00:03:52.760 --> 00:03:57.890 align:middle line:84%
+We allocate it, set a value,
+and set the next to null.
+
+00:03:57.890 --> 00:04:00.710 align:middle line:84%
+It's the first element,
+so there's no next one.
+
+00:04:00.710 --> 00:04:05.450 align:middle line:84%
+And then list%first will
+point to that element as will
+
+00:04:05.450 --> 00:04:08.390 align:middle line:90%
+list%last
+
+00:04:08.390 --> 00:04:10.940 align:middle line:84%
+The next element
+we allocate again.
+
+00:04:10.940 --> 00:04:14.310 align:middle line:84%
+We assign the value
+5.7, in this case.
+
+00:04:14.310 --> 00:04:18.380 align:middle line:84%
+We set the element%next to null,
+since it will be the last one
+
+00:04:18.380 --> 00:04:20.110 align:middle line:90%
+in the list.
+
+00:04:20.110 --> 00:04:23.500 align:middle line:84%
+The current last element should
+now be made to point to the new
+
+00:04:23.500 --> 00:04:28.610 align:middle line:84%
+element, and list%last points
+to the new element as well.
+
+00:04:28.610 --> 00:04:30.460 align:middle line:90%
+And this can be repeated.
+
+00:04:30.460 --> 00:04:34.330 align:middle line:84%
+To add a third element, again
+we allocate, set the value,
+
+00:04:34.330 --> 00:04:38.560 align:middle line:84%
+and set the next to null since
+it will be the last element.
+
+00:04:38.560 --> 00:04:41.470 align:middle line:84%
+The previous last element's
+next should point to the new
+
+00:04:41.470 --> 00:04:45.340 align:middle line:84%
+element, and the list%last
+should point to the new element
+
+00:04:45.340 --> 00:04:47.700 align:middle line:90%
+as well.
+
+00:04:47.700 --> 00:04:51.010 align:middle line:84%
+Iterating over a list is
+straightforward as well.
+
+00:04:51.010 --> 00:04:53.430 align:middle line:84%
+So let's have an
+additional variable,
+
+00:04:53.430 --> 00:04:57.870 align:middle line:84%
+current_element which is a
+pointer to list element type,
+
+00:04:57.870 --> 00:05:02.470 align:middle line:84%
+and we initialize that to
+point to list%first So current
+
+00:05:02.470 --> 00:05:06.720 align:middle line:84%
+element now points to the
+first element in the list.
+
+00:05:06.720 --> 00:05:09.930 align:middle line:84%
+While current element
+is not equal to null,
+
+00:05:09.930 --> 00:05:13.710 align:middle line:84%
+we make it point to
+current_element's next.
+
+00:05:13.710 --> 00:05:17.130 align:middle line:84%
+So the pointer moves over
+the list elements one by one
+
+00:05:17.130 --> 00:05:20.070 align:middle line:84%
+until it reaches the
+very last element.
+
+00:05:20.070 --> 00:05:22.890 align:middle line:84%
+Then, of course,
+current_element will be null
+
+00:05:22.890 --> 00:05:26.330 align:middle line:90%
+and the whole loop stops.
+
+00:05:26.330 --> 00:05:30.140 align:middle line:84%
+Inserting an element, we
+need a pointer to the element
+
+00:05:30.140 --> 00:05:33.560 align:middle line:84%
+just before the element
+we want to insert.
+
+00:05:33.560 --> 00:05:37.060 align:middle line:84%
+new_element is the
+element we want to add.
+
+00:05:37.060 --> 00:05:40.150 align:middle line:84%
+element_before is the
+element after which we're
+
+00:05:40.150 --> 00:05:42.590 align:middle line:90%
+going to add a new element.
+
+00:05:42.590 --> 00:05:45.550 align:middle line:84%
+So, basically, new_element%next
+is going to be the element
+
+00:05:45.550 --> 00:05:49.810 align:middle line:84%
+before next, so it points to the
+element after the element where
+
+00:05:49.810 --> 00:05:51.820 align:middle line:90%
+we want to insert after.
+
+00:05:51.820 --> 00:05:57.220 align:middle line:84%
+And then element_before%next
+is going to be the new element.
+
+00:05:57.220 --> 00:06:01.760 align:middle line:84%
+And we end up with a list,
+which is nicely connected.
+
+00:06:01.760 --> 00:06:04.140 align:middle line:90%
+Deleting an element is similar.
+
+00:06:04.140 --> 00:06:05.810 align:middle line:84%
+Again, we need a
+pointer to the element
+
+00:06:05.810 --> 00:06:08.330 align:middle line:84%
+before the one we
+want to remove.
+
+00:06:08.330 --> 00:06:12.170 align:middle line:84%
+And we also need a pointer
+to the removed element.
+
+00:06:12.170 --> 00:06:14.720 align:middle line:84%
+The removed element's
+next is going
+
+00:06:14.720 --> 00:06:18.950 align:middle line:84%
+to be the next element after
+the element_before That's
+
+00:06:18.950 --> 00:06:22.370 align:middle line:84%
+the one before the
+one we want to remove.
+
+00:06:22.370 --> 00:06:25.580 align:middle line:84%
+element_before%next is
+going to point to wherever
+
+00:06:25.580 --> 00:06:29.190 align:middle line:84%
+the removed_element%next
+was pointing to.
+
+00:06:29.190 --> 00:06:32.880 align:middle line:84%
+We end up with a list with no
+gaps and, of course, an element
+
+00:06:32.880 --> 00:06:35.780 align:middle line:84%
+that is pointed to
+by removed_element
+
+00:06:35.780 --> 00:06:37.376 align:middle line:90%

@@ -1,0 +1,432 @@
+WEBVTT
+
+00:00:00.000 --> 00:00:01.900 align:middle line:90%
+
+
+00:00:01.900 --> 00:00:04.720 align:middle line:84%
+Let's start with
+something really simple,
+
+00:00:04.720 --> 00:00:08.090 align:middle line:84%
+just a hello world
+application to get you going.
+
+00:00:08.090 --> 00:00:11.910 align:middle line:84%
+So that will print a string
+to the screen, and that's it.
+
+00:00:11.910 --> 00:00:15.810 align:middle line:90%
+
+
+00:00:15.810 --> 00:00:18.110 align:middle line:84%
+A Fortran programme
+is just a text file.
+
+00:00:18.110 --> 00:00:22.270 align:middle line:84%
+So you can use any editor
+who want to create it.
+
+00:00:22.270 --> 00:00:24.970 align:middle line:84%
+I'll be using vim because
+that's my favourite,
+
+00:00:24.970 --> 00:00:27.950 align:middle line:90%
+and I'm most familiar with it.
+
+00:00:27.950 --> 00:00:36.250 align:middle line:84%
+So vim hello_world.f90 The
+extension .f90 just tells
+
+00:00:36.250 --> 00:00:41.380 align:middle line:84%
+the editor and the compiler
+that you're doing Fortran.
+
+00:00:41.380 --> 00:00:42.880 align:middle line:90%
+OK.
+
+00:00:42.880 --> 00:00:48.760 align:middle line:84%
+So a Fortran programme always
+starts with program followed
+
+00:00:48.760 --> 00:00:49.990 align:middle line:90%
+by the name.
+
+00:00:49.990 --> 00:00:53.920 align:middle line:90%
+Let's call it hello_world.
+
+00:00:53.920 --> 00:01:00.220 align:middle line:84%
+And at the end, there is an
+end program and optionally
+
+00:01:00.220 --> 00:01:00.970 align:middle line:90%
+hello_world.
+
+00:01:00.970 --> 00:01:03.960 align:middle line:84%
+But it's good practise
+to put it there.
+
+00:01:03.960 --> 00:01:05.349 align:middle line:90%
+OK.
+
+00:01:05.349 --> 00:01:09.970 align:middle line:84%
+So we want to print a
+string to the screen.
+
+00:01:09.970 --> 00:01:13.120 align:middle line:84%
+And for that, we use
+a print statement.
+
+00:01:13.120 --> 00:01:15.940 align:middle line:84%
+The first thing we need
+to specify is the format.
+
+00:01:15.940 --> 00:01:19.030 align:middle line:84%
+But we're happy with the
+default formatting, which
+
+00:01:19.030 --> 00:01:21.550 align:middle line:90%
+is done by the Fortran runtime.
+
+00:01:21.550 --> 00:01:28.000 align:middle line:84%
+And we can just put an asterisk
+and then what we want to print
+
+00:01:28.000 --> 00:01:31.390 align:middle line:90%
+and this basically is a string.
+
+00:01:31.390 --> 00:01:37.030 align:middle line:84%
+Strings in Fortran are
+enclosed in single quotes
+
+00:01:37.030 --> 00:01:37.780 align:middle line:90%
+or double quotes.
+
+00:01:37.780 --> 00:01:38.740 align:middle line:90%
+You can choose.
+
+00:01:38.740 --> 00:01:40.570 align:middle line:84%
+Personally, I prefer
+single quotes.
+
+00:01:40.570 --> 00:01:44.330 align:middle line:90%
+
+
+00:01:44.330 --> 00:01:48.220 align:middle line:84%
+So this is the string which
+we want to put on the screen.
+
+00:01:48.220 --> 00:01:49.090 align:middle line:90%
+OK.
+
+00:01:49.090 --> 00:01:50.950 align:middle line:90%
+We're done.
+
+00:01:50.950 --> 00:01:56.080 align:middle line:84%
+We save the file, and we go
+back to the command line.
+
+00:01:56.080 --> 00:01:59.620 align:middle line:90%
+And now we can compile our code.
+
+00:01:59.620 --> 00:02:03.340 align:middle line:84%
+For this, we need a
+compiler, because a compiler
+
+00:02:03.340 --> 00:02:08.830 align:middle line:84%
+will convert our source
+code into an executable.
+
+00:02:08.830 --> 00:02:11.850 align:middle line:84%
+Let's called the
+executable hello_world.exe.
+
+00:02:11.850 --> 00:02:16.340 align:middle line:90%
+
+
+00:02:16.340 --> 00:02:19.880 align:middle line:84%
+And of course, we specify
+the name of the source file
+
+00:02:19.880 --> 00:02:22.310 align:middle line:90%
+which we want to compile.
+
+00:02:22.310 --> 00:02:26.780 align:middle line:84%
+So the -o simply specifies the
+name of the executable which is
+
+00:02:26.780 --> 00:02:30.200 align:middle line:84%
+created by the compiler
+based on the source file,
+
+00:02:30.200 --> 00:02:33.440 align:middle line:90%
+hello_world.f90.
+
+00:02:33.440 --> 00:02:34.550 align:middle line:90%
+OK.
+
+00:02:34.550 --> 00:02:38.160 align:middle line:90%
+It's done, and we can run it.
+
+00:02:38.160 --> 00:02:40.610 align:middle line:84%
+And as you can see,
+we get the string
+
+00:02:40.610 --> 00:02:43.313 align:middle line:84%
+which we wanted
+printed to the screen.
+
+00:02:43.313 --> 00:02:45.480 align:middle line:84%
+So let's move back to the
+editor and change the code
+
+00:02:45.480 --> 00:02:46.022 align:middle line:90%
+a little bit.
+
+00:02:46.022 --> 00:02:48.450 align:middle line:90%
+
+
+00:02:48.450 --> 00:02:51.800 align:middle line:84%
+What we want to do is to
+introduce a variable that holds
+
+00:02:51.800 --> 00:02:54.680 align:middle line:84%
+our message to make the
+programme a little bit more
+
+00:02:54.680 --> 00:02:56.540 align:middle line:90%
+general.
+
+00:02:56.540 --> 00:03:00.950 align:middle line:84%
+So we introduce a variable, and
+the type of that is character.
+
+00:03:00.950 --> 00:03:03.560 align:middle line:90%
+
+
+00:03:03.560 --> 00:03:09.140 align:middle line:84%
+And that will hold string
+data if we specify a length.
+
+00:03:09.140 --> 00:03:11.810 align:middle line:84%
+And the length can
+be anything, but it
+
+00:03:11.810 --> 00:03:15.380 align:middle line:84%
+should be sufficient to
+hold our entire string.
+
+00:03:15.380 --> 00:03:19.940 align:middle line:84%
+And let's just make that,
+to be on the safe side, 20
+
+00:03:19.940 --> 00:03:22.490 align:middle line:90%
+characters.
+
+00:03:22.490 --> 00:03:23.630 align:middle line:90%
+OK.
+
+00:03:23.630 --> 00:03:27.035 align:middle line:84%
+Then we have a
+double colon and then
+
+00:03:27.035 --> 00:03:29.670 align:middle line:84%
+the names of the
+variable of that type,
+
+00:03:29.670 --> 00:03:30.910 align:middle line:90%
+so in this case, message.
+
+00:03:30.910 --> 00:03:33.640 align:middle line:90%
+
+
+00:03:33.640 --> 00:03:37.300 align:middle line:84%
+And we can initialize
+that to the string which
+
+00:03:37.300 --> 00:03:39.910 align:middle line:84%
+you want to print,
+so hello world
+
+00:03:39.910 --> 00:03:41.350 align:middle line:90%
+or hello Fortran in this case.
+
+00:03:41.350 --> 00:03:46.750 align:middle line:90%
+
+
+00:03:46.750 --> 00:03:48.490 align:middle line:90%
+OK.
+
+00:03:48.490 --> 00:03:52.700 align:middle line:84%
+Now, this is
+actually a constant,
+
+00:03:52.700 --> 00:03:57.520 align:middle line:84%
+so we can make that explicit by
+adding the parameter attribute.
+
+00:03:57.520 --> 00:04:02.330 align:middle line:90%
+
+
+00:04:02.330 --> 00:04:03.620 align:middle line:90%
+OK.
+
+00:04:03.620 --> 00:04:07.980 align:middle line:84%
+Now we place our string
+with the variable.
+
+00:04:07.980 --> 00:04:10.980 align:middle line:90%
+
+
+00:04:10.980 --> 00:04:12.840 align:middle line:90%
+And we're ready to compile.
+
+00:04:12.840 --> 00:04:16.290 align:middle line:84%
+So we save and we go
+back to the command line.
+
+00:04:16.290 --> 00:04:19.440 align:middle line:90%
+
+
+00:04:19.440 --> 00:04:20.519 align:middle line:90%
+We compile the code.
+
+00:04:20.519 --> 00:04:23.950 align:middle line:90%
+
+
+00:04:23.950 --> 00:04:24.970 align:middle line:90%
+That works.
+
+00:04:24.970 --> 00:04:26.951 align:middle line:90%
+And we run our application.
+
+00:04:26.951 --> 00:04:30.320 align:middle line:90%
+
+
+00:04:30.320 --> 00:04:33.440 align:middle line:84%
+Not quite-- so rather
+than hello Fortran,
+
+00:04:33.440 --> 00:04:36.500 align:middle line:90%
+we actually get 124 whatever.
+
+00:04:36.500 --> 00:04:40.730 align:middle line:84%
+So something is
+definitely wrong here.
+
+00:04:40.730 --> 00:04:43.530 align:middle line:90%
+Let's move back to the editor.
+
+00:04:43.530 --> 00:04:47.990 align:middle line:84%
+So the one thing which is good
+practise is to add implicit
+
+00:04:47.990 --> 00:04:51.620 align:middle line:84%
+none to the compilation
+unit, such as the program.
+
+00:04:51.620 --> 00:04:54.110 align:middle line:90%
+And let's do that first.
+
+00:04:54.110 --> 00:04:58.090 align:middle line:90%
+
+
+00:04:58.090 --> 00:05:02.830 align:middle line:84%
+So the idea is that if
+you use implicit none,
+
+00:05:02.830 --> 00:05:09.340 align:middle line:84%
+each and every variable which
+you use in your programme must
+
+00:05:09.340 --> 00:05:11.720 align:middle line:90%
+be declared explicitly.
+
+00:05:11.720 --> 00:05:15.550 align:middle line:84%
+So let's just save and see
+what compiler tells us now.
+
+00:05:15.550 --> 00:05:21.880 align:middle line:90%
+
+
+00:05:21.880 --> 00:05:24.670 align:middle line:84%
+So when we compile the
+code, you see that now we
+
+00:05:24.670 --> 00:05:26.480 align:middle line:90%
+get an error message.
+
+00:05:26.480 --> 00:05:31.750 align:middle line:84%
+And the error says symbol
+massage at the indicated line
+
+00:05:31.750 --> 00:05:35.740 align:middle line:90%
+is not explicitly declared.
+
+00:05:35.740 --> 00:05:39.790 align:middle line:90%
+So it has no implicit type.
+
+00:05:39.790 --> 00:05:41.740 align:middle line:84%
+And it's even
+helpful, and it says,
+
+00:05:41.740 --> 00:05:44.140 align:middle line:90%
+did you actually mean message?
+
+00:05:44.140 --> 00:05:44.920 align:middle line:90%
+Yes, of course.
+
+00:05:44.920 --> 00:05:46.990 align:middle line:84%
+That was what I
+meant, and massage
+
+00:05:46.990 --> 00:05:51.620 align:middle line:84%
+might have been subconscious
+wishful thinking on my part.
+
+00:05:51.620 --> 00:05:56.110 align:middle line:84%
+So let's move back to the editor
+again and fix the problem which
+
+00:05:56.110 --> 00:05:57.340 align:middle line:90%
+is, of course, easy enough.
+
+00:05:57.340 --> 00:06:08.020 align:middle line:90%
+
+
+00:06:08.020 --> 00:06:11.380 align:middle line:84%
+And compile and
+run the code again.
+
+00:06:11.380 --> 00:06:17.390 align:middle line:84%
+And now, of course, everything's
+fine, and it works as expected.
+
+00:06:17.390 --> 00:06:19.570 align:middle line:84%
+So when you learn a new
+programming language,
+
+00:06:19.570 --> 00:06:21.250 align:middle line:84%
+getting familiar with
+the error messages
+
+00:06:21.250 --> 00:06:25.400 align:middle line:84%
+the compiler generates
+is a quite useful skill.
+
+00:06:25.400 --> 00:06:29.020 align:middle line:84%
+So we did something
+quite simple here.
+
+00:06:29.020 --> 00:06:31.900 align:middle line:84%
+And I promise that this
+is about in the last video
+
+00:06:31.900 --> 00:06:34.150 align:middle line:84%
+where you actually
+see me typing.
+
+00:06:34.150 --> 00:06:38.160 align:middle line:84%
+But now, let's move on to
+some more exciting stuff.
+
+00:06:38.160 --> 00:06:39.000 align:middle line:90%

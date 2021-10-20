@@ -1,0 +1,416 @@
+WEBVTT
+
+00:00:00.000 --> 00:00:01.510 align:middle line:90%
+
+
+00:00:01.510 --> 00:00:05.320 align:middle line:84%
+OpenMP allows you to exploit
+the full computational power
+
+00:00:05.320 --> 00:00:06.730 align:middle line:90%
+of a computer.
+
+00:00:06.730 --> 00:00:09.740 align:middle line:90%
+But what if that's not enough?
+
+00:00:09.740 --> 00:00:12.200 align:middle line:84%
+What if you need
+more compute power?
+
+00:00:12.200 --> 00:00:15.460 align:middle line:84%
+What if your data doesn't
+fit into the memory
+
+00:00:15.460 --> 00:00:17.800 align:middle line:90%
+of a single computer?
+
+00:00:17.800 --> 00:00:22.080 align:middle line:84%
+For scientific computing, MPI is
+the answer, the Message Passing
+
+00:00:22.080 --> 00:00:22.930 align:middle line:90%
+Interface.
+
+00:00:22.930 --> 00:00:26.110 align:middle line:84%
+And that allows you to run
+distributed applications,
+
+00:00:26.110 --> 00:00:31.950 align:middle line:84%
+applications that run
+on multiple computers.
+
+00:00:31.950 --> 00:00:35.640 align:middle line:84%
+Again, just like for OpenMP,
+what you'll see here just
+
+00:00:35.640 --> 00:00:37.020 align:middle line:90%
+scratches the surface.
+
+00:00:37.020 --> 00:00:38.950 align:middle line:84%
+There are quite a
+number of excellent
+
+00:00:38.950 --> 00:00:43.440 align:middle line:84%
+PRACE courses which I strongly
+encourage you to attend,
+
+00:00:43.440 --> 00:00:46.830 align:middle line:84%
+because they really go
+in depth into this rather
+
+00:00:46.830 --> 00:00:50.170 align:middle line:90%
+fascinating topic.
+
+00:00:50.170 --> 00:00:53.290 align:middle line:84%
+We'll consider the
+same example as OpenMP.
+
+00:00:53.290 --> 00:00:57.190 align:middle line:84%
+So we're going to commute pi
+by throwing darts at a board.
+
+00:00:57.190 --> 00:00:59.940 align:middle line:90%
+
+
+00:00:59.940 --> 00:01:04.290 align:middle line:84%
+The first executable statement
+of any MPI application
+
+00:01:04.290 --> 00:01:07.230 align:middle line:90%
+should be a call to MPI_Init.
+
+00:01:07.230 --> 00:01:10.620 align:middle line:84%
+This initializes the
+MPI library and ensures
+
+00:01:10.620 --> 00:01:12.630 align:middle line:84%
+that the processes
+can communicate
+
+00:01:12.630 --> 00:01:14.620 align:middle line:90%
+amongst one another.
+
+00:01:14.620 --> 00:01:17.040 align:middle line:84%
+The last executables
+statement would
+
+00:01:17.040 --> 00:01:19.980 align:middle line:90%
+be a call to MPI_Finalize.
+
+00:01:19.980 --> 00:01:22.920 align:middle line:84%
+And that just tears
+down the whole system
+
+00:01:22.920 --> 00:01:27.330 align:middle line:84%
+and ensures that your
+application exits gracefully.
+
+00:01:27.330 --> 00:01:30.510 align:middle line:84%
+We'll now discuss
+some particular points
+
+00:01:30.510 --> 00:01:33.738 align:middle line:90%
+in this application one by one.
+
+00:01:33.738 --> 00:01:36.430 align:middle line:90%
+MPI is completely library-based.
+
+00:01:36.430 --> 00:01:42.900 align:middle line:84%
+So if you want to use procedures
+for MPI, we have to use :: mpi.
+
+00:01:42.900 --> 00:01:46.770 align:middle line:84%
+And in this particular
+case, we use :: mpi_f08--
+
+00:01:46.770 --> 00:01:53.500 align:middle line:84%
+so the 2008 implementation
+of the MPI interfaces.
+
+00:01:53.500 --> 00:01:55.990 align:middle line:84%
+After the call to
+MPI_Init, we can
+
+00:01:55.990 --> 00:02:02.870 align:middle line:84%
+determine the rank of the
+process in the communicator.
+
+00:02:02.870 --> 00:02:05.920 align:middle line:84%
+So basically, all
+processes can communicate
+
+00:02:05.920 --> 00:02:07.600 align:middle line:90%
+using a communicator--
+
+00:02:07.600 --> 00:02:09.430 align:middle line:84%
+in this case,
+MPI_COMM_WORLD, that's
+
+00:02:09.430 --> 00:02:10.990 align:middle line:90%
+the default communicator.
+
+00:02:10.990 --> 00:02:16.170 align:middle line:84%
+And each process has a unique
+rank in that communicator.
+
+00:02:16.170 --> 00:02:20.860 align:middle line:84%
+The ranks go from 0 to
+the number of processes
+
+00:02:20.860 --> 00:02:24.040 align:middle line:90%
+in that communicator minus 1.
+
+00:02:24.040 --> 00:02:29.260 align:middle line:84%
+So we can also get the number
+of processes in the communicator
+
+00:02:29.260 --> 00:02:34.780 align:middle line:84%
+by using the
+MPI_Comm_size subroutine.
+
+00:02:34.780 --> 00:02:40.780 align:middle line:84%
+Again, we can modify the
+behaviour of a certain process
+
+00:02:40.780 --> 00:02:43.090 align:middle line:90%
+based on its rank.
+
+00:02:43.090 --> 00:02:46.270 align:middle line:84%
+So in this case,
+if my_rank is 0,
+
+00:02:46.270 --> 00:02:49.870 align:middle line:84%
+so only the process
+which has rank 0
+
+00:02:49.870 --> 00:02:54.670 align:middle line:84%
+will print the
+number of processes
+
+00:02:54.670 --> 00:02:56.830 align:middle line:84%
+that are used in
+this application,
+
+00:02:56.830 --> 00:02:59.600 align:middle line:90%
+so my_size in this case.
+
+00:02:59.600 --> 00:03:03.280 align:middle line:84%
+Each process is going to do
+an individual computation.
+
+00:03:03.280 --> 00:03:07.060 align:middle line:84%
+It defines a
+variable nr_success.
+
+00:03:07.060 --> 00:03:09.010 align:middle line:84%
+And that will be
+updated according
+
+00:03:09.010 --> 00:03:12.730 align:middle line:84%
+to the number of times a
+dart lands in the circle
+
+00:03:12.730 --> 00:03:17.230 align:middle line:84%
+and not in the remaining
+part of the square.
+
+00:03:17.230 --> 00:03:24.140 align:middle line:84%
+Each process is doing nr_tries
+divided by my_size iterations.
+
+00:03:24.140 --> 00:03:27.760 align:middle line:84%
+So the total number of
+iterations would be nr_tries.
+
+00:03:27.760 --> 00:03:32.320 align:middle line:84%
+And each process does its
+part of those iterations.
+
+00:03:32.320 --> 00:03:35.530 align:middle line:84%
+And it accumulates the
+number of successes
+
+00:03:35.530 --> 00:03:40.510 align:middle line:84%
+into its local
+variable nr_success.
+
+00:03:40.510 --> 00:03:43.060 align:middle line:84%
+So that's for each
+individual process.
+
+00:03:43.060 --> 00:03:48.860 align:middle line:84%
+Now the information has to be
+combined for all processes.
+
+00:03:48.860 --> 00:03:51.980 align:middle line:84%
+So there is a variable
+total_nr_success,
+
+00:03:51.980 --> 00:03:53.650 align:middle line:90%
+which we initialize to 0.
+
+00:03:53.650 --> 00:03:58.750 align:middle line:84%
+And that will be updated with
+the values of each process.
+
+00:03:58.750 --> 00:04:03.790 align:middle line:84%
+For this purpose, we call
+the MPI_Reduce subroutine.
+
+00:04:03.790 --> 00:04:08.860 align:middle line:84%
+And that takes that
+local value nr_success
+
+00:04:08.860 --> 00:04:13.360 align:middle line:84%
+and the value in which
+that will be accumulated
+
+00:04:13.360 --> 00:04:14.650 align:middle line:90%
+total_nr_success.
+
+00:04:14.650 --> 00:04:17.620 align:middle line:84%
+There's only one
+value to communicate.
+
+00:04:17.620 --> 00:04:20.170 align:middle line:90%
+And its type is int_t.
+
+00:04:20.170 --> 00:04:27.070 align:middle line:84%
+And this is registered using the
+MPI_Type_match_size subroutine.
+
+00:04:27.070 --> 00:04:36.170 align:middle line:84%
+And basically, it maps an INT64
+to int_t, the MPI type int_t.
+
+00:04:36.170 --> 00:04:39.500 align:middle line:84%
+The operation which we
+want to perform is MPI_SUM.
+
+00:04:39.500 --> 00:04:41.120 align:middle line:90%
+So that's the reduction.
+
+00:04:41.120 --> 00:04:46.490 align:middle line:84%
+And the result should
+be sent to process 0.
+
+00:04:46.490 --> 00:04:52.220 align:middle line:84%
+All messages are passing
+through a communicator.
+
+00:04:52.220 --> 00:04:54.500 align:middle line:84%
+And in this case,
+that's MPI_COMM_WORLD,
+
+00:04:54.500 --> 00:04:57.350 align:middle line:90%
+the default communicator.
+
+00:04:57.350 --> 00:05:02.660 align:middle line:84%
+So now each process sends
+its value of nr_success
+
+00:05:02.660 --> 00:05:04.550 align:middle line:90%
+to process 0.
+
+00:05:04.550 --> 00:05:08.570 align:middle line:84%
+And all those values will
+be accumulated as a sum
+
+00:05:08.570 --> 00:05:14.180 align:middle line:84%
+into total_nr_success which
+process 0 can then use.
+
+00:05:14.180 --> 00:05:19.040 align:middle line:84%
+And indeed, if we are
+process 0, then we
+
+00:05:19.040 --> 00:05:26.780 align:middle line:84%
+can compute pi by, again,
+multiplying total_nr_success
+
+00:05:26.780 --> 00:05:30.560 align:middle line:84%
+by 4 and dividing by
+the number of tries.
+
+00:05:30.560 --> 00:05:35.600 align:middle line:84%
+And finally, since all the work
+is done, we call MPI_Finalize.
+
+00:05:35.600 --> 00:05:38.870 align:middle line:84%
+We can compile the application
+using a compiler wrapper
+
+00:05:38.870 --> 00:05:40.550 align:middle line:90%
+mpif90.
+
+00:05:40.550 --> 00:05:45.620 align:middle line:84%
+That will ensure that the MPI
+library is correctly linked
+
+00:05:45.620 --> 00:05:51.450 align:middle line:84%
+and that all header files
+are available easily.
+
+00:05:51.450 --> 00:05:53.190 align:middle line:84%
+When we run the
+application, you see
+
+00:05:53.190 --> 00:05:55.530 align:middle line:84%
+that, indeed, it runs
+with 12 processors,
+
+00:05:55.530 --> 00:06:00.480 align:middle line:84%
+and that we get a value of
+pi, which is again reasonable.
+
+00:06:00.480 --> 00:06:03.510 align:middle line:84%
+Again, we can compute
+the parallel efficiency
+
+00:06:03.510 --> 00:06:07.470 align:middle line:84%
+by running the application with
+several number of processes--
+
+00:06:07.470 --> 00:06:11.220 align:middle line:84%
+so with a single process, with
+two processes, four processes,
+
+00:06:11.220 --> 00:06:12.430 align:middle line:90%
+and so on.
+
+00:06:12.430 --> 00:06:15.000 align:middle line:84%
+And as you can see,
+for this application
+
+00:06:15.000 --> 00:06:18.030 align:middle line:84%
+the parallel efficiency
+is not particularly good.
+
+00:06:18.030 --> 00:06:25.230 align:middle line:84%
+It is even dropping below
+0.4 for 12 processes.
+
+00:06:25.230 --> 00:06:28.530 align:middle line:84%
+So there is not enough
+work to do in order
+
+00:06:28.530 --> 00:06:33.900 align:middle line:84%
+to offset the overhead
+incurred by the MPI library
+
+00:06:33.900 --> 00:06:37.780 align:middle line:84%
+and spawning of the
+processes and so on.
+
+00:06:37.780 --> 00:06:43.300 align:middle line:84%
+Writing an efficient application
+using MPI is far from trivial.
+
+00:06:43.300 --> 00:06:46.120 align:middle line:84%
+But it has the potential
+to scale your application
+
+00:06:46.120 --> 00:06:49.140 align:middle line:90%
+to thousands of compute nodes.
+
+00:06:49.140 --> 00:06:50.000 align:middle line:90%

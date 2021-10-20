@@ -1,0 +1,555 @@
+WEBVTT
+
+00:00:00.000 --> 00:00:03.030 align:middle line:90%
+
+
+00:00:03.030 --> 00:00:06.030 align:middle line:84%
+Writing modular code is,
+of course, a good thing.
+
+00:00:06.030 --> 00:00:08.189 align:middle line:84%
+And you're familiar with
+that because basically,
+
+00:00:08.189 --> 00:00:10.590 align:middle line:84%
+you define procedures
+when you have
+
+00:00:10.590 --> 00:00:13.440 align:middle line:84%
+code that is called
+from multiple locations
+
+00:00:13.440 --> 00:00:15.790 align:middle line:90%
+in your application.
+
+00:00:15.790 --> 00:00:18.630 align:middle line:84%
+But in Fortran, you can
+take that one step further.
+
+00:00:18.630 --> 00:00:24.840 align:middle line:84%
+You can actually define
+those procedures in modules,
+
+00:00:24.840 --> 00:00:27.870 align:middle line:84%
+and these can be used from
+multiple compilation units
+
+00:00:27.870 --> 00:00:29.980 align:middle line:90%
+even across applications.
+
+00:00:29.980 --> 00:00:32.040 align:middle line:84%
+So basically, that
+saves you the problem
+
+00:00:32.040 --> 00:00:34.980 align:middle line:84%
+of having to
+copy-paste procedures
+
+00:00:34.980 --> 00:00:38.100 align:middle line:84%
+between applications, which is
+something that you would come
+
+00:00:38.100 --> 00:00:40.650 align:middle line:90%
+to regret at some point anyway.
+
+00:00:40.650 --> 00:00:43.110 align:middle line:84%
+It even goes a step
+further in the sense
+
+00:00:43.110 --> 00:00:47.640 align:middle line:84%
+that you can also define
+data types and even data,
+
+00:00:47.640 --> 00:00:51.120 align:middle line:84%
+so variables, in
+modules, aggregating
+
+00:00:51.120 --> 00:00:55.170 align:middle line:84%
+everything that belongs together
+into one compilation unit.
+
+00:00:55.170 --> 00:00:58.380 align:middle line:84%
+That of course is much
+easier to maintain,
+
+00:00:58.380 --> 00:01:00.810 align:middle line:84%
+and of course, promotes
+also code reuse.
+
+00:01:00.810 --> 00:01:03.980 align:middle line:90%
+
+
+00:01:03.980 --> 00:01:08.180 align:middle line:84%
+Say we want to compute
+descriptive statistics
+
+00:01:08.180 --> 00:01:09.720 align:middle line:90%
+on streaming data.
+
+00:01:09.720 --> 00:01:12.800 align:middle line:84%
+So basically we want
+a running average
+
+00:01:12.800 --> 00:01:17.340 align:middle line:84%
+and the running standard
+deviation as values come in.
+
+00:01:17.340 --> 00:01:18.850 align:middle line:90%
+And let's do it properly.
+
+00:01:18.850 --> 00:01:23.730 align:middle line:84%
+Let's define a module to hold
+the data types and procedures
+
+00:01:23.730 --> 00:01:25.320 align:middle line:90%
+which we require.
+
+00:01:25.320 --> 00:01:27.570 align:middle line:84%
+So a module is a
+compilation unit.
+
+00:01:27.570 --> 00:01:29.700 align:middle line:84%
+It starts with the
+keyword "module" followed
+
+00:01:29.700 --> 00:01:31.530 align:middle line:90%
+by the name of the module.
+
+00:01:31.530 --> 00:01:35.940 align:middle line:84%
+By convention that typically
+takes an _mod at the end
+
+00:01:35.940 --> 00:01:39.600 align:middle line:84%
+to make clear that it's
+the name of a module.
+
+00:01:39.600 --> 00:01:44.820 align:middle line:84%
+And it ends as usual with "end
+module" with the module name.
+
+00:01:44.820 --> 00:01:47.460 align:middle line:84%
+Since it's a
+compilation unit, we
+
+00:01:47.460 --> 00:01:49.920 align:middle line:84%
+want to make sure that
+all variables have
+
+00:01:49.920 --> 00:01:51.480 align:middle line:90%
+to be declared explicitly.
+
+00:01:51.480 --> 00:01:54.690 align:middle line:90%
+So, implicit none.
+
+00:01:54.690 --> 00:01:58.680 align:middle line:84%
+Also we want to control access
+to whatever is in our module.
+
+00:01:58.680 --> 00:02:03.210 align:middle line:84%
+And by default we prefer that
+everything is private, so hence
+
+00:02:03.210 --> 00:02:04.410 align:middle line:90%
+the "private" keyword.
+
+00:02:04.410 --> 00:02:08.009 align:middle line:84%
+And we'll mark everything that
+should be public with "public"
+
+00:02:08.009 --> 00:02:10.180 align:middle line:90%
+explicitly.
+
+00:02:10.180 --> 00:02:15.960 align:middle line:84%
+So the one thing we define here
+is a user defined type stats_t.
+
+00:02:15.960 --> 00:02:20.820 align:middle line:84%
+And that is public, so it can
+be used from other compilation
+
+00:02:20.820 --> 00:02:26.160 align:middle line:84%
+units when they use this
+particular module stats_mod.
+
+00:02:26.160 --> 00:02:30.390 align:middle line:84%
+It has three elements,
+two reals, sum and sum2,
+
+00:02:30.390 --> 00:02:33.150 align:middle line:90%
+and an integer, n.
+
+00:02:33.150 --> 00:02:35.160 align:middle line:84%
+Of course, we need
+a procedure to deal
+
+00:02:35.160 --> 00:02:37.620 align:middle line:90%
+with the new incoming data.
+
+00:02:37.620 --> 00:02:41.310 align:middle line:84%
+And that's going to
+be add_stats_value.
+
+00:02:41.310 --> 00:02:44.040 align:middle line:84%
+We declare it public
+and we define it
+
+00:02:44.040 --> 00:02:47.260 align:middle line:84%
+in "contains" part
+of the module.
+
+00:02:47.260 --> 00:02:50.430 align:middle line:84%
+So this is quite similar to
+a program unit that can also
+
+00:02:50.430 --> 00:02:54.810 align:middle line:84%
+have a contains part to
+define local subroutines
+
+00:02:54.810 --> 00:02:56.460 align:middle line:90%
+and functions.
+
+00:02:56.460 --> 00:03:00.030 align:middle line:84%
+We have the subroutine
+add_stats_value
+
+00:03:00.030 --> 00:03:07.230 align:middle line:84%
+and it takes a value and a stats
+variable of type user defined
+
+00:03:07.230 --> 00:03:09.000 align:middle line:90%
+type stats_t.
+
+00:03:09.000 --> 00:03:13.860 align:middle line:84%
+And the intent of the
+latter is of course, inout.
+
+00:03:13.860 --> 00:03:17.430 align:middle line:84%
+The value is passed as
+value, because we only
+
+00:03:17.430 --> 00:03:21.150 align:middle line:84%
+want to use value, we are
+not going to update it.
+
+00:03:21.150 --> 00:03:24.540 align:middle line:84%
+And then of course
+sum, sum2, and n
+
+00:03:24.540 --> 00:03:27.300 align:middle line:90%
+are updated appropriately.
+
+00:03:27.300 --> 00:03:30.660 align:middle line:84%
+And that's all that this
+particular subroutine
+
+00:03:30.660 --> 00:03:32.590 align:middle line:90%
+has to do.
+
+00:03:32.590 --> 00:03:38.280 align:middle line:84%
+We can now use the public data
+type and the public procedure
+
+00:03:38.280 --> 00:03:42.030 align:middle line:84%
+which we defined in the stats
+module in, for instance,
+
+00:03:42.030 --> 00:03:44.010 align:middle line:90%
+the program unit.
+
+00:03:44.010 --> 00:03:47.350 align:middle line:84%
+And this is done
+with a use statement.
+
+00:03:47.350 --> 00:03:51.060 align:middle line:84%
+So that specifies the name of
+the module and those components
+
+00:03:51.060 --> 00:03:55.180 align:middle line:84%
+in the module which we want to
+use in this compilation unit.
+
+00:03:55.180 --> 00:03:58.830 align:middle line:84%
+So in this case, the
+user defined type stats_t
+
+00:03:58.830 --> 00:04:03.420 align:middle line:84%
+and the subroutine
+add_stats_value.
+
+00:04:03.420 --> 00:04:09.630 align:middle line:84%
+And we can declare a variable
+stats which is of type stats_t.
+
+00:04:09.630 --> 00:04:15.630 align:middle line:84%
+We initialize it with values
+0.0 and 0.0, floating point,
+
+00:04:15.630 --> 00:04:22.570 align:middle line:84%
+for the sum and sum2,
+and 0 integer for n.
+
+00:04:22.570 --> 00:04:24.700 align:middle line:84%
+We have the loop
+in which we call
+
+00:04:24.700 --> 00:04:29.140 align:middle line:84%
+the subroutine add_stats_value
+with some random values which
+
+00:04:29.140 --> 00:04:31.960 align:middle line:90%
+we generate in that do loop.
+
+00:04:31.960 --> 00:04:36.100 align:middle line:84%
+When that's done, we can compute
+the mean based on the sum
+
+00:04:36.100 --> 00:04:42.160 align:middle line:84%
+and the number of values, which
+represent just by stats%sum
+
+00:04:42.160 --> 00:04:44.440 align:middle line:90%
+divided by stats%n.
+
+00:04:44.440 --> 00:04:48.740 align:middle line:84%
+As the code stands now, there
+are in my opinion two problems.
+
+00:04:48.740 --> 00:04:50.230 align:middle line:84%
+One of them is
+that you have to be
+
+00:04:50.230 --> 00:04:54.100 align:middle line:84%
+aware of the exact
+definition of stats_t
+
+00:04:54.100 --> 00:04:57.280 align:middle line:84%
+in order to initialize
+it properly.
+
+00:04:57.280 --> 00:05:00.730 align:middle line:84%
+So it would be a good idea
+to have a subroutine that
+
+00:05:00.730 --> 00:05:05.870 align:middle line:84%
+actually initializes a variable
+of type stats_t appropriately.
+
+00:05:05.870 --> 00:05:07.990 align:middle line:84%
+The other thing
+is that, well, we
+
+00:05:07.990 --> 00:05:10.540 align:middle line:84%
+are computing the
+mean value by hand
+
+00:05:10.540 --> 00:05:13.480 align:middle line:84%
+by dividing the sum by
+the number of elements.
+
+00:05:13.480 --> 00:05:15.970 align:middle line:84%
+And of course,
+that's sort of OK,
+
+00:05:15.970 --> 00:05:19.240 align:middle line:84%
+but it would be much nicer
+if again, we had a function
+
+00:05:19.240 --> 00:05:22.600 align:middle line:84%
+to do that so that we could
+just get the mean value
+
+00:05:22.600 --> 00:05:25.730 align:middle line:90%
+from a stats_t variable.
+
+00:05:25.730 --> 00:05:29.260 align:middle line:84%
+So now we need to have a
+subroutine, init_stats,
+
+00:05:29.260 --> 00:05:34.890 align:middle line:84%
+to initialize a stats variable,
+and it's defined in our module.
+
+00:05:34.890 --> 00:05:37.580 align:middle line:84%
+I'll have a look at this
+definition in a minute.
+
+00:05:37.580 --> 00:05:43.280 align:middle line:84%
+But it's also used and imported
+into this compilation unit.
+
+00:05:43.280 --> 00:05:46.940 align:middle line:84%
+And there is a mean_stats
+function, again defined
+
+00:05:46.940 --> 00:05:48.170 align:middle line:90%
+in our module.
+
+00:05:48.170 --> 00:05:51.260 align:middle line:84%
+Let's have a look
+at the definitions.
+
+00:05:51.260 --> 00:05:54.840 align:middle line:84%
+The subroutine init_stats
+is pretty straightforward.
+
+00:05:54.840 --> 00:05:56.570 align:middle line:84%
+Of course, we declare
+it to be public
+
+00:05:56.570 --> 00:06:00.980 align:middle line:84%
+so that it can be used outside
+of this module when it's used
+
+00:06:00.980 --> 00:06:02.570 align:middle line:90%
+in another compilation unit.
+
+00:06:02.570 --> 00:06:07.160 align:middle line:84%
+And the implementation
+is really simple.
+
+00:06:07.160 --> 00:06:10.130 align:middle line:84%
+So the other
+function which we add
+
+00:06:10.130 --> 00:06:13.160 align:middle line:84%
+is init_stats, also
+declared public.
+
+00:06:13.160 --> 00:06:16.740 align:middle line:84%
+And if we look at
+the implementation,
+
+00:06:16.740 --> 00:06:22.110 align:middle line:84%
+then we see that again, it
+is quite straightforward.
+
+00:06:22.110 --> 00:06:25.730 align:middle line:84%
+So basically it just
+computes the mean value
+
+00:06:25.730 --> 00:06:29.360 align:middle line:84%
+as you would expect by
+dividing the sum by the number
+
+00:06:29.360 --> 00:06:31.380 align:middle line:90%
+of elements seen so far.
+
+00:06:31.380 --> 00:06:35.510 align:middle line:84%
+And we use an associate
+statement in order to make
+
+00:06:35.510 --> 00:06:40.590 align:middle line:84%
+the mathematics a bit more
+palatable than with stats%sum
+
+00:06:40.590 --> 00:06:43.550 align:middle line:84%
+and so on, which is
+kind of hard to read.
+
+00:06:43.550 --> 00:06:46.700 align:middle line:84%
+We also do a small check
+to see whether we actually
+
+00:06:46.700 --> 00:06:50.330 align:middle line:84%
+have already seen a value,
+because otherwise of course, we
+
+00:06:50.330 --> 00:06:51.650 align:middle line:90%
+would divide by zero.
+
+00:06:51.650 --> 00:06:54.560 align:middle line:84%
+And we would not have
+any valid statistics
+
+00:06:54.560 --> 00:06:57.590 align:middle line:84%
+anyway because we didn't
+have any data yet.
+
+00:06:57.590 --> 00:07:01.460 align:middle line:84%
+In practise, of course, we would
+add another function to compute
+
+00:07:01.460 --> 00:07:03.320 align:middle line:90%
+the standard deviation.
+
+00:07:03.320 --> 00:07:06.470 align:middle line:84%
+And of course, that
+would require that we
+
+00:07:06.470 --> 00:07:08.870 align:middle line:90%
+have at least two data points.
+
+00:07:08.870 --> 00:07:14.000 align:middle line:84%
+It makes sense to define
+a subroutine, validate,
+
+00:07:14.000 --> 00:07:17.270 align:middle line:84%
+that actually checks whether
+we have sufficient data
+
+00:07:17.270 --> 00:07:21.210 align:middle line:84%
+to compute either the mean
+or the standard deviation.
+
+00:07:21.210 --> 00:07:25.477 align:middle line:84%
+And that's the validate
+subroutine which you see here.
+
+00:07:25.477 --> 00:07:27.560 align:middle line:84%
+We won't go into the details
+because there are not
+
+00:07:27.560 --> 00:07:29.750 align:middle line:90%
+many surprising aspects here.
+
+00:07:29.750 --> 00:07:33.080 align:middle line:84%
+But the point I want
+to make is that this
+
+00:07:33.080 --> 00:07:38.190 align:middle line:84%
+is a subroutine which is in
+fact private to this module.
+
+00:07:38.190 --> 00:07:42.950 align:middle line:84%
+So it's not required outside of
+the module in the compilation
+
+00:07:42.950 --> 00:07:44.670 align:middle line:90%
+units that use this module.
+
+00:07:44.670 --> 00:07:48.210 align:middle line:84%
+So we don't declare it as
+public, you can see that here.
+
+00:07:48.210 --> 00:07:52.880 align:middle line:84%
+So basically in the line that
+lists all the public routines,
+
+00:07:52.880 --> 00:07:55.820 align:middle line:84%
+all the public procedures,
+you find in this module,
+
+00:07:55.820 --> 00:07:59.550 align:middle line:90%
+validate is not mentioned.
+
+00:07:59.550 --> 00:08:01.980 align:middle line:84%
+As you can see,
+modules make it easier
+
+00:08:01.980 --> 00:08:04.860 align:middle line:84%
+to write maintainable
+code, since everything
+
+00:08:04.860 --> 00:08:08.380 align:middle line:84%
+that belongs together is
+in one compilation unit.
+
+00:08:08.380 --> 00:08:10.930 align:middle line:84%
+It also promotes
+reuse because it's
+
+00:08:10.930 --> 00:08:15.500 align:middle line:84%
+so easy to use a module for
+multiple compilation units.
+
+00:08:15.500 --> 00:08:16.000 align:middle line:90%

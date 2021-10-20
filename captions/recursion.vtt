@@ -1,0 +1,388 @@
+WEBVTT
+
+00:00:00.000 --> 00:00:01.140 align:middle line:90%
+
+
+00:00:01.140 --> 00:00:03.060 align:middle line:84%
+Recursive procedures
+are procedures
+
+00:00:03.060 --> 00:00:07.360 align:middle line:84%
+that are defined in
+terms of themselves.
+
+00:00:07.360 --> 00:00:10.110 align:middle line:84%
+So basically that means
+that an implementation
+
+00:00:10.110 --> 00:00:13.200 align:middle line:84%
+of recursive procedure
+will at least contain one
+
+00:00:13.200 --> 00:00:16.410 align:middle line:90%
+call to the procedure itself.
+
+00:00:16.410 --> 00:00:21.510 align:middle line:84%
+And that may remind you a little
+bit of mathematical induction,
+
+00:00:21.510 --> 00:00:24.060 align:middle line:84%
+where you have a
+base case, and you
+
+00:00:24.060 --> 00:00:27.880 align:middle line:84%
+have a complex case which
+you reduce to a simpler case,
+
+00:00:27.880 --> 00:00:30.160 align:middle line:84%
+which you reduce
+to simpler case,
+
+00:00:30.160 --> 00:00:34.260 align:middle line:84%
+and so on until you
+arrive at the base case.
+
+00:00:34.260 --> 00:00:37.710 align:middle line:84%
+So it's often very
+natural to translate
+
+00:00:37.710 --> 00:00:43.000 align:middle line:84%
+some mathematical algorithm
+into a recursive implementation.
+
+00:00:43.000 --> 00:00:46.310 align:middle line:84%
+However, that may come with
+some performance issues.
+
+00:00:46.310 --> 00:00:49.310 align:middle line:90%
+
+
+00:00:49.310 --> 00:00:51.950 align:middle line:84%
+As a simple example, Let's
+consider the Fibonacci
+
+00:00:51.950 --> 00:00:53.460 align:middle line:90%
+function.
+
+00:00:53.460 --> 00:00:58.340 align:middle line:84%
+So it's recursive
+because Fibonacci of n
+
+00:00:58.340 --> 00:01:01.820 align:middle line:84%
+can be defined as the sum
+of Fibonacci n minus 1
+
+00:01:01.820 --> 00:01:04.519 align:middle line:90%
+and Fibonacci n minus 2.
+
+00:01:04.519 --> 00:01:07.730 align:middle line:84%
+And there is also a base
+case, which deals with n
+
+00:01:07.730 --> 00:01:10.220 align:middle line:84%
+is equal to 0 and
+n is equal to 1.
+
+00:01:10.220 --> 00:01:14.820 align:middle line:84%
+In that case, the
+Fibonacci number is just 1.
+
+00:01:14.820 --> 00:01:18.190 align:middle line:84%
+When we compile the code,
+you see that we get an error.
+
+00:01:18.190 --> 00:01:22.020 align:middle line:84%
+So the error message says that
+the function fibonacci cannot
+
+00:01:22.020 --> 00:01:26.220 align:middle line:84%
+be called recursively
+since it is not recursive.
+
+00:01:26.220 --> 00:01:28.290 align:middle line:90%
+Indeed, we need to fix this.
+
+00:01:28.290 --> 00:01:30.270 align:middle line:84%
+Early specifications
+of Fortran did not
+
+00:01:30.270 --> 00:01:36.300 align:middle line:84%
+allow for recursive procedures,
+that just could not happen.
+
+00:01:36.300 --> 00:01:39.150 align:middle line:84%
+And at some point, it was
+decided that support for it
+
+00:01:39.150 --> 00:01:42.450 align:middle line:84%
+was required, and this
+was done by introducing
+
+00:01:42.450 --> 00:01:46.080 align:middle line:84%
+a keyword, recursive,
+that has to be prepended
+
+00:01:46.080 --> 00:01:49.900 align:middle line:90%
+to the procedure declaration.
+
+00:01:49.900 --> 00:01:53.190 align:middle line:84%
+So this is a little bit
+peculiar for Fortran,
+
+00:01:53.190 --> 00:01:55.800 align:middle line:84%
+and you just have to
+remember that if you
+
+00:01:55.800 --> 00:02:00.640 align:middle line:84%
+want a procedure to be recursive
+to use that recursive keyword.
+
+00:02:00.640 --> 00:02:03.020 align:middle line:84%
+Now the code compiles
+without issues.
+
+00:02:03.020 --> 00:02:06.920 align:middle line:84%
+But when we run it you see that
+we got a segmentation fault,
+
+00:02:06.920 --> 00:02:11.150 align:middle line:84%
+and that's of
+course not so nice.
+
+00:02:11.150 --> 00:02:13.400 align:middle line:90%
+So what can we do?
+
+00:02:13.400 --> 00:02:17.170 align:middle line:84%
+We can recompile the code
+with support for debugging,
+
+00:02:17.170 --> 00:02:21.010 align:middle line:84%
+and we can run the code under
+the control of a debugger, GDB
+
+00:02:21.010 --> 00:02:21.670 align:middle line:90%
+in this case.
+
+00:02:21.670 --> 00:02:27.080 align:middle line:90%
+
+
+00:02:27.080 --> 00:02:30.460 align:middle line:84%
+So the debugger starts and we
+have to run our application.
+
+00:02:30.460 --> 00:02:33.880 align:middle line:84%
+We can do that just
+by typing r for run.
+
+00:02:33.880 --> 00:02:37.540 align:middle line:84%
+And then you see that of course
+we get segmentation fault,
+
+00:02:37.540 --> 00:02:39.790 align:middle line:84%
+and the statement
+that happens in
+
+00:02:39.790 --> 00:02:43.060 align:middle line:84%
+is in the recursive
+computation of the value
+
+00:02:43.060 --> 00:02:44.230 align:middle line:90%
+of the fibonacci function.
+
+00:02:44.230 --> 00:02:46.810 align:middle line:90%
+
+
+00:02:46.810 --> 00:02:49.480 align:middle line:84%
+Let's do a backtrace,
+basically displaying
+
+00:02:49.480 --> 00:02:54.220 align:middle line:84%
+the call stack of all procedures
+that have been called up
+
+00:02:54.220 --> 00:02:56.000 align:middle line:90%
+to this point.
+
+00:02:56.000 --> 00:02:59.920 align:middle line:84%
+And then you see that
+it is pretty long.
+
+00:02:59.920 --> 00:03:03.340 align:middle line:84%
+So basically, we get
+fibonacci functions calling
+
+00:03:03.340 --> 00:03:04.910 align:middle line:90%
+fibonacci functions, and so on.
+
+00:03:04.910 --> 00:03:10.540 align:middle line:84%
+Of course we expect that,
+but perhaps not that many.
+
+00:03:10.540 --> 00:03:16.900 align:middle line:84%
+And as you can see this
+goes on, and on, and on,
+
+00:03:16.900 --> 00:03:21.520 align:middle line:84%
+and probably there's a
+problem here somewhere.
+
+00:03:21.520 --> 00:03:26.050 align:middle line:84%
+Let's run the application again,
+but let's pause it at line 13,
+
+00:03:26.050 --> 00:03:30.730 align:middle line:84%
+so basically in each call
+of the fibonacci function.
+
+00:03:30.730 --> 00:03:35.020 align:middle line:84%
+And we can do that by setting
+a breakpoint at line 13,
+
+00:03:35.020 --> 00:03:38.770 align:middle line:84%
+and we run the
+application again.
+
+00:03:38.770 --> 00:03:41.470 align:middle line:90%
+Yes, we want to restart it.
+
+00:03:41.470 --> 00:03:46.000 align:middle line:84%
+And now as you can see,
+the application halts
+
+00:03:46.000 --> 00:03:49.820 align:middle line:84%
+in line 13 and we
+can for instance,
+
+00:03:49.820 --> 00:03:52.660 align:middle line:84%
+have a look what the
+value of the argument is.
+
+00:03:52.660 --> 00:03:55.750 align:middle line:84%
+And it's 5, so that's fine
+because that was indeed
+
+00:03:55.750 --> 00:03:58.690 align:middle line:84%
+the argument we called the
+fibonacci function with.
+
+00:03:58.690 --> 00:04:04.120 align:middle line:84%
+We can continue to the next
+breakpoint, print n again,
+
+00:04:04.120 --> 00:04:06.610 align:middle line:84%
+and you can see it's
+4, so that's fine.
+
+00:04:06.610 --> 00:04:10.030 align:middle line:84%
+Indeed, the function calls
+itself recursively each time
+
+00:04:10.030 --> 00:04:15.160 align:middle line:84%
+with a smaller value
+of the argument n.
+
+00:04:15.160 --> 00:04:17.589 align:middle line:84%
+And we can continue
+a couple of times.
+
+00:04:17.589 --> 00:04:20.709 align:middle line:84%
+For instance, let's ignore
+a number of breakpoints
+
+00:04:20.709 --> 00:04:23.230 align:middle line:84%
+and stop after the
+fifth iteration.
+
+00:04:23.230 --> 00:04:25.806 align:middle line:90%
+And let's print n again.
+
+00:04:25.806 --> 00:04:28.180 align:middle line:90%
+Hm, n is equal to minus 1.
+
+00:04:28.180 --> 00:04:30.590 align:middle line:90%
+That of course shouldn't happen.
+
+00:04:30.590 --> 00:04:35.380 align:middle line:84%
+So basically it has the cause
+of the problem, and most likely
+
+00:04:35.380 --> 00:04:36.880 align:middle line:90%
+you already spotted what it is.
+
+00:04:36.880 --> 00:04:39.400 align:middle line:90%
+
+
+00:04:39.400 --> 00:04:45.760 align:middle line:84%
+Let's quit the debugger, just
+q, and let's fix our problem.
+
+00:04:45.760 --> 00:04:48.430 align:middle line:84%
+The fibonacci function
+kept on calling itself
+
+00:04:48.430 --> 00:04:52.100 align:middle line:84%
+with ever smaller
+values of the argument.
+
+00:04:52.100 --> 00:04:56.890 align:middle line:84%
+So typically that means that
+the base case is not OK.
+
+00:04:56.890 --> 00:05:00.010 align:middle line:84%
+And indeed, you probably
+already spotted the problem.
+
+00:05:00.010 --> 00:05:05.650 align:middle line:84%
+We have n is equal to
+0 and n is equal to 1,
+
+00:05:05.650 --> 00:05:09.040 align:middle line:84%
+and that very rarely
+happens in this universe.
+
+00:05:09.040 --> 00:05:12.400 align:middle line:84%
+So basically the
+logical and should just
+
+00:05:12.400 --> 00:05:14.590 align:middle line:90%
+be replaced by a logical or.
+
+00:05:14.590 --> 00:05:18.390 align:middle line:90%
+
+
+00:05:18.390 --> 00:05:21.240 align:middle line:84%
+So now the code is fixed,
+we recompile again,
+
+00:05:21.240 --> 00:05:23.310 align:middle line:84%
+and when we execute
+the application
+
+00:05:23.310 --> 00:05:25.710 align:middle line:84%
+you see that we get
+the expected output.
+
+00:05:25.710 --> 00:05:30.960 align:middle line:84%
+Indeed, the fibonacci
+number for 5 is 8.
+
+00:05:30.960 --> 00:05:33.330 align:middle line:84%
+As you've already
+guessed, this video
+
+00:05:33.330 --> 00:05:37.050 align:middle line:84%
+was actually not so much
+about recursion but rather
+
+00:05:37.050 --> 00:05:39.640 align:middle line:90%
+about using a debugger.
+
+00:05:39.640 --> 00:05:43.200 align:middle line:84%
+But that's a really useful
+skill, and something
+
+00:05:43.200 --> 00:05:46.490 align:middle line:84%
+you should get into
+the habit of doing.
+
+00:05:46.490 --> 00:05:48.000 align:middle line:90%

@@ -1,0 +1,29 @@
+WEBVTT
+
+00:00:00.000 --> 00:00:01.560 align:middle line:90%
+
+
+00:00:01.560 --> 00:00:06.390 align:middle line:84%
+Welcome to week three of Fortran
+for Scientific Computing.
+
+00:00:06.390 --> 00:00:10.110 align:middle line:84%
+This week, we'll deal
+with user-defined types
+
+00:00:10.110 --> 00:00:14.670 align:middle line:84%
+and with interfaces, as well
+as dynamic memory allocation.
+
+00:00:14.670 --> 00:00:17.940 align:middle line:84%
+And those form the basis for
+object-oriented programming
+
+00:00:17.940 --> 00:00:22.980 align:middle line:84%
+in Fortran, and that's the
+main topic of this week.
+
+00:00:22.980 --> 00:00:25.500 align:middle line:90%
+So, let's dive in.
+
+00:00:25.500 --> 00:00:26.000 align:middle line:90%

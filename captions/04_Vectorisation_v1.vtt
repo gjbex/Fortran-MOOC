@@ -1,0 +1,253 @@
+WEBVTT
+
+00:00:00.000 --> 00:00:04.270 align:middle line:90%
+
+
+00:00:04.270 --> 00:00:06.910 align:middle line:84%
+Vectorization is a
+very important concept
+
+00:00:06.910 --> 00:00:09.310 align:middle line:84%
+in scientific computing
+because it can actually
+
+00:00:09.310 --> 00:00:11.470 align:middle line:84%
+unlock some
+available performance
+
+00:00:11.470 --> 00:00:13.460 align:middle line:90%
+that you might not be aware of.
+
+00:00:13.460 --> 00:00:14.740 align:middle line:90%
+So what is it?
+
+00:00:14.740 --> 00:00:17.170 align:middle line:90%
+Well, consider three arrays.
+
+00:00:17.170 --> 00:00:19.270 align:middle line:84%
+They are just
+one-dimensional arrays
+
+00:00:19.270 --> 00:00:20.950 align:middle line:90%
+that have the same length.
+
+00:00:20.950 --> 00:00:24.310 align:middle line:84%
+And we initialize
+a and b somehow.
+
+00:00:24.310 --> 00:00:26.270 align:middle line:90%
+This doesn't matter how.
+
+00:00:26.270 --> 00:00:28.390 align:middle line:90%
+And then we have a do loop.
+
+00:00:28.390 --> 00:00:31.030 align:middle line:84%
+In that do loop, we
+compute each element
+
+00:00:31.030 --> 00:00:35.830 align:middle line:84%
+of c based on the corresponding
+elements of a and b.
+
+00:00:35.830 --> 00:00:40.270 align:middle line:84%
+In this case, we just sum
+the two elements in a and b
+
+00:00:40.270 --> 00:00:42.910 align:middle line:84%
+and store that in the
+corresponding element
+
+00:00:42.910 --> 00:00:45.370 align:middle line:90%
+in c, very simple.
+
+00:00:45.370 --> 00:00:48.110 align:middle line:84%
+And of course, this
+happens step by step.
+
+00:00:48.110 --> 00:00:53.440 align:middle line:84%
+So first for a(1) and
+b(1), then a(2), b(2), et
+
+00:00:53.440 --> 00:00:55.720 align:middle line:84%
+cetera, et cetera, up
+to the end of the array.
+
+00:00:55.720 --> 00:00:57.730 align:middle line:84%
+Nothing particularly
+exciting here,
+
+00:00:57.730 --> 00:01:02.060 align:middle line:84%
+except that under the hood,
+there are other options.
+
+00:01:02.060 --> 00:01:05.560 align:middle line:84%
+And that's because in
+your CPU, in each core,
+
+00:01:05.560 --> 00:01:07.420 align:middle line:90%
+there are registers.
+
+00:01:07.420 --> 00:01:10.650 align:middle line:84%
+And those registers
+have a certain length.
+
+00:01:10.650 --> 00:01:15.450 align:middle line:84%
+Typically, this is 256 bits
+for the AVX2 instruction
+
+00:01:15.450 --> 00:01:17.920 align:middle line:90%
+set of machine code.
+
+00:01:17.920 --> 00:01:20.770 align:middle line:84%
+Those are floating
+point registers.
+
+00:01:20.770 --> 00:01:24.520 align:middle line:84%
+So they can be used to store
+floating point numbers.
+
+00:01:24.520 --> 00:01:27.390 align:middle line:84%
+But a double precision
+floating point number only
+
+00:01:27.390 --> 00:01:29.520 align:middle line:90%
+takes 64 bits.
+
+00:01:29.520 --> 00:01:33.300 align:middle line:84%
+So that means that, in fact, we
+can store four of those numbers
+
+00:01:33.300 --> 00:01:35.450 align:middle line:90%
+into a single register.
+
+00:01:35.450 --> 00:01:37.790 align:middle line:84%
+And suppose that those
+would be the floating point
+
+00:01:37.790 --> 00:01:42.320 align:middle line:84%
+numbers representing four
+elements of our array a,
+
+00:01:42.320 --> 00:01:46.370 align:middle line:84%
+we can store the corresponding
+four elements of array b
+
+00:01:46.370 --> 00:01:48.440 align:middle line:90%
+in another register.
+
+00:01:48.440 --> 00:01:50.480 align:middle line:84%
+And now the special
+instructions that
+
+00:01:50.480 --> 00:01:54.890 align:middle line:84%
+actually allow us to do an
+addition on those registers--
+
+00:01:54.890 --> 00:01:58.790 align:middle line:84%
+meaning, that these four double
+precision floating point values
+
+00:01:58.790 --> 00:02:01.250 align:middle line:84%
+will be added and
+stored potentially
+
+00:02:01.250 --> 00:02:03.380 align:middle line:90%
+in another register.
+
+00:02:03.380 --> 00:02:05.690 align:middle line:84%
+That would be the
+vaddpd instruction,
+
+00:02:05.690 --> 00:02:09.050 align:middle line:84%
+and the same for
+multiplication, vmulpd,
+
+00:02:09.050 --> 00:02:11.870 align:middle line:84%
+and even a fused
+multiply add instruction,
+
+00:02:11.870 --> 00:02:16.010 align:middle line:90%
+the vfmadd123pd instruction.
+
+00:02:16.010 --> 00:02:17.660 align:middle line:84%
+And there are several
+others of those.
+
+00:02:17.660 --> 00:02:21.140 align:middle line:84%
+So actually, they allow you to
+operate on multiple floating
+
+00:02:21.140 --> 00:02:25.660 align:middle line:84%
+point values at once and
+compute them in a single step--
+
+00:02:25.660 --> 00:02:28.730 align:middle line:84%
+not entirely true,
+but good enough.
+
+00:02:28.730 --> 00:02:31.780 align:middle line:84%
+So basically, that means
+that since double precision
+
+00:02:31.780 --> 00:02:35.050 align:middle line:84%
+numbers are 64 bits, we can
+operate on four of those
+
+00:02:35.050 --> 00:02:36.670 align:middle line:90%
+simultaneously.
+
+00:02:36.670 --> 00:02:39.610 align:middle line:84%
+Or if we're doing single
+precision computations,
+
+00:02:39.610 --> 00:02:43.400 align:middle line:84%
+then we can operate on
+eight values simultaneously.
+
+00:02:43.400 --> 00:02:45.910 align:middle line:90%
+And this is illustrated here.
+
+00:02:45.910 --> 00:02:50.920 align:middle line:84%
+In more recent CPUs, the AVX-512
+instruction set is implemented.
+
+00:02:50.920 --> 00:02:54.730 align:middle line:84%
+They actually have 512-bit
+floating point registers,
+
+00:02:54.730 --> 00:02:57.160 align:middle line:84%
+which means that you
+can operate concurrently
+
+00:02:57.160 --> 00:02:59.320 align:middle line:84%
+on eight double
+precision floating point
+
+00:02:59.320 --> 00:03:03.980 align:middle line:84%
+values or 16 single precision
+floating point values.
+
+00:03:03.980 --> 00:03:05.650 align:middle line:84%
+And that, of course,
+can potentially
+
+00:03:05.650 --> 00:03:09.960 align:middle line:84%
+increase the performance of
+your applications significantly.
+
+00:03:09.960 --> 00:03:13.110 align:middle line:84%
+And what happens in practise
+is basically that you can view
+
+00:03:13.110 --> 00:03:17.460 align:middle line:84%
+this as a kind of sliding window
+over four double precision
+
+00:03:17.460 --> 00:03:18.660 align:middle line:90%
+values.
+
+00:03:18.660 --> 00:03:23.500 align:middle line:84%
+And it simply moves in steps
+of four values each time.
+
+00:03:23.500 --> 00:03:24.000 align:middle line:90%

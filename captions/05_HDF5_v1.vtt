@@ -1,0 +1,372 @@
+WEBVTT
+
+00:00:00.000 --> 00:00:04.380 align:middle line:90%
+
+
+00:00:04.380 --> 00:00:07.950 align:middle line:84%
+HDF5 is a very
+useful file format
+
+00:00:07.950 --> 00:00:10.350 align:middle line:90%
+for storing scientific data.
+
+00:00:10.350 --> 00:00:12.300 align:middle line:84%
+So you're familiar
+with your standard file
+
+00:00:12.300 --> 00:00:13.890 align:middle line:90%
+system that holds directories.
+
+00:00:13.890 --> 00:00:17.320 align:middle line:84%
+And in those directories,
+there are files and so on.
+
+00:00:17.320 --> 00:00:22.100 align:middle line:84%
+And in fact, an HDF5 file
+resembles that quite a lot.
+
+00:00:22.100 --> 00:00:25.800 align:middle line:84%
+Only the file system as a whole
+is represented by the HDF5
+
+00:00:25.800 --> 00:00:27.740 align:middle line:90%
+file itself.
+
+00:00:27.740 --> 00:00:31.400 align:middle line:84%
+In a HDF5 file, you
+can have groups.
+
+00:00:31.400 --> 00:00:34.290 align:middle line:84%
+And that's, of course, very
+similar to directories.
+
+00:00:34.290 --> 00:00:38.000 align:middle line:84%
+So just as directories can
+contain other directories,
+
+00:00:38.000 --> 00:00:40.520 align:middle line:84%
+groups can contain
+other groups, and files
+
+00:00:40.520 --> 00:00:43.050 align:middle line:90%
+are represented as data sets.
+
+00:00:43.050 --> 00:00:48.680 align:middle line:84%
+So a data set in HDF5 is similar
+to a file in the file system.
+
+00:00:48.680 --> 00:00:52.490 align:middle line:84%
+And that's, of course,
+where actual data resides.
+
+00:00:52.490 --> 00:00:54.530 align:middle line:84%
+You can do something
+more though.
+
+00:00:54.530 --> 00:00:58.620 align:middle line:84%
+You can also have annotations
+of groups or files.
+
+00:00:58.620 --> 00:01:00.720 align:middle line:84%
+You can use those, for
+instance, to document
+
+00:01:00.720 --> 00:01:03.690 align:middle line:84%
+the units in which the
+quantities are represented
+
+00:01:03.690 --> 00:01:06.760 align:middle line:84%
+or the provenance of
+the data or whatever.
+
+00:01:06.760 --> 00:01:07.590 align:middle line:90%
+It's up to you.
+
+00:01:07.590 --> 00:01:10.550 align:middle line:84%
+It's completely
+under your control.
+
+00:01:10.550 --> 00:01:13.220 align:middle line:84%
+The nice thing about
+HDF5 is the fact
+
+00:01:13.220 --> 00:01:15.680 align:middle line:90%
+that it's platform independent.
+
+00:01:15.680 --> 00:01:18.980 align:middle line:84%
+You can generate an
+HDF5 file on Windows
+
+00:01:18.980 --> 00:01:22.910 align:middle line:84%
+and read it without any
+issues on Linux or macOS.
+
+00:01:22.910 --> 00:01:26.510 align:middle line:84%
+It's also available for many
+programming languages, Fortran,
+
+00:01:26.510 --> 00:01:28.820 align:middle line:84%
+obviously, or we wouldn't
+be talking about it in this
+
+00:01:28.820 --> 00:01:35.450 align:middle line:84%
+particular course, but also
+in C, C++, in Java, R, Python,
+
+00:01:35.450 --> 00:01:36.650 align:middle line:90%
+and MATLAB--
+
+00:01:36.650 --> 00:01:40.700 align:middle line:84%
+your typical software
+stack for analysing data.
+
+00:01:40.700 --> 00:01:43.970 align:middle line:84%
+So it is actually programming
+language agnostic.
+
+00:01:43.970 --> 00:01:45.860 align:middle line:90%
+It's designed to be efficient.
+
+00:01:45.860 --> 00:01:50.100 align:middle line:84%
+So under the hood, it
+is a binary data format,
+
+00:01:50.100 --> 00:01:52.640 align:middle line:90%
+so that guarantees performance.
+
+00:01:52.640 --> 00:01:55.640 align:middle line:84%
+But due to the
+structure and metadata,
+
+00:01:55.640 --> 00:02:00.230 align:middle line:84%
+due to the annotations, it, in
+fact, is sort of human readable
+
+00:02:00.230 --> 00:02:02.280 align:middle line:90%
+but also machine readable.
+
+00:02:02.280 --> 00:02:05.750 align:middle line:84%
+So you can do
+introspection on HDF5 files
+
+00:02:05.750 --> 00:02:08.930 align:middle line:84%
+to determine the type
+of certain data sets
+
+00:02:08.930 --> 00:02:11.940 align:middle line:84%
+or to get the
+dimensions and so on.
+
+00:02:11.940 --> 00:02:14.700 align:middle line:84%
+And if you have a
+parallel file system,
+
+00:02:14.700 --> 00:02:18.980 align:middle line:84%
+it is also suited to
+parallel I/O on HDF5 files,
+
+00:02:18.980 --> 00:02:21.440 align:middle line:90%
+so that's really an asset.
+
+00:02:21.440 --> 00:02:23.750 align:middle line:84%
+So let's have a
+look at data sets.
+
+00:02:23.750 --> 00:02:27.530 align:middle line:84%
+Data sets essentially are
+multidimensional arrays.
+
+00:02:27.530 --> 00:02:31.550 align:middle line:84%
+They can be one-dimensional, can
+be two-dimensional, and so on.
+
+00:02:31.550 --> 00:02:33.650 align:middle line:90%
+A data set always has a name.
+
+00:02:33.650 --> 00:02:35.660 align:middle line:84%
+So that's convenient
+because you can refer
+
+00:02:35.660 --> 00:02:37.730 align:middle line:90%
+to it by that particular name.
+
+00:02:37.730 --> 00:02:39.590 align:middle line:84%
+That is part of
+the documentation
+
+00:02:39.590 --> 00:02:44.810 align:middle line:84%
+of an HDF5 file, which is,
+in a sense, self-documenting.
+
+00:02:44.810 --> 00:02:47.660 align:middle line:84%
+It also has a data
+type, and HDF5
+
+00:02:47.660 --> 00:02:51.890 align:middle line:84%
+supports many data types, such
+as integers, floating point
+
+00:02:51.890 --> 00:02:55.910 align:middle line:84%
+numbers, single precision,
+double precision, character
+
+00:02:55.910 --> 00:03:00.230 align:middle line:84%
+data, and datetime but
+also things like opaque,
+
+00:03:00.230 --> 00:03:03.230 align:middle line:84%
+for instance so that
+you can use a data set
+
+00:03:03.230 --> 00:03:06.200 align:middle line:84%
+to store a sequence of
+images in, for instance,
+
+00:03:06.200 --> 00:03:08.090 align:middle line:90%
+JPEG format or TIFF.
+
+00:03:08.090 --> 00:03:10.220 align:middle line:90%
+And there are many more types.
+
+00:03:10.220 --> 00:03:13.880 align:middle line:84%
+Check the documentation
+for more information.
+
+00:03:13.880 --> 00:03:16.450 align:middle line:84%
+The third thing that
+characterises this data set
+
+00:03:16.450 --> 00:03:18.190 align:middle line:90%
+is the data space.
+
+00:03:18.190 --> 00:03:20.410 align:middle line:84%
+That defines the
+number of dimensions
+
+00:03:20.410 --> 00:03:23.110 align:middle line:84%
+and the maximum size
+in each dimension,
+
+00:03:23.110 --> 00:03:25.970 align:middle line:84%
+as well as the current
+size in each dimension.
+
+00:03:25.970 --> 00:03:29.350 align:middle line:84%
+So it might be that you
+define the maximum size
+
+00:03:29.350 --> 00:03:32.920 align:middle line:84%
+but don't fill the data
+set as yet completely.
+
+00:03:32.920 --> 00:03:35.110 align:middle line:84%
+All of that is stored
+in the data space
+
+00:03:35.110 --> 00:03:37.370 align:middle line:90%
+that belongs to a data set.
+
+00:03:37.370 --> 00:03:41.080 align:middle line:84%
+So each data set is
+characterised by a name,
+
+00:03:41.080 --> 00:03:44.440 align:middle line:90%
+data type, and data space.
+
+00:03:44.440 --> 00:03:48.400 align:middle line:84%
+A very nice feature of data
+sets is that you can slice them.
+
+00:03:48.400 --> 00:03:52.990 align:middle line:84%
+The terminology in HDF5
+for that is hyperslabs.
+
+00:03:52.990 --> 00:03:56.510 align:middle line:84%
+And you can use that to
+select parts of your data.
+
+00:03:56.510 --> 00:03:58.600 align:middle line:84%
+For instance, you can
+slice a particular part
+
+00:03:58.600 --> 00:04:01.310 align:middle line:84%
+of this three-dimensional
+structure
+
+00:04:01.310 --> 00:04:05.050 align:middle line:84%
+so basically, in this case,
+just a two-dimensional array
+
+00:04:05.050 --> 00:04:07.930 align:middle line:84%
+out of that
+three-dimensional array.
+
+00:04:07.930 --> 00:04:10.240 align:middle line:84%
+Or you can also
+slice it differently
+
+00:04:10.240 --> 00:04:12.640 align:middle line:84%
+and have a
+three-dimensional array
+
+00:04:12.640 --> 00:04:15.410 align:middle line:84%
+out of your
+three-dimensional array.
+
+00:04:15.410 --> 00:04:18.519 align:middle line:84%
+You can do with hyperslabs
+whatever you want.
+
+00:04:18.519 --> 00:04:21.010 align:middle line:84%
+Obviously, all
+hyper-slabs are not equal.
+
+00:04:21.010 --> 00:04:24.130 align:middle line:84%
+So depending on the data
+layout in the file itself,
+
+00:04:24.130 --> 00:04:27.910 align:middle line:84%
+some hyperslabs will have better
+performance than the others,
+
+00:04:27.910 --> 00:04:29.050 align:middle line:90%
+but that's it.
+
+00:04:29.050 --> 00:04:31.780 align:middle line:84%
+Too sophisticated
+to go into now.
+
+00:04:31.780 --> 00:04:34.900 align:middle line:84%
+A special type of
+data set is a table.
+
+00:04:34.900 --> 00:04:37.210 align:middle line:84%
+And that's, in fact, a
+one-dimensional array
+
+00:04:37.210 --> 00:04:38.890 align:middle line:90%
+of records.
+
+00:04:38.890 --> 00:04:41.770 align:middle line:84%
+A record consists
+of multiple fields.
+
+00:04:41.770 --> 00:04:45.280 align:middle line:84%
+And again, a field
+has a name and a type.
+
+00:04:45.280 --> 00:04:48.480 align:middle line:84%
+So you can view this as a
+sort of Excel spreadsheet.
+
+00:04:48.480 --> 00:04:50.890 align:middle line:90%
+It can be very convenient.
+
+00:04:50.890 --> 00:04:53.820 align:middle line:84%
+There is, of course, a
+lot more to say about HDF5
+
+00:04:53.820 --> 00:04:56.908 align:middle line:90%
+and PRACE has courses available.
+
+00:04:56.908 --> 00:04:57.408 align:middle line:90%

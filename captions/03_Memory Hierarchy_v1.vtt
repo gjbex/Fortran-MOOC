@@ -1,0 +1,236 @@
+WEBVTT
+
+00:00:00.000 --> 00:00:04.570 align:middle line:90%
+
+
+00:00:04.570 --> 00:00:07.000 align:middle line:84%
+You might think that the
+number of computations
+
+00:00:07.000 --> 00:00:08.920 align:middle line:84%
+you can do per unit
+of time is what
+
+00:00:08.920 --> 00:00:12.530 align:middle line:84%
+limits the performance in
+high performance computing.
+
+00:00:12.530 --> 00:00:15.610 align:middle line:84%
+And at the end of the day,
+that's of course true.
+
+00:00:15.610 --> 00:00:17.680 align:middle line:84%
+But it's a little
+bit more nuanced.
+
+00:00:17.680 --> 00:00:20.770 align:middle line:84%
+If you do computations,
+of course you need data.
+
+00:00:20.770 --> 00:00:24.160 align:middle line:84%
+And the data is stored in the
+random access memory, or RAM,
+
+00:00:24.160 --> 00:00:25.510 align:middle line:90%
+of your computer.
+
+00:00:25.510 --> 00:00:28.810 align:middle line:84%
+And that needs to be transported
+to a central processing
+
+00:00:28.810 --> 00:00:31.000 align:middle line:90%
+unit, or CPU.
+
+00:00:31.000 --> 00:00:33.430 align:middle line:84%
+This is a process which
+happens continuously
+
+00:00:33.430 --> 00:00:34.880 align:middle line:90%
+while you're computing.
+
+00:00:34.880 --> 00:00:38.050 align:middle line:84%
+And of course, new data
+is being transported.
+
+00:00:38.050 --> 00:00:40.480 align:middle line:84%
+But if the data
+is reused, it has
+
+00:00:40.480 --> 00:00:44.050 align:middle line:84%
+to be transported again
+from RAM to your CPU.
+
+00:00:44.050 --> 00:00:46.690 align:middle line:84%
+And basically,
+that's your problem,
+
+00:00:46.690 --> 00:00:49.600 align:middle line:84%
+because it takes
+something like 200 cycles
+
+00:00:49.600 --> 00:00:52.780 align:middle line:84%
+to transport data
+from RAM to CPU.
+
+00:00:52.780 --> 00:00:56.800 align:middle line:84%
+And in 200 cycles you can
+also do 200 multiplications
+
+00:00:56.800 --> 00:00:59.590 align:middle line:84%
+or additions, and
+on modern hardware
+
+00:00:59.590 --> 00:01:03.430 align:middle line:84%
+you can even do 200
+multiplications and additions.
+
+00:01:03.430 --> 00:01:07.030 align:middle line:84%
+CPU manufacturers have realised
+that for quite some time,
+
+00:01:07.030 --> 00:01:08.740 align:middle line:90%
+and they added caches.
+
+00:01:08.740 --> 00:01:11.140 align:middle line:84%
+So, when something is
+transported from RAM
+
+00:01:11.140 --> 00:01:14.890 align:middle line:84%
+to the CPU, it's also
+stored in the local cache.
+
+00:01:14.890 --> 00:01:17.170 align:middle line:84%
+And the advantage is
+that it remains there
+
+00:01:17.170 --> 00:01:20.200 align:middle line:84%
+for quite a while, unless
+the cache gets full.
+
+00:01:20.200 --> 00:01:21.910 align:middle line:90%
+Then it gets evicted.
+
+00:01:21.910 --> 00:01:24.220 align:middle line:84%
+Until that happens,
+the transport
+
+00:01:24.220 --> 00:01:26.080 align:middle line:90%
+only has to be done once.
+
+00:01:26.080 --> 00:01:30.520 align:middle line:84%
+And if the data is reused, it
+is simply reused from cache.
+
+00:01:30.520 --> 00:01:33.910 align:middle line:84%
+The cache is of course
+much smaller than the RAM.
+
+00:01:33.910 --> 00:01:36.760 align:middle line:84%
+It's also much more
+expensive to manufacture.
+
+00:01:36.760 --> 00:01:40.690 align:middle line:84%
+But the big advantage is that
+it only takes five to 10 cycles
+
+00:01:40.690 --> 00:01:43.480 align:middle line:84%
+to get data from the
+cache into the CPU's
+
+00:01:43.480 --> 00:01:45.740 align:middle line:90%
+registers for computing.
+
+00:01:45.740 --> 00:01:49.000 align:middle line:84%
+Of course, in reality, things
+are a bit more complicated.
+
+00:01:49.000 --> 00:01:52.030 align:middle line:84%
+A CPU consists of
+multiple cores.
+
+00:01:52.030 --> 00:01:53.890 align:middle line:84%
+Those are the
+processing units that
+
+00:01:53.890 --> 00:01:56.080 align:middle line:90%
+do the actual computations.
+
+00:01:56.080 --> 00:01:59.500 align:middle line:84%
+For each core, you have
+a number of caches.
+
+00:01:59.500 --> 00:02:01.570 align:middle line:84%
+There's a level one
+cache that is typically
+
+00:02:01.570 --> 00:02:06.610 align:middle line:84%
+32 kilobytes for data, and
+32 kilobytes for instruction.
+
+00:02:06.610 --> 00:02:11.500 align:middle line:84%
+And it has very fast access
+times; five to 10 cycles.
+
+00:02:11.500 --> 00:02:13.510 align:middle line:90%
+There's also a level two cache.
+
+00:02:13.510 --> 00:02:15.970 align:middle line:84%
+This is larger, and
+depending on the hardware,
+
+00:02:15.970 --> 00:02:19.570 align:middle line:84%
+it can be either 256
+kilobytes, or even up
+
+00:02:19.570 --> 00:02:21.910 align:middle line:90%
+to a megabyte of data.
+
+00:02:21.910 --> 00:02:27.210 align:middle line:84%
+Access times for level two cache
+are approximately 20 cycles.
+
+00:02:27.210 --> 00:02:31.950 align:middle line:84%
+A CPU has multiple cores,
+up to, at the moment, 32
+
+00:02:31.950 --> 00:02:35.370 align:middle line:90%
+or 64 cores for one CPU.
+
+00:02:35.370 --> 00:02:38.770 align:middle line:84%
+So basically, this of
+course is fairly complex.
+
+00:02:38.770 --> 00:02:42.240 align:middle line:84%
+And each of those cores also has
+access to a level three cache,
+
+00:02:42.240 --> 00:02:45.030 align:middle line:90%
+also called last level cache.
+
+00:02:45.030 --> 00:02:46.650 align:middle line:90%
+That's even larger.
+
+00:02:46.650 --> 00:02:49.620 align:middle line:90%
+That's 3 to 25 megabytes.
+
+00:02:49.620 --> 00:02:52.500 align:middle line:84%
+But of course, it's
+shared by multiple cores.
+
+00:02:52.500 --> 00:02:55.717 align:middle line:84%
+The access times are
+approximately 50 cycles.
+
+00:02:55.717 --> 00:02:57.300 align:middle line:84%
+And that, of course,
+has to be set off
+
+00:02:57.300 --> 00:03:02.340 align:middle line:84%
+to the RAM, which is
+typically 8 to 256 gigabytes.
+
+00:03:02.340 --> 00:03:06.080 align:middle line:84%
+But it requires 200
+cycles to access.
+
+00:03:06.080 --> 00:03:08.000 align:middle line:90%

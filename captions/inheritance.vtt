@@ -1,0 +1,648 @@
+WEBVTT
+
+00:00:00.000 --> 00:00:01.920 align:middle line:90%
+
+
+00:00:01.920 --> 00:00:03.870 align:middle line:84%
+Inheritance is a pretty
+important concept
+
+00:00:03.870 --> 00:00:06.390 align:middle line:84%
+when it comes to
+object-oriented programming.
+
+00:00:06.390 --> 00:00:10.860 align:middle line:84%
+It may help you to write code
+that is easier to understand,
+
+00:00:10.860 --> 00:00:13.360 align:middle line:90%
+and easier to maintain.
+
+00:00:13.360 --> 00:00:17.100 align:middle line:84%
+So here we will consider an
+example of multiple quadrature
+
+00:00:17.100 --> 00:00:20.400 align:middle line:84%
+methods, which we
+implement using inheritance
+
+00:00:20.400 --> 00:00:23.912 align:middle line:90%
+from a base class.
+
+00:00:23.912 --> 00:00:25.370 align:middle line:84%
+We have an application
+that we want
+
+00:00:25.370 --> 00:00:29.510 align:middle line:84%
+to use to compute the
+quadrature of a given function.
+
+00:00:29.510 --> 00:00:32.600 align:middle line:84%
+And, on the command line,
+we can specify the method
+
+00:00:32.600 --> 00:00:35.550 align:middle line:90%
+we wish to use, just as string.
+
+00:00:35.550 --> 00:00:40.970 align:middle line:84%
+So if the method is gauss5,
+we'll use a Gaussian method
+
+00:00:40.970 --> 00:00:44.810 align:middle line:84%
+with 5 points, or
+with 10 points,
+
+00:00:44.810 --> 00:00:48.230 align:middle line:84%
+or alternatively, we'll
+use a Simpson rule
+
+00:00:48.230 --> 00:00:51.020 align:middle line:90%
+for the quadrature.
+
+00:00:51.020 --> 00:00:54.110 align:middle line:84%
+The quadrature is
+implemented as a class,
+
+00:00:54.110 --> 00:00:57.635 align:middle line:84%
+and it is declared
+as allocatable,
+
+00:00:57.635 --> 00:01:01.070 align:middle line:90%
+the quad, the variable.
+
+00:01:01.070 --> 00:01:03.800 align:middle line:84%
+And depending on the
+value of the method,
+
+00:01:03.800 --> 00:01:07.460 align:middle line:84%
+we'll instantiate an
+object of the given type,
+
+00:01:07.460 --> 00:01:12.960 align:middle line:84%
+using the source argument
+of the allocate statement.
+
+00:01:12.960 --> 00:01:16.300 align:middle line:84%
+So either we get a Gauss
+5 quadrature method,
+
+00:01:16.300 --> 00:01:20.750 align:middle line:84%
+Gauss 10 quadrature
+method, or Simpson method.
+
+00:01:20.750 --> 00:01:23.780 align:middle line:84%
+Once we have our
+quadrature object,
+
+00:01:23.780 --> 00:01:26.300 align:middle line:84%
+we can use its
+compute method that
+
+00:01:26.300 --> 00:01:29.030 align:middle line:84%
+takes as a first
+argument a function,
+
+00:01:29.030 --> 00:01:31.490 align:middle line:84%
+and as the second
+and third arguments
+
+00:01:31.490 --> 00:01:34.010 align:middle line:84%
+the values from
+which, to which we
+
+00:01:34.010 --> 00:01:36.410 align:middle line:90%
+want to compute the quadrature.
+
+00:01:36.410 --> 00:01:38.970 align:middle line:84%
+The function itself is
+fairly straightforward.
+
+00:01:38.970 --> 00:01:42.860 align:middle line:84%
+It takes a double as an
+argument and returns double.
+
+00:01:42.860 --> 00:01:47.030 align:middle line:84%
+And in this case, it simply
+computes the sine of x.
+
+00:01:47.030 --> 00:01:50.030 align:middle line:84%
+We'll start at the top
+level of the hierarchy.
+
+00:01:50.030 --> 00:01:55.190 align:middle line:84%
+Each quadrature method will
+implement a compute procedure
+
+00:01:55.190 --> 00:01:59.240 align:middle line:84%
+in order to do the
+actual quadrature.
+
+00:01:59.240 --> 00:02:04.010 align:middle line:84%
+So we start with a
+user-defined type, quad_t,
+
+00:02:04.010 --> 00:02:06.270 align:middle line:90%
+and this abstract.
+
+00:02:06.270 --> 00:02:09.630 align:middle line:84%
+That means it's not going
+to be completely defined.
+
+00:02:09.630 --> 00:02:13.460 align:middle line:84%
+That's going to be left
+to user-defined types that
+
+00:02:13.460 --> 00:02:16.160 align:middle line:90%
+are derived from this type.
+
+00:02:16.160 --> 00:02:20.330 align:middle line:84%
+You just add a single procedure,
+a single time-bound procedure,
+
+00:02:20.330 --> 00:02:24.740 align:middle line:84%
+which adheres to the
+interface compute_t,
+
+00:02:24.740 --> 00:02:26.480 align:middle line:90%
+and which is called compute.
+
+00:02:26.480 --> 00:02:30.890 align:middle line:84%
+So that's the name of
+our abstract method.
+
+00:02:30.890 --> 00:02:35.510 align:middle line:84%
+And it has a pass and
+a deferred attribute.
+
+00:02:35.510 --> 00:02:38.660 align:middle line:84%
+So deferred means it's not
+going to be defined here.
+
+00:02:38.660 --> 00:02:41.870 align:middle line:84%
+It will be defined
+in the children.
+
+00:02:41.870 --> 00:02:45.870 align:middle line:84%
+The pass, we'll come
+back to in just a second.
+
+00:02:45.870 --> 00:02:50.900 align:middle line:84%
+So if we look at the abstract
+interface, compute_t,
+
+00:02:50.900 --> 00:02:55.910 align:middle line:84%
+then we see that the first
+argument is, in fact, a class
+
+00:02:55.910 --> 00:03:01.790 align:middle line:84%
+quad_t argument, and that
+is passed in automatically.
+
+00:03:01.790 --> 00:03:05.540 align:middle line:84%
+To indicate that the pass
+attribute in the preceding
+
+00:03:05.540 --> 00:03:07.980 align:middle line:90%
+declaration is used.
+
+00:03:07.980 --> 00:03:10.520 align:middle line:84%
+And, as you can see,
+it's just an intent in,
+
+00:03:10.520 --> 00:03:13.280 align:middle line:84%
+and by convention,
+it's called this.
+
+00:03:13.280 --> 00:03:18.830 align:middle line:84%
+That will be the object on
+which this method is evoked.
+
+00:03:18.830 --> 00:03:23.540 align:middle line:84%
+Furthermore, it has
+two arguments, func,
+
+00:03:23.540 --> 00:03:28.280 align:middle line:84%
+that is a procedure that
+adheres to the func_t interface,
+
+00:03:28.280 --> 00:03:33.410 align:middle line:84%
+and two real values,
+a and b, which
+
+00:03:33.410 --> 00:03:39.920 align:middle line:84%
+are simply the boundaries
+of the quadrature.
+
+00:03:39.920 --> 00:03:42.590 align:middle line:84%
+And the result
+type is also real.
+
+00:03:42.590 --> 00:03:46.790 align:middle line:84%
+Moreover, there is also the
+interface for the function
+
+00:03:46.790 --> 00:03:48.140 align:middle line:90%
+itself, func_t.
+
+00:03:48.140 --> 00:03:52.040 align:middle line:84%
+And that just takes a
+real as an argument,
+
+00:03:52.040 --> 00:03:54.470 align:middle line:90%
+and will return a real value.
+
+00:03:54.470 --> 00:03:56.330 align:middle line:84%
+Any function that
+adheres to this
+
+00:03:56.330 --> 00:04:01.080 align:middle line:84%
+can be used in this
+quadrature compute procedure.
+
+00:04:01.080 --> 00:04:05.340 align:middle line:84%
+This is the implementation of
+the Simpson quadrature method.
+
+00:04:05.340 --> 00:04:10.250 align:middle line:84%
+So there is a user defined
+type, quad_simpson_t.
+
+00:04:10.250 --> 00:04:13.760 align:middle line:84%
+And that extends the
+abstract type quad_t.
+
+00:04:13.760 --> 00:04:17.660 align:middle line:84%
+So it's a specialisation
+of quad_t.
+
+00:04:17.660 --> 00:04:20.750 align:middle line:84%
+It has a procedure, a
+concrete procedure, compute,
+
+00:04:20.750 --> 00:04:24.140 align:middle line:84%
+that aliases
+compute_simpson, which
+
+00:04:24.140 --> 00:04:26.900 align:middle line:84%
+is a procedure, a
+function to be precise,
+
+00:04:26.900 --> 00:04:30.630 align:middle line:84%
+which is defined
+within this module.
+
+00:04:30.630 --> 00:04:34.490 align:middle line:84%
+There's also an
+interface quad_simpson_t.
+
+00:04:34.490 --> 00:04:39.860 align:middle line:84%
+And that refers to another
+procedure, create_quad.
+
+00:04:39.860 --> 00:04:43.610 align:middle line:84%
+It's actually a function that
+doesn't do anything much.
+
+00:04:43.610 --> 00:04:47.000 align:middle line:84%
+The only point is
+that it can be called
+
+00:04:47.000 --> 00:04:51.230 align:middle line:84%
+by the allocate statement
+to instantiate an object
+
+00:04:51.230 --> 00:04:54.296 align:middle line:90%
+of this particular type.
+
+00:04:54.296 --> 00:04:57.500 align:middle line:84%
+The function compute_simpson
+itself is just
+
+00:04:57.500 --> 00:05:00.860 align:middle line:84%
+an implementation of
+Simpson's algorithm.
+
+00:05:00.860 --> 00:05:04.400 align:middle line:84%
+Now for the family
+of Gauss methods, so
+
+00:05:04.400 --> 00:05:06.620 align:middle line:84%
+we have again an
+abstract class, which
+
+00:05:06.620 --> 00:05:08.850 align:middle line:90%
+extends quad_t in this case.
+
+00:05:08.850 --> 00:05:18.710 align:middle line:84%
+It's quad_gauss_t, and it has
+some elements, two real arrays,
+
+00:05:18.710 --> 00:05:22.100 align:middle line:84%
+one dimensional,
+which are allocatable.
+
+00:05:22.100 --> 00:05:25.400 align:middle line:84%
+And those will hold the
+values of the abscissae
+
+00:05:25.400 --> 00:05:28.910 align:middle line:90%
+and the weights for this method.
+
+00:05:28.910 --> 00:05:31.590 align:middle line:84%
+It also has some
+type-bound procedures.
+
+00:05:31.590 --> 00:05:36.110 align:middle line:84%
+The first one is a concrete
+procedure, compute, again,
+
+00:05:36.110 --> 00:05:39.650 align:middle line:84%
+aliased to, in this
+case, compute_gauss.
+
+00:05:39.650 --> 00:05:42.950 align:middle line:84%
+And that can be defined here
+in this particular module,
+
+00:05:42.950 --> 00:05:46.730 align:middle line:84%
+because all information
+is already present.
+
+00:05:46.730 --> 00:05:51.590 align:middle line:84%
+We only need the abscissae
+and weights arrays,
+
+00:05:51.590 --> 00:05:54.870 align:middle line:90%
+and those have been defined.
+
+00:05:54.870 --> 00:05:56.540 align:middle line:84%
+Then there is an
+abstract method.
+
+00:05:56.540 --> 00:05:58.100 align:middle line:90%
+Note it's deferred.
+
+00:05:58.100 --> 00:06:00.920 align:middle line:90%
+It is the init_quad method.
+
+00:06:00.920 --> 00:06:05.390 align:middle line:84%
+And that will be used by the
+concrete Gauss quadrature
+
+00:06:05.390 --> 00:06:11.270 align:middle line:84%
+classes, in order to
+initialize the correct values
+
+00:06:11.270 --> 00:06:15.200 align:middle line:84%
+for the abscissae
+and weights arrays.
+
+00:06:15.200 --> 00:06:18.890 align:middle line:84%
+Lastly, there is a set
+abscissae and set weights
+
+00:06:18.890 --> 00:06:22.850 align:middle line:84%
+method, that will be used
+to initialize those values.
+
+00:06:22.850 --> 00:06:26.130 align:middle line:90%
+
+
+00:06:26.130 --> 00:06:31.770 align:middle line:84%
+There is an interface
+init_quad_t, and that is,
+
+00:06:31.770 --> 00:06:34.440 align:middle line:84%
+of course, the abstract one,
+which will be implemented
+
+00:06:34.440 --> 00:06:35.980 align:middle line:90%
+by the child classes.
+
+00:06:35.980 --> 00:06:38.070 align:middle line:90%
+So it's just declared here.
+
+00:06:38.070 --> 00:06:40.780 align:middle line:84%
+Three type-bound procedures
+are implemented here.
+
+00:06:40.780 --> 00:06:44.040 align:middle line:84%
+And those are common to
+all the implementations,
+
+00:06:44.040 --> 00:06:48.330 align:middle line:84%
+the concrete implementations of
+the Gaussian quadrature method,
+
+00:06:48.330 --> 00:06:52.170 align:middle line:84%
+and that is the
+compute_gauss method that
+
+00:06:52.170 --> 00:06:57.660 align:middle line:84%
+will do the actual quadrature,
+and the initialization methods
+
+00:06:57.660 --> 00:07:01.860 align:middle line:84%
+for the abscissae and
+weights arrays, set_abscissae
+
+00:07:01.860 --> 00:07:04.600 align:middle line:90%
+and set_weights.
+
+00:07:04.600 --> 00:07:06.780 align:middle line:84%
+This is a concrete
+implementation
+
+00:07:06.780 --> 00:07:09.720 align:middle line:90%
+of the Gaussian quadrature.
+
+00:07:09.720 --> 00:07:11.670 align:middle line:84%
+And it's a five point
+Gaussian quadrature,
+
+00:07:11.670 --> 00:07:16.410 align:middle line:84%
+so the type is
+quad_gauss5_t, and it
+
+00:07:16.410 --> 00:07:20.520 align:middle line:84%
+defines a single concrete
+procedure, init_quad, which
+
+00:07:20.520 --> 00:07:23.430 align:middle line:90%
+is an alias for init_quad5.
+
+00:07:23.430 --> 00:07:25.800 align:middle line:84%
+So that is implemented
+in this module,
+
+00:07:25.800 --> 00:07:29.970 align:middle line:84%
+and it's just a subroutine
+that will initialize
+
+00:07:29.970 --> 00:07:34.440 align:middle line:84%
+the abscissae and
+the weights using
+
+00:07:34.440 --> 00:07:37.530 align:middle line:84%
+the set_abscissae and
+set_weights method, which
+
+00:07:37.530 --> 00:07:39.930 align:middle line:84%
+were defined in the
+abstract parent class.
+
+00:07:39.930 --> 00:07:42.700 align:middle line:90%
+
+
+00:07:42.700 --> 00:07:46.930 align:middle line:84%
+There is also an
+interface, quad_gauss5_t,
+
+00:07:46.930 --> 00:07:51.280 align:middle line:84%
+and that is used to
+initialize a new object.
+
+00:07:51.280 --> 00:07:54.370 align:middle line:84%
+And the procedure for
+that is create_quad,
+
+00:07:54.370 --> 00:07:56.020 align:middle line:90%
+which is defined here.
+
+00:07:56.020 --> 00:08:00.160 align:middle line:84%
+And it simply calls
+the quad init method,
+
+00:08:00.160 --> 00:08:02.660 align:middle line:90%
+which is defined in this class.
+
+00:08:02.660 --> 00:08:06.220 align:middle line:84%
+Finally, the second
+implementation
+
+00:08:06.220 --> 00:08:09.700 align:middle line:84%
+of the quadrature method is a
+10 point Gaussian quadrature
+
+00:08:09.700 --> 00:08:10.660 align:middle line:90%
+method.
+
+00:08:10.660 --> 00:08:15.790 align:middle line:84%
+And that extends again
+the quad_gauss_t.
+
+00:08:15.790 --> 00:08:20.080 align:middle line:84%
+It's extremely similar
+to quad_gauss5_t.
+
+00:08:20.080 --> 00:08:22.000 align:middle line:84%
+The only difference,
+essentially,
+
+00:08:22.000 --> 00:08:25.990 align:middle line:84%
+is that it will initialize
+the abscissae and the weights
+
+00:08:25.990 --> 00:08:28.660 align:middle line:90%
+within 10 values rather than 5.
+
+00:08:28.660 --> 00:08:32.620 align:middle line:84%
+To summarise, with three
+concrete classes, the two
+
+00:08:32.620 --> 00:08:38.720 align:middle line:84%
+quadratures, so
+quad_gauss5_t, quad_gauss10_t,
+
+00:08:38.720 --> 00:08:44.630 align:middle line:84%
+and quad_simpson_t,
+the Gauss quadratures
+
+00:08:44.630 --> 00:08:48.650 align:middle line:84%
+are implementations
+of an abstract class,
+
+00:08:48.650 --> 00:08:53.390 align:middle line:84%
+quad_gauss_t, which
+is an implementation
+
+00:08:53.390 --> 00:08:58.430 align:middle line:84%
+of the abstract class, quad_t,
+and also the quad_simpson_t
+
+00:08:58.430 --> 00:09:04.820 align:middle line:84%
+is an implementation of
+that abstract class, quad_t.
+
+00:09:04.820 --> 00:09:07.070 align:middle line:84%
+So we have three
+concrete classes
+
+00:09:07.070 --> 00:09:12.080 align:middle line:84%
+and two abstract classes, which
+are not really visible here,
+
+00:09:12.080 --> 00:09:15.020 align:middle line:84%
+except for the top
+level class, quad_t,
+
+00:09:15.020 --> 00:09:17.690 align:middle line:84%
+which is used to declare
+the quad variable, which
+
+00:09:17.690 --> 00:09:24.410 align:middle line:84%
+can hold any of the
+concrete quadrature objects.
+
+00:09:24.410 --> 00:09:27.710 align:middle line:84%
+So basically this is runtime
+polymorphism in the sense
+
+00:09:27.710 --> 00:09:33.500 align:middle line:84%
+that, at runtime, it is decided
+which concrete object is
+
+00:09:33.500 --> 00:09:37.410 align:middle line:90%
+assigned to the quad variable.
+
+00:09:37.410 --> 00:09:38.940 align:middle line:84%
+Although inheritance
+definitely has
+
+00:09:38.940 --> 00:09:41.310 align:middle line:84%
+its role in software
+development,
+
+00:09:41.310 --> 00:09:43.350 align:middle line:90%
+it should not be overused.
+
+00:09:43.350 --> 00:09:46.290 align:middle line:84%
+The problem is that with
+deep class hierarchies,
+
+00:09:46.290 --> 00:09:50.010 align:middle line:84%
+it's very difficult
+to change your code,
+
+00:09:50.010 --> 00:09:52.590 align:middle line:90%
+to adapt it to new requirements.
+
+00:09:52.590 --> 00:09:54.660 align:middle line:84%
+And also there is a
+performance penalty
+
+00:09:54.660 --> 00:09:57.510 align:middle line:90%
+to pay for runtime polymorphism.
+
+00:09:57.510 --> 00:09:59.970 align:middle line:84%
+So in many situations,
+you might consider
+
+00:09:59.970 --> 00:10:03.720 align:middle line:84%
+alternatives, such as
+duck typing or composition
+
+00:10:03.720 --> 00:10:06.470 align:middle line:90%
+rather than inheritance.
+
+00:10:06.470 --> 00:10:07.040 align:middle line:90%
