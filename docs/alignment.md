@@ -5,7 +5,7 @@ boundaries in memory.
 
 * 8-bit data (e.g., `character` or integer kind `INT8`) can be placed anywhere;
 * 16-bit data (e.g., integer kind `INT16`) should be placed on addresses that
-  are multiples of 4 bytes;
+  are multiples of 2 bytes;
 * 32-bit data (e.g., integer kind `INT32` or real kine `REAL32`) should be
   placed on addresses that are multiples of 4 bytes;
 * 64-bit data (e.g., integer kind `INT64` or real kind `REAL64`) should be
