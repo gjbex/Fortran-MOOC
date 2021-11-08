@@ -92,6 +92,7 @@ code examples used in videos and reading material.
 1. `precision`: single versus double versus mixed precsion arithmetic
    experiments.
 1. `coins`: illustration of greedy versus dynamic programming.
+1. `alignment`: code to experiment with alignment.
 1. `CMakeLists.txt`: CMake file to build all applications.
 
 
