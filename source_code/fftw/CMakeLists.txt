@@ -14,5 +14,7 @@ else()
     message(WARNING "comppiler ${CMAKE_Fortran_COMPILER_ID} not supported")
 endif()
 
+include_directories(/usr/include)
+
 add_executable(create_signal.exe create_signal.f90)
 add_executable(fft.exe fft.f90)

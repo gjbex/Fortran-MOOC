@@ -1,8 +1,8 @@
 program fft
     use, intrinsic :: iso_c_binding
     use, intrinsic :: iso_fortran_env, only : error_unit
-!    include 'fftw3.f03'
     implicit none
+    include 'fftw3.f03'
     real(kind=C_DOUBLE), dimension(:), allocatable :: time, data
     complex(kind=C_DOUBLE_COMPLEX), dimension(:), allocatable :: fft_result
     character(len=1024) :: file_name
