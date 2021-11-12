@@ -3,7 +3,7 @@ program command_argument_test
     implicit none
     character(len=50) :: program_name
     character(len=20) :: buffer
-    integer :: nr_args, i
+    integer :: nr_args, i, length
 
     ! get the name of the command
     call get_command_argument(0, program_name)
@@ -15,6 +15,8 @@ program command_argument_test
 
     ! get the command line arguments
     do i = 1, nr_args
+        call get_command_argument(i, length=length)
+        print '(4X, A, I0, " length: ", I0)', 'argument ', i, length
         call get_command_argument(i, buffer)
         print '(4X, A, I0, ": ''", A, "''")', 'argument ', i, buffer
     end do
