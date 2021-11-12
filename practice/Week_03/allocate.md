@@ -43,9 +43,9 @@ allocate(B, source=A, stat=status)
 
 What will be the value of `B(1, 2)`?
 1. undetermined [No, B has well-defined values]
-1. 2 [Indeed] [x]
+1. 2 [No, remember about the memory layout of two-dimensional array?]
 1. 3 [No, not quite]
-1. 4 [No, try it out]
+1. 4 [Indeed] [x]
 
 
 ## Question 4
