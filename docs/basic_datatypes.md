@@ -463,7 +463,7 @@ end program palindromes
 ~~~~
 
 Since the function `is_palindrome` should work for a string of any length, the
-function's argument is declared as a deferred length `character(len=*)`.
+function's argument is declared as a assumed length `character(len=*)`.
 
 Fortran has many intrinsic procedures to query and manipulate strings such as
 `index` to find the position of a substring in a string, `adjustl` and `adjustr`
