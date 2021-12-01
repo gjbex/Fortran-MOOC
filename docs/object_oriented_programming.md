@@ -38,7 +38,7 @@ $$
 Using a little algebra, the formula for $$\sigma$$ can be transformed into
 
 $$
-  \sigma = \sqrt{\frac{1}{N-1} \large\( \sum_{i=1}^N x_i^2 - \frac{1}{N} \large\( \sum_{i=1}{N} x_i \large\)^2 \large\)}
+  \sigma = \sqrt{\frac{1}{N-1} \large\( \sum_{i=1}^N x_i^2 - \frac{1}{N} \large\( \sum_{i=1}^{N} x_i \large\)^2 \large\)}
 $$
 
 Using this formulation of the standard deviation, it is clear that we do not
