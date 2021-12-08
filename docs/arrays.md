@@ -337,7 +337,7 @@ program max_array
     print FMT, 'column maximum = ', maxval(A, dim=1)
     print FMT, 'row maximum = ', maxval(A, dim=2)
     print FMT, 'maximum odd elment = ', maxval(A, mask=mod(A, 2) /= 0)
-    print FMT, 'row maximum negative elment = ', maxval(A, dim=1, mask=A < 0)
+    print FMT, 'column maximum negative elment = ', maxval(A, dim=1, mask=A < 0)
     print FMT, 'maxloc = ', maxloc(A)
     print FMT, 'column maxloc = ', maxloc(A, dim=1)
 end program max_array
@@ -353,7 +353,7 @@ maximum =             4
 column maximum =            -5           -2            1            4
 row maximum =             2            3            4
 maximum odd elment =             3
-row maximum negative elment =            -5           -2           -1  -2147483648
+column maximum negative elment =            -5           -2           -1  -2147483648
 maxloc =             3            4
 column maxloc =             3            3            3            3
 ~~~~
