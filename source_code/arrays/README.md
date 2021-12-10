@@ -31,4 +31,5 @@ Several short Fortran programs to illustrate arrays.
    a runtime error.
 1. `reshape.f90`: illustrates using reshape to produce arrays of different
    sizes to the original.
+1. `elemental_subroutine.f90`: illustration of an elemental subroutine.
 1. `CMakeLists.txt`: CMake file to build the applications.
