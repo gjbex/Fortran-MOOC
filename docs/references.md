@@ -49,6 +49,7 @@ o## Discussion forums and communities
 
 ## Software engineering: articles and books
 
+* *Introduction to algorithms*, Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest, Clifford Stein, MIT Press, 2009
 * *The practice of programming*, Brian W. Kernighan and Rob Pike
   Addison-Wesley, 1999
 * *Clean code: a handbook of agile software craftsmanship*, Robert C. Martin,
