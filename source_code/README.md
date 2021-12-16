@@ -92,6 +92,7 @@ code examples used in videos and reading material.
 1. `precision`: single versus double versus mixed precsion arithmetic
    experiments.
 1. `coins`: illustration of greedy versus dynamic programming.
+1. `implicit_loops`: performance impact of implicit versus explicit loops.
 1. `CMakeLists.txt`: CMake file to build all applications.
 
 
