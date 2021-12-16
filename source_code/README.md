@@ -93,6 +93,7 @@ code examples used in videos and reading material.
    experiments.
 1. `coins`: illustration of greedy versus dynamic programming.
 1. `implicit_loops`: performance impact of implicit versus explicit loops.
+1. `linking`: illustration of link-time optimizations.
 1. `CMakeLists.txt`: CMake file to build all applications.
 
 
