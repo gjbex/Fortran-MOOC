@@ -95,6 +95,8 @@ code examples used in videos and reading material.
 1. `implicit_loops`: performance impact of implicit versus explicit loops.
 1. `linking`: illustration of link-time optimizations.
 1. `preprocessor`: illustration of how to use the preprocessor.
+1. `openacc`: illustration of using OpenACC to offload computations to
+   BPU.
 1. `CMakeLists.txt`: CMake file to build all applications.
 
 
