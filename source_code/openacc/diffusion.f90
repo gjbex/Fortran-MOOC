@@ -20,7 +20,10 @@ program diffusion
           call swap(new_temp, temp)
     end do
     call cpu_time(stop_time)
-    if (n <= 10) call print_system(temp)
+    if (n <= 10) then
+        !$acc update self(temp)
+        call print_system(temp)
+    end if
     call dealloc_system(temp, new_temp)
     print '(A, E15.7)', 'time = ', stop_time - start_time
 
