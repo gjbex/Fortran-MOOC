@@ -235,6 +235,6 @@ Hence I'd encourage you strongly to strictly adhere to a specific language speci
 
 ## Copy/paste is evil
 
-If you find yourself copying and pasting a fragment of code from one file location to another, or from one file to another, you should consider turning it into a function.  Apart from making your code easier to understand, it makes it also easier to maintain.
+If you find yourself copying and pasting a fragment of code from one file location to another, or from one file to another, you should consider turning it into a procedure.  Apart from making your code easier to understand, it makes it also easier to maintain.
 
-Suppose there is a bug in the fragment.  If you copy/pasted it, you would have to remember to fix the bug in each instance of that code fragment.  If it was encapsulated in a function, you would have to fix the problem in a single spot only.
+Suppose there is a bug in the fragment.  If you copy/pasted it, you would have to remember to fix the bug in each instance of that code fragment.  If it was encapsulated in a procedure, you would have to fix the problem in a single spot only.
