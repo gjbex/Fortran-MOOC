@@ -604,8 +604,8 @@ function can be a nice alternative.
 real, dimension(nr_particles) :: masses, charges, probabilities
 
 call random_number(probabilities)
-masses = merge( probabilities < 0.5, proton_mass, electron_mass)
-charges = merge( probabilities < 0.5, proton_charg, electron_charg)
+masses = merge(proton_mass, electron_mass, probabilities < 0.5)
+charges = merge(proton_charge, electron_charge, probabilities < 0.5)
 ...
 ~~~~
 
