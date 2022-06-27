@@ -25,4 +25,5 @@ Various small programs to illustrate formatted, sequential input and output.
    using the `*` edit descriptor.
 1. `read_messy_file.f90`: program to illustrate reading from a file using the
    `*` edit descriptor.
+1. `format_str.f90`: example of creating a format string dynamically.
 1. `CMakeLists.txt`: CMake file to build the applications.
