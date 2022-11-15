@@ -227,7 +227,7 @@ The subroutine `add_value` is now private rather than public, since it is not
 supposed to be called directly.  A subroutine `add_values` has been added to
 add an array of data to the statistics.  The generic `add_data` will be called
 on variables of type `descriptive_stats_t`, and will be replaced by the
-compiler either by `get_value` or `get_values` depending on the type of its
+compiler either by `add_value` or `add_values` depending on the type of its
 argument.
 
 ~~~~fortran
