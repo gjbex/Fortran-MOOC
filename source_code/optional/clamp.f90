@@ -11,7 +11,9 @@ program clamp_program
         value_opt = values(i)
         call clamp(val=value, max_val=5.0_DP)
         call clamp(val=value_opt, min_val=-5.0_DP, max_val=5.0_DP)
-        print *, value, value_opt
+        print '(3(A, F8.1))', 'original: ', values(i), &
+            ', clamp [0.0, 5.0]: ', value, &
+            ', clamp [-5.0, 0.0]: ', value_opt
     end do
 
 contains
@@ -21,10 +23,15 @@ contains
         real(kind=DP), intent(inout) :: val
         real(kind=DP), value, optional :: min_val
         real(kind=DP), value :: max_val
+        real(kind=DP) :: minimum
 
-        if (.not. present(min_val)) min_val = -max_val
-        if (val < min_val) then
-            val = min_val
+        if (present(min_val)) then
+            minimum = -max_val
+        else
+            minimum = min_val
+        end if
+        if (val < minimum) then
+            val = minimum
         else if (max_val < val) then
             val = max_val
         end if
