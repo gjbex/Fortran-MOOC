@@ -59,6 +59,8 @@ contains
         first => list%first
         allocate (list%first, source=list_item_t(val, first), stat=istat)
         call validate_allocation(istat)
+        ! to make this work with the GNU compiler
+        list%first%next => first
         if (list%is_empty()) list%last => list%first
         list%length = list%length + 1
     end subroutine prepend
