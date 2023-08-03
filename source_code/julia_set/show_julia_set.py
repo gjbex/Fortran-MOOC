@@ -7,8 +7,7 @@ import sys
 
 
 def read_data(file_name):
-    data = np.genfromtxt(file_name, dtype=np.uint8)
-    return data
+    return np.genfromtxt(file_name, dtype=np.uint8)
 
 
 def visualize_data(data):
