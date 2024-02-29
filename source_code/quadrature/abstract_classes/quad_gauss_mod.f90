@@ -12,7 +12,7 @@ module quad_gauss_mod
         procedure :: set_abscissae, set_weights
     end type
 
-    interface
+    abstract interface
         module subroutine init_quad_t(this)
             ! import :: quad_gauss_t
             implicit none
