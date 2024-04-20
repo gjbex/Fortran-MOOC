@@ -22,7 +22,7 @@ binary operators are defined on integers:
   * `-`: subtraction
   * `*`: multiplication
   * `/`: integer division, e.g., `3/2 == 1`
-  * '**`: exponentiation
+  * `**`: exponentiation
 
 These operators are listed according to increasing precedence, so `1 + 2*3**4`
 evaluates to 163.
@@ -361,7 +361,7 @@ The semantics of this unary and binary operators `.and.`, `.or.`, `.xor.`,`.eqv.
 
 | p         | q         | `.eqv.`   |
 |-----------|-----------|-----------|
-| `.TRUE.`  | `.TRUE.`  | `.FALSE.  |
+| `.TRUE.`  | `.TRUE.`  | `.FALSE.` |
 | `.TRUE.`  | `.FALSE.` | `.TRUE.`  |
 | `.FALSE.` | `.TRUE.`  | `.TRUE.`  |
 | `.FALSE.` | `.FALSE.` | `.FALSE.` |
