@@ -1,4 +1,4 @@
-# Praktice
+# Practice
 
 Exercises for the course, organized by week.
 
