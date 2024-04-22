@@ -15,7 +15,7 @@ end program hello_fortran
 
 The `program` unit's statements are bracketed by `program <name>` and
 `end program <name>`.  In this case, the unit has just a single statement,
-the `print` statement that will write the string `'hello Fortran~'` to
+the `print` statement that will write the string `'hello Fortran!'` to
 standard output.  The `*` denotes the default format, but you will learn
 more about that later.
 
