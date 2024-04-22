@@ -28,6 +28,8 @@ programming".  The MOOC is hosted by FutureLearn
   * Instructions for software installation
 * Jakob Randa (UHasselt)
   * Exercise
+* Shibu Meher
+  * Fixing typos
 
 Beta testers (many thanks for feedback and corrections):
 * Jonas Kaerts (KU Leuven)
