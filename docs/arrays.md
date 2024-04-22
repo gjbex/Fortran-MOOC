@@ -262,8 +262,11 @@ dimensions.
 The `reshape` intrinsic function takes two arguments.  The first argument is an array
 of any shape, the second is a one dimensional array that specifies a new shape.
 In the example code in the previous section, a one dimensional array of size 15
-(constructed using implicit do loops) is reshaped into a two dimensional $$3 \times 5$$ array. Note that the size of the array should be equal to the product of the new dimensions.  For example, you can reshape a $$4 \times 5$$ array into a $$2 \times 10$$ array, or into a one dimensional array with 20 elements.  It can even be reshaped into a three dimensional $$2 \times 2 \times 5$$ array.
-
+(constructed using implicit do loops) is reshaped into a two dimensional $$3 \times 5$$ 
+array. Note that the size of the array should be equal to the product of the new dimensions. 
+For example, you can reshape a $$4 \times 5$$ array into a $$2 \times 10$$ array, or into a 
+one dimensional array with 20 elements.  It can even be reshaped into a three 
+dimensional $$2 \times 2 \times 5$$ array.
 
 ### Mathematical functions
 
