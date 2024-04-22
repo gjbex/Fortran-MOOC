@@ -293,7 +293,7 @@ The variable `m` was passed to the subroutine `increment` and modified in it.  T
 intent of the argument is `inout`, the original value is used to compute the new
 value, which changes the value of `m` in the calling context.
 
-If your world try to call `increment` with an integer constant as an argument, i.e.,
+If you would try to call `increment` with an integer constant as an argument, i.e.,
 `call increment(16)` you would get a compilation error as 
 
 ~~~~

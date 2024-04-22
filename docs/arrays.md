@@ -227,8 +227,8 @@ The shape of an array is the size in each dimension, so for the matrix `A`, the 
 would be `3, 5`.
 
 Just as for one dimensional arrays, you can select subarrays from multidimensional
-arrays as well.  Suppose that `A` is a $5 \times 5$ matrix, then the the
-expression `A(2:3, 2:4)` will create a $2 \times 3$ subarray with the values
+arrays as well.  Suppose that `A` is a $$5 \times 5$$ matrix, then the the
+expression `A(2:3, 2:4)` will create a $$2 \times 3$$ subarray with the values
 `A(2, 2)`, `A(2, 3)`, `A(2, 4)` in its first row, and `A(3, 2)`, `A(3, 3)` and
 `A(3, 4)` in its second row.
 
@@ -253,7 +253,7 @@ dimension as an optional argument for use with multidimensional arrays, e.g.,
 columns.
 
 The `shape` intrinsic function returns a one dimensional array with the dimensions
-for the array.  So for a $3 \times 5$ array, the `shape` function returns the array
+for the array.  So for a $$3 \times 5$$ array, the `shape` function returns the array
 `[3, 5]`.
 
 The `rank` intrinsic function returns the rank of an array, i.e., its number of
@@ -262,11 +262,7 @@ dimensions.
 The `reshape` intrinsic function takes two arguments.  The first argument is an array
 of any shape, the second is a one dimensional array that specifies a new shape.
 In the example code in the previous section, a one dimensional array of size 15
-(constructed using implicit do loops) is reshaped into a two dimensional
-$3 \times 5$ array. Note that the size of the array should be equal to the product of the
-new dimensions.  For example, you can reshape a $4 \times 5$ array into a
-$2 \times 10$ array, or into a one dimensional array with 20 elements.  It can even
-be reshaped into a three dimensional $2 \times 2 \times 5$ array.
+(constructed using implicit do loops) is reshaped into a two dimensional $$3 \times 5$$ array. Note that the size of the array should be equal to the product of the new dimensions.  For example, you can reshape a $$4 \times 5$$ array into a $$2 \times 10$$ array, or into a one dimensional array with 20 elements.  It can even be reshaped into a three dimensional $$2 \times 2 \times 5$$ array.
 
 
 ### Mathematical functions
