@@ -4,6 +4,7 @@ Namelist is a Fortran feature that can be very convenient for reading
 or writing configuration files. It allows you to define a set of variables
 that can be grouped together and read or written in a human-readable format.
 
+
 ## What is is?
 
 1. `namelist_test.f90`: simple illustration of writing and reading a namelist.
