@@ -341,7 +341,7 @@ The semantics of this unary and binary operators `.and.`, `.or.`, `.xor.`,`.eqv.
 
 ### Exclusive or
 
-| p         | q         | `.neqv.   |
+| p         | q         | `.neqv.`  |
 |-----------|-----------|-----------|
 | `.TRUE.`  | `.TRUE.`  | `.FALSE.` |
 | `.TRUE.`  | `.FALSE.` | `.TRUE.`  |
