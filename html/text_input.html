@@ -1,0 +1,87 @@
+<h1 id="text-input">Text input</h1>
+<p>Text can be read from the keyboard using the unit
+<code>input_unit</code> defined in the <code>iso_fortran_env</code>
+module, or from external files.</p>
+<p>In this section we will concentrate on sequential, formatted input.
+In later sections you will learn about direct and streaming access, as
+well as reading unformatted data.</p>
+<h2 id="edit-descriptors">Edit descriptors</h2>
+<p>Almost all edit descriptors that you encountered for formatted output
+work for input as well. The main exception is that zero-width integer
+and real descriptors are not allowed.</p>
+<p>This raises the issue that if you use edit descriptors to read data,
+the data must be formatted <em>exactly</em> as specified by the
+descriptor. If that is the case, you risk reading garbage values into
+your variables or crashing your program. Best practice is to use the
+exact same format for input and output of data.</p>
+<p>If you can not control the format of the data precisely, you can
+still read the data using <code>*</code> as format specifier. Consider
+the following somewhat messy data file.</p>
+<pre><code>3.13 12 F gamma
+-0.17e-3 -13 t alpha
+123.15e2 0 f beta</code></pre>
+<p>Each line of the file has a real, an integer, a logical and a
+character value. The following program reads the values from standard
+input, and prints the values to standard output.</p>
+<pre class="fortran"><code>program read_messy_data
+    use, intrinsic :: iso_fortran_env, only : input_unit, error_unit
+    implicit none
+    integer, parameter ::  nr_values = 3
+    real, dimension(nr_values) :: real_values
+    integer, dimension(nr_values) :: int_values
+    logical, dimension(nr_values) :: logical_values
+    character(len=20), dimension(nr_values) :: char_values
+    integer :: i, istat
+    character(len=1024) :: msg
+
+    do i = 1, nr_values
+        read (unit=input_unit, fmt=*, iostat=istat, iomsg=msg) &amp;
+            real_values(i), int_values(i), logical_values(i), char_values(i)
+        if (istat /= 0) then
+            write (unit=error_unit, fmt='(2A)') 'error: ', trim(msg)
+            stop 1
+        end if
+    end do
+
+    print '(*(E20.7))', real_values
+    print '(*(I20))', int_values
+    print '(*(L20))', logical_values
+    print '(*(A20))', char_values
+
+end program read_messy_data</code></pre>
+<p>Again, it is best practice to check the value of the I/O status after
+each read statement. If everything went well, the I/O status will be
+zero. Typically, two categories of problems can arise. The characters
+read from the input can not be converted to the data type of the
+corresponding variable, or the end of the input is reached. You can
+easily distinguish between these two situations based on the value of
+the I/O status variable. The status will be <code>iostat_end</code>,
+defined in the <code>iso_fortran_env</code> module if the end of the
+file was reached. The value will be strictly positive if the input could
+not be converted to the appropriate data type.</p>
+<h2 id="reading-files">Reading files</h2>
+<p>If you want to read from a file rather than from standard input, you
+should open the file before the first read statement, and close it after
+the last.</p>
+<p>The only status that makes sense for reading a file is
+<code>old</code>, indeed you can hardly read a file that doesn’t
+exist.</p>
+<pre class="fortran"><code>open (newunit=unit_nr, file=file_name, access='sequential', action='read', &amp;
+      status='old', iostat=istat, iomsg=msg)</code></pre>
+<p>Although less potentially disastrous as for files that are open for
+writing, it is nevertheless good practice to close a file that is open
+for reading as well.</p>
+<h2 id="reading-from-strings">Reading from strings</h2>
+<p>Reading from strings can be very useful to convert a string
+representation to another data type.</p>
+<pre class="fortran"><code>...
+character(len=64) :: buffer
+integer :: nr_values, istat
+character(len=1024) :: msg
+...
+read (buffer, fmt='(I64)', iostat=istat, iomsg=msg) nr_values
+if (istat /= 0) then
+    write (unit=error_unit, fmt='(2A)') 'error: ', msg
+    stop 1
+end if
+...</code></pre>

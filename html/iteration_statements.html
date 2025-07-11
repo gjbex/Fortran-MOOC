@@ -1,0 +1,246 @@
+<h1 id="iteration-statements">Iteration statements</h1>
+<p>All programming languages have iteration statements, and so does
+Fortran. It has two, the do statement intended to execute a block of
+statements a number of times, and a while statement to execute a block
+of statements for as long as a logical expression evaluates to true.</p>
+<h2 id="do-statement">do statement</h2>
+<p>The do statement will repeat a block of statements a number of times.
+As a very simple example, consider the following program that computes
+the factorial function for a number of integers. The general form is
+given below.</p>
+<pre><code>do &lt;variable&gt; = &lt;start&gt;, &lt;end&gt;, &lt;step&gt;
+    &lt;statements&gt;
+end do</code></pre>
+<p>The <code>&lt;variable&gt;</code> has to be of type
+<code>integer</code>, while <code>&lt;start&gt;</code>,
+<code>&lt;end&gt;</code> and <code>&lt;step&gt;</code> should be integer
+expressions. The <code>do</code> and <code>end do</code> delimit the
+<code>&lt;statements&gt;</code> that will be repeated. In the first
+iteration, <code>&lt;variable&gt;</code> will have the value
+<code>&lt;start&gt;</code>, in the second iteration its value will be
+<code>&lt;start&gt;</code> + <code>&lt;step&gt;</code> and so on till
+the last iteration.</p>
+<ul>
+<li>If <code>&lt;step&gt;</code> is zero, the program will crash.</li>
+<li>If <code>&lt;step&gt;</code> is positive and
+<code>&lt;start&gt;</code> &gt; <code>&lt;end&gt;</code>, then the do
+statement is not executed. Similarly, it will also not be executed if
+<code>&lt;step&gt;</code> is negative, and <code>&lt;start&gt;</code>
+&lt; <code>&lt;end&gt;</code>.</li>
+<li>Otherwise, the number of iterations is <code>&lt;nr_iter&gt;</code>
+= (<code>&lt;end&gt;</code> - <code>&lt;start&gt;</code> +
+<code>&lt;step&gt;</code>)/<code>&lt;step&gt;</code>.</li>
+</ul>
+<p>In the last iteration, <code>&lt;variable&gt;</code> will have the
+value <code>&lt;start&gt;</code> + (<code>&lt;nr_iter&gt;</code> -
+1)*<code>&lt;step&gt;</code>, and after the execution of the do
+statement <code>&lt;variable&gt;</code> will have the value
+<code>&lt;start&gt;</code> +
+<code>&lt;nr_iter&gt;</code>*<code>&lt;step&gt;</code>.</p>
+<p>Here, the expression \(m/n\)
+denotes the integer division.</p>
+<p>The step needs not to be specified, and in that case will have the
+default value 1.</p>
+<pre><code>do &lt;variable&gt; = &lt;start&gt;, &lt;end&gt;
+    &lt;statements&gt;
+end do</code></pre>
+<p>In the code below, there is a do statement in the program, and
+another in the factorial function.</p>
+<pre class="fortran"><code>program do_factorials
+    implicit none
+    integer, parameter :: MAX_N = 10
+    integer :: i
+
+    do i = 1, MAX_N
+        print *, i, factorial(i)
+    end do
+
+contains
+
+    function factorial(n) result(fac)
+        implicit none
+        integer, intent(in) :: n
+        integer :: fac
+        integer :: i
+
+        fac = 1
+        do i = 2, n
+            fac = fac*i
+        end do
+    end function factorial
+
+end program do_factorials</code></pre>
+<p>The do statement in the factorial function will only be executed when
+its argument <code>n</code> is larger than 1.</p>
+<p>Note that the number of iterations is fixed once the do statement
+starts executing. The expressions for <code>&lt;start&gt;</code>,
+<code>&lt;end&gt;</code> and <code>&lt;step&gt;</code> are evaluated
+once. If they would contain variables that are changed in the
+<code>&lt;statements&gt;</code> of the loop, that will not change the
+number of iterations.</p>
+<p>Also note that modifying the iteration variable
+<code>&lt;variable&gt;</code> by a statement in
+<code>&lt;statemens&gt;</code> is forbidden. The compiler will report an
+error. As a consequence, when you nest do statements, they should have a
+different iteration variable.</p>
+<h2 id="while-statement">while statement</h2>
+<p>Fortran’s second iteration statement is a while statement. Its
+general form is given below.</p>
+<pre><code>do while (&lt;logical expression&gt;)
+    &lt;statements&gt;
+end do</code></pre>
+<p>Before the start of each iteration,
+<code>&lt;logical expression&gt;</code> is evaluated. If it evaluates to
+true, <code>&lt;statements&gt;</code> are executed, if it evaluates to
+false, the iteration statement ends.</p>
+<p>The function below computes the greatest common divisor of two
+integer values. It will keep iterating as long as <code>a</code> is not
+equal to <code>b</code>, computing and assigning new values to
+<code>a</code> or <code>b</code> in each iteration.</p>
+<pre class="fortran"><code>integer function gcd(a, b)
+    implicit none
+    integer, value :: a, b
+
+    do while (a /= b)
+        if (a &gt; b) then
+            a = a - b
+        else if (b &gt; a) then
+            b = b - a
+        end if
+    end do
+    gcd = a
+end function gcd</code></pre>
+<h2 id="equivalence-of-do-and-while-statements-versus-semantics">Equivalence
+of do and while statements versus semantics</h2>
+<p>In fact, any do statement can be converted to a while statement. The
+general form of the do statement is given below.</p>
+<pre><code>do &lt;variable&gt; = &lt;start&gt;, &lt;end&gt;, &lt;step&gt;
+    &lt;statements&gt;
+end do</code></pre>
+<p>The equivalent while loop would be the following.</p>
+<pre><code>&lt;variable&gt; = &lt;start&gt;
+do while (&lt;variable&gt; &lt;= &lt;end&gt;)
+    &lt;statements&gt;
+    &lt;variable&gt; = &lt;variable&gt; + &lt;step&gt;
+end do</code></pre>
+<p>Here, we assume that <code>&lt;step&gt;</code> is positive. A similar
+equivalence can be defined for negative values of
+<code>&lt;step&gt;</code>.</p>
+<p>Obviously, the do statement conveys your intentions much better than
+the while statement.</p>
+<h2 id="infinite-loops-exit-and-cycle">Infinite loops, exit and
+cycle</h2>
+<p>Implementing an infinite loop, i.e., a loop statement that never
+terminates is quite easy in Fortran.</p>
+<pre><code>do
+    &lt;statements&gt;
+end do</code></pre>
+<p>The <code>&lt;statements&gt;</code> will continue to be executed
+unless there is a stop or an exit statement in
+<code>&lt;statements&gt;</code>. You might ask why anyone would want to
+program an infinite loop on purpose. A few scenarios come to mind:</p>
+<ul>
+<li>programs that handle streams of data, e.g., parsers;</li>
+<li>programs that handle events, e.g., network services.</li>
+</ul>
+<p>Although their functionality can be accomplished using a while
+statement, it is often quite cumbersome. You should realize that this is
+a contentious statement that many will not agree with.</p>
+<p>Infinite loops raise the obvious question whether you can still exit
+them without terminating the application by the operating system. There
+are two options, depending on what you want to accomplish that will
+terminate any iteration statement:</p>
+<ul>
+<li>the stop statement would terminate the execution of the program,
+and</li>
+<li>the exit statement would terminate the execution of the do
+statement, and continue executing the next statement.</li>
+</ul>
+<p>The following program illustrates both an infinite loop, and the use
+of an exit statement. It reads floating point values from standard
+input, and computes the sum. When there is no more input,
+<code>stat</code> will have a negative value (end-of-file), and the
+iteration statement is terminated using the <code>exit</code> statement.
+The next statement prints the sum.</p>
+<pre class="fortran"><code>program sum_values
+    use, intrinsic :: iso_fortran_env, only : input_unit
+    implicit none
+    real :: val, total
+    integer :: stat
+
+    total = 0.0
+    do
+        read (unit=input_unit, fmt=*, iostat=stat) val
+        if (stat &lt; 0) exit
+        if (stat &gt; 0) cycle
+        total = total + val
+    end do
+    print *, total
+end program sum_values</code></pre>
+<p>This code also illustrates the cycle statement. Its semantics is that
+it will start the next iteration, skipping all statements in the block
+below it. In this case, <code>stat</code> will have a non-zero positive
+value when the line that was read from standard input could not be
+converted to a <code>real</code> value. If that is the case, the
+assignment statement to the variable <code>total</code> will not be
+executed.</p>
+<p>Note that the following program would be equivalent, avoiding an
+infinite loop, as well as exit and cycle statements.</p>
+<pre class="fortran"><code>program sum_values
+    use, intrinsic :: iso_fortran_env, only : input_unit
+    implicit none
+    real :: val, total
+    integer :: stat
+
+    total = 0.0
+    stat = 0
+    do while (stat &gt;= 0)
+        read (unit=input_unit, fmt=*, iostat=stat) val
+        if (stat == 0) total = total + val
+    end do
+    print *, total
+end program sum_values</code></pre>
+<p>Arguably, the code in this version of the program is even cleaner
+that the first one, but it will be hard to generalize to more complex
+situations.</p>
+<h2 id="named-blocks">Named blocks</h2>
+<p>Fortran allows you to name block statements. This is illustrated in
+the code fragment below.</p>
+<pre class="fortran"><code>function has_duplicates(data) result(result)
+    integer, dimension(:), intent(in) :: data
+    logical :: result
+    integer :: i, j
+
+    result = .false.
+    outer: do i = 1, size(data) - 1
+        do j = i + 1, size(data)
+            if (data(i) == data(j)) then
+                result = .true.
+                exit outer
+            end if
+        end do
+    end do outer
+end function has_duplicates</code></pre>
+<p>This function checks whether an array contains duplicate elements. If
+so, it returns <code>.true.</code>, otherwise <code>.false.</code>. If
+there is a duplicate, this is detected in the inner do loop, and the
+result is known. Hence you want to exit the outer do loop. Simply using
+the exit statement would terminate the inner loop, but the outer loop
+would continue with its next iteration.</p>
+<p>However, we can give block statements a name, <code>outer</code> in
+the example above. The name of the do loop can then be used in the exit
+statement to specify which loop should be exited.</p>
+<p>This is likely the most common application of named blocks, but since
+names can be given to any block statement (do and do while loops, block
+if statements, select, where, do concurrent, block. It may help to add
+names to block statements to make code more readable and help the
+compiler catch semantic errors.</p>
+<p>The general form of a named block statement is:</p>
+<pre><code>&lt;name&gt;: &lt;block-statement&gt; ...
+    ...
+end &lt;block-statement&gt; &lt;name&gt;</code></pre>
+<p>Using the <code>&lt;name&gt;</code> for ending the block is optional,
+but may help you interpret your code more easily.</p>
+<p>Note that the example is slightly contrived. In practice you would
+likely use a return statement rather than an exit statement in this
+situation.</p>

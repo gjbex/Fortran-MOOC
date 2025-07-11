@@ -1,0 +1,173 @@
+<h1 id="ieee-754-standard-for-floating-point-arithmetic">IEEE 754
+standard for Floating-Point Arithmetic</h1>
+<p><a href="https://en.wikipedia.org/wiki/IEEE_754">This standard</a>
+was established by the Institute of Electrical and Electronics Engineers
+(IEEE) in 1985 to address various issues encountered when performing
+floating point arithmetic.</p>
+<p>The standard defines:</p>
+<ul>
+<li>arithmetic formats: sets of binary and decimal floating-point data,
+which consist of finite numbers (including signed zeros and subnormal
+numbers), infinities, and special “Not a Number” values (NaNs);</li>
+<li>interchange formats: encodings (bit strings) that may be used to
+exchange floating-point data in an efficient and compact form;</li>
+<li>rounding rules: properties to be satisfied when rounding numbers
+during arithmetic and conversions;</li>
+<li>operations: arithmetic and other operations (such as trigonometric
+functions) on arithmetic formats;</li>
+<li>exception handling: indications of exceptional conditions (such as
+division by zero, overflow, etc.).</li>
+</ul>
+<p>Clearly a standard such as this is crucial for interoperability and
+compatibility between systems and programming languages. The standard
+has been widely adopted.</p>
+<p>Fortran supports the IEEE 754 standard via three intrinsic
+modules:</p>
+<ul>
+<li><code>ieee_exceptions</code>;</li>
+<li><code>ieee_arithmetic</code>;</li>
+<li><code>ieee_features</code>.</li>
+</ul>
+<p>Note that this was a “late” addition, these modules were introduced
+only in the Fortran 2003 specification, and it has taken more than a
+decade before compilers added reliable support for them.</p>
+<p>Recently John Gustafson proposed <a href="https://en.wikipedia.org/wiki/Unum_(number_format)">Unum</a>, an
+alternative to IEEE 754 that has many interesting properties and
+generated considerable attention from vendors in the scientific
+computing market, but thus far no implementations have emerged.</p>
+<h2 id="versus--0.0">0.0 versus -0.0</h2>
+<p>IEEE 754 specifies two ways to represent zero, positive and negative.
+The Fortran specification states that <code>0.0 == -0.0</code>. This is
+illustrated by the program below.</p>
+<pre class="fortran"><code>program ieee754
+    implicit none
+    real :: zero, minus_zero = 0
+
+    minus_zero = sign(zero, -1.0)
+    print '(A, 2F7.2)', '0 vs. -0: ', zero, minus_zero
+    if (zero == minus_zero) then
+        print '(A)', '0 == -0'
+    else
+        print '(A)', '0 / -0'
+    end if
+    print '(A, F5.1)', 'sqrt(0.0) = ', sqrt(zero)
+    print '(A, F5.1)', 'sqrt(-0.0) = ', sqrt(minus_zero)
+end program ieee754</code></pre>
+<p>So although positive and negative zero have two distinct bit
+representations, the values are arithmetically the same, although they
+have distinct string representations for formatted output.</p>
+<h2 id="infinity">Infinity</h2>
+<p>Some operations such as raising a number to a large power, or
+dividing it by a very small number will yield <code>Infinity</code> or
+<code>-Infinity</code>. These are valid IEEE 754 values and can be
+computed with.</p>
+<p>Needless to say that you are likely to be disappointed with the
+result of your computation since any operation on an infinite value will
+result in an infinite value or a NaN. However, it is easy to check
+whether a value is finite or not.</p>
+<p>The intrinsic module <code>ieee_arithmetic</code> has a function
+<code>ieee_is_finite</code> that will return <code>.true.</code> when
+its argument is finite, <code>.false.</code> otherwise.</p>
+<p>In the same intrinsic module you will find a function
+<code>ieee_value</code> that can be used to create a positive or
+negative IEEE representation for infinity. The constants
+<code>ieee_positive_inf</code> and <code>ieee_negative_inf</code> will
+determine the value.</p>
+<pre class="fortran"><code>...
+use, intrinsic :: ieee_arithmetic, only : ieee_value, ieee_positive_inf
+use, intrinsic :: iso_fortran_env, only : DP =&gt; REAL32
+real(kind=DP) :: infinity
+...
+infinity = ieee_value(0.0_DP, ieee_positive_inf)
+...</code></pre>
+<p>The first argument of the function <code>ieee_value</code> is a real
+value that is used to determine the kind of the result. The second
+argument is the IEEE class.</p>
+<h2 id="not-a-number-nan">Not a Number (NaN)</h2>
+<p>Some arithmetic operations are not well-defined, e.g., division of 0
+by 0, or the square root of a negative number. The IEEE 754
+representation of the “result” of such a computation is NaN (Not a
+Number). Further computations with NaN will result in further NaN
+values.</p>
+<p>Interestingly, NaN is the only IEEE 754 number that is not equal to
+itself.</p>
+<p>As with infinite values, you may want to check. This can be done
+using the <code>ieee_is_nan</code> function defined in the intrinsic
+module <code>ieee_arithmetic</code>. It returns <code>.true.</code> if
+the argument is NaN, <code>.false.</code> otherwise.</p>
+<p>A NaN value can be constructed explicitly using
+<code>ieee_value</code> for the class <code>ieee_quiet_nan</code>.</p>
+<h2 id="controlling-ieee-exception-handling">Controlling IEEE exception
+handling</h2>
+<p>The IEEE 754 standard defines five execptions: *
+<code>IEEE_INVALID</code>; * <code>IEEE_DIVIDE_BY_ZERO</code>; *
+<code>IEEE_OVERFLOW</code>; * <code>IEEE_UNDERFLOW</code>; *
+<code>IEEE_INEXACT</code>.</p>
+<p>An <code>IEEE_INVALID</code> exception occurs for invalid
+mathematical operations such as the ones we discussed in the section
+‘Not a Number (NaN)’ above. Similarly, an <code>IEEE_OVERFLOW</code>
+exception is thrown when an arithmetic computation results in positive
+or negative infinity as discussed in the section ‘Infinity’ above. As
+the name implies <code>IEEE_DIVIDE_BY_ZERO</code> occurs whenever you
+divide by zero.</p>
+<p>These three exceptions are the ones you are mostly interested in.
+<code>IEEE_USUAL</code> is an array that defines them for
+convenience.</p>
+<p>The <code>IEEE_UNDERFLOW</code> exception can sometimes be of
+interest. It occurs when a small positive or negative value is computed
+that can not be represented by a normal number. The IEEE 754 standard
+allows for gradual underflow by using denormalized (or subnormal)
+numbers.</p>
+<p>The <code>IEEE_INEXACT</code> exception occurs when precision is
+lost. Since this happens for many floating point computations, this
+exception is typically not of interest.</p>
+<p>You can control whether a program halts when an IEEE exception occurs
+either</p>
+<ul>
+<li>globally using a compiler flag (e.g.,
+<code>-ffpe-trap=invalid,zero,overlow</code>), or</li>
+<li>in your code by using the <code>ieee_set_halting_mode</code>
+subroutine.</li>
+</ul>
+<p>The latter method allows much greater control since you can switch
+the halting mode to true for specific procedures or calculations. For
+instance, the statement below will set the halting mode for
+<code>IEEE_INVALID</code> to true, which means that the program will
+halt when an invalid operation occurs.</p>
+<pre class="fortran"><code>call ieee_set_halting_mode(IEEE_INVALID, .true.)</code></pre>
+<p>At some later point in the code, you can switch the halting mode back
+to false by using the same call with <code>.false.</code> as the
+argument.</p>
+<p>The value of the halting mode can be checked at any point using</p>
+<pre class="fortran"><code>...
+logical :: stat
+...
+call ieee_get_halting_mode(IEEE_INVALID, stat)
+...</code></pre>
+<h2 id="checking-for-ieee-exceptions">Checking for IEEE exceptions</h2>
+<p>Regardless of the halting mode the processor will set flags when an
+exception occurs. A flag can be quiet (<code>.false.</code>) or
+signalling (<code>.true.</code>) where the latter indicates that an
+exception was thrown.</p>
+<p>The value of a flag can be checked using the subroutine
+<code>ieee_get_flag</code> with the flag type and a logical variable as
+argument, e.g.,</p>
+<pre class="fortran"><code>...
+logical :: stat
+...
+call ieee_get_flag(IEEE_INVALID, stat)
+...</code></pre>
+<p>Depending on the value of <code>stat</code>, appropriate action can
+be taken.</p>
+<p>You can also check for all the “usual suspects” at once using the
+array <code>IEEE_USUAL</code>, i.e.,</p>
+<pre class="fortran"><code>...
+local, dimension(size(IEEE_USUAL)) :: stats
+...
+call ieee_get_flag(IEEE_USUAL, stats)
+if (any(stats)) then
+    ...
+end if</code></pre>
+<p>You can also clear the flags when you have dealt with the exception
+and your computation is ready to proceed, e.g.,</p>
+<pre class="fortran"><code>call ieee_set_flag(IEEE_INVALID, .false.)</code></pre>

@@ -1,0 +1,444 @@
+<h1 id="text-output">Text output</h1>
+<p>Fortran has fairly sophisticated input/output features. It has three
+access modes, sequential, direct and stream access. File records can be
+formatted or unformatted. Each of these access modes and record types
+has its respective merits and you will learn about all of them.</p>
+<p>I/O operations can be done on two types of files, internal, i.e., in
+memory, and external, i.e., files on a file system. The latter is
+arguably the most widely used, although there are applications for the
+former as well. In Fortran, file operations are associated with unit
+numbers, which you can compare with file descriptors in C.</p>
+<p>In this section we will concentrate on formatted, sequential output
+on external files.</p>
+<h2 id="writing-data">Writing data</h2>
+<p>Fortran has two statements to write data, <code>print</code> and
+<code>write</code>. The print statement will write data to standard
+output, i.e., the data that will be displayed by the terminal while your
+application runs.</p>
+<p>The write statement is more general since it can write to arbitrary
+units, although it can be used to write to standard output as well when
+the appropriate unit number is specified. The unit number of standard
+output is defined in the intrinsic module <code>iso_fortran_env</code>
+and is called <code>output_unit</code>.</p>
+<p>A second distinction between the print and the write statements is
+that the former can only do formatted, sequential output, while write
+can do any type of output. Since the print statement is the simplest, we
+will first discuss this.</p>
+<h3 id="print-statement">print statement</h3>
+<p>The general form of the print statement is given below.</p>
+<pre><code>print &lt;fmt&gt;, &lt;list-of-expressions&gt;</code></pre>
+<p>The <code>&lt;list-of-expressions&gt;</code> is a comma separated
+list of expressions, e.g., variables, mathematical expression or
+function calls.</p>
+<p>The simplest value for the format specifier <code>&lt;fmt&gt;</code>
+is simply <code>*</code>. This leaves it up to the Fortran runtime to
+determine the appropriate output format. For very simple I/O this may be
+sufficient. The following code illustrates the default output format for
+various data types.</p>
+<pre class="fortran"><code>program print_test
+    use, intrinsic :: iso_fortran_env, only : SP =&gt; REAL32, DP =&gt; REAL64
+    implicit none
+    integer, parameter :: n = 15
+    real(kind=SP), parameter :: x = 3.14_SP
+    real(kind=DP), parameter :: y = 2.69_DP
+    character(len=10), parameter :: c = 'abc'
+    logical, parameter :: l = .true.
+    type udf
+        real :: x
+        integer :: n
+    end type udf
+    type(udf), parameter :: u = udf(x = 3.5, n = 7)
+    real, dimension(3) :: v = [ 3.5, 5.7, 7.3 ]
+    integer, dimension(2, 3) :: A = reshape( [ 3, 7, 5, 9, 2, 4 ], [ 2, 3 ])
+
+    print *, '|', n, '|'
+    print *, '|', x, '|'
+    print *, '|', y, '|'
+    print *, '|', c, '|'
+    print *, '|', l, '|'
+    print *, '|', u, '|'
+    print *, '|', v, '|'
+    print *, '|', A, '|'
+end program print_test</code></pre>
+<p>This application produces the following output.</p>
+<pre><code> |          15 |
+ |   3.14000010     |
+ |   2.6899999999999999      |
+ |abc       |
+ | T |
+ |   3.50000000               7 |
+ |   3.50000000       5.69999981       7.30000019     |
+ |           3           7           5           9           2           4 |</code></pre>
+<p>As you can see, using the <code>*</code> format specifier, the print
+statement can print scalar values such as real and integer numbers,
+logical and character values, but also user defined types and (multi-)
+dimensional arrays.</p>
+<p>Note the single space at the start of each line. Each print statement
+will write to a new line of the output file.</p>
+<p>Although this is no doubt the easiest way to write to standard
+output, the formatting is likely not always what you want it to look
+like. This is where non-trivial format specifiers come in.</p>
+<h2 id="format-specification">Format specification</h2>
+<p>To control the format of the output, the print statement allows to
+provide a format string, also called edit descriptor. This can either be
+a literal string, or a character variable.</p>
+<p>For each data type, one or more descriptors are available, e.g.,
+<code>I</code> for integer, <code>E</code> and <code>F</code> for real
+values, <code>A</code> for characters and so on. The descriptor is
+typically followed by a number indicating the number of characters to be
+used to represent the value. If the width is not sufficient to represent
+the values, <code>*</code> characters will be printed instead. It is
+rather frustrating to perform a long computation, and end up with output
+consisting (partly) of only asterisk symbols, so choose your width
+wisely.</p>
+<p>The following program illustrates the point.</p>
+<pre class="fortran"><code>program print_asterisks
+    implicit none
+    integer :: i = 123456
+    character(len=6) :: c = 'abcdef'
+
+    print '(I8)', i
+    print '(I4)', i
+
+    print '(A8)', c
+    print '(A4)', c
+
+end program print_asterisks</code></pre>
+<p>The output produced by this application is shown below.</p>
+<pre><code>  123456
+****
+  abcdef
+abcd</code></pre>
+<p>As you can see, it is possible to print character values with a width
+that is less than the length of the string, but you loose
+information.</p>
+<h3 id="integer-edit-descriptor">Integer edit descriptor</h3>
+<p>The edit descriptor for integer values is <code>I&lt;w&gt;</code>,
+where <code>&lt;w&gt;</code> is a positive integer that specifies the
+width. The value is right-aligned, and padded with spaces if necessary.
+For positive values, no sign is printed.</p>
+<p>For example, the descriptor <code>I5</code> would result in the
+following output for</p>
+<table>
+<thead>
+<tr>
+<th>value</th>
+<th>output</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>123</td>
+<td><code>##123</code></td>
+</tr>
+<tr>
+<td>-123</td>
+<td><code>#-123</code></td>
+</tr>
+<tr>
+<td>123456</td>
+<td><code>*****</code></td>
+</tr>
+<tr>
+<td>-12345</td>
+<td><code>*****</code></td>
+</tr>
+</tbody>
+</table>
+<p>The character <code>#</code> is used to visually represent a space,
+it would of course not be written out.</p>
+<p>A second form of the descriptor is <code>I&lt;w&gt;.&lt;d&gt;</code>
+where <code>&lt;w&gt;</code> is again the width of the string to be
+written, and <code>&lt;d&gt;</code> is the number of digits. If the
+number of characters to represent the integer is less than
+<code>&lt;d&gt;</code>, the value is padded with <code>0</code>.</p>
+<p>For example, the descriptor <code>I5.3</code> would result in the
+following output for</p>
+<table>
+<thead>
+<tr>
+<th>value</th>
+<th>output</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>123</td>
+<td><code>##123</code></td>
+</tr>
+<tr>
+<td>12</td>
+<td><code>##012</code></td>
+</tr>
+<tr>
+<td>-1</td>
+<td><code>#-001</code></td>
+</tr>
+<tr>
+<td>123456</td>
+<td><code>*****</code></td>
+</tr>
+</tbody>
+</table>
+<p>Obviously, <code>&lt;d&gt;</code> should be less than or equal to
+<code>&lt;w&gt;</code>.</p>
+<p>It is very convenient that <code>&lt;w&gt;</code> can be equal to 0,
+in which case the minimum width required to show the value is
+automatically computed. It can be combined with a specification for the
+number of digits, e.g., <code>I0.4</code> which would apply zero-padding
+for integer values with a width of less than 3.</p>
+<h3 id="real-edit-descriptors">Real edit descriptors</h3>
+<p>To format real values, quite some options are available. The most
+common ones are <code>F</code> and <code>E</code>. They can be used for
+single and double precision values.</p>
+<h4 id="f-edit-descriptor"><code>F</code> edit descriptor</h4>
+<p>The <code>F</code> format the real value in floating point notation.
+Similar to the integer edit descriptor, the width <code>&lt;w&gt;</code>
+should be specified, and optionally, <code>&lt;d&gt;</code>, the number
+of digits after the decimal dot. For example, for <code>F6.2</code> the
+following strings would be written.</p>
+<table>
+<thead>
+<tr>
+<th>value</th>
+<th>output</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1.23</td>
+<td><code>##1.23</code></td>
+</tr>
+<tr>
+<td>1.239</td>
+<td><code>##1.24</code></td>
+</tr>
+<tr>
+<td>-1.23</td>
+<td><code>#-1.23</code></td>
+</tr>
+<tr>
+<td>1.23e-2</td>
+<td><code>##0.01</code></td>
+</tr>
+<tr>
+<td>1.23e-7</td>
+<td><code>##0.00</code></td>
+</tr>
+<tr>
+<td>1.23e7</td>
+<td><code>******</code></td>
+</tr>
+</tbody>
+</table>
+<p>Similar to the integer edit descriptor, the width can also be 0 and
+in that case the appropriate width will be computed, e.g.,
+<code>F0.3</code> would write values with 3 digits after the decimal
+dot.</p>
+<h4 id="e-en-es-edit-descriptors"><code>E</code>, <code>EN</code>,
+<code>ES</code> edit descriptors</h4>
+<p>The <code>E</code> edit descriptor will output real values in
+scientific notation. For example, for <code>E10.2</code> the output
+would be.</p>
+<table>
+<thead>
+<tr>
+<th>value</th>
+<th>output</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1.23</td>
+<td><code>##0.12e+01</code></td>
+</tr>
+<tr>
+<td>1.29</td>
+<td><code>##0.13e+01</code></td>
+</tr>
+<tr>
+<td>-1.23</td>
+<td><code>#-0.12e+01</code></td>
+</tr>
+<tr>
+<td>1.23e5</td>
+<td><code>##0.12e+06</code></td>
+</tr>
+</tbody>
+</table>
+<p>The results of edit descriptor can be somewhat inconsistent since
+leading zeroes will be left out in order to fit the width if
+required.</p>
+<p>Note that the width <em>can not</em> be equal to zero according to
+the Fortran specification. However, some compilers support it (GCC 10.x)
+while others do not (Intel 2018).</p>
+<p>The <code>E</code> edit descriptor can take a second form:
+<code>e&lt;w&gt;.&lt;d&gt;e&lt;x&gt;</code> where <code>&lt;w&gt;</code>
+and <code>&lt;d&gt;</code> have the same semantics as previously
+explained. The <code>&lt;x&gt;</code> is the number of digits used for
+the exponent. For example, <code>E15.4e3</code>would write 123.45678 as
+<code>####0.1235e+003</code>.</p>
+<p>The <code>ES</code> descriptor is very similar to the <code>E</code>
+edit descriptor, although it will ensure that the decimal is between 1
+and 9. This output format is more in line with other programming
+languages such as C, C++ and Python.</p>
+<p>The <code>EN</code> produces output in engineering notation, rather
+than scientific notation. For example, the value 12345.678 would be
+written as <code>#12.35e+03</code> when using the edit descriptor
+<code>EN10.2</code>.</p>
+<p>There is a relationship between the width and the number of digits.
+For single precision numbers,
+<code>&lt;w&gt; &gt;= &lt;d&gt; + 7</code>, and
+<code>&lt;w&gt; &gt;= &lt;d&gt; + 9</code> for double precision. For the
+second from of the edit descriptors,
+<code>&lt;w&gt; &gt;= &lt;d&gt; + &lt;x&gt; + 5</code>.</p>
+<h4 id="complex-numbers">Complex numbers</h4>
+<p>For complex numbers, two edit descriptors for real values have to be
+provided. They can, but don’t have to be the same. For instance, the
+edit descriptor <code>E10.3,E10.3</code> could be used.</p>
+<p>Note that this would be better written as <code>2E10.3</code> as you
+will see later.</p>
+<h3 id="logical-edit-descriptor">Logical edit descriptor</h3>
+<p>The edit descriptor for logical values is <code>L&lt;w&gt;</code>. It
+will print <code>F</code> for false, <code>T</code> for true. The value
+will be right-aligned, and padded with spaces if the width is larger
+than one.</p>
+<h3 id="character-edit-descriptor">Character edit descriptor</h3>
+<p>The edit descriptor for character values is <code>A</code> or
+<code>A&lt;w&gt;</code> where <code>&lt;w&gt;</code> represents the
+width. If the width <code>&lt;w&gt;</code> is omitted, the length of the
+string will be used. If the width is larger than the length of the
+string, the output is left-aligned, and padded with spaces.</p>
+<h3 id="general-edit-descriptor">General edit descriptor</h3>
+<p>The general edit descriptor <code>G&lt;w&gt;.&lt;d&gt;</code> can be
+used for integer, real, logical and character values. Its simplest form
+is <code>G0</code> where it will choose the appropriate width for the
+value. Although this is very convenient, you should note that for real
+values, the number of digits is compiler dependent, so the code may not
+be entirely portable.</p>
+<h2 id="combining-descriptors">Combining descriptors</h2>
+<p>Up to now, we have discussed edit descriptors for individual values.
+However, you will often use edit descriptors to output multiple values.
+For instance, to output a real value followed by an integer value, you
+would use, e.g., `(E12.3, I5)’. The following code fragment illustrates
+a full example.</p>
+<pre class="fortran"><code>...
+real :: x = 17.3e5
+integer :: i = 19
+...
+print '(E12.3, I5)', x, i
+...</code></pre>
+<p>This would produce the following output. ~~~~ 0.173e+05 19 ~~~~</p>
+<p>An edit descriptor can also be repeated, for instance, to write five
+real numbers, you could use <code>(5E13.3)</code>. This repetion factor
+can also be <code>*</code> to indicate an unlimited number of
+repetitions, e.g.,</p>
+<pre><code>subroutine print_vector(label, vector)
+    implicit none
+    character(len=:), intent(in) :: label
+    real, dimension(:), intent(in) :: vector
+
+    print '(A, ": ", *(E13.3))', label, vector
+end subroutine print_vector</code></pre>
+<p>Parentheses can be used to group edit descriptors. For instance, to
+print three pairs of a string and an integer value, you can use
+<code>(3(A, I0))</code>.</p>
+<p>The example above also illustrates that string literals can be part
+of an edit descriptor, i.e., <code>": "</code> in this example.</p>
+<p>You can use the <code>/</code> edit descriptor to start a new line,
+e.g., the descriptor <code>(I0,/,I0)</code> would write the second
+integer on the next line of output.</p>
+<h2 id="output-to-files">Output to files</h2>
+<p>Writing to a file is very similar to writing to standard output. The
+write statement takes the unit number as its first argument. For
+standard output and standard error, those are defined in the
+<code>iso_fortran_env</code> module.</p>
+<p>To write to a file, that file first has to be opened. You can either
+specify a unit number yourself, or have the Fortran runtime assign one
+for you.</p>
+<p>The open statement takes a lot of arguments:</p>
+<ol type="1">
+<li><code>unit</code>, the unit number to use, or <code>newunit</code>
+to assign a new unit number;</li>
+<li><code>file</code>, the file name to use;</li>
+<li><code>access</code>, this can be <code>sequential</code>,
+<code>direct</code> or <code>stream</code>;</li>
+<li><code>action</code>, this can be <code>write</code>,
+<code>readwrite</code> or <code>read</code>;</li>
+<li><code>status</code>, this can be <code>new</code>, <code>old</code>,
+<code>replace</code> or <code>scratch</code>;</li>
+<li><code>form</code>, this can be <code>formatted</code> or
+<code>unformatted</code>;</li>
+<li><code>position</code>, this is the position to start writing, it can
+be <code>rewind</code> or <code>append</code>;</li>
+<li><code>iostat</code>, represents the exit status of the statement,
+non-zero if there were issues;</li>
+<li><code>iomsg</code>, this is the error message in case something went
+wrong.</li>
+</ol>
+<p>You will learn about the options in other sections, here we will only
+discuss <code>access='write'</code>, <code>status='new'</code>,
+<code>status='replace'</code>, <code>form='formatted'</code>.</p>
+<p>For example, you can use the following open statement to open a new
+file <code>text.txt</code> for writing formatted output.</p>
+<pre class="fortran"><code>program newunit_test
+    use, intrinsic :: iso_fortran_env, only : error_unit
+    implicit none
+    integer :: unit_nr, istat
+    character(len=1024) :: msg
+
+    open (newunit=unit_nr, file='text.txt', access='sequential', action='write', &amp;
+          status='new', form='formatted', iostat=istat, iomsg=msg)
+    if (istat /= 0) then
+        write (unit=error_unit, fmt='(2A)') 'error: ', trim(msg)
+        stop 1
+     end if
+     write (unit=unit_nr, fmt='(A)') 'hello world!'
+     close (unit=unit_nr)
+end program newunit_test</code></pre>
+<p>The unit number will be assigned to the variable <code>unit_nr</code>
+in the open statement, this is the most convenient way to avoid
+conflicting unit numbers. The value assigned to the variable
+<code>iostat</code> is checked, and if the value is non-zero, an error
+message is written to the <code>error_unit</code>. If that is not the
+case, the unit number can be used for subsequent operations, such as the
+write statement. When all data has been written, the unit can be closed
+using the close statement.</p>
+<p>It is good practice to always use <code>iostat</code> to verify that
+I/O operations succeeded, also in, e.g., write and close statements
+where they have been omitted for the sake of brevity. For instance, a
+write statement might fail because you exceed disk quota.</p>
+<p>It is also good practice to close a unit. Failing to do so may result
+in data loss or corrupt files when the unit was open for
+<code>write</code> or <code>readwrite</code>.</p>
+<p>The file name can be given as an absolute path, or, as in this
+example, a relative path. In the latter case, the path is interpreted
+relative to the current working directory as you would expect.</p>
+<p>The status of the file can be <code>new</code>, <code>old</code> or
+<code>replace</code> for action <code>write</code>. If the access is
+<code>new</code>, an error occurs when the file already exists. If the
+status is <code>old</code>, an error occurs when the file does not yet
+exist. If the status is <code>replace</code>, a new file will be created
+if it doesn’t exist yet, or it will be overwritten otherwise.</p>
+<p>Most programming languages allow to open files directly in append
+mode, i.e., new data will be added at the end of an existing file. This
+is possible in Fortran as well, but it is somewhat more cumbersome. You
+would have to open an existing file with status <code>old</code>, and
+additionally specify <code>position='append'</code>.</p>
+<h2 id="creating-strings">Creating strings</h2>
+<p>Although this section is about writing to text files, as a small
+aside, we will briefly discuss creating strings. The write statement can
+be applied to a character variable to create a formatted string. As an
+example, consider that you might want to let the number of digits in an
+edit description for a real number depend on some runtime
+conditions.</p>
+<pre class="fortran"><code>...
+character(len=10) :: fmt_str
+integer :: nr_digits
+real :: x
+...
+write (fmt_str, "('(E', I0, '.', I0, ')')" nr_digits + 7, nr_digits
+write (unit=output_unit, fmt=fmt_str) x
+...</code></pre>
+<p>If the variable <code>nr_digits</code> has the value 5, the value of
+<code>fmt_str</code> would be `(E12.5)’.</p>

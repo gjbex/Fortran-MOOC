@@ -1,0 +1,611 @@
+<h1 id="basic-data-types">Basic data types</h1>
+<p>Just as most programming languages, Fortran has a number of basic
+data types.</p>
+<h2 id="numerical-types">Numerical types</h2>
+<p>As Fortran is a language primarily designed for scientific computing,
+it has a number of numerical types representing integers, real and
+complex numbers. All these types come in various kinds, i.e., roughly
+the number of bits used to represent their values.</p>
+<h3 id="integer-values">Integer values</h3>
+<p>Fortran’s <code>integer</code> is the integral data type to represent
+mathematical integers. Integer constants are values such as
+<code>23</code>, <code>0</code>, <code>-39</code> and so on.</p>
+<p>Besides the unary <code>-</code> operator that changes the sign of an
+integer, the following binary operators are defined on integers:</p>
+<ul>
+<li><code>+</code>: addition</li>
+<li><code>-</code>: subtraction</li>
+<li><code>*</code>: multiplication</li>
+<li><code>/</code>: integer division, e.g., <code>3/2 == 1</code></li>
+<li><code>**</code>: exponentiation</li>
+</ul>
+<p>These operators are listed according to increasing precedence, so
+<code>1 + 2*3**4</code> evaluates to 163.</p>
+<p>Integers can be compared using the following binary operators.</p>
+<ul>
+<li><code>==</code>: equal,</li>
+<li><code>/=</code>: not equal,</li>
+<li><code>&lt;</code>: less than,</li>
+<li><code>&lt;=</code>: less than or equal,</li>
+<li><code>&gt;</code>: larger than,</li>
+<li><code>&gt;=</code>: larger than or equal.</li>
+</ul>
+<p>Furthermore, the Fortran specification defines quite a number of
+intrinsic procedures that operate on integers such as <code>abs</code>
+(absolute value) and <code>mod</code> (modulo).</p>
+<p>The intrinsic <code>iso_fortran_env</code> module defines four
+integer kinds:</p>
+<ul>
+<li><code>INT8</code>: 1 byte representation,</li>
+<li><code>INT16</code>: 2 byte representation,</li>
+<li><code>INT32</code>: 4 byte representation,</li>
+<li><code>INT64</code>: 8 byte representation.</li>
+</ul>
+<p>So, 8, 16, 32 and 64 are the number of bits to represent an integer
+value.</p>
+<ul>
+<li><code>integer(kind=IN8)  :: i</code> implies that \(-2^7  \le i &lt; 2^7\)</li>
+<li><code>integer(kind=IN16) :: i</code> implies that \(-2^{15} \le i &lt; 2^{15}\)</li>
+<li><code>integer(kind=IN32) :: i</code> implies that \(-2^{31} \le i &lt; 2^{31}\)</li>
+<li><code>integer(kind=IN64) :: i</code> implies that \(-2^{63} \le i &lt; 2^{63}\)</li>
+</ul>
+<p>As you see, the largest integer that can be represented in Fortran is
+\(2^{63} - 1\). The largest value for
+a kind can be computed using the <code>huge</code> function, e.g.,
+<code>huge(int(0, kind=INT16)) == 32767</code>. Another useful function
+to determine properties of an integer kind is <code>range</code>, it
+returns the order of (decimal) magnitude for the kind. The following
+table summarizes the results of <code>huge</code> and <code>range</code>
+on each of the integer kinds.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>INT8</th>
+<th>INT16</th>
+<th>INT32</th>
+<th>INT64</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>huge</code></td>
+<td>127</td>
+<td>32767</td>
+<td>2147483647</td>
+<td>9223372036854775807</td>
+</tr>
+<tr>
+<td><code>range</code></td>
+<td>2</td>
+<td>4</td>
+<td>9</td>
+<td>18</td>
+</tr>
+</tbody>
+</table>
+<p>Integer arithmetic can be subject to overflow. Consider the following
+program.</p>
+<pre class="fortran"><code>program overflow
+    use, intrinsic :: iso_fortran_env, only : INT8
+    implicit none
+    integer(kind=INT8) :: val
+    integer :: i
+
+    val = 125
+    do i = 1, 6
+        print *, val
+        val = val + 1
+    end do
+end program overflow</code></pre>
+<p>You might expect that it will print integer values starting at 125
+and up to 129. However, note that the kind is <code>INT8</code>, so the
+maximum value that can be stored in <code>val</code> is 127. Indeed, the
+output of the application actually is given below.</p>
+<pre><code>125
+126
+127
+-128
+-127
+-126</code></pre>
+<h3 id="real-values">Real values</h3>
+<p>The <code>real</code> type in Fortran represents mathematical real
+numbers. Always bear in mind that values of this type have a limited
+precision. Constants of this type are, e.g., <code>-3.5</code>,
+<code>0.0032</code>, <code>1.36e6</code> (\(1.36 \cdot 10^6\)) , <code>-1.3e-4</code>
+(\(-1.3 \cdot 10^{-4}\)).</p>
+<p>The operators defined on real numbers are the same as for integers,
+except that <code>/</code> is the division, so
+<code>1.0/2.0 == 0.5</code>.</p>
+<p>The comparison operators for real values are the same as for
+integers, but of course, you have to bear in mind that testing for
+equality (<code>==</code>) and inequality (<code>/=</code>) may not make
+much sense since values are computed, and hence subject to round-off
+errors.</p>
+<p>For instance, while mathematically, \((\sqrt{2})^2 = 2\), this does not hold for
+floating point values.</p>
+<pre class="fortran"><code>program sqrt_2
+    use, intrinsic :: iso_fortran_env, only : SP =&gt; REAL32, DP =&gt; REAL64
+    implicit none
+
+    print *, sqrt(2.0_SP)**2 == 2.0_SP
+    print *, sqrt(2.0_DP)**2 == 2.0_DP
+end program sqrt_2</code></pre>
+<p>This will print the following output.</p>
+<pre><code>F
+F</code></pre>
+<p>When compiling the code above, the compiler will warn that testing
+equality of two real values is not a good idea.</p>
+<p>The list of intrinsic procedures defined on real numbers is quite
+impressive and includes the usual suspects such as <code>sqrt</code>
+(square root), <code>exp</code> (exponential function), the
+trigonometric functions and their inverses, but also <code>erf</code>
+and <code>erfc</code> (error function and complementary error function)
+and even Bessel functions.</p>
+<p>The <code>iso_fortran_env</code> module defines three kinds for real
+numbers:</p>
+<ul>
+<li><code>REAL32</code>: 4 byte representation, single precision,</li>
+<li><code>REAL64</code>: 8 byte representation, double precision,</li>
+<li><code>REAL128</code>: 16 byte representation, quad precision.</li>
+</ul>
+<p>As for integers, the function <code>huge</code> can be used to
+determine the largest number that can be represented by a real kind.</p>
+<table>
+<colgroup>
+<col style="width: 13%"/>
+<col style="width: 16%"/>
+<col style="width: 25%"/>
+<col style="width: 45%"/>
+</colgroup>
+<thead>
+<tr>
+<th></th>
+<th>REAL32</th>
+<th>REAL64</th>
+<th>REAL128</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>tiny</code></td>
+<td>1.17549435E-38</td>
+<td>2.2250738585072014E-308</td>
+<td>3.36210314311209350626267781732175260E-4932</td>
+</tr>
+<tr>
+<td><code>epsilon</code></td>
+<td>1.19209290E-07</td>
+<td>2.2204460492503131E-016</td>
+<td>1.92592994438723585305597794258492732E-0034</td>
+</tr>
+<tr>
+<td><code>huge</code></td>
+<td>3.40282347E+38</td>
+<td>1.7976931348623157E+308</td>
+<td>1.18973149535723176508575932662800702E+4932</td>
+</tr>
+<tr>
+<td><code>precision</code></td>
+<td>6</td>
+<td>15</td>
+<td>33</td>
+</tr>
+</tbody>
+</table>
+<p>For each kind, <code>tiny</code> returns the smallest number that is
+larger than zero. <code>epsilon</code> returns the smallest number \(\epsilon\) such that \(1 &lt; 1 + \epsilon\). The precision is
+the number of significant digits for a value of that kind.</p>
+<p>Although the Fortran standard defines <code>REAL128</code>, it is not
+recommended to use this kind in general. Current CPUs have no support
+for it, hence there is a significant performance impact when computing
+with this kind of real values.</p>
+<p>Note that it is good practice to explicitly indicate the kind of a
+real value by adding a suffix.</p>
+<pre class="fortran"><code>...
+use, intrinsic :: iso_fortran_env, only : SP =&gt; REAL32, DP =&gt; REAL64
+...
+real(kind=SP) :: x
+real(kind=DP) :: y
+...
+x = 0.0_sp
+y = -1.5e-3_dp</code></pre>
+<h3 id="complex-values">Complex values</h3>
+<p>You won’t be surprised that Fortran has first-class support for
+complex numbers since the language has been designed for scientific
+computing. The name of the type is <code>complex</code>, and it has the
+same kinds as <code>real</code>, so <code>REAL32</code>,
+<code>REAL64</code> and <code>REAL128</code>. For instance,
+<code>complex(kind=REAL64)</code> means that the real and imaginary part
+of the complex variable will be stored as double precision values.</p>
+<p>The operators that are defined for real numbers also work as expected
+for complex numbers, as do many of the intrinsic procedures. There are a
+number of procedures that are specific to complex numbers such as
+<code>real</code> and <code>aimag</code> that return the real and
+imaginary part of a complex number respectively, but also
+<code>conjg</code> that computes the conjugate of a complex number.</p>
+<p>Somewhat confusingly, you can use a tuple notation to assign a
+constant to a complex variable, but for non-constant real and/or
+imaginary part, you would have to use the function that creates a
+complex value out of a real and an imaginary part. This function is
+called <code>cmplx</code>. as the following code fragment illustrates
+that initializes two complex variables <code>z1</code> and
+<code>z2</code>.</p>
+<pre class="fortran"><code>...
+use, intrinsic :: iso_fortran_env, only : DP =&gt; REAL64
+...
+complex(kind=DP) :: z1, z2
+real(kind=DP) :: re, im
+...
+z1 = (-0.622772_DP, 0.42193_DP)
+z2 = cmplx(re, im, kind=DP)
+...</code></pre>
+<h3 id="kind-and-type-conversions">Kind and type conversions</h3>
+<p>Sometimes you will want to do a type conversion, e.g., converting a
+real value into an integer. Fortran has many intrinsic procedures to
+accomplish this. It also has intrinsic procedures to convert a value to
+a different kind of the same type.</p>
+<h4 id="kind-conversions">Kind conversions</h4>
+<p>Every conversion procedure has an optional <code>kind</code>
+argument. From an <code>INT32</code> to an <code>INT64</code>, you would
+use</p>
+<pre class="fortran"><code>program type_conversion
+    use, intrinsic :: iso_fortran_env, only : I32 =&gt; INT32, I64 =&gt; INT64
+    implicit none
+    integer(kind=i32) :: i_i32
+    integer(kind=i64) :: i_i64
+
+    i_i64 = 2**40
+    i_i32 = int(i_i64, kind=I32)
+    print *, i_i32
+end program type_conversion</code></pre>
+<p>The <code>int</code> function is called with a <code>kind</code>
+argument specifying the result type, an <code>INT32</code> in this case.
+Note that the value of the variable <code>i_i64</code> can not be stored
+in a variable of <code>i_i32</code>, so the compiler will issue a
+warning about this. When you run the program and check the output, you
+will see the following, which may not be what you expect.</p>
+<pre><code>-2147483648</code></pre>
+<p>The conversion resulted in an overflow. This is the result of
+converting a larger kind into a smaller one: information is lost. Note
+that an inadvertent conversion such as this may give rise to very nasty
+bugs (hence the compiler warning).</p>
+<p>On the other hand, converting from a smaller kind to a larger one
+works perfectly well.</p>
+<pre class="fortran"><code>program type_conversion
+    use, intrinsic :: iso_fortran_env, only : I32 =&gt; INT32, I64 =&gt; INT64
+    implicit none
+    integer(kind=i32) :: i_i32
+    integer(kind=i64) :: i_i64
+
+    i_i32 = 2**10
+    i_i64 = int(i_i32, kind=I64)
+    print *, i_i64
+end program type_conversion</code></pre>
+<p>This application would print what you would expect.</p>
+<pre><code>1024</code></pre>
+<p>The <code>real</code> and <code>cmplx</code> functions do the same
+for <code>real</code> and <code>complex</code> values respectively.
+Converting from a smaller kind to a larger is no problem, converting
+from a larger to a smaller again gives problems, although thanks to the
+IEEE 754 standard (although there are caveats), bugs are easier to
+spot.</p>
+<pre class="fortran"><code>program type_conversion
+    use, intrinsic :: iso_fortran_env, only : &amp;
+        SP =&gt; REAL32, DP =&gt; REAL64
+    implicit none
+    real(kind=SP) :: x_sp
+    real(kind=DP) :: x_dp
+
+    x_dp = 1.0e100_DP
+    x_sp = real(x_dp, kind=SP)
+    print *, x_sp
+end program type_conversion</code></pre>
+<p>The overflow of the value for the variable <code>x_sp</code> results
+in <code>infinity</code>.</p>
+<pre><code>Infinity</code></pre>
+<h4 id="type-conversions">Type conversions</h4>
+<p>To truncate a real value to an integer, you can use
+<code>aint</code>, while to convert it to the nearest integer, you can
+use <code>anint</code>.</p>
+<p>To explicitly convert an integer to a real value, the function
+<code>real</code> can be used. That same function will also return the
+real part of a complex argument as you saw earlier. Similarly,
+<code>aimag</code> will return the imaginary part of a complex value as
+a real value.</p>
+<p>The function <code>cmplx</code> will convert two numbers to a complex
+value.</p>
+<h2 id="logical">Logical</h2>
+<p>The type logical represents Boolean values. It has only two constant
+values, <code>.TRUE.</code> and <code>.FALSE.</code>. The unary
+<code>.not.</code> operator represents the Boolean negation. The
+semantics of this unary and binary operators <code>.and.</code>,
+<code>.or.</code>, <code>.xor.</code>,<code>.eqv.</code> and
+<code>.neqv.</code> are summarized in the tables below.</p>
+<h3 id="negation">Negation</h3>
+<table>
+<thead>
+<tr>
+<th>p</th>
+<th><code>.not.</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>.TRUE.</code></td>
+<td><code>.FALSE.</code></td>
+</tr>
+<tr>
+<td><code>.FALSE.</code></td>
+<td><code>.TRUE.</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="conjunction">Conjunction</h3>
+<table>
+<thead>
+<tr>
+<th>p</th>
+<th>q</th>
+<th><code>.and.</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>.TRUE.</code></td>
+<td><code>.TRUE.</code></td>
+<td><code>.TRUE.</code></td>
+</tr>
+<tr>
+<td><code>.TRUE.</code></td>
+<td><code>.FALSE.</code></td>
+<td><code>.FALSE.</code></td>
+</tr>
+<tr>
+<td><code>.FALSE.</code></td>
+<td><code>.TRUE.</code></td>
+<td><code>.FALSE.</code></td>
+</tr>
+<tr>
+<td><code>.FALSE.</code></td>
+<td><code>.FALSE.</code></td>
+<td><code>.FALSE.</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="disjunction">Disjunction</h3>
+<table>
+<thead>
+<tr>
+<th>p</th>
+<th>q</th>
+<th><code>.or.</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>.TRUE.</code></td>
+<td><code>.TRUE.</code></td>
+<td><code>.TRUE.</code></td>
+</tr>
+<tr>
+<td><code>.TRUE.</code></td>
+<td><code>.FALSE.</code></td>
+<td><code>.TRUE.</code></td>
+</tr>
+<tr>
+<td><code>.FALSE.</code></td>
+<td><code>.TRUE.</code></td>
+<td><code>.TRUE.</code></td>
+</tr>
+<tr>
+<td><code>.FALSE.</code></td>
+<td><code>.FALSE.</code></td>
+<td><code>.FALSE.</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="exclusive-or">Exclusive or</h3>
+<table>
+<thead>
+<tr>
+<th>p</th>
+<th>q</th>
+<th><code>.neqv.</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>.TRUE.</code></td>
+<td><code>.TRUE.</code></td>
+<td><code>.FALSE.</code></td>
+</tr>
+<tr>
+<td><code>.TRUE.</code></td>
+<td><code>.FALSE.</code></td>
+<td><code>.TRUE.</code></td>
+</tr>
+<tr>
+<td><code>.FALSE.</code></td>
+<td><code>.TRUE.</code></td>
+<td><code>.TRUE.</code></td>
+</tr>
+<tr>
+<td><code>.FALSE.</code></td>
+<td><code>.FALSE.</code></td>
+<td><code>.FALSE.</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="equivalence">Equivalence</h3>
+<table>
+<thead>
+<tr>
+<th>p</th>
+<th>q</th>
+<th><code>.eqv.</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>.TRUE.</code></td>
+<td><code>.TRUE.</code></td>
+<td><code>.TRUE.</code></td>
+</tr>
+<tr>
+<td><code>.TRUE.</code></td>
+<td><code>.FALSE.</code></td>
+<td><code>.FALSE.</code></td>
+</tr>
+<tr>
+<td><code>.FALSE.</code></td>
+<td><code>.TRUE.</code></td>
+<td><code>.FALSE.</code></td>
+</tr>
+<tr>
+<td><code>.FALSE.</code></td>
+<td><code>.FALSE.</code></td>
+<td><code>.TRUE.</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="non-equivalence">Non-equivalence</h3>
+<table>
+<thead>
+<tr>
+<th>p</th>
+<th>q</th>
+<th><code>.eqv.</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>.TRUE.</code></td>
+<td><code>.TRUE.</code></td>
+<td><code>.FALSE.</code></td>
+</tr>
+<tr>
+<td><code>.TRUE.</code></td>
+<td><code>.FALSE.</code></td>
+<td><code>.TRUE.</code></td>
+</tr>
+<tr>
+<td><code>.FALSE.</code></td>
+<td><code>.TRUE.</code></td>
+<td><code>.TRUE.</code></td>
+</tr>
+<tr>
+<td><code>.FALSE.</code></td>
+<td><code>.FALSE.</code></td>
+<td><code>.FALSE.</code></td>
+</tr>
+</tbody>
+</table>
+<p>The precedence of the operators is from lowest to highest:</p>
+<ul>
+<li><code>.xor.</code>, <code>.eqv.</code>, <code>.neqv.</code></li>
+<li><code>.or.</code></li>
+<li><code>.and.</code></li>
+<li><code>.not.</code></li>
+</ul>
+<h2 id="character-values">Character values</h2>
+<p>To represent characters and strings, you can use the
+<code>character</code> type in Fortran. The following code snippet
+declares two variables, the first, <code>c</code>, that has a single
+character as a value, the other, <code>str</code>, can have sequences of
+5 characters, i.e., strings if you like, as values.</p>
+<pre class="fortran"><code>character :: c
+character(len=5) :: str</code></pre>
+<p>For convenience, we will use the term “string variable” to mean a
+variable with type <code>character(len=...)</code>.</p>
+<p>A single binary operator <code>//</code> is defined on strings,
+representing concatenation.</p>
+<p>The comparison operators can be used to compare strings, but note
+that they will use the order defined on characters by the CPU, which (in
+very rare cases) may not be ASCII as you would expect. There are
+intrinsic functions that guarantee comparison according to lexicographic
+order.</p>
+<ul>
+<li><code>llt(x, y)</code>: less than,</li>
+<li><code>lle(x, y)</code>: less or equal to,</li>
+<li><code>lgt(x, y)</code>: greater than,</li>
+<li><code>lge(x, y)</code>: greater or equal to,</li>
+<li><code>x == y</code>: equal to,</li>
+<li><code>x /= y</code>: not equal to.</li>
+</ul>
+<p>Literal values for <code>character</code> are sequences of characters
+quoted in either single or double quotes, e.g.,
+<code>'hello world'</code>, <code>'X'</code>,
+<code>"bananas"</code>.</p>
+<p>An assignment of the string <code>'hello world'</code> to the
+variable <code>str</code> would trigger a compiler warning, and the
+value of <code>str</code> would be <code>'hello'</code>. If you assign a
+string such as <code>'abc'</code> that is less than 5 characters to the
+variable <code>str</code>, the value of the latter will be
+<code>'abc  '</code>, i.e., the assigned value is padded with white
+spaces. Consequently, the length of <code>str</code> will always be
+5.</p>
+<p>Selecting a substring from a string variable is straightforward,
+e.g., <code>str(2:4)</code> would select the second through the fourth
+character, i.e., <code>'bc '</code>. Somewhat counter-intuitively,
+individual characters also have to be selected as a range, e.g.,
+<code>str(2:2)</code> would be the second character, i.e.,
+<code>'b'</code>.</p>
+<p>The intrinsic function <code>len</code> returns the length of a
+string, but including the padding white space. Since this is typically
+not of interest, the intrinsic function <code>len_trim</code> is defined
+which doesn’t take into account trailing white space, so
+<code>len_trim(str)</code> would return 3. The <code>trim</code>
+intrinsic function will return its argument’s value, but with trailing
+white space removed. This function is convenient for printing string
+values.</p>
+<p>Below is a program that reads from standard input, and verifies for
+each line whether that is a palindrome, i.e., a string that is the same
+when read from left to right, and from right to left.</p>
+<pre class="fortran"><code>program palindromes
+    use, intrinsic :: iso_fortran_env, only  : input_unit, iostat_end
+    implicit none
+    character(len=1024) :: buffer, msg
+    integer :: istat
+
+    do
+        read(unit=input_unit, fmt=*, iostat=istat, iomsg=msg) buffer
+        if (istat == iostat_end) exit
+        print '(L1)', is_palindrome(buffer)
+    end do
+
+contains
+
+    function is_palindrome(phrase) result(palindrome)
+        implicit none
+        character(len=*), intent(in) :: phrase
+        logical :: palindrome
+        integer :: i, n
+
+        n = len_trim(phrase)
+        palindrome = .true.
+        do i = 1, n/2
+            if (phrase(i:i) /= phrase(n-i+1:n-i+1)) then
+                palindrome = .false.
+                exit
+            end if
+        end do
+    end function is_palindrome
+
+end program palindromes</code></pre>
+<p>Since the function <code>is_palindrome</code> should work for a
+string of any length, the function’s argument is declared as a deferred
+length <code>character(len=*)</code>.</p>
+<p>Fortran has many intrinsic procedures to query and manipulate strings
+such as <code>index</code> to find the position of a substring in a
+string, <code>adjustl</code> and <code>adjustr</code> which will left or
+right align string respectively. For example, the result of
+<code>adjustr(str)</code> would be the string <code>'  abc'</code>.</p>
+<h3 id="type-conversions-1">Type conversions</h3>
+<p>For some applications it can be necessary to convert a character to
+its numerical representation, or vice versa.</p>
+<p>The intrinsic function <code>iachar</code> returns the ASCII value of
+the character, e.g., <code>iachar('a')</code> will return 97. The
+function <code>achar</code> does the reverse, given an ASCII value, it
+will return the corresponding character, e.g., <code>achar(65)</code>
+will return <code>'A'</code>.</p>

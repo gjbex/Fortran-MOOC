@@ -1,0 +1,269 @@
+<h1 id="inheritance">Inheritance</h1>
+<p>A very important aspect of object oriented programming is
+inheritance, i.e., creating classes that extend or specializing aspects
+of an existing class.</p>
+<p>Suppose you would like to add functionality to the
+<code>descriptive_stats_t</code> user defined type. You can already
+compute the mean value and the standard deviation, but now you are also
+interested in the median of the data set.</p>
+<p>To compute the median, you first have to sort your data values, and
+the median is * the middle value if the number of data values is odd,
+and * the average of the two middle values when the number of data
+values is even.</p>
+<p>This means that you can only compute the median if you keep track of
+all the values. However, a nice feature of the
+<code>descriptive_stats_t</code> implementation was that you could
+compute the mean and the standard deviation without that requirement.
+Since there will still be situation where you can’t or won’t compute the
+median, adding that functionality directly to
+<code>descriptive_stats_t</code> would be very limiting and make the
+class less useful. Hence it seems a creating a new class, say
+<code>median_stats_t</code> is the best option.</p>
+<p>Of course you could simply copy the procedures
+<code>get_nr_values</code>, <code>get_mean</code> and
+<code>get_stddev</code> from <code>descriptive_stats_t</code> into
+<code>median_stats_t</code> and be done with it. However, that would not
+be ideal. Suppose you find a bug in the implementation of
+<code>get_stddev</code>, you would have to fix the same code in two
+places, both for <code>descriptive_stats_t</code> and
+<code>median_stats_t</code>. This is quite error prone since it is
+likely that you will forget to fix one of the versions and be faced with
+some interesting bugs.</p>
+<p>Since an object of class <code>median_stats_t</code> should be able
+to compute the mean and standard deviation, and the procedures to
+accomplish that are identical to those in
+<code>descriptive_stats_t</code>, it would be very convenient if the
+latter could be used as the basis for <code>median_stats_t</code> which
+would extend it with data and procedures to compute the median as
+well.</p>
+<p>This is exactly what inheritance accomplishes. Consider the
+definition of <code>median_stats_t</code> below.</p>
+<pre class="fortran"><code>type, extends(descriptive_stats_t), public :: median_stats_t
+    private
+    real, dimension(:), allocatable :: values
+contains
+    procedure, public, pass :: add_value, get_median
+    final :: finalize_stats
+end type median_stats_t
+interface median_stats_t
+    module procedure init_stats
+end interface</code></pre>
+<p>The attribute <code>extends</code> ensures that the user defined type
+<code>median_stats_t</code> will have all the elements and type bound
+procedures that <code>descriptive_stats_t</code> has. So
+<code>median_stats_t</code> will have the elements
+<code>nr_values</code>, <code>sum</code> and <code>sum2</code> as well
+as the type bound procedures <code>get_nr_values</code>,
+<code>get_mean</code> and <code>get_stddev</code>, although they are not
+mentioned explicitly.</p>
+<p>The user defined type <code>median_stats_t</code> has an additional
+element <code>values</code> to store all data values added with the
+<code>add_value</code> method. Hence it should have its own
+implementation of the <code>add_value</code> method. It also has two
+additional type bound procedures <code>get_median</code> and
+<code>finalize_stats</code>.</p>
+<p>the procedures <code>init_stats</code> and
+<code>finalize_stats</code> will be discussed in a later section.</p>
+<p>In object oriented parlance, <code>descriptive_stats_t</code> is
+called the <em>base class</em> or the <em>parent class</em>, while
+<code>median_stats_t</code> is called a <em>derived class</em> or
+<em>child class</em> of <code>descriptive_stats_t</code>. In this case
+we have only a single base class and a single derived class, but there
+may be situation in which the derived class is used as the base class
+for another class, creating a multi-level hierarchy. If so, the terms
+<em>ancestor class</em> and <em>descendant class</em> are used to refer
+to classes higher and lower in the derivation hierarchy.</p>
+<p>As opposed to C++ or Python, Fortran supports single inheritance
+only, so a class can have one parent class, not multiple. This implies
+that the derivation relationship between classes can be represented as a
+tree. This design decision sidesteps a number of issues associated with
+multiple inheritance.</p>
+<p>Although this may seem like a limitation, it is easy to overcome by
+using, e.g., the facade design pattern. It would lead us too far to go
+into the details, but you can read the article <em><a href="https://doi.org/10.1155/2015/126069">Emulating multiple
+inheritance in Fortran 2003/2008</a></em> by Karla Morris if you are
+interested.</p>
+<h2 id="overriding-procedures">Overriding procedures</h2>
+<p>The <code>add_value</code> procedure bound to
+<code>median_stats_t</code> should do more that the one bound to
+<code>descriptive_stats_t</code>. However, it can rely on the
+implementation for <code>descriptive_stats_t</code> to update
+<code>nr_values</code>, <code>sum</code> and <code>sum2</code>. It
+should additionally ensure that the new value is also stored in the
+array <code>values</code>.</p>
+<pre class="fortran"><code>subroutine add_value(stats, new_value)
+    use, intrinsic :: iso_fortran_env, only : error_unit
+    implicit none
+    class(median_stats_t), intent(inout) :: stats
+    real, value :: new_value
+
+    if (stats%get_nr_values() + 1 &gt; size(stats%values)) then
+        write (unit=error_unit, fmt='(A, I0, A)') &amp;
+            'error: capacity exceeded, maximum ', size(stats%values), &amp;
+            ' can be processed'
+        stop 4
+    end if
+    call stats%descriptive_stats_t%add_value(new_value)
+    stats%values(stats%get_nr_values()) = new_value
+end subroutine add_value</code></pre>
+<p>Since the array <code>values</code> has some size, this
+implementation of the procedure <code>add_value</code> will first check
+whether the new value can still be stored. If so, the values of
+<code>nr_values</code>, <code>sum</code> and <code>sum2</code> should be
+updated, but this can conveniently be done by calling the procedure
+<code>add_value</code> defined in <code>descriptive_stats_t</code>. You
+can call procedures defined in an ancestor class by using its name as a
+prefix, i.e., <code>stats%descriptive_stats_t%add_value</code> in this
+case. Lastly, the procedure will add the new value to the array
+<code>values</code> at index <code>nr_values</code> which refers to the
+next empty element in <code>values</code> since it was incremented by
+the call to <code>descriptive_stats_t</code>’s
+<code>add_value</code>.</p>
+<p>The procedure <code>get_median</code> is specific to the
+<code>median_stats_t</code> class, so this is not inherited from the
+parent class. The implementation relies on a sorting algorithm to sort
+<code>values</code>; you can find it in the repository.</p>
+<h2 id="class-versus-type"><code>class</code> versus
+<code>type</code></h2>
+<p>Now is a better time to explain why <code>class</code> is used rather
+than <code>type</code> to declare the type of arguments to type bound
+procedures. When a variable or procedure argument is declared using
+<code>class</code> it can hold a value that is an object of that class,
+or of any of that class’ descendant classes.</p>
+<p>This implies that for type bound procedures a procedure that is
+defined in the parent class can be used in a derived class.</p>
+<p>The use of <code>class</code> declarations is not restricted to
+procedure arguments though. The following code fragment illustrates that
+you can decide at runtime whether to use a
+<code>descriptive_stats_t</code> or <code>median_stats_t</code>
+variable, and how to distinguish between the types of values.</p>
+<pre class="fortran"><code>...
+class(descriptive_stats_t), allocatable :: stats
+...
+if (stats_type == 'median') then
+    allocate (stats, source=median_stats_t(nr_values))
+else
+    allocate (stats, source=descriptive_stats_t())
+end if</code></pre>
+<p>Since the variable <code>stats</code> is declared as
+<code>class(descriptive_stats_t)</code>, it can store a object of type
+<code>descriptive_stats_t</code>, or any of that class’ descendant
+classes, i.e., <code>median_stats_t</code> in this case.</p>
+<p>Although not strictly required, a named interface
+<code>descriptive_stats_t</code> was added to create an initializer for
+<code>descriptive_stats_t</code>. The <code>source</code> argument of
+the <code>allocate</code> statement is used to clone the constructed
+object.</p>
+<p>This is an instance of <em>runtime polymorphism</em>, i.e., the type
+of a variable is determined at runtime. The most convenient way to
+exploit runtime polymorphism is through allocatable variables as you saw
+in the code sample above.</p>
+<h2 id="selecting-types-and-classes">Selecting types and classes</h2>
+<p>Since the variable <code>stats</code> can be either a
+<code>descriptive_stats_t</code> or a <code>median_stats_t</code>
+object, and the method <code>get_median</code> can only be called on
+objects of the class <code>median_stats_t</code>, you would need a way
+to determine at runtime what the class or type of an object is.</p>
+<p>Fortran has the <code>select type</code> statement to accomplish
+this. Its general form is</p>
+<pre><code>select type (&lt;target&gt;)
+    type is (&lt;type name 1&gt;)
+        &lt;block statements 1&gt;
+    type is (&lt;type name 2&gt;)
+        &lt;block statements 2&gt;
+    ...
+    class default
+        &lt;block statements 3&gt;
+end select</code></pre>
+<p>You can replace the type-guard <code>type is</code> by
+<code>class is</code> if you want to check not only for the type itself,
+but also for all its descendants. The <code>class default</code> type
+guard is optional. As you can guess, there can only be a single
+<code>case default</code> type guard, but you can have any number of
+<code>type is</code> and <code>class is</code> guard clauses. However,
+only a single block of code is executed, even if multiple select clauses
+match. 1. If there is a <code>type</code> clause that matches, the
+corresponding block of statements is executed. 1. If that is not the
+case, but one or more <code>class</code> clauses match, the one for the
+type that is the highest up in the derivation hierarchy. 1. If no
+<code>class</code> clauses match, and a <code>class default</code>
+clause is present, the corresponding statement block is executed.</p>
+<p>For example, now you can check whether <code>stats</code> is of class
+<code>median_stats_t</code>, and if so, print the median.</p>
+<pre class="fortran"><code>...
+print '(A, F10.3)', 'mean   = ', stats%get_mean()
+select type (stats)
+    class is (median_stats_t)
+        print '(A, F10.3)', 'median   = ', stats%get_median()
+end select
+print '(A, F10.3)', 'stddev = ', stats%get_stddev()
+...</code></pre>
+<p>Here we use <code>class is</code> because all descendants of the
+<code>median_stats_t</code> class should also either inherit or override
+the <code>get_median</code> function (<a href="https://en.wikipedia.org/wiki/Liskov_substitution_principle">Liskov’s
+substitution principle</a>).</p>
+<p>The <code>select type</code> statement has an additional features
+that is worth mentioning: The <code>select type</code> statement can
+associate an alias, similar to the <code>associate</code> statement.</p>
+<h1 id="interlude-initialization-and-finalization">Interlude:
+initialization and finalization</h1>
+<p>In the previous section we have been using the array
+<code>values</code> to store data values and compute the median. That
+array was declared <code>allocatable</code>, but where and when should
+it be allocated? This is where the procedures <code>init_stats</code>
+and <code>finalize_stats</code> come in that we didn’t discuss so far.
+The name interface that we defined for the <code>median_stats_t</code>
+was</p>
+<pre class="fortran"><code>interface median_stats_t
+    module procedure init_stats
+end interface</code></pre>
+<p>When we create a new object of the the class
+<code>median_stats_t</code>, the array <code>values</code> should be
+allocated. This is done using the function <code>init_stats</code> that
+returns an initialized instance of <code>median_stats_t</code>.</p>
+<pre class="fortran"><code>function init_stats(nr_values) result(stats)
+    use, intrinsic :: iso_fortran_env, only : error_unit
+    integer, value :: nr_values
+    type(median_stats_t) :: stats
+
+    allocate(stats%values(nr_values))
+    if (.not. allocated(stats%values)) then
+        write (unit=error_unit, fmt='(A, I0, A)') &amp;
+            'error: can not allocated memory for ', nr_values, ' values'
+        stop 3
+    end if
+end function init_stats</code></pre>
+<p>Since <code>nr_values</code>, <code>sum</code> and <code>sum2</code>
+are already initialized in the definition of the parent class
+<code>descriptive_stats_t</code>.</p>
+<p>The named interface <code>median_stats_t</code> ensures that the
+procedure <code>init_stats</code> can be used conveniently, e.g.,</p>
+<pre class="fortran"><code>...
+integer :: nr_values
+type(median_stats_t) :: stats
+...
+stats = median_stats_t(nr_values)
+...</code></pre>
+<p>Here, the variable <code>nr_values</code> is (at least) the size of
+the data set.</p>
+<p>To avoid memory leaks, it is of course good practice to complement
+<code>init_stats</code> with a procedure to deallocate the array when
+the object is no longer required. The deallocation is implemented in the
+<code>finalize_stats</code> procedure which is called automatically when
+the object goes out of scope thanks to the <code>final</code>
+attribute.</p>
+<pre class="fortran"><code>subroutine finalize_stats(stats)
+    use, intrinsic :: iso_fortran_env, only : error_unit
+    type(median_stats_t), intent(inout) :: stats
+    integer :: istat
+
+    deallocate(stats%values, stat=istat)
+end subroutine finalize_stats</code></pre>
+<p>Note that you could compare the procedure <code>init_stats</code> to
+a <em>constructor</em> in C++ or the <code>__init__</code> method in
+Python, while <code>finalize_stats</code> is similar to a C++
+<em>destructor</em>.</p>
+<p>As such, initializing/constructing and destructing objects is
+completely independent of inheritance. It was introduced in this section
+because it ties in well with the running example and our base class
+didn’t require either.</p>

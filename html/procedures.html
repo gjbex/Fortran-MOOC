@@ -1,0 +1,478 @@
+<h1 id="functions-and-subroutines">Functions and subroutines</h1>
+<p>Fortran has two types of procedures: functions and subroutines. The
+functionality of the two is essentially the same, so it depends on the
+usage which is most convenient.</p>
+<p>Both are “subprograms” in the sense that they perform a computation
+based on their input, the arguments to the procedure. For functions, the
+result of that computation is returned, and can be used in an
+expression. Subroutines on the other hand usually modify the arguments
+that are passed to them.</p>
+<p>Procedures help you to avoid copy/pasting code (Don’t Repeat
+Yourself), but also to structure your code into subprograms.</p>
+<h2 id="functions">Functions</h2>
+<p>You will use a function when you want the result of the computation
+it does in an expression. Since Fortran has many built-in functions,
+referred to as intrinsic functions, we will use one to illustrate the
+typical use of a function.</p>
+<pre class="fortran"><code>...
+real :: x, y, hypot
+...
+hypot = sqrt(x**2 + y**2)
+...</code></pre>
+<p>The function <code>sqrt</code> is an intrinsic function that takes a
+real or complex number as an argument and returns a real or complex
+value, the square root of its argument.</p>
+<p>Note: as opposed to C, C++, Java and Python, mathematical functions
+are intrinsic to the language, no header files or modules need to be
+included. This is of course due to Fortran’s primary focus: scientific
+computing.</p>
+<p>As in any programming language, you can define your own functions.
+The general form is given below.</p>
+<pre><code>function &lt;function name&gt;(&lt;argument list&gt;) result(&lt;result name&gt;)
+    implicit none
+    &lt;argument declarations&gt;
+    &lt;result declaration&gt;
+    &lt;local variable declarations&gt;
+
+    &lt;function statements&gt;
+end function &lt;function name&gt;</code></pre>
+<p>If this is somewhat abstract, let’s make it concrete with the
+definition of a function that computes the distance between two points
+given by their x and y coordinates.</p>
+<pre class="fortran"><code>function distance(x1, y1, x2, y2) result(d)
+    implicit none
+    real(kind=DP), intent(in) :: x1, y1, x2, y2
+    real(kind=DP) :: d
+
+    d = sqrt((x1 - x2)**2 + (y1 - y2)**2)
+end function distance</code></pre>
+<p>Here, <code>distance</code> is the name of the function,
+<code>x1</code>, <code>y1</code>, <code>x2</code>, <code>y2</code> are
+the names of the function arguments and <code>d</code> is the name of
+the variable that will hold the result.</p>
+<p>The declaration of the arguments states that they are
+<code>real</code> numbers with kind <code>DP</code>. Also the intent of
+the arguments is declared. This can be</p>
+<ul>
+<li><code>in</code>: the argument’s value in the caller will be used,
+but not modified.</li>
+<li><code>out</code>: the argument’s value in the caller will be
+replaced by the function.</li>
+<li><code>inout</code>: the argument’s value in the caller will be used,
+but also updated.</li>
+</ul>
+<p>In this case, we need the values of the arguments passed to the
+function to compute the distance, hence, the intent is <code>in</code>
+for all arguments.</p>
+<p>The result variable <code>d</code> is also declared as a
+<code>real</code> variable of kind <code>DP</code>.</p>
+<p>Note an important difference with many other programming languages
+such as C, C++ or Java: you don’t see a return statement in the
+function. The semantics of function return values in Fortran differs
+from that in those languages. In those programming languages, the value
+returned by the function is the value of the expression in the return
+statement. The return statement also transfers control back to the
+caller of the function.</p>
+<pre class="c"><code>#include &lt;math.h&gt;
+double distance(double x1, double y1, double x2, double y2) {
+    return sqrt((x1 - x2)*(x1 - x2) + (y1 - y2)*(y1 - y2));
+}</code></pre>
+<p>Although Fortran has a return statement, you could say that it only
+does half the work that it does in many other programming languages. It
+only returns control back to the caller, i.e., it terminates execution
+of the function. In Fortran, the return value of a function is
+determined by the execution of the last assignment to the result
+variable, so to <code>d</code> in our example.</p>
+<p>That implies that an assignment to the result variable has to be made
+in each execution path through the function. The function
+<code>factorial</code> below for instance has issues.</p>
+<pre class="fortran"><code>function factorial(n) result(fac)
+    implicit none
+    integer, intent(in) :: n
+    integer :: fac
+    integer :: i
+    
+    if (n &gt;= 0) then
+        fac = 1
+        do i = 2, n
+            fac = fac*i
+        end do
+    end if
+end function factorial</code></pre>
+<p>if the argument <code>n</code> is negative, no assignment is made to
+the result variable <code>fac</code> which results in undefined
+behavior.</p>
+<p>You can define a function in a slightly different way as well,
+although it is a bit less robust.</p>
+<pre><code>&lt;result type&gt; function &lt;function name&gt;(&lt;argument list&gt;)
+    implicit none
+    &lt;argument declarations&gt;
+    &lt;local variable declarations&gt;
+
+    &lt;function statements&gt;
+end function &lt;function name&gt;</code></pre>
+<p>In this form, you declare the return type of the function in the
+function’s signature, and the return value will be assigned to the
+function name. The function to compute the distance could also be
+defined as follows.</p>
+<pre class="fortran"><code>real(kind=DP) function distance(x1, y1, x2, y2)
+    implicit none
+    real(kind=DP), intent(in) :: x1, y1, x2, y2
+
+    distance = sqrt((x1 - x2)**2 + (y1 - y2)**2)
+end function distance</code></pre>
+<p>Although functionally equivalent, this style of function declaration
+is less robust to change. If you decide to rename the function, you
+would have to modify all assignment statements as well, which can be
+error-prone for complex functions.</p>
+<h2 id="subroutines">Subroutines</h2>
+<p>The second type of procedures in Fortran are subroutines. You could
+view them as functions that don’t return a value. The definition of
+subroutines is very similar to that of functions, except for the result
+value, which subroutines don’t have by definition.</p>
+<p>Fortran has a number of intrinsic subroutines as well, for example to
+generate pseudo-random numbers.</p>
+<pre class="fortran"><code>...
+real :: x
+...
+call random_number(x)
+...</code></pre>
+<p>In the code fragment above, the variable <code>x</code> will be
+assigned a pseudo-random number drawn from a uniform distribution
+between 0 and 1.</p>
+<p>Note the use of the keyword <code>call</code> required to call a
+subroutine!</p>
+<p>The general form of a subroutine definition is given below.</p>
+<pre><code>subroutine &lt;subroutine name&gt;(&lt;argument list&gt;)
+    implicit none
+    &lt;argument declarations&gt;
+    &lt;local variable declarations&gt;
+
+    &lt;subroutine statements&gt;
+end subroutines &lt;subroutines name&gt;</code></pre>
+<p>You can see an example of a subroutine definition below.</p>
+<pre class="fortran"><code>subroutine clamp(val, min_val, max_val)
+    implicit none
+    real(kind=DP), intent(inout) :: val
+    real(kind=DP), intent(in) :: min_val, max_val
+
+    if (val &lt; min_val) then
+        val = min_val
+    else if (max_val &lt; val) then
+        val = max_val
+    end if
+end subroutine clamp</code></pre>
+<p>The subroutines takes three arguments, the first is <code>val</code>,
+the value of interest. If it is less than the second argument,
+<code>min_val</code> then it is set to the value of
+<code>min_val</code>. If it is greater than the second argument,
+<code>max_val</code> it is set to the value of <code>max_val</code>.
+Otherwise, it is left unchanged.</p>
+<p>This is also an illustration of the intent <code>inout</code>. The
+argument <code>val</code>’s value is required in the if statements, but
+can be modified by the subroutine as well.</p>
+<p>The subroutines <code>clamp</code> could be used as in the code
+fragment below.</p>
+<pre class="fortran"><code>...
+real(kind=DP) :: x
+...
+call clamp(x, 0.0, 1.0)
+...</code></pre>
+<h2 id="call-by-value-or-call-by-reference">Call-by-value or
+call-by-reference?</h2>
+<p>A programming language such as C has call-by-value semantics. If a
+variable is passed as an argument to a function, its value is passed and
+assigned to the function’s local variable. Changing that local variable
+doesn’t change the value of the variable in the caller’s context.</p>
+<p>If you would do the same in Fortran, the value of the variable in the
+caller’s context will be changed, Fortran has call-by-reference
+semantics. The following program illustrates this.</p>
+<pre class="fortran"><code>program call_by_reference
+    implicit none
+    integer :: m
+    m = 5
+    print *, m
+    call increment(m)
+    print *, m
+
+contains
+
+    subroutine increment(n)
+        implicit none
+        integer, intent(inout) :: n
+
+        n = n + 1
+    end subroutine increment
+
+end program call_by_reference</code></pre>
+<p>When you run this application, the output will be</p>
+<pre><code>           5
+           6</code></pre>
+<p>The variable <code>m</code> was passed to the subroutine
+<code>increment</code> and modified in it. The intent of the argument is
+<code>inout</code>, the original value is used to compute the new value,
+which changes the value of <code>m</code> in the calling context.</p>
+<p>If you would try to call <code>increment</code> with an integer
+constant as an argument, i.e., <code>call increment(16)</code> you would
+get a compilation error as</p>
+<pre><code>    8 |     call increment(16)
+      |                   1
+Error: Non-variable expression in variable definition context (actual argument to INTENT = OUT/INOUT) at (1)</code></pre>
+<p>Indeed, it doesn’t make sense to call a subroutine that has an
+<code>inout</code> argument with a constant.</p>
+<p>However, clearly, there are situations in which you would prefer
+call-by-value semantics. Consider the following implementation of the
+factorial function.</p>
+<pre class="fortran"><code>function factorial(arg) result(fac)
+    implicit none
+    integer, intent(in) :: arg
+    integer :: fac, n
+
+    n = arg
+    fac = 1
+    do while (n &gt; 1)
+        fac = fac*n
+        n = n - 1
+    end do
+end function factorial</code></pre>
+<p>The code above is a little clunky. On the one hand, we should ensure
+that the argument <code>arg</code> is not modified, so it has intent
+<code>in</code>, but on the other hand, it implies we have to introduce
+a local variable <code>n</code> that is initialized with the value of
+<code>arg</code>, but can be modified.</p>
+<p>We can get the best of both worlds by using call-by-value semantics,
+i.e., declaring that the argument is passed by value, as in the code
+below.</p>
+<pre class="fortran"><code>    function factorial(n) result(fac)
+        implicit none
+        integer, value :: n
+        integer :: fac
+
+        fac = 1
+        do while (n &gt; 1)
+            fac = fac*n
+            n = n - 1
+        end do
+    end function factorial</code></pre>
+<p>Although the argument <code>n</code> is modified in the function, it
+is not modified in the calling context.</p>
+<h2 id="recursion-procedures">Recursion procedures</h2>
+<p>In most programming languages, functions can be recursively defined,
+i.e., they have a call to themselves in their definition. Fortran allows
+recursive procedures, but they have to be declared as such. For
+instance, revisiting the example in the precious section we can define
+that recursively as well.</p>
+<pre class="fortran"><code>recursive function factorial(n) result(fac)
+    implicit none
+    integer, intent(in) :: n
+    integer :: fac
+
+    if (n &gt;= 2) then
+        fac = n*factorial(n - 1)
+    else
+        fac = 1
+    end if
+end function factorial</code></pre>
+<p>Please note that although it may be more convenient to formulate a
+recursive algorithm, this will typically use more system resources and
+have worse efficiency than its iterative counterpart. In fact, any
+recursive algorithm can be converted into an iterative algorithm, see
+for instance this <a href="https://blog.moertel.com/posts/2013-05-11-recursive-to-iterative.html">blog
+post</a>.</p>
+<h2 id="keyword-arguments">Keyword arguments</h2>
+<p>Fortran supports keyword arguments, which can be very convenient when
+you have procedures with multiple arguments. Consider the example of the
+<code>clamp</code> subroutine we defined above. Do you remember the
+signature? Perhaps you don’t, if so, keyword arguments can help, and
+make your code easier to understand. You can call the subroutine as
+follows.</p>
+<pre class="fortran"><code>...
+real :: x
+...
+call clamp(min_val=0.0, max_val=1.0, val=x)
+...</code></pre>
+<p>Keyword arguments are labeled by the name of the procedure’s
+argument, but they do not have to appear in the same order as in the
+procedure’s signature. Just to remind you, the subroutine was defined
+as:</p>
+<pre class="fortran"><code>subroutine clamp(val, min_val, max_val)
+   ...
+end subroutine clamp</code></pre>
+<p>It is strongly recommended to use keyword arguments to make your code
+easier to understand.</p>
+<h2 id="optional-arguments">Optional arguments</h2>
+<p>Arguments to procedures can be optional. Some extra code is required
+because the procedure must check whether or not a value has been
+provided in the procedure call.</p>
+<p>For example, let’s revisit the <code>clamp</code> procedure and make
+<code>min_val</code> optional.</p>
+<pre class="fortran"><code>subroutine clamp(val, min_val, max_val)
+    implicit none
+    real(kind=DP), intent(inout) :: val
+    real(kind=DP), value, optional :: min_val
+    real(kind=DP), value :: max_val
+
+    if (.not. present(min_val)) min_val = -max_val
+    if (val &lt; min_val) then
+        val = min_val
+    else if (max_val &lt; val) then
+        val = max_val
+    end if
+end subroutine clamp</code></pre>
+<p>The subroutine can be called either with two, or three arguments.</p>
+<pre class="fortran"><code>...
+real(kind=DP) :: value
+...
+call clamp(val=value, max_val=5.0_DP)
+...</code></pre>
+<pre class="fortran"><code>...
+real(kind=DP) :: value
+...
+call clamp(val=value, min_val=0.0_DP, max_val=5.0_DP)
+...</code></pre>
+<h2 id="persistent-values">Persistent values</h2>
+<p>In some cases, it can be useful to make values of local variables in
+procedures persistent, so that they can be used in future calls. In C
+and C++, you would do this by adding the keyword <code>static</code> to
+the local variable declaration. In Fortran you can use
+<code>save</code>.</p>
+<p>The following example uses a uniform random number distribution to
+generate numbers from a normal distribution. The algorithm actually
+generates two random values, so the second one is stored for the next
+call in the <code>save</code> variable <code>next_val</code>. The
+variable <code>is_next_val</code> will be true when a value is
+available, false when two new values need to be computed.</p>
+<pre class="fortran"><code>function get_exp_rand() result(val)
+    implicit none
+    real :: val
+    real, save :: next_val
+    logical, save :: is_next_set = .false.
+    real :: x, y, radius, factor
+
+    if (is_next_set) then
+        is_next_set = .false.
+        val = next_val
+    else
+        do while (.not. is_next_set)
+            call random_number(x) 
+            call random_number(y) 
+            x = 2.0*x - 1.0
+            y = 2.0*y - 1.0
+            radius = x**2 + y**2
+            if (0.0 &lt; radius .and. radius &lt;= 1.0) exit
+        end do
+        factor = sqrt(-2.0*log(radius)/radius)
+        val = x*factor
+        next_val =y*factor
+        is_next_set = .true.
+    end if
+end function get_exp_rand</code></pre>
+<h2 id="pure-procedures">Pure procedures</h2>
+<p>You can help the compiler to generate more efficient code by writing
+pure procedures and marking them as such. A pure procedure is a function
+or a subroutine that has no side effects.</p>
+<p>More specifically, all non-pointer arguments must be of intent
+<code>in</code>. For subroutines, all arguments must have their intent
+specified as <code>in</code> or <code>inout</code>.</p>
+<p>For procedures in general:</p>
+<ul>
+<li>no local variables can have the <code>save</code> attribute;</li>
+<li>I/O and stop statement are not allowed;</li>
+<li>it can not be recursive;</li>
+<li>an internal procedure or a procedure that is passed as an argument
+must be pure.</li>
+</ul>
+<p>The following function can be declared pure.</p>
+<pre class="fortran"><code>pure function factorial(n) result(fac)
+    implicit none
+    integer, intent(in) :: n
+    integer :: fac, i
+
+    fac = 1
+    do i = 2, n
+        fac = fac*n
+    end do
+end function factorial</code></pre>
+<p>A subroutine can also be marked as pure, e.g.,</p>
+<pre class="fortran"><code>pure subroutine clamp(val, min_val, max_val)
+    implicit none
+    real(kind=DP), intent(inout) :: val
+    real(kind=DP), intent(in) :: min_val, max_val
+
+    if (val &lt; min_val) then
+        val = min_val
+    else if (max_val &lt; val) then
+        val = max_val
+    end if
+end subroutine clamp</code></pre>
+<h2 id="intrinsic-procedures">Intrinsic procedures</h2>
+<p>The Fortran specification defines a large number of procedures, both
+functions and subroutines as part of the language. You already
+encountered the <code>sqrt</code> function and the
+<code>random_number</code> subroutine.</p>
+<p>Many mathematical functions are implemented as intrinsic functions,
+e.g.,</p>
+<ol type="1">
+<li>the absolute value <code>abs</code>, the complex conjugate
+<code>conjg</code>, the square root function <code>sqrt</code> and the
+modulo function <code>mod</code>;</li>
+<li>the trigonometric functions <code>sin</code>, <code>cos</code>,
+<code>tan</code> and their inverse <code>asin</code>, <code>acos</code>
+and <code>atan</code>;</li>
+<li>the hyper-trigonometric functions <code>sinh</code>,
+<code>cosh</code>, <code>tanh</code> and their inverse
+<code>asinh</code>, <code>acosh</code> and <code>atanh</code>;</li>
+<li>the natural and base-10 logarithm <code>log</code> and
+<code>log10</code> as well as the exponential function
+<code>exp</code>;</li>
+<li>Bessel functions of the first and second kind
+<code>bessel_j0</code>, <code>bessel_j1</code>, <code>bessel_jn</code>,
+<code>bessel_y0</code>, <code>bessel_y1</code>,
+<code>bessel_yn</code>;</li>
+<li>the gamma function <code>gamma</code>, the error function
+<code>erf</code> and the complementary error function
+<code>erfc</code>.</li>
+</ol>
+<p>All these functions are elemental functions, so they can be applied
+element-wise to arrays as well.</p>
+<p>Several mathematical functions defined on vectors or matrices are
+also part of the specification, e.g.,</p>
+<ol type="1">
+<li>the minimum and maximum value in an array: <code>min</code> and
+<code>max</code>;</li>
+<li>the sum and product of array elements: <code>sum</code> and
+<code>product</code>;</li>
+<li>counting the number of elements in an array that satisfy some
+Boolean condition: <code>count</code>;</li>
+<li>the Euclidean norm of an array <code>norm2</code>;</li>
+<li>the transpose of a two-dimensional array
+<code>transpose</code>;</li>
+<li>the dot product between two arrays <code>dot_product</code> and the
+product between two-dimensional arrays <code>matmul</code>.</li>
+</ol>
+<p>Functions such as <code>min</code>, <code>max</code> and similar take
+optional arguments to restrict the operation to certain dimensions so
+that you can compute a row or a column-wise sum. They also accept a mask
+so that operations can be restricted to elements that satisfy some
+Boolean condition.</p>
+<p>Although it is very unlikely that anyone would argue that Fortran is
+the ideal programming language for string manipulations, some intrinsic
+procedures ease the pain, e.g.,</p>
+<ol type="1">
+<li>the <code>trim</code> function will remove trailing blank characters
+from a string;</li>
+<li>the <code>index</code> function returns the position of a substring
+in a string, while <code>scan</code> returns the position of a set of
+characters in a string;</li>
+<li>the function <code>verify</code> will return <code>.true.</code>
+when all characters in a string belong to a given set of
+characters;</li>
+<li>the <code>repeat</code> function creates a string by repeating a
+given string a number of times.</li>
+</ol>
+<p>Obviously this is not an exhaustive list of all the intrinsic
+procedures defined in the Fortran specification, so it really pays off
+to check what is available to avoid reinventing the wheel.</p>
+<p>You can find a list of intrinsic procedures <a href="https://gcc.gnu.org/onlinedocs/gfortran/Intrinsic-Procedures.html#Intrinsic-Procedures">implemented
+by GCC</a>. Note that not all these procedures are standard Fortran,
+some are GNU extensions. This is clearly indicated though.</p>

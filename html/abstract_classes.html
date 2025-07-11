@@ -1,0 +1,286 @@
+<h1 id="abstract-classes">Abstract classes</h1>
+<p>When designing a class hierarchy, it is not always possible to have
+concrete implementations of procedures in the base class. However, you
+know for sure that each derived class will have to have an
+implementation. This is a use case for abstract classes.</p>
+<p>For example, consider a family of related algorithms, for instance
+quadrature methods. We will consider two methods, <a href="https://en.wikipedia.org/wiki/Simpson%27s_rule">Simpson’s rule</a>
+and <a href="https://pomax.github.io/bezierinfo/legendre-gauss.html">Legendre-Gauss
+quadrature</a>. For Legendre-Gauss quadrature, you can control the
+precision by the number of points used in the computation. We will
+implement a 5 point and a 10 point method.</p>
+<p>This gives us a total of three quadrature algorithms: Simpson’s rule,
+and Legendre-Gauss with a 5 point and a 10 point implementation. In fact
+the only thing that differs between these last two algorithms is the
+values of abscissae and weights used in the computation. The evaluation
+of the integral is same for both.</p>
+<p>On an abstract level, each method has a procedure that takes a
+function \(f\) and the boundaries
+\(a\) and \(b\) as argument, and returns an
+approximation for \(
+    \int_a^b f(x) dx
+\)</p>
+<p>The name of that procedure will be the same for all three algorithms,
+i.e., <code>compute</code>, but the implementation will vary.</p>
+<p>For the Legendre-Gauss algorithm, a procedure to initialize the
+abscissae and weights is required. That procedure will have the same
+name for both implementations, i.e., <code>init_quad</code>.</p>
+<p>You could pick one of the algorithms as the base class, but that
+would be awkward. Suppose you would choose Simpson’s rule as the base
+class. The two Legendre-Gauss algorithms could be derived classes of
+that, but that is quite unnatural, since a Legendre-Gauss is not
+Simpson’s rule. Similarly, using Legendre-Gauss as the base class feels
+equally inappropriate.</p>
+<p>This is in fact a nice motivating example for abstract classes. Every
+quadrature algorithms will have a <code>compute</code> type bound
+procedure. This can be formalized by defining an abstract class
+<code>quad_t</code> with a deferred type bound procedure. A deferred
+procedure is declared, i.e., its interface is defined, but it is not
+defined, i.e., implemented for the abstract class
+<code>quad_t</code>.</p>
+<pre class="fortran"><code>module quad_mod
+    implicit none
+
+    private
+
+    type, public, abstract :: quad_t
+    contains
+        procedure(compute_t), pass, deferred :: compute
+    end type
+
+    abstract interface
+        function compute_t(this, func, a, b) result(val)
+            import :: quad_t
+            implicit none
+            class(quad_t), intent(in) :: this
+            procedure(func_t) :: func
+            real, value :: a, b
+            real :: val
+        end function compute_t
+    end interface
+
+    interface
+        function func_t(x) result(res)
+            implicit none
+            real, value :: x
+            real :: res
+        end function func_t
+    end interface
+
+end module quad_mod</code></pre>
+<p>As you can see, the module <code>quad_mod</code> defines no
+implementation at all. It defines a user defined type
+<code>quad_t</code> with a single type bound procedure
+<code>compute</code>. However, the latter is deferred, so its signature
+is specified through an abstract interface for
+<code>compute_t</code>.</p>
+<p>The class that implements Simpson’s rule will define its own specific
+version of compute for that particular algorithm.</p>
+<pre class="fortran"><code>module quad_simpson_mod
+    use :: quad_mod
+    implicit none
+
+    private
+    type, public, extends(quad_t) :: quad_simpson_t
+    contains
+        procedure :: compute =&gt; compute_simpson
+    end type
+
+    interface
+        function func_t(x) result(res)
+            implicit none
+            real, value :: x
+            real :: res
+        end function func_t
+    end interface
+
+    interface quad_simpson_t
+        module procedure :: create_quad
+    end interface
+
+contains
+
+    function create_quad() result(quad)
+        implicit none
+        type(quad_simpson_t) :: quad
+    end function create_quad
+
+    function compute_simpson(this, func, a, b) result(res)
+        implicit none
+        class(quad_simpson_t), intent(in) :: this
+        procedure(func_t) :: func
+        real, value :: a, b
+        real :: res
+        integer, parameter :: n = 10
+        integer :: i
+        real :: delta_x
+
+        delta_x = (b - a)/n
+        res = func(a) + func(b)
+        do i = 1, n - 1, 2
+            res = res + 4.0*func(a + i*delta_x)
+        end do
+        do i = 2, n - 1, 2
+            res = res + 2.0*func(a + i*delta_x)
+        end do
+        res = res*delta_x/3.0
+    end function compute_simpson
+
+end module quad_simpson_mod</code></pre>
+<p>The user defined type <code>quad_simpson_t</code> extends
+<code>quad_t</code> and associates the deferred procedure
+<code>compute</code> with the concrete implementation
+<code>compute_simpson</code>.</p>
+<p>The named interface <code>quad_simpson_t</code> and the
+<code>create_quad</code> procedure provide a constructor which will come
+in handy later.</p>
+<p>The derived class for the Legendre-Gauss algorithms is itself an
+abstract class since the procedure to initialize abscissae and weights
+is specific to each algorithm.</p>
+<pre class="fortran"><code>module quad_gauss_mod
+    use :: quad_mod
+    implicit none
+
+    private
+    type, public, abstract, extends(quad_t) :: quad_gauss_t
+        private
+        real, dimension(:), allocatable :: abscissae, weights
+    contains
+        procedure :: compute =&gt; compute_gauss
+        procedure(init_quad_t), pass, deferred :: init_quad
+        procedure :: set_abscissae, set_weights
+    end type
+
+    interface
+        module subroutine init_quad_t(this)
+            ! import :: quad_gauss_t
+            implicit none
+            class(quad_gauss_t), intent(inout) :: this
+        end subroutine init_quad_t
+    end interface
+
+    interface
+        function func_t(x) result(res)
+            implicit none
+            real, value :: x
+            real :: res
+        end function func_t
+    end interface
+
+contains
+
+    function compute_gauss(this, func, a, b) result(res)
+        implicit none
+        class(quad_gauss_t), intent(in) :: this
+        procedure(func_t) :: func
+        real, value :: a, b
+        real :: res
+        integer :: i
+
+        res = 0.0
+        associate (x =&gt; this%abscissae, w =&gt; this%weights)
+            do i = 1, size(x)
+                res = res + 0.5*(b - a)*w(i)*func(0.5*((b - a)*x(i) + a + b))
+            end do
+        end associate
+    end function compute_gauss
+        
+    subroutine set_abscissae(this, abscissae)
+        use, intrinsic :: iso_fortran_env, only : error_unit
+        implicit none
+        class(quad_gauss_t), intent(inout) :: this
+        real, dimension(:), intent(in) :: abscissae
+        integer :: istat
+
+        allocate(this%abscissae, source=abscissae, stat=istat)
+        if (istat /= 0) then
+            write (unit=error_unit, fmt='(A)') 'error: can not allocate abscissae'
+            stop 1
+        end if
+    end subroutine set_abscissae
+
+    subroutine set_weights(this, weights)
+        use, intrinsic :: iso_fortran_env, only : error_unit
+        implicit none
+        class(quad_gauss_t), intent(inout) :: this
+        real, dimension(:), intent(in) :: weights
+        integer :: istat
+
+        allocate(this%weights, source=weights, stat=istat)
+        if (istat /= 0) then
+            write (unit=error_unit, fmt='(A)') 'error: can not allocate weights'
+            stop 1
+        end if
+    end subroutine set_weights
+
+end module quad_gauss_mod</code></pre>
+<p>Just like for Simpson’s rule, we can define associate the deferred
+procedure <code>compute</code> to a concrete implementation
+<code>compute_gauss</code>. However, the abstract class
+<code>quad_gauss_t</code> defines a deferred type bound procedure
+<code>init_quad</code> and hence is abstract.</p>
+<p>The classes <code>quad_gauss5_t</code> and
+<code>quad_gauss10_t</code> will each have a specific implementation for
+<code>quad_init</code>, i.e., for <code>quad_gauss5_t</code>:</p>
+<pre class="fortran"><code>subroutine init_quad5(this)
+    implicit none
+    class(quad_gauss5_t), intent(inout) :: this
+
+    call this%set_abscissae([ &amp;
+         0.0000000000000000,  &amp;
+        -0.5384693101056831,  &amp;
+         0.5384693101056831,  &amp;
+        -0.9061798459386640,  &amp;
+         0.9061798459386640   &amp;
+    ])
+
+    call this%set_weights([ &amp;
+        0.5688888888888889, &amp;
+        0.4786286704993665, &amp;
+        0.4786286704993665, &amp;
+        0.2369268850561891, &amp;
+        0.2369268850561891  &amp;
+    ])
+end subroutine init_quad5</code></pre>
+<p>Just like <code>quad_simpson_t</code> the class
+<code>quad_gauss5_t</code> and <code>quad_gauss10_t</code> define a
+named interface for a constructor. The implementation for
+<code>quad_gauss5_t</code> is shown below.</p>
+<pre class="fortran"><code>function create_quad() result(quad)
+    implicit none
+    type(quad_gauss5_t) :: quad
+    call quad%init_quad()
+end function create_quad</code></pre>
+<p>The constructor will call the procedure to initialize the object.</p>
+<p>Finally, the quadrature algorithm to use can be selected at runtime
+easily.</p>
+<pre class="fortran"><code>...
+use :: quad_mod
+use :: quad_gauss_mod
+use :: quad_gauss5_mod
+use :: quad_gauss10_mod
+use :: quad_simpson_mod
+...
+class(quad_t), allocatable :: quad
+character(len=20) :: method
+...
+select case (method)
+case ('quad5')
+    allocate(quad, source=quad_gauss5_t())
+case ('quad10')
+    allocate(quad, source=quad_gauss10_t())
+case ('simpson')
+    allocate(quad, source=quad_simpson_t())
+case default
+    write (unit=error_unit, fmt='(3A)') 'error: method ', trim(method), &amp;
+        ' is not implemented'
+    stop 11
+end select
+print '(F10.7)', quad%compute(func, 0.0, PI)
+...</code></pre>
+<p>The relationships between the various classes are illustrated in the
+class diagram below.</p>
+<figure>
+<img alt="quadrature class diagram" src="quad_class_diagram.png"/>
+<figcaption aria-hidden="true">quadrature class diagram</figcaption>
+</figure>

@@ -1,0 +1,138 @@
+<h1 id="conditional-statements">Conditional statements</h1>
+<p>Fortran has a number of conditional statements, just like all
+programming languages that are Turing complete.</p>
+<h2 id="if-statements">if-statements</h2>
+<p>The first conditional statement, and the one you will use most often
+is the if-statement. Fortran has two if-statements, the block if and the
+logical if.</p>
+<h3 id="block-if">Block if</h3>
+<p>A block if has the following general form using the keywords
+<code>if</code>, <code>then</code>, <code>else</code> and
+<code>end if</code>:</p>
+<pre><code>if (&lt;logical expression&gt;) then
+    &lt;block statements 1&gt;
+else
+    &lt;block statements 2&gt;
+end if</code></pre>
+<p>It checks whether a logical (or Boolean) expression
+<code>&lt;logical expression&gt;</code> evaluates to true or false, and
+executes the appropriate block of statements accordingly. This means
+<code>&lt;block statements 1&gt;</code> is executed when the logical
+expression evaluates to true, while
+<code>&lt;block statements 2&gt;</code> will be executed when the
+logical condition evaluates to false.</p>
+<p>Each if-statement is bracketed by <code>if</code> and
+<code>end if</code>. This makes makes the semantics of nested
+conditional statements quite straightforward.</p>
+<p>The else block is optional in a block if, so the following statement
+is also legal Fortran.</p>
+<pre><code>if (&lt;logical expression&gt;) then
+    &lt;block statements 1&gt;
+end if</code></pre>
+<p>Chains of if statements can be added by using <code>else if</code>,
+the structure looks as follows.</p>
+<pre><code>if (&lt;logical expression 1&gt;) then
+    &lt;block statements 1&gt;
+else if (&lt;logical expression 2&gt;) then
+    &lt;block statements 2&gt;
+else
+    &lt;block statements 3&gt;
+end if</code></pre>
+<p>If <code>&lt;logical expression 1&gt;</code> evaluates to true,
+<code>&lt;block statements 1&gt;</code> is executed. If that is not the
+case, <code>&lt;logical statements 2&gt;</code> will be evaluated, and
+if it is true, <code>&lt;block statements 2&gt;</code> will be executed.
+If <code>&lt;logical expression 2&gt;</code> also evaluates to false,
+<code>&lt;block statements 3&gt;</code> is executed.</p>
+<p>You can have as many <code>else if</code> cases as you require.</p>
+<p>The following code snippet checks whether an integer that represents
+a year is a leap year or not.</p>
+<pre class="fortran"><code>logical function is_leapyear(year)
+    implicit none
+    integer, intent(in) :: year
+
+    if (mod(year, 4) /= 0) then
+        is_leapyear = .false.
+    else if (mod(year, 100) == 0) then
+        if (mod(year, 400) == 0) then
+            is_leapyear = .true.
+        else
+            is_leapyear = .false.
+        end if
+    else
+        is_leapyear = .true.
+    end if
+end function is_leapyear</code></pre>
+<p>As a challenge, reduce the body of the function
+<code>is_leapyear</code> to a single statement that assigns the result
+of a logical expression to <code>is_leapyear</code>.</p>
+<h3 id="logical-if">Logical if</h3>
+<p>Fortran’s second if-statement is the logical if. It is syntactically
+simpler that the block if, and is a single line of code.</p>
+<p>The general form is:</p>
+<pre><code>if (&lt;logical expression&gt;) &lt;statement&gt;</code></pre>
+<p>The logical if will execute a single statement
+<code>&lt;statement&gt;</code> if
+<code>&lt;logical expression&gt;</code> evaluates to true.</p>
+<p>Note that a logical if</p>
+<ul>
+<li>can only execute a single statement,</li>
+<li>has no <code>else</code>, and</li>
+<li>requires no <code>end if</code>.</li>
+</ul>
+<h2 id="select-statement">select statement</h2>
+<p>Fortran’s second conditional statement is the select statement.
+Although it adds no new functionality when compared with a chained block
+if statement, the compiler can sometimes generate faster code from a
+select statement.</p>
+<p>The general form is:</p>
+<pre class="fortran"><code>select case (&lt;expression&gt;)
+    case (&lt;expression 1&gt;)
+        &lt;block statements 1&gt;
+    case (&lt;expression 2&gt;)
+        &lt;block statements 2&gt;
+    ...
+    case (&lt;expression n&gt;)
+        &lt;block statements n&gt;
+    case default
+        &lt;block statements default&gt;
+end select</code></pre>
+<p>There are restrictions on <code>&lt;expression&gt;</code>, it should
+be an integer or a character expression. The case expressions
+<code>&lt;expression 1&gt;</code>, …, <code>&lt;expression n&gt;</code>
+should be of the same type. The <code>case default</code> is
+optional.</p>
+<p>Semantically, this would be equivalent to the following block if.</p>
+<pre class="fortran"><code>if (&lt;expression&gt; == &lt;expression 1&gt;) then
+    &lt;block statements 1&gt;
+else if (&lt;expression&gt; == &lt;expression 2&gt;) then
+    &lt;block statements 2&gt;
+...
+else if (&lt;expression&gt; == &lt;expression n&gt;) then
+    &lt;block statements n&gt;
+else
+    &lt;block statements default&gt;
+end if</code></pre>
+<p>The following function uses a select statement to decide which
+arithmetic operation would have to be carried out.</p>
+<pre class="fortran"><code>real(kind=DP) function calculate(op, x, y)
+    use, intrinsic :: iso_fortran_env, only : error_unit
+    implicit none
+    character(len=1), intent(in) :: op
+    real(kind=DP), intent(in) :: x, y
+
+    select case (op)
+        case ('+')
+            calculate = x + y
+        case ('-')
+            calculate = x - y
+        case ('*')
+            calculate = x*y
+        case ('/')
+            calculate = x/y
+        case default
+            write (unit=error_unit, fmt='(3A)') &amp;
+                'error: ', op, ' is not a valid operator'
+            stop 1
+    end select
+end function calculate</code></pre>

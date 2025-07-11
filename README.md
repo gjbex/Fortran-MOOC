@@ -8,9 +8,11 @@ programming".  The MOOC is hosted by FutureLearn
 ## Content
 
 * [Reading material](docs/): the reading material.md).
+* [HTML version of the reading material](html/): the reading material in HTML format.
 * [Source code](source_code/): the source code illustrating the concepts in this course, as well as
   the exercises.
 * [Software stack](software/): installation instructions for the software stack.
+* [Utilities](scripts/): utilities to manage the course content.
 
 
 ## Contributors

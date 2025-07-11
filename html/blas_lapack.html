@@ -1,0 +1,271 @@
+<h1 id="blas-and-lapack">BLAS and LAPACK</h1>
+<p>Matrix computations and linear algebra are some of the most basic
+building blocks of may scientific software applications. Often, the
+performance of these core algorithms determine the performance and
+efficiency of your code.</p>
+<p>BLAS (Basic Linear Algebra Subprograms) is a library specification
+that implements various operations on vectors and matrices. It was
+originally published in 1979. There are many implementations such as the
+reference implementation from netlib, OpenBLAS and Intel MKL (Math
+Kernel Library). It is quite important with respect to performance to
+select a well-optimized implementation for your platform. Typically
+OpenBLAS (open source) and Intel MKL (commercial) will give the best
+performance. BLAS defines three classes of algorithms, BLAS level 1, 2
+and 3:</p>
+<ul>
+<li>BLAS Level 1: operations on vectors, e.g., scalar product, scaling,
+Givens rotation;</li>
+<li>BLAS Level 2: matrix-vector operations, e.g., matrix-vector product,
+solving a triangular equation;</li>
+<li>BLAS level 3: matrix-matrix operations, e.g., matrix-matrix
+products.</li>
+</ul>
+<p>For several operations implementations for special types of matrices
+are available (triangular matrices, symmetric matrices, band matrices).
+The specification supports single and double precision real and complex
+floating point numbers.</p>
+<p>Whereas BLAS provides basic linear algebra operations on vectors and
+matrices, you will typically turn to LAPACK (Linear Algebra PACKage) for
+more sophisticated algorithms. Just as for BLAS, netlib provides a
+reference implementation that has been optimized in various library
+implementations such as OpenBLAS and Intel MKL.</p>
+<p>LAPACK defines algorithms to find eigenvalues and eigenvectors, solve
+linear equations, perform linear regression, as well as a wide selection
+of matrix decomposition algorithms. As for BLAS, algorithms are
+implemented for both single and double precision real floating point
+numbers, and complex numbers when appropriate.</p>
+<p>Under the hood, LAPACK algorithms are often implemented using BLAS
+procedures, so it is required to have BLAS installed when you want to
+use LAPACK, and very highly recommended to have a well-optimized
+implementation if you want LAPACK to perform efficiently.</p>
+<p>You will notice that the names of procedures (mostly subroutines) are
+fairly cryptic, e.g., <code>dgemm</code>. The latter is a double
+precision (<code>d</code>) general (<code>ge</code>) matrix
+(<code>m</code>)-matrix (<code>m</code>) multiplication. The reason for
+such names is historical. Names for procedures were restricted to 6
+characters at the time.</p>
+<p>The elements of the vectors and matrices can be single precision real
+numbers (<code>s</code>), double precision real numbers
+(<code>d</code>), single precision complex numbers (<code>c</code>) and
+double precision complex numbers (<code>z</code>).</p>
+<h2 id="advantages-of-blas-and-lapack">Advantages of BLAS and
+LAPACK</h2>
+<p>Although the problems solved by the BLAS library seem fairly simple,
+the algorithms that implement them are the result of decades of research
+and painstaking optimizations. Good implementations will use vector
+instructions that get every drop of efficiency out of advanced CPU
+design. They have also been written to take advantage of multiple cores,
+so your code automatically executes in parallel, typically using OpenMP
+under the hood.</p>
+<p>LAPACK is implemented on top of BLAS, and hence will benefit from the
+optimization and parallelization of that library as well.</p>
+<h2 id="blas">BLAS</h2>
+<p>BLAS defines a large number (more than 120) of procedures, so we will
+just discuss a few of them so that you get the flavor of how to use the
+library. You will see one or more examples of each BLAS level.</p>
+<h3 id="blas-level-1-vector-operations">BLAS level 1: vector
+operations</h3>
+<p>Level 1 operation are defined on vectors. For example, the subroutine
+<code>dcopy</code> will copy a double precision array (<code>d</code>)
+to another double precision array.</p>
+<pre class="fortran"><code>...
+real(kind=DP), dimension(rows, cols) :: matrix1, matrix2
+...
+call dcopy(size(matrix1), matrix1, 1, matrix2, 1)
+...</code></pre>
+<p>Note that although level 1 focuses on vector operations, you can use
+this subroutine to copy data from a multidimensional array to another
+multidimensional array, not necessarily of the same rank and
+dimensions.</p>
+<p>The signature of this subroutine is</p>
+<pre><code>subroutine dcopy(&lt;N&gt;, &lt;DX&gt;, &lt;INCX&gt;, &lt;DY&gt;, &lt;INCY&gt;)</code></pre>
+<p>Here, <code>&lt;N&gt;</code> is the number of elements to copy,
+typically the size of the array, <code>&lt;DX&gt;</code> is the array to
+copy to <code>&lt;DY&gt;</code>. Usually, the values for
+<code>&lt;INCX&gt;</code> and <code>&lt;INCY&gt;</code> (increment for
+iterating over the elements of <code>&lt;DX&gt;</code> and
+<code>&lt;DY&gt;</code> respectively are 1, but they can be used
+creatively in some situations.</p>
+<p>Another very useful BLAS level 1 function is <code>sdot</code>, the
+single precision dot product of two vectors, i.e., \(
+   d = \sum_{i=1}^{N} u_i v_i
+\)</p>
+<pre class="fortran"><code>...
+real, dimension(v_size) :: vector1, vector2
+real :: product
+real, external :: sdot
+...
+product = sdot(size(vector1), vector1, 1, vector2, 1)
+...</code></pre>
+<p>This is a function that returns a <code>real</code> value and takes
+arguments that have similar semantics as those of
+<code>dcopy</code>.</p>
+<p>Some other noteworthy procedures are available for normalization,
+scaling and especially a combined multiply-add that is very common in
+scientific algorithms, i.e., \(
+    \vec{y} = \vec{y} + \alpha \vec{x}
+\)</p>
+<p>Note that BLAS functions need to be declared as
+<code>external</code>.</p>
+<h3 id="blas-level-2-matrix-vector-operations">BLAS level 2:
+matrix-vector operations</h3>
+<p>An example of a level 2 operation is a matrix-vector product. For
+instance, <code>sgemv</code> implements the product of a single
+precision real general matrix and a vector. To be more precise, the
+result is given by: \(
+    \vec{y} = \alpha A \vec{x} + \beta \vec{y}
+\) or \(
+    \vec{y} = \alpha A' \vec{x} + \beta \vec{y},
+\) depending on the first argument given to <code>sgemv</code>.
+The signature of the subroutine is</p>
+<pre class="fortan"><code>subroutine sgemv(&lt;TRANS&gt;, &lt;M&gt;, &lt;N&gt;, &lt;alpha&gt;, &lt;A&gt;, &lt;LDA&gt;, &lt;x&gt;, &lt;INCX&gt;, &lt;beta&gt;, &lt;y&gt;, &lt;INCRY&gt;)</code></pre>
+<p>The value of <code>&lt;TRANS&gt;</code> can be <code>'t'</code> or
+<code>'c'</code> to transpose or take the complex conjugate from
+<code>&lt;A&gt;</code> respectively, or <code>'n'</code> to use
+<code>&lt;A&gt;</code> as is. <code>&lt;M&gt;</code> and
+<code>&lt;N&gt;</code> are the number of rows and columns of
+<code>&lt;A&gt;</code> respectively. <code>&lt;A&gt;</code> is a single
+precision real two-dimensional array. <code>&lt;LDA&gt;</code> is the
+number of rows of <code>&lt;A&gt;</code>. <code>&lt;x&gt;</code> and
+<code>&lt;y&gt;</code> are single precision real one-dimensional arrays.
+<code>&lt;INCX&gt;</code> and <code>&lt;INCY&gt;</code> are typically
+equal to 1. <code>&lt;alpha&gt;</code> and <code>&lt;beta&gt;</code> are
+single precision real values. If <code>&lt;beta&gt;</code> is zero,
+<code>&lt;y&gt;</code> does not need to be initialized.</p>
+<p>Specific implementation of this operation are defined for special
+cases for \(A\), e.g., when \(A\) is a banded, symmetric, symmetric
+banded or triangular matrix.</p>
+<p>There are a few other useful level 2 operations such as solving a
+triangular set of equations and performing a symmetric rank 1 and rank 2
+operation, i.e.,</p>
+<p>\(
+    A = \alpha \vec{x} \otimes \vec{x}' + A
+\)</p>
+<p>and</p>
+<p>\(
+    A = \alpha ( \vec{x} \otimes \vec{y}' + \vec{y} \otimes
+\vec{x}' ) + A
+\)</p>
+<p>respectively.</p>
+<h3 id="blas-level-3-matrix-matrix-operations">BLAS level 3:
+matrix-matrix operations</h3>
+<p>Matrix-matrix multiplication is implemented by level 3 operations for
+general, symmetric and triangular matrices. For instance,
+<code>sgemm</code> implements a matrix-matrix multiplication for
+two-dimensional real arrays with single precision values.</p>
+<pre class="fortran"><code>...
+real, dimension(M, K) :: A
+real, dimension(K, N) :: B
+real, dimension(M, N) :: C
+real :: alpha, beta
+...
+call sgemm('n', 'n', M, N, K, alpha, A, K, B, N, beta, C, M)
+...</code></pre>
+<p>The first two arguments specify which operation should be performed
+on the matrices <code>A</code> and <code>B</code> respectively. This can
+be <code>'n'</code> (none), <code>'t'</code> (transpose) or
+<code>'c'</code> conjugate complex. The sizes of the matrices are given
+next, <code>A</code> is an <code>M</code> by <code>K</code> matrix,
+<code>B</code> is <code>K</code> by <code>N</code> and <code>C</code> is
+<code>M</code> by <code>N</code>. The operation performed is \(
+    C = \alpha \textrm{op}(A) \cdot \textrm{op}(B) + \beta C
+\)</p>
+<p>Other operations implemented in the level 3 BLAS library rank-\(k\) symmetric updates, and solving sets of
+triangular linear equations with multiple right-hand sides.</p>
+<h2 id="lapack">LAPACK</h2>
+<p>LAPACK implements some widely used algorithms for linear algebra,
+e.g., for solving sets of linear equations, linear least square methods,
+eigenvalue problems, singular value decomposition and matrix
+factorization. Like BLAS, it has implementations for real and complex
+matrices, single and double precision.</p>
+<p>LAPACK is available under an open source BSD license, but Intel’s MKL
+library offers an implementation as well. Since LAPACK is built on top
+of BLAS, its performance depends critically on that of the BLAS library
+implementation.</p>
+<p>The naming of LAPACK procedures is similar to BLAS in that the name
+of a procedure indicates both the type of data in the matrices (real or
+complex, single or double precision) and the type of matrix (general,
+bidiagonal, symmetric and so on). The name ends with a one to three
+letter identification of the algorithm. For instance,
+<code>sgesvd</code> would be a singular value decomposition
+(<code>svd</code>) of a general (<code>ge</code>) single precision
+(<code>s</code>) matrix.</p>
+<p>It would lead us too far to go into all the algorithms implemented in
+LAPACK, so we will just present some examples.</p>
+<h3 id="solving-sets-of-linear-equations">Solving sets of linear
+equations</h3>
+<p>Solving a set of \(n\) linear
+equations in \(n\) unknowns, given by
+\(A \cdot X = B\) where \(A\) is an \(n
+\times n\) matrix and \(X\) and
+\(B\) are \(n \times m\) matrices. If \(m &gt; 1\), the algorithms will solve
+\(m\) sets of equations.</p>
+<p>For general single precision real matrices <code>A</code> and
+<code>B</code>, the subroutine is <code>sgesv</code>. In the code below,
+<code>n_matrix</code> represents the number of rows and columns of \(A\), and <code>nr_rhs</code> the number of
+columns of <code>B</code> which has <code>n_matrix</code> rows. Under
+the hood, the algorithm uses LU factorization, so a one-dimensional
+integer array of size <code>n_matrix</code> matrix is required to store
+the permutation indices.</p>
+<pre class="fortran"><code>call sgesv(n_matrix, nr_rhs, A, n_matrix, P, B, n_matrix, info)</code></pre>
+<p>The arrays <code>A</code>,<code>B</code> and <code>P</code> have been
+declared in the usual way, and <code>info</code> will contain the status
+after the call, 0 if the algorithm succeeded, a negative value
+represents the index of an illegal argument passed to <code>sgesv</code>
+and a positive value indicates that there is no solution.</p>
+<p>The solution is stored in the array <code>B</code>, so that will
+contain the values of \(X\). The
+original array <code>A</code> will be overwritten by the \(U\) and \(L\) matrices of the LU factorization.</p>
+<p>For more information on LU factorization, you can consult a good text
+book on applied linear algebra, or <a href="https://en.wikipedia.org/wiki/LU_decomposition">Wikipedia</a>.</p>
+<h3 id="singular-value-decomposition">Singular value decomposition</h3>
+<p>The singular value decomposition of an \(m
+\times n\) matrix \(M\) is
+given by \(U \cdot \Sigma \cdot
+V^{*}\). Here \(U\) is an \(m \times m\) matrix and \(V\) is \(n
+\times n\) matrix, both unitary and their columns form an
+orthogonal basis. The matrix \(\Sigma\) is a diagonal \(m \times n\) matrix with non-negative
+elements. The LAPACK implementation returns these in descending order.
+If \(M\) is real-valued, so are \(U\) and \(V\), and \(V^*
+= V^t\).</p>
+<p>You can find more information about singular value decomposition and
+its applications in any good book on numerical methods but for a quick
+introduction <a href="https://en.wikipedia.org/wiki/Singular_value_decomposition">Wikipedia</a>
+will serve.</p>
+<p>By way of example, we will consider the <code>sgesvd</code>
+subroutine to compute the singular value decomposition of a general
+single precision real matrix. The arrays <code>M</code>, <code>U</code>
+and <code>VT</code> are declared as you would expect. The number of rows
+of <code>M</code> is <code>nr_rows</code>, its number of columns is
+<code>nr_cols</code>. Since \(\Sigma\)
+is a diagonal matrix, it is represented as a one-dimensional array
+<code>S</code> with a size that is the minimum of the number of rows and
+columns of <code>M</code> so as not to waste memory.</p>
+<p>The implementation of the SVD algorithm requires working space that
+can be determined by a call to the <code>sgesvd</code> subroutine with
+the argument representing the size of the work array set to -1. The work
+array should have at least size 1 at that point to accommodate the
+required size as a result of the call. It is convenient to use an
+allocatable array so that it can be sized dynamically as required.</p>
+<pre class="fortran"><code>real, dimension(:), allocatable :: work
+integer :: work_size, info, istat
+...
+allocate(work(1))
+info = 0
+call sgesvd('A', 'A', nr_rows, nr_cols, M, nr_rows, S, &amp;
+            U, nr_rows, VT, nr_cols, work, -1, info)
+work_size = int(work(1)) + 1
+allocate(work(work_size), stat=istat)</code></pre>
+<p>Most of these arguments are self-explanatory, the first two indicate
+what should be returned in the matrices <code>U</code> and
+<code>VT</code>. <code>'A'</code> means that all columns should be
+returned. You can read <code>sgesvd</code>’s documentation for other
+options.</p>
+<p>The argument <code>info</code> will be set to 0 upon success. A
+negative value indicates the index of an illegal argument to
+<code>sgesvd</code>, a positive value signals that the algorithm did not
+converge (relevant only for the second call to <code>sgesvd</code>).</p>
+<p>After this preparatory step, the actual work can be done by a second
+call to <code>sgesvd</code>.</p>
+<pre class="fortran"><code>call sgesvd('A', 'A', nr_rows, nr_cols, M, nr_rows, S, &amp;
+            U, nr_rows, VT, nr_cols, work, work_size, info)</code></pre>

@@ -1,0 +1,128 @@
+<h1 id="random-numbers">Random numbers</h1>
+<p>Fortran has intrinsic procedures for pseudo-random number generation.
+You can easily generate a sequence of pseudo-random floating point
+values from a uniform distribution in the half-closed interval \([0, 1[\). The start of the sequence is
+determined by a seed, i.e., a state of the algorithm that changes each
+time a random number is generated. This change of state is
+deterministic, so starting from the same initial state or seed will get
+you the exact same sequence of random numbers twice. This is the reason
+these numbers are referred to as “pseudo-random”, rather than “random”,
+although we will use the latter term for brevity anyway.</p>
+<p>Random numbers play an important role in many scientific domains and
+are in fact at the core of some key algorithms such as Monte Carlo
+methods.</p>
+<h2 id="generating-random-numbers">Generating random numbers</h2>
+<p>The intrinsic subroutine <code>random_number</code> will give you a
+random number or array of numbers each time it is called, e.g.,</p>
+<pre class="fortran"><code>...
+real :: r
+...
+do i = 1, nr_vals
+    call random_number(r)
+    print '(F10.7)', r
+end do
+...</code></pre>
+<p>Each time the subroutine <code>random_number</code> is called, it
+assigns a new real value to <code>r</code> such that \(0 \le \textrm{r} &lt; 1\).</p>
+<p>In the following code snippet, <code>coords</code> is an array of
+double precision floating point values.</p>
+<pre class="fortran"><code>...
+use, intrinsic :: iso_fortran_env, only : DP =&gt; REAL64
+...
+real(kind=DP), dimension(3) :: coords
+...
+call random_number(coords)
+...</code></pre>
+<h2 id="random-number-generator-state">Random number generator
+state</h2>
+<p>The intrinsic subroutine <code>random_seed</code> serves several
+purposes, depending on the optional arguments it is called with:</p>
+<ol type="1">
+<li><code>size</code>: the number of integer values that determine the
+state of the random number generator; this is an argument with intent
+<code>out</code>.</li>
+<li><code>get</code>: the current state of the random number generator,
+it is an array with a size at least equal to the <code>size</code> of
+the state, this is an argument with intent <code>out</code> as
+well.</li>
+<li><code>put</code>: the new state of the random number generator, it
+is an array with a size at least equal to the <code>size</code> of the
+state, this is an argument with intent <code>in</code>.</li>
+</ol>
+<p>The following code fragment determines the current state of the
+random number generator.</p>
+<pre class="fortran"><code>...
+integer :: seed_size, istat
+integer, dimension(:), allocatable :: seed_vals, new_seed_vals
+...
+call random_seed(size=seed_size)
+allocate (seed_vals(seed_size), new_seed_vals(seed_size), stat=istat)
+...
+call random_seed(get=seed_vals)
+print '(A, *(I12))', 'seeds: ', seed_vals
+...</code></pre>
+<p>We start by checking the required size for the seed of the random
+number generator by calling <code>random_seed</code> using the optional
+<code>size</code> argument. Next, we allocate an integer array of that
+size to store the values of the state which we obtain by calling
+<code>random_seed</code> again with the <code>get</code> argument.</p>
+<p>Note that the size of the state is implementation dependent, e.g.,
+for GCC 10.x the size is 8, while for Intel’s ifort 18.x it is 2. This
+is something to take into account when relying on random numbers in
+Fortran.</p>
+<h2 id="why-seed">Why seed?</h2>
+<p>The Fortran runtime will seed the random number generator
+automatically for you so that you get a different sequence of random
+numbers each time you call the application. Very often this is exactly
+what you want, but not always.</p>
+<p>There are circumstances in which you want to make sure that each run
+of your application produces exactly the same sequence of random
+numbers. Imagine debugging an application for which a bug is triggered
+or not, depending on a random value: good luck to you!</p>
+<p>Another use case for seeding the random number generator is in the
+context of testing your application. To be reliable, tests often need to
+be deterministic. Sometimes you want to be able to exactly reproduce a
+previous run of your application for performance tuning.</p>
+<p>A more subtle use case arises in the context of parallel programming.
+Since the seeding of the random number generator by the Fortran runtime
+is a black box, it may be based on the value of the system clock. If
+that is the case, and many processes start nearly simultaneously, two or
+more processes may have the same seed. In such a setting that is
+typically not what you want since the random sequences of the processes
+should be independent.</p>
+<p>Note: just to be very clear on this point, typically you seed the
+random number generator once when your application starts.</p>
+<h2 id="how-to-seed">How to seed?</h2>
+<p>When you initialize an array of the appropriate size (obtained by a
+call to <code>random_seed</code> with the <code>size</code> argument,
+you can use that to seed the random number generator.</p>
+<p>For debugging purposes you could seed the random number generator in
+a fairly trivial way as follows.</p>
+<pre class="fortran"><code>...
+integer :: seed_size, istat
+integer, dimension(:), allocatable :: seed_vals
+...
+call random_seed(size=seed_size)
+allocate (seed_vals(seed_size), stat=istat)
+...
+seed_vals = 42
+...</code></pre>
+<p>A better approach is to store the seed values in a file, and read
+them to initialize the array of seed values.</p>
+<h2 id="best-practice">Best practice</h2>
+<p>Your application can be configured to use a file containing seed
+values when given. If not, it will write the seed values selected by the
+Fortran runtime to a file with a timestamp in its name, so that it is
+unique. This file can later be used to reproduce the specific run of the
+application.</p>
+<p>A little more care is required in the context of parallel
+applications, but the same approach can be used.</p>
+<p>Fortran’s intrinsic random number generator is fairly limited in
+scope. You would have to write your own code to sample from a
+non-uniform distribution or over a different numeric domain.</p>
+<p>You will find some libraries that can be of interest though:</p>
+<ol type="1">
+<li><a href="https://people.sc.fsu.edu/~jburkardt/f_src/rnglib/rnglib.html">RNGlib</a></li>
+<li><a href="https://software.intel.com/content/www/us/en/develop/documentation/mkl-vsperfdata/top.html">Intel
+MKL</a></li>
+</ol>

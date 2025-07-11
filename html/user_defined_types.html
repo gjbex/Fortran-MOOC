@@ -1,0 +1,182 @@
+<h1 id="user-defined-types">User defined types</h1>
+<p>Representing data is key to software design. You’ve already
+encountered Fortran basic types to represent numbers, logical values and
+strings, as well as (multi-dimensional) arrays of such data.</p>
+<p>However, some data items that belong together do not fit into an
+array since they have different types. For instance, consider
+configuration settings for an imaginary application that can be
+configured using the name of an integration method, represented as a
+string, a precision represented as a real value and a number of
+iterations, represented as an integer.</p>
+<p>It would of course be possible to define three independent variables
+to store these values, but it makes more sense to aggregate this data
+into a special purpose data structure. For this purpose, Fortran offers
+user defined types. These are very similar to <code>struct</code> in
+C/C++ or named tuples in Python.</p>
+<h2 id="type-definition">Type definition</h2>
+<p>The definition of a new type <code>config_t</code> is given
+below.</p>
+<pre class="fortran"><code>    type :: config_t
+        character(len=1024) :: method
+        integer :: nr_iters
+        real(kind=DP) :: precision
+    end type config_t</code></pre>
+<p>The type <code>config_t</code> has three elements, named
+<code>method</code>, <code>nr_iters</code> and <code>precision</code>.
+Note that the elements have distinct types, e.g., <code>nr_iters</code>
+is an integer, while <code>method</code> is a string.</p>
+<p>It is good practice to append the <code>_t</code> suffix to make it
+very clear that this is the name of a type.</p>
+<h2 id="variable-declaration-and-use">Variable declaration and use</h2>
+<p><code>config_t</code> is a type, so you can declare variables of this
+type, e.g.,</p>
+<pre class="fortran"><code>type(config_t) :: config</code></pre>
+<p>The variable <code>config</code> has type <code>config_t</code>. You
+can assign values to the various arguments as shown below. The string
+<code>'none'</code> is assigned to the <code>method</code> element, the
+integer 0 to the <code>nr_iters</code> element, and so on.</p>
+<pre class="fortran"><code>config%method = 'none'
+config%nr_iters = 0
+config%precision = 1.0e-10_DP</code></pre>
+<p>Note that Fortran uses <code>%</code> to access members of a user
+defined type.</p>
+<p>The initialization of a user defined hype variable can be done in a
+single statement, e.g.,</p>
+<pre class="fortran"><code>config = config_t(method='none', nr_iters=0, precision=1.0e-10_DP)</code></pre>
+<p>Elements of user defined type variables can be used like any other
+variable in expressions, or as arguments in procedure calls, e.g.,</p>
+<pre><code>if (abs(value) &lt; config%precision) then
+    ...
+end if</code></pre>
+<h2 id="procedure-arguments-and-function-return-types">Procedure
+arguments and function return types</h2>
+<p>User defined type variables can be passed to procedures as arguments,
+as well as returned by functions. Consider the following user defined
+type that represents a particle.</p>
+<pre class="fortran"><code>type :: particle_t
+    real(kind=DP) :: x, y, z, mass
+    integer :: charge
+end type particle_t</code></pre>
+<p>The following function takes two arguments of type
+<code>particle_t</code> as argument, and computes the Euclidean distance
+between them.</p>
+<pre class="fortran"><code>function distance(p1, p2) result(dist)
+    implicit none
+    type(particle_t), intent(in) :: p1, p2
+    real(kind=DP) :: dist
+    
+    dist = sqrt((p1%x - p2%x)**2 + (p1%y - p2%y)**2 + (p1%z - p2%z)**2)
+end function distance</code></pre>
+<p>The return type of a function can also be a user defined type. You
+will see an example in the next section.</p>
+<h2 id="building-types">Building types</h2>
+<p>Combining basic types, arrays and user defined types you can build
+(almost) any data structure you may need.</p>
+<h3 id="arrays-of-user-defined-types">Arrays of user defined types</h3>
+<p>It is straightforward to create arrays that have user defined type
+elements. By way of example, suppose you would like to compute the
+center of mass of a system of particles represented as
+<code>particle_t</code>. The particles would be stored in an array and
+passed to a function that returns the coordinates of the center of
+mass.</p>
+<p>The following type represents Cartesian coordinates in a
+three-dimensional space.</p>
+<pre class="fortran"><code>type :: coordinates_t
+    real(kind=DP) :: x, y, z
+end type coordinates_t</code></pre>
+<p>The function computing the center of mass is listed below. As
+argument, it receives a one-dimensional array of <code>particle_t</code>
+elements.</p>
+<pre class="fortran"><code>function compute_center_of_mass(particles) result(coordinates)
+    implicit none
+    type(particle_t), dimension(:), intent(in) :: particles
+    type(coordinates_t) :: coordinates
+    real(kind=DP) :: total_mass
+    integer :: i
+
+    coordinates%x = 0.0_DP
+    coordinates%y = 0.0_DP
+    coordinates%z = 0.0_DP
+    total_mass = 0.0_DP
+    do i = 1, size(particles)
+        associate(particle =&gt; particles(i))
+            coordinates%x = coordinates%x + particle%mass*particle%x
+            coordinates%y = coordinates%y + particle%mass*particle%y
+            coordinates%z = coordinates%z + particle%mass*particle%z
+            total_mass = total_mass + particle%mass
+        end associate
+    end do
+    coordinates%x = coordinates%x/total_mass
+    coordinates%y = coordinates%y/total_mass
+    coordinates%z = coordinates%z/total_mass
+end function compute_center_of_mass</code></pre>
+<p>In order to simplify the code a little bit, the associate statement
+has been used. This statement lets you associate a name with a variable,
+array element or subarray. In this example, the name
+<code>particle</code> is used instead of the array element
+<code>particles(i)</code> since this makes the code somewhat easier to
+read.</p>
+<h3 id="arrays-as-elements-of-user-defined-types">Arrays as elements of
+user defined types</h3>
+<p>Note that elements of user defined types are not restricted to basic
+types, they can be arrays or even user defined types. For instance, you
+could represent the particle’s coordinates as an array.</p>
+<pre class="fortran"><code>type :: particle_t
+    real(kind=DP), dimension(3) :: coords
+    real(kind=DP) :: mass
+    integer :: charge
+end type particle_t</code></pre>
+<p>The <code>coords</code> element is an array of three real numbers,
+representing the coordinates. The following function takes two particles
+of this data type and computes the Cartesian distance between them.</p>
+<pre class="fortran"><code>function distance(p1, p2) result(dist)
+    implicit none
+    type(particle_t), intent(in) :: p1, p2
+    real(kind=DP) :: dist
+    integer :: i
+
+    dist = 0.0_DP
+    do i = 1, size(p1%coords)
+        dist = dist + (p1%coords(i) - p2%coords(i))**2
+    end do 
+    dist = sqrt(dist)
+end function distance</code></pre>
+<h3 id="nested-user-defined-types">Nested user defined types</h3>
+<p>The elements of user defined types can themselves have a user defined
+type. The following definition illustrates this.</p>
+<pre class="fortran"><code>type :: coordinates_t
+    real(kind=DP) :: x, y, z
+end type coordinates_t
+
+type :: particle_t
+    type(coordinates_t) :: coords
+    real(kind=DP) :: mass
+    integer :: charge
+end type particle_t</code></pre>
+<p>The type of the <code>coords</code> element is a user defined type
+with three elements, <code>x</code>, <code>y</code> and <code>z</code>
+that represent the coordinates. The following function that computes the
+distance between two particles illustrates its use.</p>
+<pre class="fortran"><code>function distance(p1, p2) result(dist)
+    implicit none
+    type(particle_t), intent(in) :: p1, p2
+    real(kind=DP) :: dist
+    integer :: i
+
+    associate(c1 =&gt; p1%coords, c2 =&gt; p2%coords)
+        dist = sqrt((c1%x - c2%x)**2 + (c1%y - c2%y)**2 + (c1%z - c2%z)**2)
+    end associate
+end function distance</code></pre>
+<h2 id="sequence">Sequence</h2>
+<p>For performance reasons, the Fortran compiler can arrange the
+elements in a user defined type so that there are gaps between them.
+Mostly, that is what you want, but when it is not, you can add the
+<code>sequence</code> keyword to the type definition, e.g.,</p>
+<pre class="fortran"><code>type :: particle_t
+    sequence
+    real(kind=DP) :: x, y, z, mass
+    integer :: charge
+end type particle_t</code></pre>
+<p>Note that you should really only use this when you know what you are
+doing since adding <code>sequence</code> may have a performance
+impact.</p>

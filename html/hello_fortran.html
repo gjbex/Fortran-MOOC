@@ -1,0 +1,26 @@
+<h1 id="hello-fortran">Hello Fortran</h1>
+<p>In this article you’ll get a brief overview of what a simple Fortran
+program looks like.</p>
+<p>Fortran programs consist of compilation units, and must have one and
+only one <code>program</code> unit. The code you see below is the “hello
+world” application in Fortran.</p>
+<pre class="fortran"><code>program hello_fortran
+    print *, 'hello Fortran!'
+end program hello_fortran</code></pre>
+<p>The <code>program</code> unit’s statements are bracketed by
+<code>program &lt;name&gt;</code> and
+<code>end program &lt;name&gt;</code>. In this case, the unit has just a
+single statement, the <code>print</code> statement that will write the
+string <code>'hello Fortran!'</code> to standard output. The
+<code>*</code> denotes the default format, but you will learn more about
+that later.</p>
+<p>On the command line, you can compile the source code in
+’hello_world.f90` into an executable application using a compiler. Here,
+we will use the GCC Fortran compiler.</p>
+<pre class="bash"><code>$ gfortran hello_fortran.f90</code></pre>
+<p>The resulting executable is <code>a.out</code> and when you run it,
+it will print the expected output.</p>
+<pre class="bash"><code>$ ./a.out
+ hello Fortran!</code></pre>
+<p>Congratulations, you have just build and run your very first Fortran
+program!</p>

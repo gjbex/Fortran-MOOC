@@ -1,0 +1,126 @@
+<h1 id="formatting-conventions">Formatting conventions</h1>
+<p>Historically, Fortran had two formatting styles. Prior to Fortran 90,
+code had to be written in so-called fixed source form. Fortran 90
+introduced free source form which is much more convenient. Here, we’ll
+only use free format style, but add notes on fixed format once in a
+while in case you’re interested.</p>
+<h2 id="why-follow-formatting-conventions">Why follow formatting
+conventions?</h2>
+<p>Each programming language has its own conventions of how to format
+source code, and you may be familiar with those for C, C++, Java or
+Python. Regardless, it is important to use those that are specific to
+the programming language you are using. Doing so makes it easier for
+other programmers familiar with Fortran to understand your code
+quickly.</p>
+<p>The one exception is when you work in a team or on a code base that
+has established its own set of formatting rules, in that case, follow
+those.</p>
+<p>The motivation is the same: programming is storytelling, the story
+should be easy to follow. The bottom line is: <em>be
+consistent!</em></p>
+<h2 id="use-upper-case-or-lower-case">Use upper case or lower case?</h2>
+<p>Fortran is not case sensitive, so <code>SUBROUTINE</code> is the same
+as <code>subroutine</code>. There is empirical evidence that lowercase
+words are easier to read than uppercase, so the choice is easy.</p>
+<p>In some text books, you will see Fortran keywords such as
+<code>if</code>, ’end if<code>or</code>subroutine` rendered in upper
+case, as opposed to variable names, procedure names and so on. We will
+not use this convention here.</p>
+<p>The one exception is for the names of constants, e.g.,</p>
+<pre class="fortran"><code>integer, parameter :: NR_PARTICLES = 1000</code></pre>
+<h2 id="do-you-have-to-use-indentation">Do you have to use
+indentation?</h2>
+<p>Yes, you do.</p>
+<p>Indentation really helps to visualize the structure of your code, and
+will make it easier to understand. Each nested block of code gets
+indented by an additional level.</p>
+<pre class="fortran"><code>integer function gcd(a, b)
+    implicit none
+    integer, intent(in) :: a, b
+    integer :: x, y
+
+    x = a
+    y = b
+    do while (x /= y)
+        if (x &gt; y) then
+            x = x - y
+        else if (y &gt; x) then
+            y = y - x
+        end if
+    end do
+    gcd = x
+end function gcd</code></pre>
+<p>Opinions differ on how many space to use to indent a block of code.
+Whatever number you pick, be consistent. Here, we will use 4 spaces.</p>
+<p>Don’t use tabs for indentation, the width a tab is visually expanded
+to depends on the settings of your editor, so what may seem nicely
+indented to you may be gibberish to someone else if indentation by tabs
+and spaces is mixed. And trust me, it will at some point.</p>
+<p>Historical note: prior to Fortran 90 code had to be formatted in a
+very specific way. The first five characters of each line would be
+reserved for numerical labels, if required. The sixth character had to
+be blank, unless that line was a continuation of a previous line. This
+convention goes back to the days when code was written on punch
+cards.</p>
+<h2 id="should-i-stick-to-a-maximum-line-length">Should I stick to a
+maximum line length?</h2>
+<p>The Fortran specification states that the maximum line length for
+free source form is 132 characters. Although many compilers will accept
+longer lines of code, you should nevertheless respect the
+specification.</p>
+<p>Furthermore, it can be convenient to limit the line length in
+practice to fit in a 80 column terminal window. This is the convention
+that will be followed in the code examples presented here.</p>
+<p>The Fortran syntax is pretty strict about what should go on a line,
+and doesn’t allow to break lines arbitrarily. For instance, consider the
+following code.</p>
+<pre class="fortran"><code>if (0.0 &lt;= x_coord .and. x_coord &lt;= X_MAX .and.
+    0.0 &lt;= y_coord .and. y_coord &lt;= Y_MAX) then
+    ...
+end if</code></pre>
+<p>If you would try to compile this code, the compiler would report a
+syntax error. The if-statement should be on a single line. However, that
+would make the code harder to read, and the number of characters on a
+line would potentially exceed the limit of 132.</p>
+<p>You can indicate that a line will be continued on the next by using
+the <code>&amp;</code> character at the end. So the code fragment above
+would compile when ‘&amp;’ is added to the first line.</p>
+<pre class="fortran"><code>if (0.0 &lt;= x_coord .and. x_coord &lt;= X_MAX .and. &amp;
+    0.0 &lt;= y_coord .and. y_coord &lt;= Y_MAX) then
+    ...
+end if</code></pre>
+<p>Optionally, the line that continues a previous line can also start
+with an <code>&amp;</code> character, i.e.,</p>
+<pre class="fortran"><code>if (0.0 &lt;= x_coord .and. x_coord &lt;= X_MAX .and. &amp;
+  &amp; 0.0 &lt;= y_coord .and. y_coord &lt;= Y_MaX) then
+    ...
+end if</code></pre>
+<p>Although we will typically not use this feature since it makes the
+code harder to read, there is one case where it is actually very
+useful.</p>
+<pre class="fortran"><code>character(len=120) :: message = 'Warning: the number of&amp;
+                               &amp; characters exceeds the prefered&amp;
+                               &amp; limit.'</code></pre>
+<p>Here, the string would be</p>
+<pre><code>Warning: the number of characters exceeds the prefered limit.</code></pre>
+<p>The spaces preceding the <code>&amp;</code> on the continuation lines
+are ignored in the value of the string.</p>
+<p>Historical note: fixed source form restricted the maximum line length
+to 72 characters. again, this was a limitation due to the use of punch
+cards. To indicate that a line is a continuation of a previous line, you
+would use a non-zero character in the sixth column.</p>
+<h2 id="how-should-i-use-white-space">How should I use white space?</h2>
+<p>Using white space appropriately can make your code easier to read.
+The general advise is to use white space as you would in written English
+and mathematics.</p>
+<p>For example, commas should be followed by a space, keywords and
+parentheses should be separated by a space. Operands and operators
+should be separated by a space.</p>
+<p>Compare the following code</p>
+<pre class="fortran"><code>if (0.0 &lt; x) then
+    y = f(x, y)
+end if</code></pre>
+<p>with the following which is legal, but harder to read</p>
+<pre class="fortran"><code>if(0.0&lt;x)then
+    y=f(x,y)
+endif</code></pre>
