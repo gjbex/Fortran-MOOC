@@ -1,0 +1,381 @@
+<h1 id="error-handling-in-fortran">Error handling in Fortran</h1>
+<p>Quite a number of bugs are introduced due to incorrect or even no
+handling of error conditions during the execution of an application.
+This type of defect is especially annoying since the symptoms will occur
+some time after the actual cause, and manifest themselves in functions
+that seem to have little to do with that cause. This “lack of locality”
+makes identifying the issue quite hard.</p>
+<p>A defensive style of programming will help to prevent these
+situations.</p>
+<p>Note that proper error handling can be quite complex and increase the
+size of your code base substantially.</p>
+<h2 id="dynamic-memory-allocation">Dynamic memory allocation</h2>
+<p>In Fortran, a primary example of non-local issues is the management
+of dynamic memory, i.e., memory allocated on the heap using the
+<code>allocate</code> statement.</p>
+<p>Consider the following code, the subroutine takes arrays as arguments
+that may have been allocated.</p>
+<pre class="fortran"><code>subroutine create_array(x, n)
+    implicit none
+    real, dimension(:), allocatable, intent(inout) :: x
+    integer, intent(in) :: n
+    allocate(x(n))
+end subroutine create_array
+...
+subroutine daxpy(alpha, x, y)
+    implicit none
+    real, intent(in) :: alpha
+    real, dimension(:), intent(inout) :: x
+    real, dimension(:), intent(in) :: y
+    x = alpha*x + y
+end subroutine daxpy</code></pre>
+<p>The <code>allocate</code> statement may fail when there is not enough
+memory space to accommodate the request. However, since
+<code>create_vector</code> doesn’t check, the application will continue
+under the assumption that its result is indeed an array with all
+<code>n</code> elements.</p>
+<p>At some point, e.g., in a call to the procedure <code>daxpy</code>,
+the array <code>x</code>, or <code>y</code>, or both may in fact not
+have been allocated at all, and the application will crash with a
+segmentation fault. The problem, in this case merely a symptom, will
+occur in <code>daxpy</code>, while the cause is in fact in
+<code>create_vector</code>, or, to be more precise, wherever the size of
+the array was computed. If this is a complex application, it may take
+you a while to track down the root cause of this crash.</p>
+<p>You want errors to occur as soon as possible since the closer that
+happens in space and time to the root cause, the easier it will be to
+identify and fix the issue.</p>
+<p>In this particular case, the procedure <code>create_vector</code>
+should check whether <code>allocate</code> succeeded, and if not,
+generate an error.</p>
+<pre class="fortran"><code>subroutine create_array(x, n)
+    use, intrinsic :: iso_fortran_env, only: error_unit
+    implicit none
+    real, dimension(:), allocatable, intent(inoout) :: x
+    integer, intent(in) :: n
+    integer :: istat
+    allocate(x(n), stat=istat)
+    if (istat /= 0) then
+        write (unit=error_unit, fmt='(A, I12)') &amp;
+            '### error: can not allocate array of size ', n
+        stop 1
+    end if
+end subroutine create_array</code></pre>
+<p>Note that it is more informative to</p>
+<ol type="1">
+<li>write a message to standard error, and</li>
+<li>use a non-zero numerical argument to <code>stop</code>.</li>
+</ol>
+<p>When <code>stop</code> is used with an error message, the
+application’s exit code would be 0, and it would be harder to detect an
+error in your workflow.</p>
+<p>It would certainly be a good idea to define constants in a module
+that account for various error conditions so that they can be used
+consistently across the application.</p>
+<pre class="fortran"><code>module error_status
+    implicit none
+    integer, parameter :: ALLOCATION_ERR = 1, &amp;
+                          FILE_OPEN_ERR = 2, &amp;
+                          CMD_LINE_NR_ARGS_ERR = 3, &amp;
+                          CMD_LINE_ARG_VALUE_ERR = 4, &amp;
+                          FILE_VALUE_ERR = 5
+end module error_status</code></pre>
+<p>You can use this in the <code>create_vector</code> procedure,
+i.e.,</p>
+<pre class="fortran"><code>subroutine create_array(x, n)
+    use, intrinsic :: iso_fortran_env, only: error_unit
+    use :: error_status, only : ALLOCATION_ERR
+    implicit none
+    real, dimension(:), allocatable, intent(inoout) :: x
+    integer, intent(in) :: n
+    integer :: istat
+    allocate(x(n), stat=istat)
+    if (istat /= 0) then
+        write (unit=error_unit, fmt='(A, I12)') &amp;
+            '### error: can not allocate array of size ', n
+        stop ALLOCATION_ERR
+    end if
+end subroutine create_array</code></pre>
+<p>When this application is run and it fails, this will produce the
+following output</p>
+<pre><code>### error: can not allocate array of size 10000000000
+STOP 1</code></pre>
+<p>Although this error message describes the issue, it could be more
+informative by using the values of a few macros:</p>
+<ul>
+<li><code>__FILE__</code> contains the name of the source file it occurs
+in,</li>
+<li><code>__LINE__</code> contains the line number of the source file it
+occurs on.</li>
+</ul>
+<p>Using these compiler macros, the <code>create_array</code> procedure
+can be implemented as follows:</p>
+<pre class="fortran"><code>subroutine create_array(x, n)
+    use, intrinsic :: iso_fortran_env, only: error_unit
+    use :: error_status, only : ALLOCATION_ERR
+    implicit none
+    real, dimension(:), allocatable, intent(inoout) :: x
+    integer, intent(in) :: n
+    integer :: istat
+    allocate(x(n), stat=istat)
+    if (istat /= 0) then
+        write (unit=error_unit, fmt='(A, I3, A, I10)') &amp;
+            '### error in ' // trim(__FILE__) // ',', __LINE__, &amp;
+            ': can not allocate array of size ', n
+        stop ALLOCATION_ERR
+    end if
+end subroutine create_array</code></pre>
+<p>Now the output would be:</p>
+<pre><code>### error in allocation_error.f90, 18: can not allocate array of size 2000000000
+STOP 1</code></pre>
+<p>The <code>__LINE__</code> macro is set to the line number it occurs
+on in the source file, so it will not actually be the line number on
+which the error occurs, but at least it points you in the right
+direction.</p>
+<p>Note that in order to compile Fortran code that relies on the
+preprocessor you should either specify the <code>-cpp</code> option for
+the compiler, or name the source files with a file name extension in
+capital letters, e.g., <code>.F90</code>.</p>
+<h2 id="string-conversion">String conversion</h2>
+<p>In Fortran, converting a string to a number is done using a
+<code>read</code> statement with the appropriate format string.</p>
+<p>When you try to convert a string value such as <code>"abc"</code> to
+an integer, the application will crash with a meaningful error message
+and a backtrace.</p>
+<p>If you want to handle the error yourself, you can easily do this by
+providing the optional arguments <code>iostat</code> and
+<code>iomsg</code> to the <code>read</code> statement.</p>
+<pre class="fortran"><code>use :: error_status, only : CMD_LINE_NR_ARGS_ERR, &amp;
+                            CMD_LINE_ARG_VALUE_ERR
+implicit none
+real :: x
+integer :: ierr
+character(len=80) :: buffer, msg
+if (command_argument_count() /= 1) then
+    write (unit=error_unit, fmt='(A)') &amp;
+        '### error: expecting a real as argument'
+    stop CMD_LINE_NR_ARGS_ERR
+end if
+call get_command_argument(1, buffer)
+read (buffer, fmt='(F25.16)', iostat=ierr, iomsg=msg) x
+if (ierr /= 0) then
+    write (unit=error_unit, fmt='(4A)') &amp;
+        '### error: can not convert to real: ', trim(buffer), &amp;
+        ', ', trim(msg)
+    stop CMD_LINE_ARG_VALUE_ERR
+end if</code></pre>
+<p>If the <code>read</code> statement fails, the <code>ierr</code>
+variable will be set to a non-zero value, so you can easily test for
+problems. The <code>msg</code> variable will be set to a relevant error
+message that can be used to provide feedback to the user.</p>
+<h2 id="file-io">File I/O</h2>
+<p>When reading or writing files quite a number of things can go
+wrong.</p>
+<p>Just like the statements for memory allocation, the I/O related
+statements <code>open</code>, <code>read</code>, <code>write</code>, …,
+have optional arguments <code>iostat</code> and <code>iomsg</code> that
+will provide feedback on the success or failure of the operation. Fail
+to use them at your own peril.</p>
+<p>The code fragment below will open a file, read it line by line, and
+do some unspecified processing.</p>
+<pre class="fortran"><code>open (unit=read_unit, file=file_name, access='sequential', &amp;
+      action='read', status='old', form='formatted', &amp;
+      iostat=status, iomsg=msg)
+do
+    read (unit=read_unit, fmt="(A10, E25.16)", &amp;
+          iostat=ierr, iomsg=msg) name, value
+    if (ierr &lt; 0) exit
+end do
+close (unit=read_unit)</code></pre>
+<p>You might hope that when you run the application and
+<code>file_name</code> doesn’t contain the name of an existing file, or
+the file can not be opened, your application may terminate with an error
+message. However, that will not happen. The <code>read</code> statement
+will set <code>ierr</code> to a negative value, indicating the end of
+the input file, and everyone will live happily ever after, except that
+it is quite likely your application will produce unexpected results. The
+user of your application gets no indication that the file she wanted to
+be read was completely ignored.</p>
+<pre class="fortran"><code>use :: error_status
+...
+open (unit=read_unit, file=file_name, access='sequential', &amp;
+      action='read', status='old', form='formatted', &amp;
+      iostat=ierr, iomsg=msg)
+if (ierr /= 0) then
+    write (unit=error_unit, fmt='(3A)') &amp;
+        '### error: can not open file ', trim(file_name), &amp;
+        ', error: ' // trim(msg)
+    stop FILE_OPEN_ERR
+end if
+...</code></pre>
+<p>The application verifies that the file has been opened successfully,
+and if not, it writes an appropriate error message to standard error
+using the message that was set by the <code>open</code> statement in its
+<code>iomsg</code> argument. For instance, when called with a file that
+doesn’t exist, you will get the following error message:</p>
+<pre class="bash"><code>$ ./file_error.exe bla
+### error: cannot open file bla, error: Cannot open file 'bla': No such file or directory
+STOP 2</code></pre>
+<p>On the other hand, if it is called with a file that exists, but that
+you don’t have permission to read or write, you would get the
+following:</p>
+<pre class="bash"><code>$ ./file_error.exe test.txt
+### error: cannot open file test.txt, error: Cannot open file 'test.txt': Permission denied
+STOP 2</code></pre>
+<p>In this case, using the value set in the <code>iomsg</code> as part
+of your own improves the quality of the error message, and helps the
+user of your application to figure out what the problem might be.</p>
+<p>It is also quite useful to check the <code>iostat</code> value set by
+the <code>read</code> statement. This will allow you to improve the
+quality of the feedback, similar to what was mentioned in the section on
+string conversion. When <code>iostat</code> has a non-zero value, you
+can give the user specific information on the expected values.</p>
+<p>For instance, when reading a file such as the one below, some
+appropriate error messages may help the user a lot.</p>
+<pre><code>alpha     1.1
+beta      3.3</code></pre>
+<pre class="fortran"><code>line_nr = 0
+do
+    read (unit=read_unit, fmt="(A10, E25.16)", &amp;
+          iostat=ierr, iomsg=msg) name, value
+    line_nr = line_nr + 1
+    if (ierr &lt; 0) then
+        exit
+    else if (ierr &gt; 0) then
+        write (unit=error_unit, fmt='(A, I3, A)') &amp;
+            '### error during read at line ', line_nr, ': ' // trim(msg)
+        stop
+    else
+        ! do something useful with the name and value
+    end if</code></pre>
+<p>When the input is invalid, such as below, you get an error:</p>
+<pre><code>alpha     1.1
+beta      3.O5</code></pre>
+<pre class="bash"><code>$ ./file_error.exe input_nok.txt
+### error during read at line   2: Bad value during floating point read
+STOP 5</code></pre>
+<p>Note that keeping track of the line number in the input file and
+reporting it in case of an error will again help the user of this
+application to identify the problem.</p>
+<h2 id="overly-defensive-programming">Overly defensive programming</h2>
+<p>Grace Hopper is credited with the quote &gt; It’s easier to ask
+forgiveness than it is to get permission.</p>
+<p>Before even attempting to open a file with a given name, you could
+check whether</p>
+<ul>
+<li>something with that name exists,</li>
+<li>it is actually a file,</li>
+<li>you have permission to open it.</li>
+</ul>
+<p>Doing those checks is like asking permission in an administrative
+matter. It is a lengthy process, it is tedious and boring. The
+alternative is to simply attempt to open the file, and if that fails,
+simply tell the user why.</p>
+<p>Thanks to the values assigned to the <code>iomsg</code> argument,
+chances are that your application will write error messages that are as
+informative as the ones you’d handcraft by checking for all conceivable
+error conditions manually. Your code will be more concise, simpler, and
+hence the probability of having bugs in your error handling code is
+reduced.</p>
+<h2 id="error-context">Error context</h2>
+<p>At which level do you report an error? This is a non-trivial
+question.</p>
+<p>Suppose you are developing an application that reads some parameters
+from a configuration file, it creates data structures, initialises them,
+and starts to compute. One of the configuration parameters is the size
+of the vectors your computation uses, and those are dynamically
+allocated.</p>
+<p>Now you already know that you should check the result of
+<code>allocate</code> to ensure that the allocation succeeded. Failing
+to do so will most likely result in a segmentation fault.</p>
+<p>However, the user of your application (potentially you) enters a
+vector size in the configuration file that is too large to be allocated.
+No problem though, your application handles error conditions and reports
+to the user.</p>
+<p>You could report the error and terminate execution in the procedure
+where it actually occurs, the <code>create_vector</code> subroutine you
+defined in one of the previous sections. This would inform the user that
+some array can not be allocated. However, unless she is familiar with
+the nuts and bolts of the application, that may in fact be completely
+uninformative. The subroutine <code>create_vector</code> has no clue
+about the context in which it is called, and can hardly be expected to
+produce a more meaningful error message.</p>
+<p>It would be more useful to the user if this error were reported to
+the calling procedure, which has more contextual information, and that
+this procedure would report an error that has better semantics. At the
+end of the day, the relevant information is that you should reduce the
+value of a parameter in your configuration file.</p>
+<p>Handling errors in the appropriate context is not that easy. It
+requires careful planning and formulating error messages from the
+perspective of the user at each layer in your application. In a language
+such as Fortran, this means that procedures should return status
+information, typically as an <code>inout</code> argument. In the Fortran
+API for the MPI library for instance, almost all functions take an error
+argument of type <code>integer</code> that can be used to check whether
+the procedure call was executed successfully. Note that forgetting this
+argument in the procedure calls may lead to very interesting bugs. In
+the Fortran 2008 API for this library, that argument is optional, so
+omitting it is no longer a deadly sin when you use this API.</p>
+<p>Note that proper error handling will be fairly complex and
+potentially increase the size of your code base.</p>
+<h2 id="floating-point-exceptions">Floating point exceptions</h2>
+<p>There are a number of problems that may arise during numerical
+computations and that go unnoticed, or are only noticed late, i.e., when
+a lot of expensive computations have been performed.</p>
+<p>The IEEE standard 754 defines five exceptions that can occur as a
+result of floating point operations:</p>
+<ol type="1">
+<li>inexact: accuracy is lost;</li>
+<li>divide by zero;</li>
+<li>underflow: a value can not be represented and is round to zero;</li>
+<li>overflow: a value is too large to be represented; and</li>
+<li>invalid: operations is invalid for the given operands.</li>
+</ol>
+<p>A divide by zero and an overflow will result in positive or negative
+infinity, depending on the sign of the operand, while an invalid
+operation will result in positive or negative NaN (Not a Number). These
+values will propagate throughout your computations, making them
+useless.</p>
+<p>Note that an underflow will easily go unnoticed, which makes it even
+more dangerous.</p>
+<p>Modern Fortran compilers implement the <code>ieee_arithmetic</code>
+intrinsic module that defines various functions to check whether a
+numerical value is normal, e.g.,</p>
+<ul>
+<li><code>ieee_is_finite</code>,</li>
+<li><code>ieee_is_normal</code>,</li>
+<li><code>ieee_is_nan</code>.</li>
+</ul>
+<p>The code below shows a trivial example.</p>
+<pre class="fortran"><code>program overflow_sum
+   use, intrinsic :: ieee_arithmetic, only : ieee_is_normal
+   use, intrinsic :: iso_fortran_env, only : error_unit
+   implicit none
+   integer :: n
+   character(len=80) :: buffer
+   real :: result
+
+   n = 10
+   if (command_argument_count() &gt; 0) then
+       call get_command_argument(1, buffer)
+       read (buffer, '(I10)') n
+   end if
+   result = compute_sum(n)
+   if (.not. ieee_is_normal(result)) then
+       write (unit=error_unit, fmt='(A)') 'non-normal number detected'
+   end if
+   print '(A, E12.5)', 'result = ', result
+
+   contains
+
+       real function compute_sum(n)
+           implicit none
+           integer, intent(in) :: n
+           integer :: i
+           compute_sum = 0.0
+           do i = 1, n
+               compute_sum = compute_sum + 10.0**i
+           end do
+       end function compute_sum
+
+end program overflow_sum</code></pre>

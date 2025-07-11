@@ -1,0 +1,12 @@
+<h1 id="compiler-issues">Compiler issues</h1>
+<p>As all software, compilers have their own quirks and
+peculiarities.</p>
+<h2 id="gcc-gfortran">GCC gfortran</h2>
+<p>The observations below are for gfortran 10.1.x.</p>
+<ol type="1">
+<li>The <code>sequence</code> statement in user defined types has no
+effect, the compiler keeps aligning.</li>
+<li>Parameterized user defined types are not fully supported. Type name
+mangling seems to be different per compilation unit (at least across
+<code>program</code> and <code>module</code>).</li>
+</ol>

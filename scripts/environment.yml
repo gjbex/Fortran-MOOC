@@ -1,0 +1,7 @@
+name: fortran_mooc_conversion
+channels:
+  - conda-forge
+dependencies:
+  - pandoc
+  - beautifulsoup4
+prefix: /home/gjb/mambaforge/envs/fortran_mooc_conversion

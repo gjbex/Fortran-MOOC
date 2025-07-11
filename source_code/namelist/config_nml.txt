@@ -1,0 +1,5 @@
+&CONFIG
+ nr_rows=  10,
+ nr_cols= 30,
+ delta_t=  0.12345678,
+ /

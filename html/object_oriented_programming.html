@@ -1,0 +1,252 @@
+<h1 id="object-oriented-programming">Object oriented programming</h1>
+<p>It may come as a surprise that you can do object oriented programming
+in Fortran. The key syntactic features that are used for this are</p>
+<ol type="1">
+<li>access control attributes for data encapsulation and</li>
+<li>type bound procedures,</li>
+<li>operator/procedure overloading,</li>
+<li>extension of user defined types.</li>
+</ol>
+<p>Opinions about object oriented programming as a paradigm differ
+widely. There are those that consider it the bread and butter of large
+scale software development as well as those who think it is pure evil
+spawned by the prince of darkness to torture unsuspecting
+developers.</p>
+<p>While it is true that a number of software projects have gone heavily
+overboard when using object orientation, it is definitely true that it
+can make your code much more transparent, especially when developing
+domain specific languages.</p>
+<p>The running example we will be using to motivate object oriented
+programming and introduce various concepts is descriptive statistics. We
+start quite simple with a user defined type to collect the relevant data
+to compute the mean and standard deviation of some real numbers.</p>
+<p>Consider data values \(x_i\) for
+\(i \in [1, N]\), then the mean value
+\(\mu\) is given by</p>
+<p>\(
+    \mu = \frac{1}{N} \sum_{i=1}^{N} x_i
+\)</p>
+<p>The standard deviation \(\sigma\)
+is given by</p>
+<p>\(
+   \sigma = \sqrt{\frac{1}{N-1} \sum_{i=1}^{N} (x_i - \mu)^2}
+\)</p>
+<p>Using a little algebra, the formula for \(\sigma\) can be transformed into</p>
+<p>\(
+  \sigma = \sqrt{\frac{1}{N-1} \large\( \sum_{i=1}^N x_i^2 - \frac{1}{N}
+\large\( \sum_{i=1}^{N} x_i \large\)^2 \large\)}
+\)</p>
+<p>Using this formulation of the standard deviation, it is clear that we
+do not require the mean value to compute it, but rather simply</p>
+<ol type="1">
+<li>the sum of the values,</li>
+<li>the sum of the square of the values,</li>
+<li>and the number of values</li>
+</ol>
+<p>Hence there is no reason to keep track of all the individual data
+values \(x_i\) and we can compute the
+descriptive statistics of arbitrarily many values.</p>
+<p>Throughout this text we will assume that the
+<code>descriptive_stats_t</code> user defined type and all procedures
+that pertain to it are defined in a module named
+<code>stats_mod</code>.</p>
+<h2 id="data-encapsulation">Data encapsulation</h2>
+<p>The following user defined type can be used to keep track of
+these.</p>
+<pre class="fortran"><code>type :: descriptive_stats_t
+    private
+    integer :: nr_values = 0
+    real :: sum = 0.0, sum2 = 0.0
+end type descriptive_stats_t</code></pre>
+<p>Since updating these three elements by hand would be very error
+prone, it is better to define a procedure to add a new data value to the
+statistics.</p>
+<p>The <code>private</code> statement ensures that the elements
+<code>nr_values</code>, <code>sum</code> and <code>sum2</code> can only
+be accessed from within the same compilation unit, i.e., the module
+<code>stats_mod</code> in our running example. If we place the
+declaration in a module <code>stats_mod</code> then only procedures
+defined in that module can read or modify the elements of the user
+defined type. This ensures data encapsulation, one of the cornerstones
+of object oriented design.</p>
+<pre class="fortran"><code>subroutine add_value(stats, new_value)
+    implicit none
+    type(descriptive_stats_t), intent(inout) :: stats
+    real, value :: new_value
+
+    stats%nr_values = stats%nr_values + 1
+    stats%sum = stats%sum + new_value
+    stats%sum2 = stats%sum2 + new_value**2
+end subroutine add_value</code></pre>
+<p>Note that the statistics user defined type variable
+<code>stats</code> is the first argument in the subroutine.</p>
+<p>This approach, in combination with the <code>private</code> statement
+in the type declaration ensures that the elements <code>n</code>,
+<code>sum</code> and <code>sum2</code> can only be modified through the
+subroutine <code>add_value</code>, hence reducing the probability of
+introducing bugs.</p>
+<p>The statistics can be obtained through functions such as
+<code>get_mean</code>, <code>get_stddev</code> and
+<code>get_nr_values</code>.</p>
+<pre class="fortran"><code>function get_mean(stats) result(mean_value)
+    use, intrinsic :: iso_fortran_env, only : error_unit
+    implicit none
+    type(descriptive_stats_t), intent(inout) :: stats
+    real :: mean_value
+
+    if (stats%nr_values == 0) then
+        write (unit=error_unit, fmt='(A)') &amp;
+            'error: too few data value to compute mean'
+        stop 1
+    end if
+    associate (n =&gt; stats%nr_values, sum =&gt; stats%sum)
+        mean_value = sum/n
+    end associate
+end function get_mean</code></pre>
+<p>The implementations of <code>get_nr_values</code> and
+<code>get_stddev</code> are of course similar. Although this approach
+works quite nicely, it can be done more elegantly using type bound
+procedures.</p>
+<h2 id="type-bound-procedures">Type bound procedures</h2>
+<p>It would be more natural to add a value to a variable of the user
+defined type <code>descriptive_stats_t</code>, or query it to get the
+current mean value or standard deviation. This can be achieved using
+type bound procedures.</p>
+<pre class="fortran"><code>type, public :: descriptive_stats_t
+    private
+    integer :: nr_values = 0
+    real :: sum = 0.0, sum2 = 0.0
+contains
+    procedure, public, pass :: add_value, get_nr_values, get_mean, get_stddev
+end type descriptive_stats_t</code></pre>
+<p>The procedures <code>add_value</code>, <code>get_nr_values</code>,
+<code>get_mean</code> and <code>get_stddev</code> are now bound to the
+type <code>descriptive_stats_t</code>. The procedures can be called
+using a syntax similar to accessing the elements of a user defined
+type.</p>
+<pre class="fortran"><code>...
+use :: stats_mod
+...
+type(descriptive_stats_t) :: stats
+...
+call stats%add_value(5.3)
+call stats%add_value(3.5)
+print '(F12.3)', stats%get_mean()
+...</code></pre>
+<p>The signature of the subroutine <code>add_value</code> has only
+slightly changed as you will see in a minute, but the first argument to
+be passed to it is still a variable of type
+<code>descriptive_stats_t</code>. This is accomplished by adding the
+<code>pass</code> attribute to the declaration in the type. The same
+applies to the other procedures such as <code>get_mean</code>.</p>
+<p>The definition of the procedures <code>add_value</code>,
+<code>get_nr_values</code>, <code>get_mean</code> and
+<code>get_stddev</code> has to be changed slightly. Rather than using
+<code>type</code> for the <code>stats</code> argument, we have to use
+<code>class</code>, e.g., for <code>get_nr_values</code> and similar for
+the other procedures.</p>
+<pre class="fortran"><code>function get_nr_values(stats) result(nr_values)
+    implicit none
+    class(descriptive_stats_t), intent(in) :: stats
+    integer :: nr_values
+
+    nr_values = stats%nr_values
+end function get_nr_values</code></pre>
+<p>The full implications of <code>class</code> will be discussed in the
+section on inheritance.</p>
+<p>Note that unless a type bound procedure is declared public in the
+module, it is no longer possible to call it as you normally would, i.e.,
+the following line of code would trigger a compilation error.</p>
+<pre class="fortran"><code>call add_value(stats, 7.3)</code></pre>
+<p>If you replace the <code>pass</code> attribute by
+<code>nopass</code>, the variable is simply ignored, and not passed as
+an argument to the procedure. We will see applications of this
+later.</p>
+<p>A user defined type with type bound procedures roughly corresponds to
+the concept of a <em>class</em> in other object oriented programming
+languages such as C++ or Python. We will use the term class here as well
+as a synonym to user defined type with type bound procedures. A variable
+of such a class is called an <em>object</em>, or also an
+<em>instance</em> of the class. A type bound procedure is also referred
+to as an <em>object method</em>.</p>
+<h2 id="generic-type-bound-procedures">Generic type bound
+procedures</h2>
+<p>It would be convenient if the <code>descriptive_stats_t</code> user
+defined type would have a procedure to add either a single value, or all
+elements of an array containing values. You already know that this can
+be achieved for ordinary procedures using a named interface. For type
+bound procedures it can be accomplished even simpler.</p>
+<p>The code fragment below shows the definition of the user defined
+type.</p>
+<pre class="fortran"><code>type, public :: descriptive_stats_t
+    private
+    integer :: nr_values = 0
+    real :: sum = 0.0, sum2 = 0.0
+contains
+    procedure, public, pass :: get_nr_values, get_mean, get_stddev
+    procedure, private, pass :: add_value, add_values
+    generic :: add_data =&gt; add_value, add_values
+end type descriptive_stats_t</code></pre>
+<p>The subroutine <code>add_value</code> is now private rather than
+public, since it is not supposed to be called directly. A subroutine
+<code>add_values</code> has been added to add an array of data to the
+statistics. The generic <code>add_data</code> will be called on
+variables of type <code>descriptive_stats_t</code>, and will be replaced
+by the compiler either by <code>add_value</code> or
+<code>add_values</code> depending on the type of its argument.</p>
+<pre class="fortran"><code>...
+use :: stats_mod
+...
+type(descriptive_stats_t) :: stats
+real, dimension(3) :: values = [ 3.5, 5.7, 7.3 ]
+...
+call stats%add_data(3.7)
+call stats%add_data(values)</code></pre>
+<p>In the context of other programming languages this is called method
+overloading.</p>
+<h2 id="operator-overloading">Operator overloading</h2>
+<p>Suppose you want to add a bias to the data represented by the
+<code>descriptive_stats_t</code> variable. Of course, you would have to
+write a procedure that would implement this. If a bias
+<code>delta</code> is added to each of the ‘nr_values’ data value \(x_i\), the <code>sum</code> element is
+changed to <code>sum + nr_values*delta</code>. The sum of the squares
+<code>sum2</code> is changed to
+<code>sum2 + 2*delta*sum + nr_values*delta**2</code>.</p>
+<p>The following procedure implements this and returns a new
+<code>descriptive_stats_t</code> object.</p>
+<pre class="fortran"><code>function stats_plus_value(stats, delta) result(new_stats)
+    implicit none
+    class(descriptive_stats_t), intent(in) :: stats
+    real, intent(in) :: delta
+    type(descriptive_stats_t) :: new_stats
+
+    new_stats%nr_values = stats%nr_values
+    new_stats%sum = stats%sum + stats%nr_values*delta
+    new_stats%sum2 = stats%sum2 + 2.0*delta*stats%sum + stats%nr_values*delta**2
+end function stats_plus_value</code></pre>
+<p>Obviously, this function could be defined as a type bound procedure
+for <code>descriptive_stats_t</code> statistics, but it would be
+convenient to call it as an expression, i.e.,
+<code>new_stats = stats + delta</code>. This can be done easily in
+Fortran using operator overloading, which boils down to defining an
+interface for the operator <code>+</code>.</p>
+<pre class="fortran"><code>interface operator(+)
+    module procedure stats_plus_value
+end interface</code></pre>
+<p>In general, you expect the operator <code>+</code> to be commutative,
+i.e., <code>delta + stats</code> should work just as well as
+<code>stats + delta</code>. Unfortunately, there is no automatic
+generation of the appropriate code, so you would have to define an
+additional procedure.</p>
+<pre class="fortran"><code>function value_plus_stats(val, stats) result(new_stats)
+    implicit none
+    class(descriptive_stats_t), intent(in) :: stats
+    real, intent(in) :: val
+    type(descriptive_stats_t) :: new_stats
+
+    new_stats = stats_plus_value(stats, val)
+end function value_plus_stats</code></pre>
+<p>It can be added to the interface for the operator, i.e.,</p>
+<pre class="fortran"><code>interface operator(+)
+    module procedure stats_plus_value, value_plus_stats
+end interface</code></pre>

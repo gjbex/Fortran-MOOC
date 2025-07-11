@@ -1,0 +1,178 @@
+<h1 id="documentation-using-doxygen">Documentation using Doxygen</h1>
+<p>Writing proper documentation is an integral part of software
+development that is sadly often neglected. It is often perceived as a
+chore, but keeping documentation up-to-date and in sync with your code
+need not be hard or tedious. Doxygen is a very nice tool to generate
+professional looking documentation. It can be used for software projects
+developed in many programming langauges, including Fortran.</p>
+<p>Writing API (Application Programming Interface) documentation simply
+boils down to adding comments to a procedure that mentions</p>
+<ul>
+<li>its intent,</li>
+<li>a description,</li>
+<li>its arguments, including the type and semantics,</li>
+<li>its return type, if any.</li>
+</ul>
+<p>Documentation at the level of modules can be added as comments as
+well.</p>
+<p>The doxygen tool will read the source code, extract the documentation
+and render it as HTML or LaTeX. The latter can easily be turned into a
+PDF document. Doxygen integrates nicely with CMake, hence the generation
+of documentation is part of your build process.</p>
+<p>Doxygen is quite sophisticated and offer many features and
+opportunities for custimization that are beyond the scope of this
+introduction. Here you will see how to document your code and how to
+generate an HTML version of it.</p>
+<p>Doxygen provides a number of special commands such as
+<code>@brief</code>, <code>@param</code> and <code>@returns</code> to
+make it easier to render documentation consistently. For the description
+you can use Markdown, while formulas can be written in LaTeX.</p>
+<h2 id="procedure-documentation">Procedure documentation</h2>
+<pre class="fortran"><code>!&gt; @brief read x, y coordinates from standard input
+!&gt;
+!&gt; This subroutine reads a pair of x and y coordinates from standard input. It
+!&gt; will verify that the input format is correct.  The application will stop if
+!&gt; that is not the case (exit code 3).  If there is no more input, this will be
+!. conveyed via the `istat` argument.
+!&gt;
+!&gt; @param[out] x coordinate
+!&gt; @param[out] y coordinate
+!&gt; @param[out] istat is 0 upon succesful read, `iostat_end` when
+!&gt;             no input remains
+subroutine get_coordinates(x, y, istat)
+    use, intrinsic :: iso_fortran_env, only : input_unit, error_unit
+    implicit none
+    real(kind=DP), intent(out) :: x, y
+    integer, intent(out) :: istat
+    character(len=1024) :: msg
+
+    read (unit=input_unit, fmt=*, iostat=istat, iomsg=msg) x, y
+    if (istat == iostat_end) return
+    if (istat /= 0) then
+        write (unit=error_unit, fmt='(2A)') &amp;
+            'error: ', msg
+        stop 3
+    end if
+end subroutine get_coordinates</code></pre>
+<p>The <code>@brief</code> entry is intended for a brief description of
+the procedure. This can (optionally) be followed by a longer description
+of one or more paragraphs. The arguments’ intent (<code>in</code>,
+<code>out</code>, <code>inout</code>) and description can be specified
+using <code>@param</code>. For functions, you can use
+<code>@return</code> to describe the result.</p>
+<p>Note that you don’t have to specify the types of the arguments and
+return value since doxygen is smart enough to figure that out from the
+procedure definition itself.</p>
+<p>This will be rendered to the following HTML document fragment.</p>
+<figure>
+<img alt="procedure-level doxygen documentation" src="doxygen_procedure.png"/>
+<figcaption aria-hidden="true">procedure-level doxygen
+documentation</figcaption>
+</figure>
+<h2 id="other-compilation-units">Other compilation units</h2>
+<p>Compilation units such as <code>program</code> or <code>module</code>
+can also be documented, e.g.,</p>
+<pre class="fortran"><code>!&gt; @brief application to perform box counting to estiamte the fractal
+!&gt;        dismension of an 2D object
+!&gt;
+!&gt; The application assumes that the 2D is in a unit square defined by
+!&gt; the points (0, 0), (1, 0), (0, 1), (1, 1).  A command line argument
+!&gt; specifies the resolution of the boxes, e.g., 2 means that 4 boxes
+!&gt; are used, 8 would mean 64 boxes.
+!&gt; Data is read from standard input in the form of x,y-coordinates in
+!&gt; the interval [0.0, 1.0].
+!&gt;
+program box_counting
+   ...
+end program box_counting</code></pre>
+<p>This will be rendered as follows:</p>
+<figure>
+<img alt="program-level doxygen documentation" src="doxygen_program.png"/>
+<figcaption aria-hidden="true">program-level doxygen
+documentation</figcaption>
+</figure>
+<h2 id="main-page">Main page</h2>
+<p>To present more high-level documentation you can create a main page
+in Markdown that serves as a landing page.</p>
+<pre><code>/*!
+  @mainpage
+  @brief program that computes the Minkowski dimension of a 2D fractal
+  @author Geert Jan Bex (geertjan.bex@uhasselt.be)
+  
+  This program computes the Minkowski fractal dimension for two dimensional objects
+  using box counting.  It has the number of edges as a command line parameter.
+  If the number of edges is $n$, a total of $n^2$ boxes is used to count the points.
+
+  Points of the 2D objects are read from standard input in text representation
+  as x-y coordinates.
+
+  Example usage if the points are read from file `data.txt`:</code></pre>
+<p>$ ./box_counting 1024 &lt; data.txt ~~~~~~~~~~~~~ */ ~~~~</p>
+<p>This will be rended as shown below.</p>
+<figure>
+<img alt="doxygen main page" src="doxygen_main_page.png"/>
+<figcaption aria-hidden="true">doxygen main page</figcaption>
+</figure>
+<p>The generated HTML documentation is fully hyperlinked and
+searchable.</p>
+<p>This file, <code>mainpage.dox</code> is stored in the
+<code>docs</code> directory, together with the configuration
+template.</p>
+<h2 id="configuration">Configuration</h2>
+<p>Doxygen can be configured on a per project basis. It has many
+configuration options so the easiest way to get started is to let
+doxygen generate a template configuration file that you adapt to your
+needs.</p>
+<pre class="bash"><code>$ doxygen  -g</code></pre>
+<p>There are a number of configuration options you definitely want to
+set such as</p>
+<ul>
+<li><code>PROJECT_NAME</code>: the name of your project;</li>
+<li><code>PROJECT_NUMBER</code>: the version number of your
+project;</li>
+<li><code>PROJECT_BRIEF</code>: a brief description of the project;</li>
+<li><code>OUTPUT_DIRECTORY</code>: when using CMake, this would be
+<code>@CMAKE_CURRENT_BINARY_DIR@/doc_doxygen/</code>;</li>
+<li><code>OPTIMIZE_FOR_FORTRAN</code>: you want to set this to
+<code>YES</code>;</li>
+<li><code>EXTENSION_MAPPING</code>: depending on the file name
+extensions you use, you can add what you require, e.g.,
+<code>f90=FortranFree</code>.</li>
+</ul>
+<p>The other settings are typically fine by default.</p>
+<p>When you want CMake to generate the documentation as part of the
+build process, this configuration file is best saved in a directory
+called <code>docs</code> and named <code>Doxyfile.in</code>.</p>
+<h2 id="cmake-doxygen">CMake &amp; doxygen</h2>
+<p>CMake can generate the documentation when you build your software,
+and this was already assumed in the previous section. The fragment of
+the <code>CMakeLists.txt</code> responsible for this is shown below.</p>
+<pre><code>option(BUILD_DOC "Build documentation" ON)
+
+# check if Doxygen is installed
+find_package(Doxygen)
+if (DOXYGEN_FOUND)
+    # set input and output files
+    set(DOXYGEN_IN ${CMAKE_CURRENT_SOURCE_DIR}/docs/Doxyfile.in)
+    set(DOXYGEN_OUT ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile)
+
+    # request to configure the file
+    configure_file(${DOXYGEN_IN} ${DOXYGEN_OUT} @ONLY)
+    message("Doxygen build started")
+
+    # note the option ALL which allows to build the docs together with the application
+    add_custom_target( doc_doxygen ALL
+        COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_OUT}
+        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+        COMMENT "Generating API documentation with Doxygen"
+        VERBATIM )
+else (DOXYGEN_FOUND)
+    message("Doxygen need to be installed to generate the doxygen documentation")
+endif (DOXYGEN_FOUND)</code></pre>
+<p>As you can see, the <code>Doxyfile.in</code> is first configured
+using the information for the current build and transformed into
+<code>Doxyfile</code> in the binary directory. Moreover, a custom target
+<code>doc_doxygen</code> is added for generating the documentation.</p>
+<p>When you use CMake to build your application, the HTML and LaTeX
+documentation will be generated in the <code>doc_doxygen</code>
+subdirectory of the build directory.</p>

@@ -1,0 +1,581 @@
+<h1 id="arrays">Arrays</h1>
+<p>In scientific programming arrays play a very important role. You will
+use them to represent vectors (1-dimensional arrays), matrices
+(2-dimensional arrays), and so on.</p>
+<p>An array is a collection of values that can be selected using an
+index. For example, consider the following array declaration in
+Fortran.</p>
+<pre class="fortran"><code>integer, dimension(5) :: A</code></pre>
+<p>Here, the name of the array is <code>A</code>, it has 5 elements, as
+specified by <code>dimension</code>, and each of its elements is an
+integer, type <code>integer</code>. The first element of the array is
+<code>A(1)</code>, the second <code>A(2)</code>, the last
+<code>A(5)</code>. So in more abstract terms, you can view an array as
+an ordered sequence of objects, all with the same type.</p>
+<p>By default, array indices start from 1 and go up to the size of the
+array. This is similar to other programming languages such as MATLAB, R
+and Julia, but different from languages such as C, C++ and Python.</p>
+<p>Short aside: note the common factor in Fortran, MATLAB, R and Julia,
+all these programming languages were specifically designed for
+scientific computing and doing mathematics. C, C++ and Python are
+positioned as general purpose languages, not specific to any domain.</p>
+<h2 id="accessing-array-elements">Accessing array elements</h2>
+<p>The following Fortran program shows how to work with individual array
+elements.</p>
+<pre class="fortran"><code>program array_elements
+    implicit none
+    integer, dimension(5) :: A
+    integer :: i
+
+    A(1) = 1
+    do i = 2, size(A)
+        A(i)  = 2*A(i - 1)
+    end do
+    print *, A
+end program array_elements</code></pre>
+<p>The <code>size</code> intrinsic function returns the number of
+elements of an array. Here it is used as the final index of the array
+<code>A</code>.</p>
+<h2 id="array-initialization">Array initialization</h2>
+<p>In the last example of the previous section, the array was
+initialized element-wise. Although this is fairly common, you can use a
+few more convenient approaches.</p>
+<p>The following program illustrates three options.</p>
+<pre class="fortran"><code>program array_initialization
+    implicit none
+    integer :: i
+    integer, dimension(5) :: A, B, C
+
+    A = 13
+    B = [ 2, 3, 5, 7, 11 ] 
+    C = [ (2**i, i=0,4) ] 
+    print *, A
+    print *, B
+    print *, C
+end program array_initialization</code></pre>
+<p>This program generates the following output.</p>
+<pre><code>         13          13          13          13          13
+          2           3           5           7          11
+          1           2           4           8          16</code></pre>
+<p>For the array <code>A</code>, the value 13 is assigned to each
+element. For array <code>B</code>, the values for the respective
+elements are listed explicitly. The initialization method is obviously
+only useful for short arrays. The array <code>C</code> is initialized
+using an implicit do loop over the variable <code>i</code>.</p>
+<h2 id="array-arithmetic">Array arithmetic</h2>
+<p>Arrays are first-class citizens in Fortran, so you can perform
+arithmetic directly on arrays. The following program illustrates
+this.</p>
+<pre class="fortran"><code>program array_arithmetic
+    implicit none
+    real, dimension(5) :: A = [ 1.2, 2.3, 3.4, 4.5, 5.6 ], &amp;
+                          B = [ -1.0, -0.5, 0.0, 0.5, 1.0], &amp;
+                          C
+
+    C = A + 2.0*B
+    print *, C
+end program array_arithmetic</code></pre>
+<p>The unary operator <code>-</code> can be applied to an array, and
+will change the sign of all the elements of the array, i.e.,
+<code>A_new(i) = -A(i)</code>. Here <code>A_new</code> represents the
+resulting array.</p>
+<p>The binary operators <code>+</code>, <code>-</code>, <code>*</code>,
+<code>/</code> and <code>**</code> can be used with a scalar operand and
+the semantics <code>A_new(i) = scalar &lt;op&gt; A(i)</code> or
+<code>A_new(i) = A(i) &lt;op&gt; scalar</code>. Here,
+<code>&lt;op&gt;</code> represents the binary operator and scalar is a
+value that can be converted to the type of the array’s elements.</p>
+<p>The binary operators can also have an array as both their left and
+right operands. The semantics is
+<code>C_new(i) = A(i) &lt;op&gt; B(i)</code>, where <code>A</code> and
+<code>B</code> are the original arrays, and <code>C_new</code>
+represents the new one.</p>
+<h2 id="subarrays">Subarrays</h2>
+<p>Fortran lets you select a subarray out of an array. This is quite
+similar to list or string slicing in Python. The following program
+illustrates subarrays.</p>
+<pre class="fortran"><code>program subarrays
+    implicit none
+    integer :: i
+    integer, dimension(10) :: A = [ (i, i = 1, 10) ]
+    character(len=10), parameter :: FMT = '(10I3)'
+
+    print FMT, A
+    print FMT, A(4:7)
+    print FMT, A(:7)
+    print FMT, A(4:)
+    print FMT, A(4:7:2)
+    print FMT, A(4::2)
+    print FMT, A(:7:2)
+    print FMT, A(7:4:-1)
+end program subarrays</code></pre>
+<p>The output of this program is given below.</p>
+<pre><code> 1  2  3  4  5  6  7  8  9 10
+ 4  5  6  7
+ 1  2  3  4  5  6  7
+ 4  5  6  7  8  9 10
+ 4  6
+ 4  6  8 10
+ 1  3  5  7
+ 7  6  5  4</code></pre>
+<p>The most general form of subarray section is
+<code>&lt;start&gt;:&lt;end&gt;:&lt;delta&gt;</code>, where
+<code>&lt;start&gt;</code> is the first index, <code>&lt;end&gt;</code>
+is the last index (inclusive), and <code>&lt;delta&gt;</code> is the
+increment.</p>
+<ul>
+<li>If <code>&lt;delta&gt;</code> is positive, the array indices are
+computed as <code>&lt;start&gt; + i*&lt;delta&gt;</code> for values of
+<code>i</code> starting from 0 and up to a value <code>i_max</code> such
+that <code>&lt;start&gt; + i_max*&lt;delta&gt;</code> is less than or
+equal to <code>&lt;end&gt;</code>. Note that <code>&lt;start&gt;</code>
+is less than or equal to <code>&lt;end&gt;</code>.</li>
+<li>If <code>&lt;delta&gt;</code> is negative, the array indices are
+similarly, but the last value will be
+<code>&lt;start&gt; + i_max*&lt;delta&gt;</code> such that it is larger
+than or equal to <code>&lt;end&gt;</code>. Note that in that case
+<code>&lt;start&gt;</code> should be larger than or equal to
+<code>&lt;end&gt;</code>.</li>
+</ul>
+<p>If <code>&lt;delta&gt;</code> is omitted, it defaults to 1.</p>
+<p>As you can see <code>&lt;start&gt;</code> and/or
+<code>&lt;end&gt;</code> can be left out. If <code>&lt;start&gt;</code>
+is left out, it defaults to the first index, if <code>&lt;end&gt;</code>
+is left out, it defaults to the last index.</p>
+<p>Note: using strided subarrays, i.e., <code>&lt;delta&gt;</code> not
+equal to 1, can result in performance issues.</p>
+<h2 id="multidimensional-arrays">Multidimensional arrays</h2>
+<p>Up to this point, you have only see examples of one dimensional
+arrays, or arrays with rank 1. Fortran supports multidimensional arrays
+with ranks up to 15 (as of Fortran 2008).</p>
+<p>In the program below, a two dimensional array is initialized,
+printed, and the sum of the squares of the elements is computed using
+explicit do loops.</p>
+<pre class="fortran"><code>program matrix
+    implicit none
+    integer, parameter :: ROWS = 3, COLS = 5
+    real, dimension(ROWS, COLS) :: A
+    integer :: i, j
+    real :: total
+
+    A = reshape([ (((i - 1)*size(A, 2) + j, j=1,size(A, 2)), i=1,size(A, 1)) ], &amp;
+                shape(A))
+    do i = 1, size(A, 1)
+        print *, A(i, :)
+    end do
+    total = 0.0
+    do j = 1, size(A, 2)
+        do i = 1, size(A, 1)
+            total = total + A(i, j)**2
+        end do
+    end do
+    print '(/, A, F10.2)', 'total = ', total
+end program matrix</code></pre>
+<p>The output of the program is shown below.</p>
+<pre><code>   1.00000000       4.00000000       7.00000000       10.0000000       13.0000000    
+   2.00000000       5.00000000       8.00000000       11.0000000       14.0000000    
+   3.00000000       6.00000000       9.00000000       12.0000000       15.0000000    
+
+total =    1240.00</code></pre>
+<p>The first index of array <code>A</code> refers to the row, the second
+to the column, e.g., <code>A(2, 3)</code> would be the element on the
+second row, third column.</p>
+<p>Note that in the nested do loops, the outer loop ranges over the
+column index, while the inner loop ranges over the row index. The reason
+is that two dimensional arrays in Fortran are stored column-wise. In
+general, the inner loop should range over the rank of which the index
+changes the fastest, so that is the row index for rank 2 arrays.</p>
+<p>The shape of an array is the size in each dimension, so for the
+matrix <code>A</code>, the shape would be <code>3, 5</code>.</p>
+<p>Just as for one dimensional arrays, you can select subarrays from
+multidimensional arrays as well. Suppose that <code>A</code> is a \(5 \times 5\) matrix, then the the
+expression <code>A(2:3, 2:4)</code> will create a \(2 \times 3\) subarray with the values
+<code>A(2, 2)</code>, <code>A(2, 3)</code>, <code>A(2, 4)</code> in its
+first row, and <code>A(3, 2)</code>, <code>A(3, 3)</code> and
+<code>A(3, 4)</code> in its second row.</p>
+<p>You can select an entire row or column from a two dimensional array
+as well. For example, <code>A(2, :)</code> is a subarray that consists
+of the elements of <code>A</code>’s second row. Similarly,
+<code>A(:, 3)</code> has the elements of the third column of
+<code>A</code>. Note that both <code>A(2, :)</code> and
+<code>A(:, 3)</code> have rank 1 and size 5.</p>
+<h2 id="intrinsic-procedures">Intrinsic procedures</h2>
+<p>Fortran has many intrinsic procedures for arrays. You already saw a
+few of them in action.</p>
+<h3 id="size-and-shape">Size and shape</h3>
+<p>The <code>size</code> intrinsic function returns the number of
+elements of an array. It has the dimension as an optional argument for
+use with multidimensional arrays, e.g., <code>size(A, 1)</code> will
+return the number of rows of the array, <code>size(A, 2)</code> the
+number of columns.</p>
+<p>The <code>shape</code> intrinsic function returns a one dimensional
+array with the dimensions for the array. So for a \(3 \times 5\) array, the <code>shape</code>
+function returns the array <code>[3, 5]</code>.</p>
+<p>The <code>rank</code> intrinsic function returns the rank of an
+array, i.e., its number of dimensions.</p>
+<p>The <code>reshape</code> intrinsic function takes two arguments. The
+first argument is an array of any shape, the second is a one dimensional
+array that specifies a new shape. In the example code in the previous
+section, a one dimensional array of size 15 (constructed using implicit
+do loops) is reshaped into a two dimensional \(3 \times 5\) array. Note that the size of
+the array should be equal to the product of the new dimensions. For
+example, you can reshape a \(4 \times
+5\) array into a \(2 \times
+10\) array, or into a one dimensional array with 20 elements. It
+can even be reshaped into a three dimensional \(2 \times 2 \times 5\) array.</p>
+<h3 id="mathematical-functions">Mathematical functions</h3>
+<p>Most mathematical function such as the trigonometric functions and
+their inverse, the exponential and logarithmic functions and the square
+root can be applied to an array of any rank to produce a new array of
+the same rank with elements that are the result of applying the function
+to the corresponding element in the original array. So
+<code>A_new(i) = &lt;func&gt;(A(i))</code>. Such procedures are called
+elemental and you’ll see in one of the next section how to create your
+own.</p>
+<p>The scalar product of two vectors (i.e, one dimensional arrays) can
+be computed using the intrinsic function <code>dot_product</code>. The
+vector-matrix, matrix-vector or matrix-matrix product can be computed
+using the intrinsic function <code>matmul</code>. As you would expect,
+the dimensions must match, so for <code>matmul(A, B)</code>,
+<code>size(A, 2)</code> must be equal to <code>size(B, 1)</code>.</p>
+<p>The <code>sum</code> and <code>product</code> intrinsic functions
+compute the sum and product of the elements of an array
+respectively.</p>
+<h3 id="finding-and-counting">Finding and counting</h3>
+<p>The intrinsic functions <code>maxval</code> will return the maximum
+value of an array. The corresponding intrinsic function
+<code>maxloc</code> returns the index or indices of the element with the
+highest value in the array. When applied to a multidimensional array,
+this function will return a one dimensional array with the same size as
+the rank of the argument. If there are multiple elements with the same
+maximum value, the index or indices of the first such element is
+returned.</p>
+<p>Obviously, the intrinsic functions <code>minval</code> and
+<code>minloc</code> are similar to <code>maxval</code> and
+<code>maxloc</code>.</p>
+<h3 id="masks-and-dimension">Masks and dimension</h3>
+<p>Intrinsic functions similar to <code>sum</code> and
+<code>maxval</code> accept two optional arguments <code>dim</code> and
+<code>mask</code>.</p>
+<p>If <code>dim</code> is specified, the result returned by the function
+is an array with a rank one less than that of the argument. So for a two
+dimensional array <code>A</code>, <code>maxval(A, dim=1)</code> would
+return a one dimensional array. The elements of that array would be the
+maximum value over each column in <code>A</code>.</p>
+<p>The <code>mask</code> argument is a <code>logical</code> array of the
+same shape as the argument array. If an element of the
+<code>logical</code> array is <code>.TRUE.</code>, the value of the
+corresponding element in the argument array is taken into account, if it
+is <code>.FALSE.</code> it is not taken into account.</p>
+<p>The following program illustrates the optional arguments
+<code>dim</code> and <code>mask</code> when used with the intrinsic
+functions <code>maxval</code> and <code>macloc</code>.</p>
+<pre class="fortran"><code>program max_array
+    implicit none
+    integer, dimension(3, 4) :: A
+    integer :: i, j
+    character(len=10), parameter :: FMT = '(A, 4I13)'
+
+    A = reshape( [ (((i - 1)*size(A, 2) + j, j=1,size(A, 2)), i=1,size(A, 1)) ], &amp;
+                shape(A)) - 8
+    do i = 1, size(A, 1)
+        print *, A(i, :)
+    end do
+    print FMT, 'maximum = ', maxval(A)
+    print FMT, 'column maximum = ', maxval(A, dim=1)
+    print FMT, 'row maximum = ', maxval(A, dim=2)
+    print FMT, 'maximum odd elment = ', maxval(A, mask=mod(A, 2) /= 0)
+    print FMT, 'column maximum negative elment = ', maxval(A, dim=1, mask=A &lt; 0)
+    print FMT, 'maxloc = ', maxloc(A)
+    print FMT, 'column maxloc = ', maxloc(A, dim=1)
+end program max_array</code></pre>
+<p>The output of this program is shown below.</p>
+<pre><code>         -7          -4          -1           2
+         -6          -3           0           3
+         -5          -2           1           4
+maximum =             4
+column maximum =            -5           -2            1            4
+row maximum =             2            3            4
+maximum odd elment =             3
+column maximum negative elment =            -5           -2           -1  -2147483648
+maxloc =             3            4
+column maxloc =             3            3            3            3</code></pre>
+<p>Note the output for <code>maxval(A, dim=1, mask=A &lt; 0)</code>. The
+last value is not exactly what you would expect. However, when you
+inspect the matrix, you will see that the last column has no negative
+elements. This is an example of garbage in (this code), garbage out.</p>
+<p>The <code>count</code> function uses a mask to count elements in an
+array that satisfy some Boolean condition, e.g.,
+<code>count(A &gt;= 0)</code> will return the number of positive
+elements in the array <code>A</code>. It takes an optional argument
+<code>dim</code> as well.</p>
+<h2 id="extent">Extent</h2>
+<p>Although the default indices of a Fortran array range from 1 to the
+size of the array, it is possible to declare arrays with a non-default
+extent. Consider the following array declaration.</p>
+<pre class="fortran"><code>real, dimension(-10:10) :: A</code></pre>
+<p>This declares an array named <code>A</code> that has 21 elements of
+type <code>real</code>. The first element is at index -10, the second at
+-9, and so on. The last element has index 10.</p>
+<p>The intrinsic functions <code>lbound</code> and <code>ubound</code>
+return the lower and upper bound(s) of an array respectively. Similar to
+the <code>size</code> function, these intrinsic functions take an
+optional argument <code>dim</code> to specify the dimension for which
+you want the upper or lower bound.</p>
+<p>If you feel tempted at this point to emulate 0-based indices because
+that is what you are used to in some other programming language, please
+don’t. It adds complexity to your code and makes it harder to read for
+seasoned Fortran programmers (also, they will make fun of you).</p>
+<p>Regardless, arrays with non-default upper and lower bounds indices
+definitely have their use cases.</p>
+<h2 id="arrays-and-user-defined-procedures">Arrays and user-defined
+procedures</h2>
+<p>Arrays can be passed as arguments to user-defined procedures, and be
+returned as the result of functions. You can even create your own
+elemental procedures that act on individual array elements just like
+intrinsic procedures such as, e.g., <code>sqrt</code>.</p>
+<h3 id="assumed-shape-arguments">Assumed-shape arguments</h3>
+<p>You may think that there is a problem when you have to declare an
+argument of a procedure that is an array: how to specify its shape? If
+the shape would have to be specified explicitly, e.g,
+<code>dimension(3, 4)</code> writing and using procedures involving
+arrays would be <em>very</em> cumbersome. Fortunately, Fortran offers a
+very elegant solution: assumed-shape arrays.</p>
+<p>The code fragment below shows a function that has a two dimensional
+array that is supposed to represent a square matrix as an argument, and
+computes the trace.</p>
+<pre class="fortran"><code>    real function trace(matrix)
+        use, intrinsic :: iso_fortran_env, only : error_unit
+        implicit none
+        real, dimension(:, :), intent(in) :: matrix
+        integer :: i
+
+        if (size(matrix, 1) /= size(matrix, 2)) then
+            write (unit=error_unit, fmt='(A)') &amp;
+                'error: can not compute trace of a non-square matrix'
+            stop 1
+        end if
+        trace = 0.0
+        do i = 1, size(matrix, 1)
+            trace = trace + matrix(i, i)
+        end do
+    end function trace</code></pre>
+<p>The function’s argument is an array of rank 2, but unspecified size
+(<code>dimension(:, :)</code>), however, the information about the shape
+of the array is available when the function is executed. The
+<code>size</code> and <code>shape</code> intrinsic functions will return
+the values corresponding to the array in the calling context.</p>
+<h3 id="elemental-procedures">Elemental procedures</h3>
+<p>Elemental procedures are pure procedures that operate on a single
+scalar value. When it receives an array as an argument, it is applied
+element-wise The following Fortran program shows an elemental function
+and its application.</p>
+<pre class="fortran"><code>program linear_transform
+    implicit none
+    real, dimension(5) :: values
+
+    call random_number(values)
+    print *, values
+    print *, lin_transform(values, 2.0, 1.0)
+
+contains
+
+    elemental real function lin_transform(x, a, b)
+        implicit none
+        real, intent(in) :: x, a, b
+
+        lin_transform = a*x + b
+    end function lin_transform
+
+end program linear_transform</code></pre>
+<p>Many of Fortran’s intrinsic functions are elemental, e.g.,
+<code>sqrt</code> or the trigonometric functions. It is quite useful
+that you can define your own functions that can be applied to an entire
+array at once.</p>
+<p>Note that also subroutines can be elemental.</p>
+<h3 id="arrays-as-return-values">Arrays as return values</h3>
+<p>Fortran procedures can also return arrays as a result of a function
+call. The following function illustrates that. Given a size, it
+constructs an identity matrix (represented as two dimensional
+array).</p>
+<pre class="fortran"><code>    function eye(n) result(matrix)
+        implicit none
+        integer, value :: n
+        real, dimension(n, n) :: matrix
+        integer :: i
+
+        matrix = 0.0
+        do i = 1, size(matrix, 1)
+            matrix(i, i) = 1.0
+        end do
+    end function eye</code></pre>
+<h2 id="array-related-statements">Array-related statements</h2>
+<p>The fact that arrays are first-class citizens in Fortran is further
+illustrated by two statements. The first is the where statement, the
+second the forall statement.</p>
+<h3 id="where-statement">where statement</h3>
+<p>The where statement makes conditional assignment to array elements
+considerably simpler.</p>
+<p>As an example, consider the random initialization of a system of
+particles. Approximately half of the particles are protons, the other
+half electrons. The masses and charges for the particles are stored in
+an array <code>masses</code> and <code>charges</code> respectively. The
+number of particles is stored in the parameter
+<code>nr_particles</code>.</p>
+<p>This could be implemented as follows.</p>
+<pre class="fortran"><code>...
+real, dimension(nr_particles) :: masses, charges
+real :: probability
+integer :: i
+
+do i = 1, nr_particles
+    call random_number(probability)
+    if (probability &lt; 0.5) then
+        masses(i) = proton_mass
+        charges(i) = proton_charge
+    else
+        masses(i) = electron_mass
+        charges(i) = electron_charge
+    end if
+end do
+...</code></pre>
+<p>The <code>random_number</code> procedure will assign a pseudo-random
+number in the half-open interval 0.0 to 1.0.</p>
+<p>Although this may seem the obvious way to implement this, there is an
+arguably more elegant alternative using the where statement.</p>
+<pre class="fortran"><code>...
+real, dimension(nr_particles) :: masses, charges, probabilities
+
+call random_number(probabilities)
+where (probabilities &lt; 0.5)
+    masses = proton_mass
+    charges = proton_charge
+elsewhere
+    masses = electron_mass
+    charges = electron_charge
+end where
+...</code></pre>
+<p>Perhaps the easiest explanation of this statement is its translation
+into a do and if statement which is functionally equivalent.</p>
+<pre class="fortran"><code>...
+real, dimension(nr_particles) :: masses, charges, probabilities
+
+call random_number(probabilities)
+do i = 1, nr_particles
+    if (probabilities(i) &lt; 0.5) then
+        masses(i) = proton_mass
+        charges(i) = proton_charge
+    else
+        masses(i) = electron_mass
+        charges(i) = electron_charge
+    end if
+end do
+...</code></pre>
+<p>Using the where statement has a number of advantages:</p>
+<ol type="1">
+<li>it reduces the number of statements, simplifying the code;</li>
+<li>it expresses your intent more clearly, so the compiler can take
+advantage for optimization.</li>
+</ol>
+<p>Since all assignments are independent, the compiler is free to
+generate code that does them in any order.</p>
+<p>The general form of the where statement syntax is.</p>
+<pre><code>where (&lt;logical expression 1&gt;)
+    &lt;block statements 1&gt;
+elsewhere (&lt;logical expression 2&gt;)
+    &lt;block statements 2&gt;
+...
+elsewhere
+    &lt;block statements n&gt;
+end where</code></pre>
+<p>If you have a simple case with a single, unconditional
+<code>elsewhere</code>, the <code>merge</code> function can be a nice
+alternative.</p>
+<pre class="fortran"><code>...
+real, dimension(nr_particles) :: masses, charges, probabilities
+
+call random_number(probabilities)
+masses = merge(proton_mass, electron_mass, probabilities &lt; 0.5)
+charges = merge(proton_charge, electron_charge, probabilities &lt; 0.5)
+...</code></pre>
+<h3 id="forall-statement">forall statement</h3>
+<p>Another statement that is very useful in the context of arrays is
+forall. This statement lets you iterate over one or more integer
+variables and set conditions on the values of these indices. For
+instance, suppose you would like to initialize a triangular matrix with
+all elements under the main diagonal equal to 0.</p>
+<pre class="fortran"><code>integer, parameter :: N
+integer :: i, j
+real, dimension(N, N) :: A
+
+forall (i=1:N, j=1:N, i &lt;= j)
+    A(i, j) = f(i, j)
+end forall</code></pre>
+<p>This would be equivalent to the following code.</p>
+<pre class="fortran"><code>integer, parameter :: N
+integer :: i, j
+real, dimension(N, N) :: A
+
+do i = 1, N
+    do j = i, N
+        A(i, j) = f(i, j)
+    end do
+end do</code></pre>
+<p>Note that the iterations are independent of one another, so when the
+forall statement is used, the compiler is free to choose an efficient
+order for the iterations. This construct also collapses the iteration
+space from multiple iterations into a single one.</p>
+<p>The general syntax for the forall statement is given below.</p>
+<pre><code>forall (&lt;iter 1&gt;, ..., &lt;iter n&gt;, &lt;logical expression&gt;)
+    &lt;array assignments&gt;
+end forall</code></pre>
+<p>The <code>&lt;iter 1&gt;</code> to <code>&lt;iter n&gt;</code> have
+the form <code>&lt;variable&gt;=&lt;first&gt;:&lt;last&gt;</code> or
+<code>&lt;variable&gt;=&lt;first&gt;:&lt;last&gt;:&lt;stride&gt;</code>.
+The values of <code>&lt;first&gt;</code>, <code>&lt;last&gt;</code> and
+<code>&lt;stride&gt;</code> should not refer to other iteration
+variables. This means our example can not be written as follows since
+<code>j</code> is initialized using the value of <code>i</code>.</p>
+<pre class="fortran"><code>forall (i=1:N, j=i:N)
+    A(i, j) = f(i, j)
+end forall</code></pre>
+<p>If the conditional expression, also called the mask, is left out, it
+is assumed to be true for all iteration values.</p>
+<p>Note that only assignments to arrays are allowed in the block of a
+forall statement.</p>
+<h2 id="do-concurrent">do concurrent</h2>
+<p>Whereas the forall statement can be used for array assignment only,
+the do concurrent statement is more general. The syntax is very similar
+to that of forall.</p>
+<p>For instance, the example in the previous section can be written
+using do concurrent.</p>
+<pre class="fortran"><code>do concurrent (i=1:N, j=i:N)
+    A(i, j) = f(i, j)
+end do</code></pre>
+<p>The general syntax for the do concurrent statement is given
+below.</p>
+<pre><code>do concurrent (&lt;iter 1&gt;, ..., &lt;iter n&gt;, &lt;logical expression&gt;)
+    &lt;block statements&gt;
+end do</code></pre>
+<p>The <code>&lt;iter 1&gt;</code> to <code>&lt;iter n&gt;</code> have
+the form <code>&lt;variable&gt;=&lt;first&gt;:&lt;last&gt;</code> or
+<code>&lt;variable&gt;=&lt;first&gt;:&lt;last&gt;:&lt;stride&gt;</code>.
+The values of <code>&lt;first&gt;</code>, <code>&lt;last&gt;</code> and
+<code>&lt;stride&gt;</code> should not refer to other iteration
+variables.</p>
+<p>The <code>&lt;block statements&gt;</code> should be independent,
+i.e., the order of the iterations should not matter. This means there
+are some restrictions of what can be done in a do concurrent
+statement:</p>
+<ul>
+<li>conditional statements should not transfer control out of the
+iteration;</li>
+<li>procedures called must be pure.</li>
+</ul>
+<p>Note that do concurrent statements can be nested.</p>
+<pre class="fortran"><code>do concurrent (row = 1:size(matrix, 1))
+    row_norm = 1.0_DP/sum(matrix(row, :))
+    do concurrent (col = 1:size(matrix, 2))
+        matrix(row, col) = matrix(row, col)*row_norm
+    end do
+end do</code></pre>

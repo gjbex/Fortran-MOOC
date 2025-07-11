@@ -1,0 +1,259 @@
+<h1 id="pointers">Pointers</h1>
+<p>Although pointers are typically associated with programming languages
+such as C and C++, you can in fact use pointers in Fortran as well.
+However, there are substantial conceptual differences between pointers
+in C/C++ and Fortran.</p>
+<p>In C/C++ a pointer is simply an address of data in memory. In
+Fortran, a pointer isn’t an address, but is rather associated with data
+that has been designated as a target. During its lifetime, a pointer can
+be associated with any number of targets.</p>
+<h2 id="pointer-basics">Pointer basics</h2>
+<p>Consider the following mathematical relation between a vector \(A\) at time \(t
++ 1\) as a function of the values of \(A\) at \(t\):</p>
+<p>\(
+    A_{t+1, i} = \frac{1}{4}A_{t, i-1} + \frac{1}{2}A_{t, i} +
+\frac{1}{4}A_{t, i+1}
+\)</p>
+<p>Starting from some initial values for \(A\) at \(t =
+0\), what is the values of \(A\) after <code>nr_steps</code> time
+steps?</p>
+<p>The code fragment below implements this.</p>
+<pre class="fortran"><code>...
+real, dimension(nr_vals) :: A, A_new
+integer :: t, i
+...
+do t = 1, nr_steps
+    do i = 2, size(A) - 1
+        A_new(i) = 0.25*A(i - 1) + 0.5*A(i) + 0.25*A(i + 1)
+    end do
+    A = A_new
+end do
+...</code></pre>
+<p>For each time step, the values of the array <code>A_new</code> have
+to be copied to the array <code>A</code>. It would be more efficient if
+you could swap the roles of <code>A</code> and <code>A_new</code> at
+each time step. This can be achieved easily using pointers.</p>
+<pre class="fortran"><code>...
+real, dimension(nr_vals), target :: A, A_new
+real, dimension(:), pointer :: pA, pA_new, tmp
+integer :: t, i
+...
+pA =&gt; A
+pA_new =&gt; A_new
+do t = 1, nr_steps
+    do i = 2, size(A) - 1
+        pA_new(i) = 0.25*pA(i - 1) + 0.5*pA(i) + 0.25*pA(i + 1)
+    end do
+    tmp =&gt; pA
+    pA =&gt; pA_new
+    pA_new =&gt; tmp
+end do
+...</code></pre>
+<p>The arrays <code>A</code> and <code>A_new</code> can have pointers
+associated to them since they are declared with the <code>target</code>
+attribute. The variables <code>pA</code> and <code>pA_new</code> have
+the same type as <code>A</code> and <code>A_new</code>. Note that they
+are deferred-shape and have the <code>pointer</code> attribute.</p>
+<p>Pointers can be associated with variables using the
+<code>=&gt;</code> operator. The left hand side operator is the pointer,
+the right hand side operator the target.</p>
+<p>In this code fragment, the pointer <code>pA</code> is originally
+associated with the array <code>A</code>, but in the iteration statement
+it gets associated with the array <code>A_new</code> for each iteration
+where <code>t</code> is odd, and back to <code>A</code> for each
+iteration where <code>t</code> is even.</p>
+<p>The pointer variables can be used just like the targets they are
+pointing to, so <code>pA(5)</code> refers to the fifth element of the
+array <code>A</code> when <code>pA</code> is associated with
+<code>A</code>, and to the corresponding element in the array
+<code>A_new</code> when it is associated with the latter.</p>
+<p>The benefit of using pointers in this code fragment is that the data
+in array <code>A_new</code> doesn’t need to be copied into array
+<code>A</code> for each iteration, resulting in better performance for
+large arrays.</p>
+<p>Note that a pointer can be associated with a variable if and only
+if</p>
+<ul>
+<li>their types match, and</li>
+<li>the variable is a target.</li>
+</ul>
+<h2 id="pointer-associations">Pointer associations</h2>
+<p>A pointer variable is not necessarily associated with a target during
+its entire life time. It is for instance possible that the data the
+pointer is to be associated with has not been created yet.</p>
+<p>You can test whether a pointer has been associated with a target
+using the intrinsic function <code>associated</code>. It can be called
+with either a single or with two arguments. Consider the following code
+fragment.</p>
+<pre class="fortran"><code>...
+integer, target :: a, b
+integer, pointer :: p
+
+nullify (p)
+print *, associated(p)       ! prints F
+
+p =&gt; a
+print *, associated(p)       | prints T
+print *, associated(p, a)    | prints T
+print *, associated(p, b)    | prints F
+
+p =&gt; b
+print *, associated(p)       | prints T
+print *, associated(p, a)    | prints F
+print *, associated(p, b)    | prints T
+
+p =&gt; null()
+print *, associated(p)       ! prints F
+...</code></pre>
+<p>When <code>associated</code> is called with a single pointer
+argument, it will return true when that pointer is associated with a
+target, false otherwise. When called with two arguments, the first a
+pointer, the second a potential target, the intrinsic function returns
+true if the pointer is associated with that specific target, false
+otherwise.</p>
+<p>Note that the function <code>associated</code> can return either true
+or false when called with an uninitialized pointer as an argument. Hence
+it is good practice to initialize a pointer by either associating it
+with <code>null()</code>, or using type <code>nullify</code> statement.
+Both are illustrated in the code fragment above. The function
+<code>associated</code> will return false if the pointer is
+nullified.</p>
+<p>In the example above you see that scalar values of types such as
+<code>integer</code> can be targets for pointers. However, there are few
+applications for this. Arrays or variables of user defined types make
+much more interesting targets.</p>
+<h2 id="targets-for-pointers">Targets for pointers</h2>
+<p>Data of almost any type can be a target for a pointer. The code
+samples above illustrated that scalar variables of types such as
+<code>integer</code> or <code>real</code> can act as targets, but as
+mentioned before, there are few applications for this in Fortran.</p>
+<h3 id="arrays">Arrays</h3>
+<p>A more interesting case that served as our motivating example is to
+target arrays with pointers. In general you can target an array with a
+pointer of the same type and shape.</p>
+<p>If a pointer is associated to an array, it can be passed to a
+procedure that expects an array of that type and shape transparently,
+i.e., the procedure is declared with standard array arguments.</p>
+<p>Another interesting application is to associate a pointer with a
+subarray. The following code fragment illustrates this.</p>
+<pre class="fortran"><code>...
+integer, dimension(3, 2), target :: A = reshape( [(i, i=1, 6)], [3, 2])
+integer, dimension(:), pointer :: p =&gt; null()
+...
+p =&gt; A(2, :)
+...</code></pre>
+<p>Although <code>A</code> is a two-dimensional array, the shape of
+pointer and target match since the shape of the target for the
+association operator is a one-dimensional array. This corresponds to the
+shape of the pointer <code>p</code>.</p>
+<h3 id="user-defined-types">User defined types</h3>
+<p>One of the major applications for pointers is the implementation of
+sophisticated data structures such as lists, trees or graphs. In such
+implementations, the user defined type typically has one or even several
+elements that are pointers to values of the user defined type.</p>
+<p>The following code fragment illustrates this for a declaration of
+elements of a list that contains real values.</p>
+<pre class="fortran"><code>type, public :: list_item_t
+    private
+    real :: value
+    type(list_item_t), pointer :: next =&gt; null()
+end type list_item_t</code></pre>
+<p>Variables of the user defined type <code>list_item_t</code> can be
+used to build a linked list by associating the <code>next</code> element
+to the next item in the list. Typically, allocatable variables are used
+to build a list element by element, making sure that the pointer in the
+last element is associated with the new list element.</p>
+<p>Note that for such implementations the fact that a pointer is
+nullified has explicit semantics: it indicates for the linked list that
+the element that has a nullified <code>next</code> value is the last
+element in the list.</p>
+<p>Operations such as the removal of an element from the list can also
+be implemented conveniently.</p>
+<ol type="1">
+<li>Find the element before the one you want to remove.</li>
+<li>Get the value of <code>next</code> of the element you want to
+remove.</li>
+<li>Assign that value to the <code>next</code> member of the element
+before the one you want to remove.</li>
+</ol>
+<p>This is illustrated graphically below.</p>
+<figure>
+<img alt="Removing an element from a linked list" src="linked_list.png"/>
+<figcaption aria-hidden="true">Removing an element from a linked
+list</figcaption>
+</figure>
+<p>Of course, for an actual implementation there are edge cases to be
+taken into account.</p>
+<h3 id="procedures">Procedures</h3>
+<p>An interesting use case for pointers to procedures is the creation of
+an array of procedures. Since this can not be done directly, the
+pointers to procedures need to be “packed” into a user defined type. The
+following code fragments illustrate this.</p>
+<p>The intent is to benchmark a number of functions that have the same
+interface defined below.</p>
+<pre class="fortran"><code>...
+interface
+    function func_impl_t(x) result(res)
+        use, intrinsic :: iso_fortran_env, only : DP =&gt; REAL64
+        implicit none
+        real(kind=DP), intent(in) :: x
+        real(kind=DP) :: res
+    end function func_impl_t
+end interface
+...</code></pre>
+<p>The user defined type to store the name of the function and a pointer
+to the procedure that implements it is defined as follows:</p>
+<pre class="fortran"><code>...
+type :: func_t
+    character(len=20) :: name
+    procedure(func_impl_t), nopass, pointer :: func
+end type
+...</code></pre>
+<p>The array can be defined and initialized as shown below.</p>
+<pre class="fortran"><code>...
+type(func_t), dimension(3) :: functions
+...
+functions(1)%name = 'sin'
+functions(1)%func =&gt; dsin
+functions(2)%name = 'cos'
+functions(2)%func =&gt; dcos
+functions(3)%name = 'tan'
+functions(3)%func =&gt; dtan
+...</code></pre>
+<p>The procedures stored in the array <code>functions</code> can
+subsequently be used as you would expect, .e.g.,</p>
+<pre class="fortran"><code>...
+do i = 1, size(functions)
+    call run_benchmark(functions(i)%func, timing, res)
+    print '(A, F12.7, E15.7)', functions(i)%name, timing, res
+end do
+...</code></pre>
+<h2 id="arrays-of-pointers">Arrays of pointers</h2>
+<p>For most pointer types it is possible to declare arrays of pointers
+directly. The exception is procedures as you already saw in the previous
+section. For instance, if you would like to implement a directed acyclic
+graph, you could use the following user defined type to represent a
+vertex in the graph.</p>
+<pre class="fortran"><code>type :: node_t
+    private
+    real :: value
+    type(node_t), dimension(:), pointer :: next
+end type</code></pre>
+<h2 id="pointers-as-procedure-arguments">Pointers as procedure
+arguments</h2>
+<p>Procedure arguments need only to be declared as pointers when you
+want to do explicit pointer operations on them, not if you simply want
+to use the data they are associated with.</p>
+<p>An example of a procedure with arguments that are declared pointers
+would be a procedure to swap two pointers. The implementation of such a
+swap was already illustrated in the motivating example, but it can be
+turned into a procedure easily.</p>
+<pre class="fortran"><code>subroutine swap_pointers(a, b)
+    implicit none
+    real, dimension(:), pointer, intent(inout) :: a, b
+    real, dimension(:), pointer :: tmp
+
+    tmp =&gt; a
+    a =&gt; b
+    b =&gt; tmp
+end subroutine swap_pointers</code></pre>

@@ -1,0 +1,62 @@
+<h1 id="data-alignment">Data alignment</h1>
+<p>For best performance, data items should be aligned on certain address
+boundaries in memory.</p>
+<ul>
+<li>8-bit data (e.g., <code>character</code> or integer kind
+<code>INT8</code>) can be placed anywhere;</li>
+<li>16-bit data (e.g., integer kind <code>INT16</code>) should be placed
+on addresses that are multiples of 2 bytes;</li>
+<li>32-bit data (e.g., integer kind <code>INT32</code> or real kine
+<code>REAL32</code>) should be placed on addresses that are multiples of
+4 bytes;</li>
+<li>64-bit data (e.g., integer kind <code>INT64</code> or real kind
+<code>REAL64</code>) should be placed on addresses that are multiples of
+8 bytes;</li>
+<li>128-bit data (e.g., real kind <code>REAL128</code>) should be placed
+on addresses that are multiples of 16-byte.</li>
+</ul>
+<p>You should understand the phrase “multiple of n bytes” as placed on a
+multiple of n bytes with respect to the base address.</p>
+<p>This alignment is called natural, and in general, the compiler will
+ensure that this is indeed the memory layout, adding padding as required
+for natural alignment.</p>
+<p>However, there are a few situations in which the compiler will not
+enforce natural alignment. This is the case for old-style constructs
+such as <code>structure</code> and <code>record</code>, as well as
+common blocks. If you (have to) use these constructs, you would have to
+ensure that data is naturally aligned by appropriately specifying the
+order of the data items or variables. Some compilers have flags to align
+common blocks automatically.</p>
+<p>A situation that is still relevant in modern Fortran is the use of
+<code>sequence</code> in a user defined type. Since this is often
+required in the context of using the Message Passing Interface (MPI) it
+is useful to understand alignment.</p>
+<h2 id="aligned-versus-non-aligned-data">Aligned versus non-aligned
+data</h2>
+<p>Consider the following user defined type definition:</p>
+<pre class="fortran"><code>type :: particle_t
+    sequence
+    integer :: charge
+    real(kind=REAL64) :: x, y
+end type</code></pre>
+<p>Due to the <code>sequence</code> statement, the compiler will not
+naturally align the data. In this case, <code>x</code> and
+<code>y</code> will not be aligned, which has a performance impact. This
+is illustrated in the figure below.</p>
+<figure>
+<img alt="un user defined type" src="unaligned_udt.png"/>
+<figcaption aria-hidden="true">un user defined type</figcaption>
+</figure>
+<p>Changing the order of the elements of the <code>particle_t</code>
+user defined type solves this issue.</p>
+<pre class="fortran"><code>type :: particle_t
+    sequence
+    real(kind=REAL64) :: x, y
+    integer :: charge
+end type</code></pre>
+<p>Now none of the elements cross alignment boundaries as illustrated in
+the figure below.</p>
+<figure>
+<img alt="aligned user defined type" src="aligned_udt.png"/>
+<figcaption aria-hidden="true">aligned user defined type</figcaption>
+</figure>

@@ -97,6 +97,7 @@ code examples used in videos and reading material.
 1. `preprocessor`: illustration of how to use the preprocessor.
 1. `openacc`: illustration of using OpenACC to offload computations to
    BPU.
+1. `namelist`: illustration of using namelist I/O.
 1. `CMakeLists.txt`: CMake file to build all applications.
 
 

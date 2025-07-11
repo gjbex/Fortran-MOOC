@@ -1,0 +1,157 @@
+<h1 id="interoperability">Interoperability</h1>
+<p>Although Fortran is a very nice language for scientific computing,
+its ecosystem of third-party libraries is not as extensive as one may
+wish. Hence it is important that Fortran applications can use libraries
+developed in other programming languages.</p>
+<p>The reverse is also important, i.e., that Fortran libraries can be
+used from applications written in other programming languages.</p>
+<h2 id="c-interoperability">C interoperability</h2>
+<p>The Fortran 2003 specification adds explicit C interoperability, the
+2018 specification improved on the initial version. This allows to
+define interfaces to call C functions from Fortran code. The
+<code>iso_c_binding</code> module defines conversion functions and data
+kinds to facilitate interoperability, while the <code>bind</code>
+keyword allows to specify that a function is intended for
+interoperability.</p>
+<p>Although the reverse is possible, i.e., Fortran procedures can be
+called from C code, there are unfortunately quite some limitations,
+especially with respect to assumed shape array arguments.</p>
+<h3 id="simple-example">Simple example</h3>
+<p>As a very simple example, consider the following C function</p>
+<pre class="c"><code>double linear(double x, double a, double b) {
+    return a*x + b;
+}</code></pre>
+<p>Some work is required to use this function from a Fortran program.
+First, you have to define an interface.</p>
+<pre class="fortran"><code>use, intrinsic :: iso_c_binding
+...
+interface
+    function linear(x, a, b) result(res) bind(c)
+        use, intrinsic :: iso_c_binding
+        implicit none
+        real(kind=c_double), value :: x, a, b
+        real(kind=c_double) :: res
+    end function linear
+end interface</code></pre>
+<p>Note the <code>bind</code> keyword used to declare that this is an
+interface to a C function. The kind of the function’s arguments and
+return value are <code>c_double</code>, which corresponds to C’s double
+precision floating point type. The arguments are passed by value, as is
+the case in the C function.</p>
+<p>The function must be called using arguments of kind
+<code>c_double</code>, e.g.,</p>
+<pre class="fortran"><code>real(kind=c_double) :: x, a, b
+...
+x = real(3.0, kind=c_double)
+a = real(0.5, kind=c_double)
+b = real(1.3, kind=c_double)
+print '(F7.2)', linear(x, a, b)</code></pre>
+<h3 id="pointers">Pointers</h3>
+<p>A somewhat more challenging example is the following C function.</p>
+<pre class="c"><code>#include &lt;err.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int* random_vector(int n) {
+    int *vector = (int *) malloc(n*sizeof(int));
+    if (!vector) {
+        errx(1, "error: can not allocate vector of size %d\n", n);
+    }
+    for (int i = 0; i &lt; n; ++i) {
+        vector[i] = rand();
+        printf("C: %d\n", vector[i]);
+    }
+    return vector;
+}</code></pre>
+<p>The C function returns the address of an array that stores
+<code>n</code> integer values.</p>
+<p>To use this function from Fortran, you have to define an
+interface.</p>
+<pre class="fortran"><code>interface
+    function random_vector(nr_values) result(vector) bind(c)
+        use, intrinsic :: iso_c_binding
+        implicit none
+        integer(kind=c_int), value :: nr_values
+        type(c_ptr) :: vector
+    end function random_vector
+end interface</code></pre>
+<p>The type of the argument has kind <code>c_int</code>, while the
+return type has <code>c_ptr</code>.</p>
+<p>The result of the function can be assigned to a variable, and
+converted to a corresponding Fortran pointer.</p>
+<pre class="fortran"><code>integer, parameter :: vector_len = 5
+integer(kind=c_int), dimension(:), pointer :: random_values
+type(c_ptr) :: vector_ptr
+...
+vector_ptr = random_vector(vector_len)
+call c_f_pointer(vector_ptr, random_values, shape=[vector_len])
+do i = 1, vector_len
+    print '(A, I0)', 'Fortran: ', random_values(i)
+end do
+deallocate(random_values)</code></pre>
+<p>Note that the memory is allocated in the C function using
+<code>malloc</code>, but deallocated in the Fortran program unit with a
+<code>deallocate</code> statement.</p>
+<h3 id="real-world-example">Real world example</h3>
+<p>As a real world example,we will call a function defined in the Gnu
+Scientific Library (GSL), an extensive collection of mathematical data
+structures and algorithms.</p>
+<p>The following program uses the <code>gsl_sort</code> function to sort
+an array. The C function has return type <code>void</code>, so the
+interface defines a subroutine.</p>
+<pre class="fortran"><code>program use_gsl
+    use, intrinsic :: iso_c_binding
+    implicit none
+    interface
+        subroutine gsl_sort(data, stride, n) bind(c)
+            use, intrinsic :: iso_c_binding
+            implicit none
+            real(c_double), dimension(n) :: data
+            integer(kind=c_size_t), value :: stride, n
+        end subroutine gsl_sort
+    end interface
+    integer(kind=c_size_t), parameter :: nr_values = 10, stride = 1
+    real(kind=c_double), dimension(nr_values) :: values
+
+    call random_number(values)
+    print '("original:")'
+    print '(*(F25.15, /))', values
+    call gsl_sort(values, stride, nr_values)
+    print '("sorted:")'
+    print '(*(F25.15, /))', values
+end program use_gsl</code></pre>
+<h2 id="python">Python</h2>
+<p>Fortran procedures can be called from Python thanks to the f2py, a
+utility that is distributed with the numpy package.</p>
+<p>Consider the following Fortran module defined in the file
+<code>matrix_mod.f90</code>.</p>
+<pre class="fortran"><code>module matrix_mod
+    use, intrinsic :: iso_fortran_env, only : error_unit
+    implicit none
+
+    private
+        public :: norm_matrix_rows
+
+contains
+
+    subroutine norm_matrix_rows(matrix)
+        implicit none
+        integer, parameter :: DP = selected_real_kind(15, 307)
+        real(kind=DP), dimension(:, :), intent(inout) :: matrix
+        ...
+    end subroutine norm_matrix_rows
+end module matrix_mod</code></pre>
+<p>The subroutine defined in this module will modify an assumed shape 2D
+array passed as argument.</p>
+<p>Python wrappers for this Fortran module can be created using the f2py
+utility.</p>
+<pre class="bash"><code>$ f2py  -c  -m matrices  matrix_mod.f90</code></pre>
+<p>This will create a Python module <code>matrices</code> that contains
+<code>matrix_mod</code> with the function
+<code>norm_matrix_rows</code>.</p>
+<pre class="python"><code>from matrices import matrix_mod
+...
+A = np.asfortranarray(np.arange(1.0, 12.5, 1.0).resize((3, 4)))
+matrix_mod.norm_matrix_rows(A)</code></pre>
+<p>As you would expect, Python arrays can be passed as arguments to
+Fortran functions flawlessly.</p>

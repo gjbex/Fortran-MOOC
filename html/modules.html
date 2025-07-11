@@ -1,0 +1,194 @@
+<h1 id="organizing-code-in-modules">Organizing code in modules</h1>
+<p>Using modules helps you to organize your code. A module can for
+instance contain user defined data types, constants and procedures that
+belong together. It is also possible to ensure that variables or
+procedures that should only be used within the implementation of a
+module are private to that module, so that they can not be altered or
+used inappropriately.</p>
+<p>Modules can be used as the building blocks of libraries which is
+essential for code reuse.</p>
+<p>Modules can be stored in separate files, reducing files to more
+manageable sizes.</p>
+<h2 id="anatomy-of-a-module">Anatomy of a module</h2>
+<p>A module typically consists of two parts, declarations and
+definitions, separated by the keyword <code>contains</code>. For modules
+that only declare user defined types, variables or define constants, the
+second <code>contains</code> part that holds procedure definitions can
+be omitted.</p>
+<pre><code>module &lt;module-name&gt;
+    &lt;declarations&gt;
+contains
+    &lt;definitions&gt;
+end module &lt;module-name&gt;</code></pre>
+<p>It is good practice to name modules with a suffix <code>_mod</code>
+to avoid confusion with other entities.</p>
+<p>Consider the following example of a (very simple) module to compute
+descriptive statistics of a data set.</p>
+<pre class="fortran"><code>module stats_mod
+    implicit none
+
+    private
+
+    public :: descriptive_stats_t, add_value, get_nr_values, get_mean, get_stddev
+
+    type :: descriptive_stats_t
+        private
+        integer :: nr_values = 0
+        real :: sum = 0.0, sum2 = 0.0
+    end type descriptive_stats_t
+
+contains
+    ...
+end module stats_mod</code></pre>
+<p>The keyword <code>private</code> indicates that anything declared in
+this module can be used only in the unit itself, unless otherwise
+specified by an overriding <code>public</code> attribute. The following
+section discusses this in more detail.</p>
+<p>This module defines a public type <code>descriptive_stats_t</code>
+with three private elements <code>nr_values</code>, <code>sum</code> and
+<code>sum2</code>. This implies that a compilation unit that uses this
+module can use the type <code>descriptive_stats_t</code>, but the
+elements of the compilation unit’s variables of this type can not be
+accessed.</p>
+<p>However, although declared private, the elements can be accessed from
+within the procedures defined in the module itself.</p>
+<p>The module also declares four procedures <code>add_value</code>,
+<code>get_nr_values</code>, <code>get_mean</code> and
+<code>get_stddev</code>. These procedures are marked public so that they
+can be called from compilation units that use this module.</p>
+<p>The implementation of these procedures is defined in the second part
+of the module.</p>
+<pre class="fortran"><code>module stats_mod
+    ...
+contains
+
+    subroutine add_value(stats, new_value)
+        implicit none
+        type(descriptive_stats_t), intent(inout) :: stats
+        real, value :: new_value
+
+        stats%nr_values = stats%nr_values + 1
+        stats%sum = stats%sum + new_value
+        stats%sum2 = stats%sum2 + new_value**2
+    end subroutine add_value
+
+    function get_nr_values(stats) result(nr_values)
+        implicit none
+        type(descriptive_stats_t), intent(in) :: stats
+        integer :: nr_values
+
+        nr_values = stats%nr_values
+    end function get_nr_values
+
+    ...
+end module stats_mod</code></pre>
+<p>The type <code>descriptive_stats_t</code> can be used thanks to host
+association. Note that these procedures can use and modify the values of
+the <code>stats</code> variable although they were declared private.</p>
+<p>The advantage of this approach is that the state of the user defined
+type variable will remain consistent since it can only be modified
+through the <code>add_value</code> subroutine.</p>
+<p>It is good practice to make everything private, and only declare
+those entities public that should be accessible in compilation units
+that use the module.</p>
+<p>The following module defines only constants, kind parameters in this
+case.</p>
+<pre class="fortran"><code>module types_mod
+    use, intrinsic :: iso_fortran_env, only : REAL32, REAL64
+    implicit none
+
+    private
+    public :: SP, DP
+
+    integer, parameter :: SP = REAL32, DP = REAL64
+end module types_mod</code></pre>
+<h2 id="access-to-module-entities">Access to module entities</h2>
+<p>It is easy to control which constants, variables and procedures
+defined in a module can be accessed by program units that use the
+module. There are three attributes to specify access:
+<code>private</code>, <code>protected</code> and
+<code>public</code>.</p>
+<p>For procedures, only <code>private</code> and <code>public</code> are
+relevant.</p>
+<ol type="1">
+<li><code>private</code> procedures can only be called in compilation
+units of the module itself, or its submodules.</li>
+<li><code>public</code> procedures can be called in the compilation
+units of the module, and all compilation units that use them.</li>
+</ol>
+<p>For module variables, the following semantics applies:</p>
+<ol type="1">
+<li><code>private</code>: the variable can only be accessed within the
+module itself.</li>
+<li><code>protected</code>: the variable can be read, but not modified
+in a compilation unit that uses the module; it can of course be modified
+within the module and its submodules itself.</li>
+<li><code>public</code>: the variables can be read and modified in the
+module, and the compilation units that use it.</li>
+</ol>
+<p>It is good practice to be as strict as possible since this reduces
+the number of opportunities for bugs. This is typically achieved by
+having <code>private</code> as the default, and explicitly listing
+entities that should be <code>protected</code> or
+<code>public</code>.</p>
+<h2 id="using-modules">Using modules</h2>
+<p>A module can be used in any compilation unit such as program, modules
+and procedures. The Fortran standard defines a number of modules that
+are available with any standard compliant compiler, e.g.,
+<code>iso_fortran_env</code> and <code>ieee_arithmetic</code>. Just like
+the procedures that Fortran defines such as <code>sqrt</code> or
+<code>trim</code> are called intrinsic procedures, these modules are
+called intrinsic as well. When using those modules it is highly
+recommended to use the <code>intrinsic</code> attribute when you use
+them. This informs the compiler that you are referring to one of the
+standard modules, and not a module that you have defined with the same
+name.</p>
+<pre class="fortran"><code>program descriptive_statistics
+    use, intrinsic :: iso_fortran_env, only : error_unit, input_unit
+    use :: stats_mod
+    implicit none
+    ...
+end program descriptive_statistics</code></pre>
+<p>In the example above, the <code>iso_fortran_env</code> intrinsic
+module is used, but the code in the program unit will only use
+<code>error_unit</code> and <code>input_unit</code>, but not, e.g.,
+<code>output_unit</code> or <code>REAL64</code>. In order to minimize
+surprises when using modules, it is good practice to limit what is
+available from this unit by listing explicitly what is required using
+the <code>only</code> keyword.</p>
+<p>The second module is the one we discussed in the previous section, it
+is user defined, so the <code>intrinsic</code> attribute is obviously
+not used. In this example you see there is no restriction using
+<code>only</code>, so the program unit has access to everything that is
+public in the module <code>stats_mod</code>. This is not good
+practice.</p>
+<p>Note that use declarations must precede the
+<code>implicit none</code>.</p>
+<p>It can be convenient to alias an entity imported from a module you
+use. The code below illustrates this.</p>
+<pre class="fortran"><code>program quad
+    use, intrinsic :: iso_fortran_env, only : DP =&gt; REAL64
+    implicit none
+    real(kind=DP) :: x = 3.12_DP
+    ...
+end program quad</code></pre>
+<p>It is more convenient to use the alias <code>DP</code> rather than
+<code>REAL64</code>.</p>
+<h2 id="intrinsic-modules">Intrinsic modules</h2>
+<p>Fortran doesn’t provide many intrinsic modules but they can be quite
+useful.</p>
+<ul>
+<li><code>iso_fortran_env</code> defines many integer constants that
+help to write portable code. For example, the real kinds
+<code>REAL32</code>, <code>REAL64</code> and <code>REAL128</code> as
+well as the unit numbers for standard input, output and error.</li>
+<li><code>iso_c_binding</code> defines a number of procedures and
+integer constants to facilitate interoperability between Fortran and C
+code.</li>
+<li><code>ieee_arithmetic</code>, <code>ieee_exceptions</code> provide
+procedures and integer constants so that you can write IEEE 754
+compliant programs.</li>
+<li><code>omp_lib</code> and <code>omp_lib_kinds</code> provides
+procedures and integer constants to facilitate shared memory programming
+using OpenMP.</li>
+</ul>
