@@ -42,14 +42,14 @@ provided as well.</p>
 <h3 id="initialization">Initialization</h3>
 <p>The first step is to initialize the HDF5 Fortran interface. This
 should be before any other HDF5 related operation.</p>
-<pre class="fortran"><code>integer :: error
+<pre class="fortran"><code class="language-fortran">integer :: error
 ...
 call h5open_f(error)</code></pre>
 <h3 id="opening-a-file">Opening a file</h3>
 <p>The next step is to open a file for reading, writing or appending.
 For instance, the following code snippet opens a file for writing,
 replacing an existing file if that exists.</p>
-<pre class="fortran"><code>integer(kind=hid_t) :: file_id
+<pre class="fortran"><code class="language-fortran">integer(kind=hid_t) :: file_id
 character(len=1024) :: file_name
 ...
 call h5fcreate_f(file_name, H5F_ACC_TRUNC_F, file_id, error)</code></pre>
@@ -66,7 +66,7 @@ naming convention.</p>
 <h3 id="creating-a-group">Creating a group</h3>
 <p>Once the file has been opened for writing or modification, groups can
 be created.</p>
-<pre class="fortran"><code>integer(kind=hid_t) :: group_id
+<pre class="fortran"><code class="language-fortran">integer(kind=hid_t) :: group_id
 character(len=1024) :: group_name
 ...
 call h5gcreate_f(file_id, group_name, group_id, error)</code></pre>
@@ -76,7 +76,7 @@ call h5gcreate_f(file_id, group_name, group_id, error)</code></pre>
 <p>Before a dataset can be created, you first need to create the
 dataspace. The rank and the dimensions of the dataset have to be
 defined.</p>
-<pre class="fortran"><code>integer(kind=hid_t) :: pos_dspace_id
+<pre class="fortran"><code class="language-fortran">integer(kind=hid_t) :: pos_dspace_id
 integer, parameter :: pos_rank = 2, pos_space_rank = 3
 integer, parameter :: nr_particles = 10
 integer(hsize_t), dimension(pos_rank) :: pos_dim = [ pos_space_rank, &amp;
@@ -89,7 +89,7 @@ of the <code>hsize_t</code> kind for specifying dimensions.</p>
 <h3 id="creating-a-dataset">Creating a dataset</h3>
 <p>A dataset can now be created, this requires a name, a dataspace and a
 type.</p>
-<pre class="fortran"><code>integer(kind=hid_t) :: pos_dset_id
+<pre class="fortran"><code class="language-fortran">integer(kind=hid_t) :: pos_dset_id
 character(len=1024) :: pos_dset_name
 ...
 call h5dcreate_f(group_id, pos_dset_name, H5T_NATIVE_REAL, &amp;
@@ -110,13 +110,13 @@ call.</p>
 <p>Once all operations have been perofrmed on and HDF5 entity, it should
 be closed. This is the case for datasets, dataspaces, groups and
 files.</p>
-<pre class="fortran"><code>call h5dclose_f(pos_dset_id, error)
+<pre class="fortran"><code class="language-fortran">call h5dclose_f(pos_dset_id, error)
 call h5sclose_f(pos_dspace_id, error)
 call h5gclose_f(group_id, error)
 call h5fclose_f(file_id, error)</code></pre>
 <p>When all HDF5 operations are completed, the Fortran HDF5 interface is
 closed as well.</p>
-<pre class="fortran"><code>call h5close_f(error)</code></pre>
+<pre class="fortran"><code class="language-fortran">call h5close_f(error)</code></pre>
 <h2 id="wrap-up">Wrap up</h2>
 <p>As you’ve seen, working with HDF5 files in Fortran is quite labor
 intensive and finicky. However, given the advantages of the data format,

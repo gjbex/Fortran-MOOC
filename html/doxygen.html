@@ -28,7 +28,7 @@ generate an HTML version of it.</p>
 make it easier to render documentation consistently. For the description
 you can use Markdown, while formulas can be written in LaTeX.</p>
 <h2 id="procedure-documentation">Procedure documentation</h2>
-<pre class="fortran"><code>!&gt; @brief read x, y coordinates from standard input
+<pre class="fortran"><code class="language-fortran">!&gt; @brief read x, y coordinates from standard input
 !&gt;
 !&gt; This subroutine reads a pair of x and y coordinates from standard input. It
 !&gt; will verify that the input format is correct.  The application will stop if
@@ -72,7 +72,7 @@ documentation</figcaption>
 <h2 id="other-compilation-units">Other compilation units</h2>
 <p>Compilation units such as <code>program</code> or <code>module</code>
 can also be documented, e.g.,</p>
-<pre class="fortran"><code>!&gt; @brief application to perform box counting to estiamte the fractal
+<pre class="fortran"><code class="language-fortran">!&gt; @brief application to perform box counting to estiamte the fractal
 !&gt;        dismension of an 2D object
 !&gt;
 !&gt; The application assumes that the 2D is in a unit square defined by
@@ -94,7 +94,7 @@ documentation</figcaption>
 <h2 id="main-page">Main page</h2>
 <p>To present more high-level documentation you can create a main page
 in Markdown that serves as a landing page.</p>
-<pre><code>/*!
+<pre><code class="language-fortran">/*!
   @mainpage
   @brief program that computes the Minkowski dimension of a 2D fractal
   @author Geert Jan Bex (geertjan.bex@uhasselt.be)
@@ -123,7 +123,7 @@ template.</p>
 configuration options so the easiest way to get started is to let
 doxygen generate a template configuration file that you adapt to your
 needs.</p>
-<pre class="bash"><code>$ doxygen  -g</code></pre>
+<pre class="bash"><code class="language-fortran">$ doxygen  -g</code></pre>
 <p>There are a number of configuration options you definitely want to
 set such as</p>
 <ul>
@@ -147,7 +147,7 @@ called <code>docs</code> and named <code>Doxyfile.in</code>.</p>
 <p>CMake can generate the documentation when you build your software,
 and this was already assumed in the previous section. The fragment of
 the <code>CMakeLists.txt</code> responsible for this is shown below.</p>
-<pre><code>option(BUILD_DOC "Build documentation" ON)
+<pre><code class="language-fortran">option(BUILD_DOC "Build documentation" ON)
 
 # check if Doxygen is installed
 find_package(Doxygen)

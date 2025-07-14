@@ -34,7 +34,7 @@ is useful to understand alignment.</p>
 <h2 id="aligned-versus-non-aligned-data">Aligned versus non-aligned
 data</h2>
 <p>Consider the following user defined type definition:</p>
-<pre class="fortran"><code>type :: particle_t
+<pre class="fortran"><code class="language-fortran">type :: particle_t
     sequence
     integer :: charge
     real(kind=REAL64) :: x, y
@@ -49,7 +49,7 @@ is illustrated in the figure below.</p>
 </figure>
 <p>Changing the order of the elements of the <code>particle_t</code>
 user defined type solves this issue.</p>
-<pre class="fortran"><code>type :: particle_t
+<pre class="fortran"><code class="language-fortran">type :: particle_t
     sequence
     real(kind=REAL64) :: x, y
     integer :: charge

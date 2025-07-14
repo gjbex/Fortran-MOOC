@@ -68,7 +68,7 @@ operations</h3>
 <p>Level 1 operation are defined on vectors. For example, the subroutine
 <code>dcopy</code> will copy a double precision array (<code>d</code>)
 to another double precision array.</p>
-<pre class="fortran"><code>...
+<pre class="fortran"><code class="language-fortran">...
 real(kind=DP), dimension(rows, cols) :: matrix1, matrix2
 ...
 call dcopy(size(matrix1), matrix1, 1, matrix2, 1)
@@ -78,7 +78,7 @@ this subroutine to copy data from a multidimensional array to another
 multidimensional array, not necessarily of the same rank and
 dimensions.</p>
 <p>The signature of this subroutine is</p>
-<pre><code>subroutine dcopy(&lt;N&gt;, &lt;DX&gt;, &lt;INCX&gt;, &lt;DY&gt;, &lt;INCY&gt;)</code></pre>
+<pre><code class="language-fortran">subroutine dcopy(&lt;N&gt;, &lt;DX&gt;, &lt;INCX&gt;, &lt;DY&gt;, &lt;INCY&gt;)</code></pre>
 <p>Here, <code>&lt;N&gt;</code> is the number of elements to copy,
 typically the size of the array, <code>&lt;DX&gt;</code> is the array to
 copy to <code>&lt;DY&gt;</code>. Usually, the values for
@@ -90,7 +90,7 @@ creatively in some situations.</p>
 single precision dot product of two vectors, i.e., \(
    d = \sum_{i=1}^{N} u_i v_i
 \)</p>
-<pre class="fortran"><code>...
+<pre class="fortran"><code class="language-fortran">...
 real, dimension(v_size) :: vector1, vector2
 real :: product
 real, external :: sdot
@@ -118,7 +118,7 @@ result is given by: \(
     \vec{y} = \alpha A' \vec{x} + \beta \vec{y},
 \) depending on the first argument given to <code>sgemv</code>.
 The signature of the subroutine is</p>
-<pre class="fortan"><code>subroutine sgemv(&lt;TRANS&gt;, &lt;M&gt;, &lt;N&gt;, &lt;alpha&gt;, &lt;A&gt;, &lt;LDA&gt;, &lt;x&gt;, &lt;INCX&gt;, &lt;beta&gt;, &lt;y&gt;, &lt;INCRY&gt;)</code></pre>
+<pre class="fortan"><code class="language-fortran">subroutine sgemv(&lt;TRANS&gt;, &lt;M&gt;, &lt;N&gt;, &lt;alpha&gt;, &lt;A&gt;, &lt;LDA&gt;, &lt;x&gt;, &lt;INCX&gt;, &lt;beta&gt;, &lt;y&gt;, &lt;INCRY&gt;)</code></pre>
 <p>The value of <code>&lt;TRANS&gt;</code> can be <code>'t'</code> or
 <code>'c'</code> to transpose or take the complex conjugate from
 <code>&lt;A&gt;</code> respectively, or <code>'n'</code> to use
@@ -153,7 +153,7 @@ matrix-matrix operations</h3>
 general, symmetric and triangular matrices. For instance,
 <code>sgemm</code> implements a matrix-matrix multiplication for
 two-dimensional real arrays with single precision values.</p>
-<pre class="fortran"><code>...
+<pre class="fortran"><code class="language-fortran">...
 real, dimension(M, K) :: A
 real, dimension(K, N) :: B
 real, dimension(M, N) :: C
@@ -207,7 +207,7 @@ columns of <code>B</code> which has <code>n_matrix</code> rows. Under
 the hood, the algorithm uses LU factorization, so a one-dimensional
 integer array of size <code>n_matrix</code> matrix is required to store
 the permutation indices.</p>
-<pre class="fortran"><code>call sgesv(n_matrix, nr_rhs, A, n_matrix, P, B, n_matrix, info)</code></pre>
+<pre class="fortran"><code class="language-fortran">call sgesv(n_matrix, nr_rhs, A, n_matrix, P, B, n_matrix, info)</code></pre>
 <p>The arrays <code>A</code>,<code>B</code> and <code>P</code> have been
 declared in the usual way, and <code>info</code> will contain the status
 after the call, 0 if the algorithm succeeded, a negative value
@@ -247,7 +247,7 @@ the argument representing the size of the work array set to -1. The work
 array should have at least size 1 at that point to accommodate the
 required size as a result of the call. It is convenient to use an
 allocatable array so that it can be sized dynamically as required.</p>
-<pre class="fortran"><code>real, dimension(:), allocatable :: work
+<pre class="fortran"><code class="language-fortran">real, dimension(:), allocatable :: work
 integer :: work_size, info, istat
 ...
 allocate(work(1))
@@ -267,5 +267,5 @@ negative value indicates the index of an illegal argument to
 converge (relevant only for the second call to <code>sgesvd</code>).</p>
 <p>After this preparatory step, the actual work can be done by a second
 call to <code>sgesvd</code>.</p>
-<pre class="fortran"><code>call sgesvd('A', 'A', nr_rows, nr_cols, M, nr_rows, S, &amp;
+<pre class="fortran"><code class="language-fortran">call sgesvd('A', 'A', nr_rows, nr_cols, M, nr_rows, S, &amp;
             U, nr_rows, VT, nr_cols, work, work_size, info)</code></pre>

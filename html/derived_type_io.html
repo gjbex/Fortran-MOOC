@@ -7,7 +7,7 @@ derived type I/O.</p>
 <p>Consider a type that represents quantities required for descriptive
 statistics (mean value, standard deviation) on streaming data. The
 type’s elements are shown below.</p>
-<pre class="fortran"><code>type, public :: descriptive_stats_t
+<pre class="fortran"><code class="language-fortran">type, public :: descriptive_stats_t
     private
     integer :: nr_values = 0
     real :: sum = 0.0, sum2 = 0.0
@@ -24,7 +24,7 @@ values seen so far.</p>
 <p>It would be convenient to have a formatting code for a value of this
 user defined type. The first step towards this is to define a procedure
 to produce the appropriate output.</p>
-<pre class="fortran"><code>subroutine write_stats(stats, unit_nr, iotype, v_list, iostat, iomsg)
+<pre class="fortran"><code class="language-fortran">subroutine write_stats(stats, unit_nr, iotype, v_list, iostat, iomsg)
     implicit none
     class(descriptive_stats_t), intent(in) :: stats
     integer, intent(in) :: unit_nr
@@ -65,7 +65,7 @@ statements.</p>
 destination unit.</p>
 <p>The next step is to ensure that this subroutine will be used to print
 values of this type, and that can be done by adding it to the type.</p>
-<pre class="format"><code>type, public :: descriptive_stats_t
+<pre class="format"><code class="language-fortran">type, public :: descriptive_stats_t
     private
     integer :: nr_values = 0
     real :: sum = 0.0, sum2 = 0.0
@@ -80,7 +80,7 @@ It is bound to a formatted write operation using generic.</p>
 <p>Finally, you can use the edit descriptor in a format string for a
 write statement, as for instance in the program compilation unit
 below.</p>
-<pre class="fortran"><code>program descriptive_statistics
+<pre class="fortran"><code class="language-fortran">program descriptive_statistics
     use, intrinsic :: iso_fortran_env, only : error_unit, input_unit, output_unit
     use :: stats_mod
     implicit none

@@ -11,19 +11,19 @@ subroutine <code>get_command_argument</code>. As the name implies,
 which the application is called.</p>
 <p>For example, consider the Fortran application
 <code>command_argument_test</code>.</p>
-<pre class="bash"><code>$ ./command_argument_test abc 123</code></pre>
+<pre class="bash"><code class="language-fortran">$ ./command_argument_test abc 123</code></pre>
 <p>For this call, the value returned by
 <code>command_argument_count</code> will return 2 since there are two
 arguments on the command line, i.e., <code>abc</code> and
 <code>123</code>.</p>
-<pre class="fortran"><code>nr_args = command_argument_count()</code></pre>
+<pre class="fortran"><code class="language-fortran">nr_args = command_argument_count()</code></pre>
 <p>The subroutine <code>get_command_argument</code> takes two arguments,
 the first is the number of the command line argument you want to
 retrieve, so it should be between 1 and the number of command line
 arguments as returned by <code>command_argument_count</code>. The second
 argument is a character variable to which the subroutine will assign the
 value passed on the command line.</p>
-<pre class="fortran"><code>character(len=20) :: buffer
+<pre class="fortran"><code class="language-fortran">character(len=20) :: buffer
 integer :: istat
 call get_command_argument(1, buffer, status=istat)
 if (istat /= 0) then
@@ -39,7 +39,7 @@ command argument.</p>
 are always character values, so typically they have to be converted to
 the appropriate data types. This can be done by reading from a string,
 e.g.,</p>
-<pre class="fortran"><code>...
+<pre class="fortran"><code class="language-fortran">...
 integer :: nr_values
 ...
 read (buffer, fmt='(I10)', iostat=istat, iomsg=msg) nr_values</code></pre>
@@ -51,7 +51,7 @@ as it was entered on the command line. For the running example, that
 would be <code>./command_argument_test</code>.</p>
 <p>The intrinsic subroutine <code>get_command</code> can be used to get
 this string.</p>
-<pre class="fortran"><code>...
+<pre class="fortran"><code class="language-fortran">...
 character(len=128) :: command_name
 ...
 call get_command(command_name)
@@ -67,7 +67,7 @@ command line arguments. The relevant intrinsic subroutine is
 <code>get_environment_variable</code>. For instance, the following code
 fragment retrieves the value of the <code>HOME</code> environment
 variable</p>
-<pre class="fortran"><code>...
+<pre class="fortran"><code class="language-fortran">...
 character(len=256) :: home_dir
 integer :: istat
 ...

@@ -17,13 +17,13 @@ exact same format for input and output of data.</p>
 <p>If you can not control the format of the data precisely, you can
 still read the data using <code>*</code> as format specifier. Consider
 the following somewhat messy data file.</p>
-<pre><code>3.13 12 F gamma
+<pre><code class="language-fortran">3.13 12 F gamma
 -0.17e-3 -13 t alpha
 123.15e2 0 f beta</code></pre>
 <p>Each line of the file has a real, an integer, a logical and a
 character value. The following program reads the values from standard
 input, and prints the values to standard output.</p>
-<pre class="fortran"><code>program read_messy_data
+<pre class="fortran"><code class="language-fortran">program read_messy_data
     use, intrinsic :: iso_fortran_env, only : input_unit, error_unit
     implicit none
     integer, parameter ::  nr_values = 3
@@ -66,7 +66,7 @@ the last.</p>
 <p>The only status that makes sense for reading a file is
 <code>old</code>, indeed you can hardly read a file that doesn’t
 exist.</p>
-<pre class="fortran"><code>open (newunit=unit_nr, file=file_name, access='sequential', action='read', &amp;
+<pre class="fortran"><code class="language-fortran">open (newunit=unit_nr, file=file_name, access='sequential', action='read', &amp;
       status='old', iostat=istat, iomsg=msg)</code></pre>
 <p>Although less potentially disastrous as for files that are open for
 writing, it is nevertheless good practice to close a file that is open
@@ -74,7 +74,7 @@ for reading as well.</p>
 <h2 id="reading-from-strings">Reading from strings</h2>
 <p>Reading from strings can be very useful to convert a string
 representation to another data type.</p>
-<pre class="fortran"><code>...
+<pre class="fortran"><code class="language-fortran">...
 character(len=64) :: buffer
 integer :: nr_values, istat
 character(len=1024) :: msg

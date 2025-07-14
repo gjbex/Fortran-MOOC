@@ -8,7 +8,7 @@ of statements for as long as a logical expression evaluates to true.</p>
 As a very simple example, consider the following program that computes
 the factorial function for a number of integers. The general form is
 given below.</p>
-<pre><code>do &lt;variable&gt; = &lt;start&gt;, &lt;end&gt;, &lt;step&gt;
+<pre><code class="language-fortran">do &lt;variable&gt; = &lt;start&gt;, &lt;end&gt;, &lt;step&gt;
     &lt;statements&gt;
 end do</code></pre>
 <p>The <code>&lt;variable&gt;</code> has to be of type
@@ -41,12 +41,12 @@ statement <code>&lt;variable&gt;</code> will have the value
 denotes the integer division.</p>
 <p>The step needs not to be specified, and in that case will have the
 default value 1.</p>
-<pre><code>do &lt;variable&gt; = &lt;start&gt;, &lt;end&gt;
+<pre><code class="language-fortran">do &lt;variable&gt; = &lt;start&gt;, &lt;end&gt;
     &lt;statements&gt;
 end do</code></pre>
 <p>In the code below, there is a do statement in the program, and
 another in the factorial function.</p>
-<pre class="fortran"><code>program do_factorials
+<pre class="fortran"><code class="language-fortran">program do_factorials
     implicit none
     integer, parameter :: MAX_N = 10
     integer :: i
@@ -86,7 +86,7 @@ different iteration variable.</p>
 <h2 id="while-statement">while statement</h2>
 <p>Fortran’s second iteration statement is a while statement. Its
 general form is given below.</p>
-<pre><code>do while (&lt;logical expression&gt;)
+<pre><code class="language-fortran">do while (&lt;logical expression&gt;)
     &lt;statements&gt;
 end do</code></pre>
 <p>Before the start of each iteration,
@@ -97,7 +97,7 @@ false, the iteration statement ends.</p>
 integer values. It will keep iterating as long as <code>a</code> is not
 equal to <code>b</code>, computing and assigning new values to
 <code>a</code> or <code>b</code> in each iteration.</p>
-<pre class="fortran"><code>integer function gcd(a, b)
+<pre class="fortran"><code class="language-fortran">integer function gcd(a, b)
     implicit none
     integer, value :: a, b
 
@@ -114,11 +114,11 @@ end function gcd</code></pre>
 of do and while statements versus semantics</h2>
 <p>In fact, any do statement can be converted to a while statement. The
 general form of the do statement is given below.</p>
-<pre><code>do &lt;variable&gt; = &lt;start&gt;, &lt;end&gt;, &lt;step&gt;
+<pre><code class="language-fortran">do &lt;variable&gt; = &lt;start&gt;, &lt;end&gt;, &lt;step&gt;
     &lt;statements&gt;
 end do</code></pre>
 <p>The equivalent while loop would be the following.</p>
-<pre><code>&lt;variable&gt; = &lt;start&gt;
+<pre><code class="language-fortran">&lt;variable&gt; = &lt;start&gt;
 do while (&lt;variable&gt; &lt;= &lt;end&gt;)
     &lt;statements&gt;
     &lt;variable&gt; = &lt;variable&gt; + &lt;step&gt;
@@ -132,7 +132,7 @@ the while statement.</p>
 cycle</h2>
 <p>Implementing an infinite loop, i.e., a loop statement that never
 terminates is quite easy in Fortran.</p>
-<pre><code>do
+<pre><code class="language-fortran">do
     &lt;statements&gt;
 end do</code></pre>
 <p>The <code>&lt;statements&gt;</code> will continue to be executed
@@ -162,7 +162,7 @@ input, and computes the sum. When there is no more input,
 <code>stat</code> will have a negative value (end-of-file), and the
 iteration statement is terminated using the <code>exit</code> statement.
 The next statement prints the sum.</p>
-<pre class="fortran"><code>program sum_values
+<pre class="fortran"><code class="language-fortran">program sum_values
     use, intrinsic :: iso_fortran_env, only : input_unit
     implicit none
     real :: val, total
@@ -186,7 +186,7 @@ assignment statement to the variable <code>total</code> will not be
 executed.</p>
 <p>Note that the following program would be equivalent, avoiding an
 infinite loop, as well as exit and cycle statements.</p>
-<pre class="fortran"><code>program sum_values
+<pre class="fortran"><code class="language-fortran">program sum_values
     use, intrinsic :: iso_fortran_env, only : input_unit
     implicit none
     real :: val, total
@@ -206,7 +206,7 @@ situations.</p>
 <h2 id="named-blocks">Named blocks</h2>
 <p>Fortran allows you to name block statements. This is illustrated in
 the code fragment below.</p>
-<pre class="fortran"><code>function has_duplicates(data) result(result)
+<pre class="fortran"><code class="language-fortran">function has_duplicates(data) result(result)
     integer, dimension(:), intent(in) :: data
     logical :: result
     integer :: i, j
@@ -236,7 +236,7 @@ if statements, select, where, do concurrent, block. It may help to add
 names to block statements to make code more readable and help the
 compiler catch semantic errors.</p>
 <p>The general form of a named block statement is:</p>
-<pre><code>&lt;name&gt;: &lt;block-statement&gt; ...
+<pre><code class="language-fortran">&lt;name&gt;: &lt;block-statement&gt; ...
     ...
 end &lt;block-statement&gt; &lt;name&gt;</code></pre>
 <p>Using the <code>&lt;name&gt;</code> for ending the block is optional,

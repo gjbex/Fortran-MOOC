@@ -58,14 +58,14 @@ formatted file depends on the format specifier that is used. This means
 that in practice, your mileage may vary.</p>
 <p>Using sequential unformatted I/O is straightforward. The open
 statement is nearly identical to that of formatted I/O, i.e.,</p>
-<pre class="fortran"><code>open (newunit=unit_nr, file=file_name, form='unformatted', &amp;
+<pre class="fortran"><code class="language-fortran">open (newunit=unit_nr, file=file_name, form='unformatted', &amp;
       access='sequential', action='write', status='new', iostat=istat, &amp;
       iomsg=msg)</code></pre>
 <p>The only difference is <code>form='unformatted'</code>. For the write
 statement, the <code>fmt</code> argument is omitted, e.g.,</p>
-<pre class="fortran"><code>write (unit=unit_nr, iostat=istat, iomsg=msg) r, theta</code></pre>
+<pre class="fortran"><code class="language-fortran">write (unit=unit_nr, iostat=istat, iomsg=msg) r, theta</code></pre>
 <p>Similar for a read statement, e.g.,</p>
-<pre class="fortran"><code>read (unit=unit_nr, iostat=istat, iomsg=msg) r, theta</code></pre>
+<pre class="fortran"><code class="language-fortran">read (unit=unit_nr, iostat=istat, iomsg=msg) r, theta</code></pre>
 <p>You can write any combination of types to an unformatted file, but of
 course, you would have to read it using the exact same data types. This
 implies that the documentation of your binary file format is crucial.
@@ -90,14 +90,14 @@ read or write operation addresses a specific record in that file. The
 records can be written or read in any order.</p>
 <p>The following code fragment illustrates opening a file for direct
 access formatted writing.</p>
-<pre class="fortran"><code>open (newunit=unit_nr, file=trim(file_name), form='formatted', &amp;
+<pre class="fortran"><code class="language-fortran">open (newunit=unit_nr, file=trim(file_name), form='formatted', &amp;
       access='direct', recl=rec_width, action='write', status='new', &amp;
       iostat=istat, iomsg=msg)</code></pre>
 <p>Note that access is <code>'direct'</code>, and that you have to
 specify a fixed record length <code>recl</code> when you open the
 file.</p>
 <p>When a record is written, you have to specify its record ID.</p>
-<pre class="fortran"><code>write (unit=unit_nr, fmt=fmt_str, rec=idx) idx, x</code></pre>
+<pre class="fortran"><code class="language-fortran">write (unit=unit_nr, fmt=fmt_str, rec=idx) idx, x</code></pre>
 <p>The record ID is specified via the <code>rec</code> argument, and in
 this example, each record consists of an integer and a real value.</p>
 <p>As for sequential I/O, direct access I/O can be formatted or
@@ -118,11 +118,11 @@ applications, or that a Fortran application can read binary data
 produced by other applications.</p>
 <p>Using stream I/O is straightforward as illustrated by the open
 statement below and write statements below.</p>
-<pre class="fortran"><code>open (newunit=unit_nr, file=file_name, form='unformatted', &amp;
+<pre class="fortran"><code class="language-fortran">open (newunit=unit_nr, file=file_name, form='unformatted', &amp;
       access='stream', action='write', status='new', iostat=istat, &amp;
       iomsg=msg)</code></pre>
 <p>The access mode is <code>'stream'</code>.</p>
-<pre class="fortran"><code>write (unit=unit_nr, iostat=istat, iomsg=msg) r, golden_spiral(r)</code></pre>
+<pre class="fortran"><code class="language-fortran">write (unit=unit_nr, iostat=istat, iomsg=msg) r, golden_spiral(r)</code></pre>
 <p>The write statement as well as the read statement are identical to
 those for sequential access.</p>
 <p>The performance of stream I/O is better than that of sequential I/O,
@@ -160,7 +160,7 @@ files?</h2>
 and units.</p>
 <p>For instance, you can use it to check whether a file named ‘data.txt’
 exists.</p>
-<pre class="fortran"><code>logical :: file_exists
+<pre class="fortran"><code class="language-fortran">logical :: file_exists
 ...
 inquire ('data.txt', exist=file_exists)
 
@@ -173,12 +173,12 @@ inquire ('data.txt', size=file_size)</code></pre>
 <p>Based on the unit number, you can retrieve the file name. This can be
 convenient to generated meaningful error message in procedures that only
 get a unit number passed as argument.</p>
-<pre class="fortran"><code>character(len=1024) :: file_name
+<pre class="fortran"><code class="language-fortran">character(len=1024) :: file_name
 ...
 inquire(unit=unit_nr, name=file_name)</code></pre>
 <p>When doing stream I/O, the inquire statement can be used to determine
 the current position in a file.</p>
-<pre class="fortran"><code>integer :: position
+<pre class="fortran"><code class="language-fortran">integer :: position
 ...
 inquire (unit=unit_nr, pos=position)</code></pre>
 <p>This position can subsequently be used to reposition the read or the
@@ -194,7 +194,7 @@ access to a file.</p>
 possible in a single statement, so rather than iterating over the
 elements of an array to write them to a file, write the entire array at
 once.</p>
-<pre class="fortran"><code>real, dimension(1000) :: x
+<pre class="fortran"><code class="language-fortran">real, dimension(1000) :: x
 integer :: stat
 character(len=1024) :: msg
 ...
@@ -218,7 +218,7 @@ check whether the I/O operation is still pending, and if so, you have to
 wait until it is done. The inquire statement can be used to check this,
 and the wait statement that will halt the execution until the
 asynchronous I/O operation is completed.</p>
-<pre class="fortran"><code>real, dimension(:), allocatable, asynchronous :: buffer
+<pre class="fortran"><code class="language-fortran">real, dimension(:), allocatable, asynchronous :: buffer
 ...
 open (newunit=unit_nr, file=file_name, form='unformatted', &amp;
       asynchronous='yes', action='write', access='stream', status='replace', &amp;

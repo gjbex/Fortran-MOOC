@@ -13,14 +13,14 @@ interpretation. Again drawing on natural language examples, the sentence
 Obviously, dogs do not speak, except in fairy tales. The sentence “the
 dog barks” is both syntactically and semantically correct.</p>
 <p>The following code fragments would be syntactically incorrect.</p>
-<pre class="fortran"><code>PROGRAM syntax_error
+<pre class="fortran"><code class="language-fortran">PROGRAM syntax_error
     IMPLICIT none
     USE, INTRINSIC :: iso_fortran_env, ONLY : output_unit
     WRITE (UNIT=output_unit, FMT='(A)') 'hello world'
 END PROGRAM syntax_error</code></pre>
 <p>This Fortran program has a syntax error that is dutifully reported by
 the <code>gfortran</code> compiler as:</p>
-<pre class="fortran"><code>$ gfortran -c syntax_error.f90
+<pre class="fortran"><code class="language-fortran">$ gfortran -c syntax_error.f90
 syntax_error.f90:3.57:
 
     USE, INTRINSIC :: iso_fortran_env, ONLY : output_unit
@@ -32,7 +32,7 @@ syntax_error.f90:2.17:
 Error: USE statement at (1) cannot follow IMPLICIT NONE statement at (2)</code></pre>
 <p>The following Fortran function defintion has a semantic error,
 although it is syntactically correct.</p>
-<pre class="fortran"><code>iNTEGER FUNCTION fac(n)
+<pre class="fortran"><code class="language-fortran">iNTEGER FUNCTION fac(n)
     IMPLICIT NONE
     INTEGER, INTENT(IN) :: n
     INTEGER :: i

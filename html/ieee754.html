@@ -39,7 +39,7 @@ computing market, but thus far no implementations have emerged.</p>
 <p>IEEE 754 specifies two ways to represent zero, positive and negative.
 The Fortran specification states that <code>0.0 == -0.0</code>. This is
 illustrated by the program below.</p>
-<pre class="fortran"><code>program ieee754
+<pre class="fortran"><code class="language-fortran">program ieee754
     implicit none
     real :: zero, minus_zero = 0
 
@@ -73,7 +73,7 @@ its argument is finite, <code>.false.</code> otherwise.</p>
 negative IEEE representation for infinity. The constants
 <code>ieee_positive_inf</code> and <code>ieee_negative_inf</code> will
 determine the value.</p>
-<pre class="fortran"><code>...
+<pre class="fortran"><code class="language-fortran">...
 use, intrinsic :: ieee_arithmetic, only : ieee_value, ieee_positive_inf
 use, intrinsic :: iso_fortran_env, only : DP =&gt; REAL32
 real(kind=DP) :: infinity
@@ -134,12 +134,12 @@ the halting mode to true for specific procedures or calculations. For
 instance, the statement below will set the halting mode for
 <code>IEEE_INVALID</code> to true, which means that the program will
 halt when an invalid operation occurs.</p>
-<pre class="fortran"><code>call ieee_set_halting_mode(IEEE_INVALID, .true.)</code></pre>
+<pre class="fortran"><code class="language-fortran">call ieee_set_halting_mode(IEEE_INVALID, .true.)</code></pre>
 <p>At some later point in the code, you can switch the halting mode back
 to false by using the same call with <code>.false.</code> as the
 argument.</p>
 <p>The value of the halting mode can be checked at any point using</p>
-<pre class="fortran"><code>...
+<pre class="fortran"><code class="language-fortran">...
 logical :: stat
 ...
 call ieee_get_halting_mode(IEEE_INVALID, stat)
@@ -152,7 +152,7 @@ exception was thrown.</p>
 <p>The value of a flag can be checked using the subroutine
 <code>ieee_get_flag</code> with the flag type and a logical variable as
 argument, e.g.,</p>
-<pre class="fortran"><code>...
+<pre class="fortran"><code class="language-fortran">...
 logical :: stat
 ...
 call ieee_get_flag(IEEE_INVALID, stat)
@@ -161,7 +161,7 @@ call ieee_get_flag(IEEE_INVALID, stat)
 be taken.</p>
 <p>You can also check for all the “usual suspects” at once using the
 array <code>IEEE_USUAL</code>, i.e.,</p>
-<pre class="fortran"><code>...
+<pre class="fortran"><code class="language-fortran">...
 local, dimension(size(IEEE_USUAL)) :: stats
 ...
 call ieee_get_flag(IEEE_USUAL, stats)
@@ -170,4 +170,4 @@ if (any(stats)) then
 end if</code></pre>
 <p>You can also clear the flags when you have dealt with the exception
 and your computation is ready to proceed, e.g.,</p>
-<pre class="fortran"><code>call ieee_set_flag(IEEE_INVALID, .false.)</code></pre>
+<pre class="fortran"><code class="language-fortran">call ieee_set_flag(IEEE_INVALID, .false.)</code></pre>

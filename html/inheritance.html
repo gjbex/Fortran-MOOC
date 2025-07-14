@@ -38,7 +38,7 @@ would extend it with data and procedures to compute the median as
 well.</p>
 <p>This is exactly what inheritance accomplishes. Consider the
 definition of <code>median_stats_t</code> below.</p>
-<pre class="fortran"><code>type, extends(descriptive_stats_t), public :: median_stats_t
+<pre class="fortran"><code class="language-fortran">type, extends(descriptive_stats_t), public :: median_stats_t
     private
     real, dimension(:), allocatable :: values
 contains
@@ -91,7 +91,7 @@ implementation for <code>descriptive_stats_t</code> to update
 <code>nr_values</code>, <code>sum</code> and <code>sum2</code>. It
 should additionally ensure that the new value is also stored in the
 array <code>values</code>.</p>
-<pre class="fortran"><code>subroutine add_value(stats, new_value)
+<pre class="fortran"><code class="language-fortran">subroutine add_value(stats, new_value)
     use, intrinsic :: iso_fortran_env, only : error_unit
     implicit none
     class(median_stats_t), intent(inout) :: stats
@@ -137,7 +137,7 @@ procedure arguments though. The following code fragment illustrates that
 you can decide at runtime whether to use a
 <code>descriptive_stats_t</code> or <code>median_stats_t</code>
 variable, and how to distinguish between the types of values.</p>
-<pre class="fortran"><code>...
+<pre class="fortran"><code class="language-fortran">...
 class(descriptive_stats_t), allocatable :: stats
 ...
 if (stats_type == 'median') then
@@ -166,7 +166,7 @@ objects of the class <code>median_stats_t</code>, you would need a way
 to determine at runtime what the class or type of an object is.</p>
 <p>Fortran has the <code>select type</code> statement to accomplish
 this. Its general form is</p>
-<pre><code>select type (&lt;target&gt;)
+<pre><code class="language-fortran">select type (&lt;target&gt;)
     type is (&lt;type name 1&gt;)
         &lt;block statements 1&gt;
     type is (&lt;type name 2&gt;)
@@ -190,7 +190,7 @@ type that is the highest up in the derivation hierarchy. 1. If no
 clause is present, the corresponding statement block is executed.</p>
 <p>For example, now you can check whether <code>stats</code> is of class
 <code>median_stats_t</code>, and if so, print the median.</p>
-<pre class="fortran"><code>...
+<pre class="fortran"><code class="language-fortran">...
 print '(A, F10.3)', 'mean   = ', stats%get_mean()
 select type (stats)
     class is (median_stats_t)
@@ -214,14 +214,14 @@ it be allocated? This is where the procedures <code>init_stats</code>
 and <code>finalize_stats</code> come in that we didn’t discuss so far.
 The name interface that we defined for the <code>median_stats_t</code>
 was</p>
-<pre class="fortran"><code>interface median_stats_t
+<pre class="fortran"><code class="language-fortran">interface median_stats_t
     module procedure init_stats
 end interface</code></pre>
 <p>When we create a new object of the the class
 <code>median_stats_t</code>, the array <code>values</code> should be
 allocated. This is done using the function <code>init_stats</code> that
 returns an initialized instance of <code>median_stats_t</code>.</p>
-<pre class="fortran"><code>function init_stats(nr_values) result(stats)
+<pre class="fortran"><code class="language-fortran">function init_stats(nr_values) result(stats)
     use, intrinsic :: iso_fortran_env, only : error_unit
     integer, value :: nr_values
     type(median_stats_t) :: stats
@@ -238,7 +238,7 @@ are already initialized in the definition of the parent class
 <code>descriptive_stats_t</code>.</p>
 <p>The named interface <code>median_stats_t</code> ensures that the
 procedure <code>init_stats</code> can be used conveniently, e.g.,</p>
-<pre class="fortran"><code>...
+<pre class="fortran"><code class="language-fortran">...
 integer :: nr_values
 type(median_stats_t) :: stats
 ...
@@ -252,7 +252,7 @@ the object is no longer required. The deallocation is implemented in the
 <code>finalize_stats</code> procedure which is called automatically when
 the object goes out of scope thanks to the <code>final</code>
 attribute.</p>
-<pre class="fortran"><code>subroutine finalize_stats(stats)
+<pre class="fortran"><code class="language-fortran">subroutine finalize_stats(stats)
     use, intrinsic :: iso_fortran_env, only : error_unit
     type(median_stats_t), intent(inout) :: stats
     integer :: istat

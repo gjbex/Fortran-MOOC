@@ -30,7 +30,7 @@ OpenMP application will still perform correctly using only a single
 thread.</p>
 <p>Initially, OpenMP concentrated primarily on parallelizing iterations.
 The following code fragment illustrates this.</p>
-<pre class="fortran"><code>real :: x, y
+<pre class="fortran"><code class="language-fortran">real :: x, y
 integer :: i, nr_success
 ...
 !$omp parallel default(none) private(x, y) shared(nr_success)
@@ -149,7 +149,7 @@ in the communicator. This is an integer between 0 and the number of
 processes in the communicator minus 1.</p>
 <p>The code below computes the value of \(\pi\) similar to the one which illustrated
 OpenMP.</p>
-<pre class="fortran"><code>...
+<pre class="fortran"><code class="language-fortran">...
 use :: mpi_f08
 ...
 call MPI_Init()
@@ -214,7 +214,7 @@ from other images by using the image ID as codimension index.</p>
 which is similar to <code>MPI_Reduce</code>.</p>
 <p>The following program would compute \(\pi\) as the example for OpenMP and MPI,
 but implemented using a coarray.</p>
-<pre class="fortran"><code>program compute_pi
+<pre class="fortran"><code class="language-fortran">program compute_pi
     use, intrinsic :: iso_fortran_env, only : I8 =&gt; INT64
     implicit none
     real, parameter :: PI = acos(-1.0)
