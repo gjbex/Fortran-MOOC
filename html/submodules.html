@@ -16,7 +16,7 @@ only has to be done in a single location.</p>
 <p>Consider again the example of computing quadratures. Since there are
 many quadrature methods, you would create many functions to create them,
 all defined in the module <code>quad_mod</code>.</p>
-<pre class="fortran"><code>module quad_mod
+<pre class="fortran"><code class="language-fortran">module quad_mod
     implicit none
 
     private
@@ -73,7 +73,7 @@ would potentially take a long time.</p>
 declaration remains in the module <code>quad_mod</code>, but the
 implementation is put into separate submodules, each in their own
 file.</p>
-<pre class="fortran"><code>module quad_mod
+<pre class="fortran"><code class="language-fortran">module quad_mod
     implicit none
 
     private
@@ -103,7 +103,7 @@ end module quad_submod_mod</code></pre>
 <p>The implementations are defined in the submodules
 <code>quad_gauss_smod</code> and <code>quad_simpson_smod</code>. The
 former is shown below.</p>
-<pre class="fortran"><code>submodule(quad_mod) quad_gauss_smod
+<pre class="fortran"><code class="language-fortran">submodule(quad_mod) quad_gauss_smod
     implicit none
 contains
 

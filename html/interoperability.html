@@ -18,12 +18,12 @@ called from C code, there are unfortunately quite some limitations,
 especially with respect to assumed shape array arguments.</p>
 <h3 id="simple-example">Simple example</h3>
 <p>As a very simple example, consider the following C function</p>
-<pre class="c"><code>double linear(double x, double a, double b) {
+<pre class="c"><code class="language-fortran">double linear(double x, double a, double b) {
     return a*x + b;
 }</code></pre>
 <p>Some work is required to use this function from a Fortran program.
 First, you have to define an interface.</p>
-<pre class="fortran"><code>use, intrinsic :: iso_c_binding
+<pre class="fortran"><code class="language-fortran">use, intrinsic :: iso_c_binding
 ...
 interface
     function linear(x, a, b) result(res) bind(c)
@@ -40,7 +40,7 @@ precision floating point type. The arguments are passed by value, as is
 the case in the C function.</p>
 <p>The function must be called using arguments of kind
 <code>c_double</code>, e.g.,</p>
-<pre class="fortran"><code>real(kind=c_double) :: x, a, b
+<pre class="fortran"><code class="language-fortran">real(kind=c_double) :: x, a, b
 ...
 x = real(3.0, kind=c_double)
 a = real(0.5, kind=c_double)
@@ -48,7 +48,7 @@ b = real(1.3, kind=c_double)
 print '(F7.2)', linear(x, a, b)</code></pre>
 <h3 id="pointers">Pointers</h3>
 <p>A somewhat more challenging example is the following C function.</p>
-<pre class="c"><code>#include &lt;err.h&gt;
+<pre class="c"><code class="language-fortran">#include &lt;err.h&gt;
 #include &lt;stdio.h&gt;
 #include &lt;stdlib.h&gt;
 
@@ -67,7 +67,7 @@ int* random_vector(int n) {
 <code>n</code> integer values.</p>
 <p>To use this function from Fortran, you have to define an
 interface.</p>
-<pre class="fortran"><code>interface
+<pre class="fortran"><code class="language-fortran">interface
     function random_vector(nr_values) result(vector) bind(c)
         use, intrinsic :: iso_c_binding
         implicit none
@@ -79,7 +79,7 @@ end interface</code></pre>
 return type has <code>c_ptr</code>.</p>
 <p>The result of the function can be assigned to a variable, and
 converted to a corresponding Fortran pointer.</p>
-<pre class="fortran"><code>integer, parameter :: vector_len = 5
+<pre class="fortran"><code class="language-fortran">integer, parameter :: vector_len = 5
 integer(kind=c_int), dimension(:), pointer :: random_values
 type(c_ptr) :: vector_ptr
 ...
@@ -99,7 +99,7 @@ structures and algorithms.</p>
 <p>The following program uses the <code>gsl_sort</code> function to sort
 an array. The C function has return type <code>void</code>, so the
 interface defines a subroutine.</p>
-<pre class="fortran"><code>program use_gsl
+<pre class="fortran"><code class="language-fortran">program use_gsl
     use, intrinsic :: iso_c_binding
     implicit none
     interface
@@ -125,7 +125,7 @@ end program use_gsl</code></pre>
 utility that is distributed with the numpy package.</p>
 <p>Consider the following Fortran module defined in the file
 <code>matrix_mod.f90</code>.</p>
-<pre class="fortran"><code>module matrix_mod
+<pre class="fortran"><code class="language-fortran">module matrix_mod
     use, intrinsic :: iso_fortran_env, only : error_unit
     implicit none
 
@@ -145,11 +145,11 @@ end module matrix_mod</code></pre>
 array passed as argument.</p>
 <p>Python wrappers for this Fortran module can be created using the f2py
 utility.</p>
-<pre class="bash"><code>$ f2py  -c  -m matrices  matrix_mod.f90</code></pre>
+<pre class="bash"><code class="language-fortran">$ f2py  -c  -m matrices  matrix_mod.f90</code></pre>
 <p>This will create a Python module <code>matrices</code> that contains
 <code>matrix_mod</code> with the function
 <code>norm_matrix_rows</code>.</p>
-<pre class="python"><code>from matrices import matrix_mod
+<pre class="python"><code class="language-fortran">from matrices import matrix_mod
 ...
 A = np.asfortranarray(np.arange(1.0, 12.5, 1.0).resize((3, 4)))
 matrix_mod.norm_matrix_rows(A)</code></pre>

@@ -26,7 +26,7 @@ can do any type of output. Since the print statement is the simplest, we
 will first discuss this.</p>
 <h3 id="print-statement">print statement</h3>
 <p>The general form of the print statement is given below.</p>
-<pre><code>print &lt;fmt&gt;, &lt;list-of-expressions&gt;</code></pre>
+<pre><code class="language-fortran">print &lt;fmt&gt;, &lt;list-of-expressions&gt;</code></pre>
 <p>The <code>&lt;list-of-expressions&gt;</code> is a comma separated
 list of expressions, e.g., variables, mathematical expression or
 function calls.</p>
@@ -35,7 +35,7 @@ is simply <code>*</code>. This leaves it up to the Fortran runtime to
 determine the appropriate output format. For very simple I/O this may be
 sufficient. The following code illustrates the default output format for
 various data types.</p>
-<pre class="fortran"><code>program print_test
+<pre class="fortran"><code class="language-fortran">program print_test
     use, intrinsic :: iso_fortran_env, only : SP =&gt; REAL32, DP =&gt; REAL64
     implicit none
     integer, parameter :: n = 15
@@ -61,7 +61,7 @@ various data types.</p>
     print *, '|', A, '|'
 end program print_test</code></pre>
 <p>This application produces the following output.</p>
-<pre><code> |          15 |
+<pre><code class="language-fortran"> |          15 |
  |   3.14000010     |
  |   2.6899999999999999      |
  |abc       |
@@ -92,7 +92,7 @@ rather frustrating to perform a long computation, and end up with output
 consisting (partly) of only asterisk symbols, so choose your width
 wisely.</p>
 <p>The following program illustrates the point.</p>
-<pre class="fortran"><code>program print_asterisks
+<pre class="fortran"><code class="language-fortran">program print_asterisks
     implicit none
     integer :: i = 123456
     character(len=6) :: c = 'abcdef'
@@ -105,7 +105,7 @@ wisely.</p>
 
 end program print_asterisks</code></pre>
 <p>The output produced by this application is shown below.</p>
-<pre><code>  123456
+<pre><code class="language-fortran">  123456
 ****
   abcdef
 abcd</code></pre>
@@ -322,7 +322,7 @@ However, you will often use edit descriptors to output multiple values.
 For instance, to output a real value followed by an integer value, you
 would use, e.g., `(E12.3, I5)’. The following code fragment illustrates
 a full example.</p>
-<pre class="fortran"><code>...
+<pre class="fortran"><code class="language-fortran">...
 real :: x = 17.3e5
 integer :: i = 19
 ...
@@ -333,7 +333,7 @@ print '(E12.3, I5)', x, i
 real numbers, you could use <code>(5E13.3)</code>. This repetion factor
 can also be <code>*</code> to indicate an unlimited number of
 repetitions, e.g.,</p>
-<pre><code>subroutine print_vector(label, vector)
+<pre><code class="language-fortran">subroutine print_vector(label, vector)
     implicit none
     character(len=:), intent(in) :: label
     real, dimension(:), intent(in) :: vector
@@ -381,7 +381,7 @@ discuss <code>access='write'</code>, <code>status='new'</code>,
 <code>status='replace'</code>, <code>form='formatted'</code>.</p>
 <p>For example, you can use the following open statement to open a new
 file <code>text.txt</code> for writing formatted output.</p>
-<pre class="fortran"><code>program newunit_test
+<pre class="fortran"><code class="language-fortran">program newunit_test
     use, intrinsic :: iso_fortran_env, only : error_unit
     implicit none
     integer :: unit_nr, istat
@@ -432,7 +432,7 @@ be applied to a character variable to create a formatted string. As an
 example, consider that you might want to let the number of digits in an
 edit description for a real number depend on some runtime
 conditions.</p>
-<pre class="fortran"><code>...
+<pre class="fortran"><code class="language-fortran">...
 character(len=10) :: fmt_str
 integer :: nr_digits
 real :: x

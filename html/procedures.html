@@ -14,7 +14,7 @@ Yourself), but also to structure your code into subprograms.</p>
 it does in an expression. Since Fortran has many built-in functions,
 referred to as intrinsic functions, we will use one to illustrate the
 typical use of a function.</p>
-<pre class="fortran"><code>...
+<pre class="fortran"><code class="language-fortran">...
 real :: x, y, hypot
 ...
 hypot = sqrt(x**2 + y**2)
@@ -28,7 +28,7 @@ included. This is of course due to Fortran’s primary focus: scientific
 computing.</p>
 <p>As in any programming language, you can define your own functions.
 The general form is given below.</p>
-<pre><code>function &lt;function name&gt;(&lt;argument list&gt;) result(&lt;result name&gt;)
+<pre><code class="language-fortran">function &lt;function name&gt;(&lt;argument list&gt;) result(&lt;result name&gt;)
     implicit none
     &lt;argument declarations&gt;
     &lt;result declaration&gt;
@@ -39,7 +39,7 @@ end function &lt;function name&gt;</code></pre>
 <p>If this is somewhat abstract, let’s make it concrete with the
 definition of a function that computes the distance between two points
 given by their x and y coordinates.</p>
-<pre class="fortran"><code>function distance(x1, y1, x2, y2) result(d)
+<pre class="fortran"><code class="language-fortran">function distance(x1, y1, x2, y2) result(d)
     implicit none
     real(kind=DP), intent(in) :: x1, y1, x2, y2
     real(kind=DP) :: d
@@ -73,7 +73,7 @@ from that in those languages. In those programming languages, the value
 returned by the function is the value of the expression in the return
 statement. The return statement also transfers control back to the
 caller of the function.</p>
-<pre class="c"><code>#include &lt;math.h&gt;
+<pre class="c"><code class="language-fortran">#include &lt;math.h&gt;
 double distance(double x1, double y1, double x2, double y2) {
     return sqrt((x1 - x2)*(x1 - x2) + (y1 - y2)*(y1 - y2));
 }</code></pre>
@@ -86,7 +86,7 @@ variable, so to <code>d</code> in our example.</p>
 <p>That implies that an assignment to the result variable has to be made
 in each execution path through the function. The function
 <code>factorial</code> below for instance has issues.</p>
-<pre class="fortran"><code>function factorial(n) result(fac)
+<pre class="fortran"><code class="language-fortran">function factorial(n) result(fac)
     implicit none
     integer, intent(in) :: n
     integer :: fac
@@ -104,7 +104,7 @@ the result variable <code>fac</code> which results in undefined
 behavior.</p>
 <p>You can define a function in a slightly different way as well,
 although it is a bit less robust.</p>
-<pre><code>&lt;result type&gt; function &lt;function name&gt;(&lt;argument list&gt;)
+<pre><code class="language-fortran">&lt;result type&gt; function &lt;function name&gt;(&lt;argument list&gt;)
     implicit none
     &lt;argument declarations&gt;
     &lt;local variable declarations&gt;
@@ -115,7 +115,7 @@ end function &lt;function name&gt;</code></pre>
 function’s signature, and the return value will be assigned to the
 function name. The function to compute the distance could also be
 defined as follows.</p>
-<pre class="fortran"><code>real(kind=DP) function distance(x1, y1, x2, y2)
+<pre class="fortran"><code class="language-fortran">real(kind=DP) function distance(x1, y1, x2, y2)
     implicit none
     real(kind=DP), intent(in) :: x1, y1, x2, y2
 
@@ -132,7 +132,7 @@ subroutines is very similar to that of functions, except for the result
 value, which subroutines don’t have by definition.</p>
 <p>Fortran has a number of intrinsic subroutines as well, for example to
 generate pseudo-random numbers.</p>
-<pre class="fortran"><code>...
+<pre class="fortran"><code class="language-fortran">...
 real :: x
 ...
 call random_number(x)
@@ -143,7 +143,7 @@ between 0 and 1.</p>
 <p>Note the use of the keyword <code>call</code> required to call a
 subroutine!</p>
 <p>The general form of a subroutine definition is given below.</p>
-<pre><code>subroutine &lt;subroutine name&gt;(&lt;argument list&gt;)
+<pre><code class="language-fortran">subroutine &lt;subroutine name&gt;(&lt;argument list&gt;)
     implicit none
     &lt;argument declarations&gt;
     &lt;local variable declarations&gt;
@@ -151,7 +151,7 @@ subroutine!</p>
     &lt;subroutine statements&gt;
 end subroutines &lt;subroutines name&gt;</code></pre>
 <p>You can see an example of a subroutine definition below.</p>
-<pre class="fortran"><code>subroutine clamp(val, min_val, max_val)
+<pre class="fortran"><code class="language-fortran">subroutine clamp(val, min_val, max_val)
     implicit none
     real(kind=DP), intent(inout) :: val
     real(kind=DP), intent(in) :: min_val, max_val
@@ -173,7 +173,7 @@ argument <code>val</code>’s value is required in the if statements, but
 can be modified by the subroutine as well.</p>
 <p>The subroutines <code>clamp</code> could be used as in the code
 fragment below.</p>
-<pre class="fortran"><code>...
+<pre class="fortran"><code class="language-fortran">...
 real(kind=DP) :: x
 ...
 call clamp(x, 0.0, 1.0)
@@ -187,7 +187,7 @@ doesn’t change the value of the variable in the caller’s context.</p>
 <p>If you would do the same in Fortran, the value of the variable in the
 caller’s context will be changed, Fortran has call-by-reference
 semantics. The following program illustrates this.</p>
-<pre class="fortran"><code>program call_by_reference
+<pre class="fortran"><code class="language-fortran">program call_by_reference
     implicit none
     integer :: m
     m = 5
@@ -206,7 +206,7 @@ contains
 
 end program call_by_reference</code></pre>
 <p>When you run this application, the output will be</p>
-<pre><code>           5
+<pre><code class="language-fortran">           5
            6</code></pre>
 <p>The variable <code>m</code> was passed to the subroutine
 <code>increment</code> and modified in it. The intent of the argument is
@@ -215,7 +215,7 @@ which changes the value of <code>m</code> in the calling context.</p>
 <p>If you would try to call <code>increment</code> with an integer
 constant as an argument, i.e., <code>call increment(16)</code> you would
 get a compilation error as</p>
-<pre><code>    8 |     call increment(16)
+<pre><code class="language-fortran">    8 |     call increment(16)
       |                   1
 Error: Non-variable expression in variable definition context (actual argument to INTENT = OUT/INOUT) at (1)</code></pre>
 <p>Indeed, it doesn’t make sense to call a subroutine that has an
@@ -223,7 +223,7 @@ Error: Non-variable expression in variable definition context (actual argument t
 <p>However, clearly, there are situations in which you would prefer
 call-by-value semantics. Consider the following implementation of the
 factorial function.</p>
-<pre class="fortran"><code>function factorial(arg) result(fac)
+<pre class="fortran"><code class="language-fortran">function factorial(arg) result(fac)
     implicit none
     integer, intent(in) :: arg
     integer :: fac, n
@@ -243,7 +243,7 @@ a local variable <code>n</code> that is initialized with the value of
 <p>We can get the best of both worlds by using call-by-value semantics,
 i.e., declaring that the argument is passed by value, as in the code
 below.</p>
-<pre class="fortran"><code>    function factorial(n) result(fac)
+<pre class="fortran"><code class="language-fortran">    function factorial(n) result(fac)
         implicit none
         integer, value :: n
         integer :: fac
@@ -262,7 +262,7 @@ i.e., they have a call to themselves in their definition. Fortran allows
 recursive procedures, but they have to be declared as such. For
 instance, revisiting the example in the precious section we can define
 that recursively as well.</p>
-<pre class="fortran"><code>recursive function factorial(n) result(fac)
+<pre class="fortran"><code class="language-fortran">recursive function factorial(n) result(fac)
     implicit none
     integer, intent(in) :: n
     integer :: fac
@@ -286,7 +286,7 @@ you have procedures with multiple arguments. Consider the example of the
 signature? Perhaps you don’t, if so, keyword arguments can help, and
 make your code easier to understand. You can call the subroutine as
 follows.</p>
-<pre class="fortran"><code>...
+<pre class="fortran"><code class="language-fortran">...
 real :: x
 ...
 call clamp(min_val=0.0, max_val=1.0, val=x)
@@ -295,7 +295,7 @@ call clamp(min_val=0.0, max_val=1.0, val=x)
 argument, but they do not have to appear in the same order as in the
 procedure’s signature. Just to remind you, the subroutine was defined
 as:</p>
-<pre class="fortran"><code>subroutine clamp(val, min_val, max_val)
+<pre class="fortran"><code class="language-fortran">subroutine clamp(val, min_val, max_val)
    ...
 end subroutine clamp</code></pre>
 <p>It is strongly recommended to use keyword arguments to make your code
@@ -306,7 +306,7 @@ because the procedure must check whether or not a value has been
 provided in the procedure call.</p>
 <p>For example, let’s revisit the <code>clamp</code> procedure and make
 <code>min_val</code> optional.</p>
-<pre class="fortran"><code>subroutine clamp(val, min_val, max_val)
+<pre class="fortran"><code class="language-fortran">subroutine clamp(val, min_val, max_val)
     implicit none
     real(kind=DP), intent(inout) :: val
     real(kind=DP), value, optional :: min_val
@@ -320,12 +320,12 @@ provided in the procedure call.</p>
     end if
 end subroutine clamp</code></pre>
 <p>The subroutine can be called either with two, or three arguments.</p>
-<pre class="fortran"><code>...
+<pre class="fortran"><code class="language-fortran">...
 real(kind=DP) :: value
 ...
 call clamp(val=value, max_val=5.0_DP)
 ...</code></pre>
-<pre class="fortran"><code>...
+<pre class="fortran"><code class="language-fortran">...
 real(kind=DP) :: value
 ...
 call clamp(val=value, min_val=0.0_DP, max_val=5.0_DP)
@@ -342,7 +342,7 @@ generates two random values, so the second one is stored for the next
 call in the <code>save</code> variable <code>next_val</code>. The
 variable <code>is_next_val</code> will be true when a value is
 available, false when two new values need to be computed.</p>
-<pre class="fortran"><code>function get_exp_rand() result(val)
+<pre class="fortran"><code class="language-fortran">function get_exp_rand() result(val)
     implicit none
     real :: val
     real, save :: next_val
@@ -383,7 +383,7 @@ specified as <code>in</code> or <code>inout</code>.</p>
 must be pure.</li>
 </ul>
 <p>The following function can be declared pure.</p>
-<pre class="fortran"><code>pure function factorial(n) result(fac)
+<pre class="fortran"><code class="language-fortran">pure function factorial(n) result(fac)
     implicit none
     integer, intent(in) :: n
     integer :: fac, i
@@ -394,7 +394,7 @@ must be pure.</li>
     end do
 end function factorial</code></pre>
 <p>A subroutine can also be marked as pure, e.g.,</p>
-<pre class="fortran"><code>pure subroutine clamp(val, min_val, max_val)
+<pre class="fortran"><code class="language-fortran">pure subroutine clamp(val, min_val, max_val)
     implicit none
     real(kind=DP), intent(inout) :: val
     real(kind=DP), intent(in) :: min_val, max_val

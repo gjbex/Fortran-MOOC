@@ -13,7 +13,7 @@ more to learn.</p>
 Fortran” example code. In the same directory as the source file
 <code>hello_fortran.f90</code>, create a file
 <code>CMakeLists.txt</code> with the following contents.</p>
-<pre><code>cmake_minimum_required(VERSION 3.0)
+<pre><code class="language-fortran">cmake_minimum_required(VERSION 3.0)
 
 project(fortran_basics LANGUAGES Fortran)
 
@@ -42,20 +42,20 @@ warnings about suspicious code.</li>
 <p>When building software, CMake will create a lot of artifacts that
 pollute your source directory, so it is good practice to do the build in
 a dedicated subdirectory.</p>
-<pre class="bash"><code>$ mkdir build; cd build</code></pre>
+<pre class="bash"><code class="language-fortran">$ mkdir build; cd build</code></pre>
 <p>Before you can do your first build, CMake has to generate a number of
 files and directories based on the <code>CMakeLists.txt</code> file in
 your source directory. This is done with the <code>cmake</code>
 command.</p>
-<pre class="bash"><code>$ cmake ..</code></pre>
+<pre class="bash"><code class="language-fortran">$ cmake ..</code></pre>
 <p>The argument of the <code>cmake</code> command is a directory where
 the relevant <code>CMakeLists.txt</code> file is located, in this case
 <code>..</code> the parent directory of the build directory.</p>
 <p>Now you are ready to build the executable.</p>
-<pre class="bash"><code>$ make</code></pre>
+<pre class="bash"><code class="language-fortran">$ make</code></pre>
 <p>In case you get compilation or linking errors, correct them. If the
 build process succeeded without errors, you can run the executable.</p>
-<pre class="bash"><code>$ ./hello_fortran.exe</code></pre>
+<pre class="bash"><code class="language-fortran">$ ./hello_fortran.exe</code></pre>
 <h2 id="multiple-source-files">Multiple source files</h2>
 <p>Suppose that your application is implemented using multiple source
 files, i.e., some modules are stored in their own files. CMake can
@@ -64,7 +64,7 @@ example, the following specification would use the files
 <code>cellular_automata.f90</code> as well as
 <code>cellular_automata_mod.f90</code> to build the application
 <code>cellular_automata.exe</code>.</p>
-<pre><code>add_executable(cellular_automata.exe
+<pre><code class="language-fortran">add_executable(cellular_automata.exe
     cellular_automata.f90
     cellular_automata_mod.f90)</code></pre>
 <h2 id="other-features">Other features</h2>

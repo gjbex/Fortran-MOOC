@@ -38,7 +38,7 @@ procedure. This can be formalized by defining an abstract class
 procedure is declared, i.e., its interface is defined, but it is not
 defined, i.e., implemented for the abstract class
 <code>quad_t</code>.</p>
-<pre class="fortran"><code>module quad_mod
+<pre class="fortran"><code class="language-fortran">module quad_mod
     implicit none
 
     private
@@ -76,7 +76,7 @@ is specified through an abstract interface for
 <code>compute_t</code>.</p>
 <p>The class that implements Simpson’s rule will define its own specific
 version of compute for that particular algorithm.</p>
-<pre class="fortran"><code>module quad_simpson_mod
+<pre class="fortran"><code class="language-fortran">module quad_simpson_mod
     use :: quad_mod
     implicit none
 
@@ -137,7 +137,7 @@ in handy later.</p>
 <p>The derived class for the Legendre-Gauss algorithms is itself an
 abstract class since the procedure to initialize abscissae and weights
 is specific to each algorithm.</p>
-<pre class="fortran"><code>module quad_gauss_mod
+<pre class="fortran"><code class="language-fortran">module quad_gauss_mod
     use :: quad_mod
     implicit none
 
@@ -222,7 +222,7 @@ procedure <code>compute</code> to a concrete implementation
 <p>The classes <code>quad_gauss5_t</code> and
 <code>quad_gauss10_t</code> will each have a specific implementation for
 <code>quad_init</code>, i.e., for <code>quad_gauss5_t</code>:</p>
-<pre class="fortran"><code>subroutine init_quad5(this)
+<pre class="fortran"><code class="language-fortran">subroutine init_quad5(this)
     implicit none
     class(quad_gauss5_t), intent(inout) :: this
 
@@ -246,7 +246,7 @@ end subroutine init_quad5</code></pre>
 <code>quad_gauss5_t</code> and <code>quad_gauss10_t</code> define a
 named interface for a constructor. The implementation for
 <code>quad_gauss5_t</code> is shown below.</p>
-<pre class="fortran"><code>function create_quad() result(quad)
+<pre class="fortran"><code class="language-fortran">function create_quad() result(quad)
     implicit none
     type(quad_gauss5_t) :: quad
     call quad%init_quad()
@@ -254,7 +254,7 @@ end function create_quad</code></pre>
 <p>The constructor will call the procedure to initialize the object.</p>
 <p>Finally, the quadrature algorithm to use can be selected at runtime
 easily.</p>
-<pre class="fortran"><code>...
+<pre class="fortran"><code class="language-fortran">...
 use :: quad_mod
 use :: quad_gauss_mod
 use :: quad_gauss5_mod

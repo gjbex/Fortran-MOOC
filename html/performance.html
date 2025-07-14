@@ -9,7 +9,7 @@ example, the Fibonacci sequence. The Fibonacci numbers are defined as
 \(f(n) = f(n - 1) + f(n - 2)\) for
 \(n \le 0\) and \(f(1) = 1\) and \(f(0) = 0\).</p>
 <p>This can be implemented recursively as shown below.</p>
-<pre class="fortran"><code>recursive function fib_recursive(n) result(fib)
+<pre class="fortran"><code class="language-fortran">recursive function fib_recursive(n) result(fib)
     use, intrinsic :: iso_fortran_env, only : I8 =&gt; INT64
     implicit none
     integer(Kind=I8), value :: n
@@ -27,7 +27,7 @@ example, the Fibonacci sequence. The Fibonacci numbers are defined as
 number for \(n\) is \(O(2^n)\), so exponential, i.e., very
 unpleasant.</p>
 <p>However, an alternative algorithm is linear in \(n\), so \(O(n)\).</p>
-<pre class="fortran"><code>function fib_iterative(n) result(fib)
+<pre class="fortran"><code class="language-fortran">function fib_iterative(n) result(fib)
     use, intrinsic :: iso_fortran_env, only : I8 =&gt; INT64
     implicit none
     integer(kind=I8), value :: n
@@ -94,7 +94,7 @@ high-level programming constructs to be handled using SIMD instructions.
 This means that the iterations that are executed concurrently have to be
 independent.</p>
 <p>Consider the following code fragment.</p>
-<pre class="fortran"><code>use, intrinsic :: iso_fortran_env, only : SP =&gt; REAL32, DP =&gt; REAL64
+<pre class="fortran"><code class="language-fortran">use, intrinsic :: iso_fortran_env, only : SP =&gt; REAL32, DP =&gt; REAL64
 real(kind=DP), dimension(N) :: x, y
 real(kind=DP) :: alpha = 0.5_DP
 integer :: i
@@ -115,13 +115,13 @@ automatically (if the optimization level is high enough,
 <code>-O3</code> for Fortran).</p>
 <p>Of course this is not possible if there is a dependency between the
 loops as in the example below.</p>
-<pre class="fortran"><code>do i = 2, N
+<pre class="fortran"><code class="language-fortran">do i = 2, N
     x(i) = alpha*x(i - 1) + y(i)
 end do</code></pre>
 <p>Note that expressing computations as array expressions makes it
 abundantly clear to the compiler that it can generate vector
 instructions, e.g.,</p>
-<pre class="fortran"><code>use, intrinsic :: iso_fortran_env, only : DP =&gt; REAL64
+<pre class="fortran"><code class="language-fortran">use, intrinsic :: iso_fortran_env, only : DP =&gt; REAL64
 real(kind=DP), dimension(N) :: x, y
 real(kind=DP) :: alpha = 0.5_DP
 
@@ -141,7 +141,7 @@ compiler that iterations are independent.</p>
 <p>It is important to control the precision of your computations to
 guarantee the desired accuracy, but also with performance in mind.</p>
 <p>Consider the following code fragment.</p>
-<pre class="fortran"><code>use, intrinsic :: iso_fortran_env, only : SP =&gt; REAL32, DP =&gt; REAL64
+<pre class="fortran"><code class="language-fortran">use, intrinsic :: iso_fortran_env, only : SP =&gt; REAL32, DP =&gt; REAL64
 real(kind=SP), dimension(N) :: x, y
 real(kind=DP) :: alpha = 0.5_DP
 
@@ -224,7 +224,7 @@ consecutively in memory, since these values will be on the same cache
 lines. This ensures that you use the available memory bandwidth and
 caches optimally.</p>
 <p>Consider the following example.</p>
-<pre class="fortran"><code>integer, parameter :: nr_rows = 1000, nr_cols = 500
+<pre class="fortran"><code class="language-fortran">integer, parameter :: nr_rows = 1000, nr_cols = 500
 real, dimension(nr_rows, nr_cols) :: data
 integer :: row, col
 ...
@@ -244,7 +244,7 @@ the cache line is used, so 4 bytes out of 64 bytes for single precision
 floating point computations.</p>
 <p>If you can change the order of the do-loop, this can be made much
 more efficient.</p>
-<pre class="fortran"><code>integer, parameter :: nr_rows = 1000, nr_cols = 500
+<pre class="fortran"><code class="language-fortran">integer, parameter :: nr_rows = 1000, nr_cols = 500
 real, dimension(nr_rows, nr_cols) :: data
 integer :: row, col
 ...

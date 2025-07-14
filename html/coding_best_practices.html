@@ -33,11 +33,11 @@ syntactic constructs are typical for a specific programming language
 but, when translated one-to-one into another language, lead to code
 constructs that are unfamiliar to programmers who are proficient in that
 language. The code fragments below illustrate this.</p>
-<pre class="fortran"><code>real, dimension(10) :: a
+<pre class="fortran"><code class="language-fortran">real, dimension(10) :: a
 ...
 a = value</code></pre>
 <p>rather than</p>
-<pre class="fortran"><code>integer :: i
+<pre class="fortran"><code class="language-fortran">integer :: i
 real, dimension(10) :: a
 ...
 do i = 1, 10
@@ -60,7 +60,7 @@ aspect that can make reading your code much easier. Consider the
 following code fragment, and although I’ll grant that it is something of
 a caricature, I’ve seen some in the wild that are not significantly
 better.</p>
-<pre class="fortran"><code>open (fn, 'data.txt')
+<pre class="fortran"><code class="language-fortran">open (fn, 'data.txt')
 do i = 1, n
     x = get(i, fn)
     if (condition(x)) then
@@ -97,7 +97,7 @@ keyword arguments in procedure calls. Since accidentally swapping
 argument values with the same type in a procedure call can lead to
 interesting debugging sessions, you are strongly advised to use that
 syntax feature. Consider the following procedure signature:</p>
-<pre class="fortran"><code>real function random_gaussian(mu, sigma)
+<pre class="fortran"><code class="language-fortran">real function random_gaussian(mu, sigma)
     implicit none
     real, intent(in) :: mu, sigma
     ...
@@ -118,7 +118,7 @@ order, it eliminates a source of bugs.</p>
 sometimes that is hard to avoid. In that case, you can use named blocks
 to mitigate the complexity a little bit. The following code fragment
 illustrates this.</p>
-<pre class="fortran"><code>...
+<pre class="fortran"><code class="language-fortran">...
 integer :: i, j
 real, dimension(10, 15) :: A
 ...
@@ -163,7 +163,7 @@ However, the misspelled <code>totl</code> is also implicitly typed as
 <code>real</code>, initialized to <code>0.0</code>, and hence the value
 of <code>total</code> will be <code>10.0</code> when the iterations
 ends, rather than <code>100.0</code> as was intended.</p>
-<pre class="fortran"><code>integer :: i
+<pre class="fortran"><code class="language-fortran">integer :: i
 real :: total
 do i = 1, 10
     total = totl + 10.0
@@ -172,7 +172,7 @@ end do</code></pre>
 <code>implicit none</code> statement before variable declarations in
 <code>program</code>, <code>module</code>, <code>function</code>,
 <code>subroutine</code>, and <code>block</code>, e.g,</p>
-<pre class="fortran"><code>implicit none
+<pre class="fortran"><code class="language-fortran">implicit none
 integer :: i
 real :: total
 do i = 1, 10
@@ -183,7 +183,7 @@ all variables have to be declared explicitly, and <code>totl</code> was
 not.</p>
 <p>In Fortran it is possible to restrict what to use from modules,
 e.g.,</p>
-<pre class="fortran"><code>use, intrinsic :: iso_fortran_env, only : REAL64, INT32</code></pre>
+<pre class="fortran"><code class="language-fortran">use, intrinsic :: iso_fortran_env, only : REAL64, INT32</code></pre>
 <p>The <code>only</code> keyword ensures that only the parameters
 <code>REAL64</code> and <code>INT32</code> are imported from the
 <code>iso_fortran_env</code> module.</p>

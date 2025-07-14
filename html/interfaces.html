@@ -9,7 +9,7 @@ of procedures</h2>
 to a procedure. For instance, consider computing the quadrature of a
 function. The functions you can use map a real number to a real number,
 the signature is specified in the interface block below.</p>
-<pre class="fortran"><code>module quad_func_interface_mod
+<pre class="fortran"><code class="language-fortran">module quad_func_interface_mod
 
     interface
         function quad_func_t(x) result(f)
@@ -29,7 +29,7 @@ units.</p>
 with the signature of <code>quad_func_t</code> as an argument, as well
 as the boundaries of the integration interval <code>a</code> and
 <code>b</code>.</p>
-<pre class="fortran"><code>function quad(f, a, b) result(q_f)
+<pre class="fortran"><code class="language-fortran">function quad(f, a, b) result(q_f)
     use, intrinsic :: iso_fortran_env, only : DP =&gt; REAL64
     use :: quad_func_interface_mod
     implicit none
@@ -49,7 +49,7 @@ function.</p>
 <p>The function <code>quad</code> can now be used to compute the
 quadrature of an arbitrary function that has the signature defined in
 the interface for <code>quad_func_t</code>.</p>
-<pre class="fortran"><code>program quad_test
+<pre class="fortran"><code class="language-fortran">program quad_test
     use, intrinsic :: iso_fortran_env, only : DP =&gt; REAL64
     use :: quad_func_interface_mod
     use :: quad_mod, only : quad
@@ -83,7 +83,7 @@ compiler figure out whether to use <code>real_swap</code> or
 <code>int_swap</code> based on the types of the arguments the subroutine
 <code>swap</code> is called with. The following module uses an interface
 block to achieve exactly that.</p>
-<pre class="fortran"><code>module swap_mod
+<pre class="fortran"><code class="language-fortran">module swap_mod
     implicit none
 
     private
@@ -118,7 +118,7 @@ contains
 
 end module swap_mod</code></pre>
 <p>The following code illustrates how this can be used.</p>
-<pre class="fortran"><code>program swap_test
+<pre class="fortran"><code class="language-fortran">program swap_test
     use :: swap_mod, only : swap
     implicit none
     real :: a = 3.1, b = 4.5

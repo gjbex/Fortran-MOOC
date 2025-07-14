@@ -86,7 +86,7 @@ on each of the integer kinds.</p>
 </table>
 <p>Integer arithmetic can be subject to overflow. Consider the following
 program.</p>
-<pre class="fortran"><code>program overflow
+<pre class="fortran"><code class="language-fortran">program overflow
     use, intrinsic :: iso_fortran_env, only : INT8
     implicit none
     integer(kind=INT8) :: val
@@ -102,7 +102,7 @@ end program overflow</code></pre>
 and up to 129. However, note that the kind is <code>INT8</code>, so the
 maximum value that can be stored in <code>val</code> is 127. Indeed, the
 output of the application actually is given below.</p>
-<pre><code>125
+<pre><code class="language-fortran">125
 126
 127
 -128
@@ -124,7 +124,7 @@ much sense since values are computed, and hence subject to round-off
 errors.</p>
 <p>For instance, while mathematically, \((\sqrt{2})^2 = 2\), this does not hold for
 floating point values.</p>
-<pre class="fortran"><code>program sqrt_2
+<pre class="fortran"><code class="language-fortran">program sqrt_2
     use, intrinsic :: iso_fortran_env, only : SP =&gt; REAL32, DP =&gt; REAL64
     implicit none
 
@@ -132,7 +132,7 @@ floating point values.</p>
     print *, sqrt(2.0_DP)**2 == 2.0_DP
 end program sqrt_2</code></pre>
 <p>This will print the following output.</p>
-<pre><code>F
+<pre><code class="language-fortran">F
 F</code></pre>
 <p>When compiling the code above, the compiler will warn that testing
 equality of two real values is not a good idea.</p>
@@ -202,7 +202,7 @@ for it, hence there is a significant performance impact when computing
 with this kind of real values.</p>
 <p>Note that it is good practice to explicitly indicate the kind of a
 real value by adding a suffix.</p>
-<pre class="fortran"><code>...
+<pre class="fortran"><code class="language-fortran">...
 use, intrinsic :: iso_fortran_env, only : SP =&gt; REAL32, DP =&gt; REAL64
 ...
 real(kind=SP) :: x
@@ -231,7 +231,7 @@ complex value out of a real and an imaginary part. This function is
 called <code>cmplx</code>. as the following code fragment illustrates
 that initializes two complex variables <code>z1</code> and
 <code>z2</code>.</p>
-<pre class="fortran"><code>...
+<pre class="fortran"><code class="language-fortran">...
 use, intrinsic :: iso_fortran_env, only : DP =&gt; REAL64
 ...
 complex(kind=DP) :: z1, z2
@@ -249,7 +249,7 @@ a different kind of the same type.</p>
 <p>Every conversion procedure has an optional <code>kind</code>
 argument. From an <code>INT32</code> to an <code>INT64</code>, you would
 use</p>
-<pre class="fortran"><code>program type_conversion
+<pre class="fortran"><code class="language-fortran">program type_conversion
     use, intrinsic :: iso_fortran_env, only : I32 =&gt; INT32, I64 =&gt; INT64
     implicit none
     integer(kind=i32) :: i_i32
@@ -265,14 +265,14 @@ Note that the value of the variable <code>i_i64</code> can not be stored
 in a variable of <code>i_i32</code>, so the compiler will issue a
 warning about this. When you run the program and check the output, you
 will see the following, which may not be what you expect.</p>
-<pre><code>-2147483648</code></pre>
+<pre><code class="language-fortran">-2147483648</code></pre>
 <p>The conversion resulted in an overflow. This is the result of
 converting a larger kind into a smaller one: information is lost. Note
 that an inadvertent conversion such as this may give rise to very nasty
 bugs (hence the compiler warning).</p>
 <p>On the other hand, converting from a smaller kind to a larger one
 works perfectly well.</p>
-<pre class="fortran"><code>program type_conversion
+<pre class="fortran"><code class="language-fortran">program type_conversion
     use, intrinsic :: iso_fortran_env, only : I32 =&gt; INT32, I64 =&gt; INT64
     implicit none
     integer(kind=i32) :: i_i32
@@ -283,14 +283,14 @@ works perfectly well.</p>
     print *, i_i64
 end program type_conversion</code></pre>
 <p>This application would print what you would expect.</p>
-<pre><code>1024</code></pre>
+<pre><code class="language-fortran">1024</code></pre>
 <p>The <code>real</code> and <code>cmplx</code> functions do the same
 for <code>real</code> and <code>complex</code> values respectively.
 Converting from a smaller kind to a larger is no problem, converting
 from a larger to a smaller again gives problems, although thanks to the
 IEEE 754 standard (although there are caveats), bugs are easier to
 spot.</p>
-<pre class="fortran"><code>program type_conversion
+<pre class="fortran"><code class="language-fortran">program type_conversion
     use, intrinsic :: iso_fortran_env, only : &amp;
         SP =&gt; REAL32, DP =&gt; REAL64
     implicit none
@@ -303,7 +303,7 @@ spot.</p>
 end program type_conversion</code></pre>
 <p>The overflow of the value for the variable <code>x_sp</code> results
 in <code>infinity</code>.</p>
-<pre><code>Infinity</code></pre>
+<pre><code class="language-fortran">Infinity</code></pre>
 <h4 id="type-conversions">Type conversions</h4>
 <p>To truncate a real value to an integer, you can use
 <code>aint</code>, while to convert it to the nearest integer, you can
@@ -514,7 +514,7 @@ semantics of this unary and binary operators <code>.and.</code>,
 declares two variables, the first, <code>c</code>, that has a single
 character as a value, the other, <code>str</code>, can have sequences of
 5 characters, i.e., strings if you like, as values.</p>
-<pre class="fortran"><code>character :: c
+<pre class="fortran"><code class="language-fortran">character :: c
 character(len=5) :: str</code></pre>
 <p>For convenience, we will use the term “string variable” to mean a
 variable with type <code>character(len=...)</code>.</p>
@@ -562,7 +562,7 @@ values.</p>
 <p>Below is a program that reads from standard input, and verifies for
 each line whether that is a palindrome, i.e., a string that is the same
 when read from left to right, and from right to left.</p>
-<pre class="fortran"><code>program palindromes
+<pre class="fortran"><code class="language-fortran">program palindromes
     use, intrinsic :: iso_fortran_env, only  : input_unit, iostat_end
     implicit none
     character(len=1024) :: buffer, msg

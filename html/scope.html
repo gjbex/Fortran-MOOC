@@ -8,7 +8,7 @@ unit they are declared in.</p>
 declared in the compilation unit. For instance, the variable
 <code>i</code> in the code fragment below needs to be declared before it
 is used in the implicit do loop on the line below.</p>
-<pre class="fortran"><code>integer :: i
+<pre class="fortran"><code class="language-fortran">integer :: i
 integer, dimension(5) :: v = [ (i, i=1, 5) ]</code></pre>
 <p>If a compilation unit is part of another compilation unit, e.g., a
 procedure defined in the program unit, the scope of name bindings
@@ -18,7 +18,7 @@ that it contains.</p>
 same name in the enclosing compilation unit. For example, the variable
 <code>i</code> in the function unit will shadow the variable
 <code>i</code> in the program unit.</p>
-<pre class="fortran"><code>program main
+<pre class="fortran"><code class="language-fortran">program main
     ...
     integer :: i
     ...
@@ -65,7 +65,7 @@ defined.</p>
 is declared in the block, but used outside of it. The variable’s scope
 will not exceed the block and hence is not declared in the program unit
 as a whole.</p>
-<pre class="fortran"><code>program block_scope
+<pre class="fortran"><code class="language-fortran">program block_scope
     implicit none
 
     block

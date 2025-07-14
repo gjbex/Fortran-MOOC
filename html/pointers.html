@@ -18,7 +18,7 @@ be associated with any number of targets.</p>
 0\), what is the values of \(A\) after <code>nr_steps</code> time
 steps?</p>
 <p>The code fragment below implements this.</p>
-<pre class="fortran"><code>...
+<pre class="fortran"><code class="language-fortran">...
 real, dimension(nr_vals) :: A, A_new
 integer :: t, i
 ...
@@ -33,7 +33,7 @@ end do
 to be copied to the array <code>A</code>. It would be more efficient if
 you could swap the roles of <code>A</code> and <code>A_new</code> at
 each time step. This can be achieved easily using pointers.</p>
-<pre class="fortran"><code>...
+<pre class="fortran"><code class="language-fortran">...
 real, dimension(nr_vals), target :: A, A_new
 real, dimension(:), pointer :: pA, pA_new, tmp
 integer :: t, i
@@ -85,7 +85,7 @@ pointer is to be associated with has not been created yet.</p>
 using the intrinsic function <code>associated</code>. It can be called
 with either a single or with two arguments. Consider the following code
 fragment.</p>
-<pre class="fortran"><code>...
+<pre class="fortran"><code class="language-fortran">...
 integer, target :: a, b
 integer, pointer :: p
 
@@ -136,7 +136,7 @@ procedure that expects an array of that type and shape transparently,
 i.e., the procedure is declared with standard array arguments.</p>
 <p>Another interesting application is to associate a pointer with a
 subarray. The following code fragment illustrates this.</p>
-<pre class="fortran"><code>...
+<pre class="fortran"><code class="language-fortran">...
 integer, dimension(3, 2), target :: A = reshape( [(i, i=1, 6)], [3, 2])
 integer, dimension(:), pointer :: p =&gt; null()
 ...
@@ -153,7 +153,7 @@ implementations, the user defined type typically has one or even several
 elements that are pointers to values of the user defined type.</p>
 <p>The following code fragment illustrates this for a declaration of
 elements of a list that contains real values.</p>
-<pre class="fortran"><code>type, public :: list_item_t
+<pre class="fortran"><code class="language-fortran">type, public :: list_item_t
     private
     real :: value
     type(list_item_t), pointer :: next =&gt; null()
@@ -191,7 +191,7 @@ pointers to procedures need to be “packed” into a user defined type. The
 following code fragments illustrate this.</p>
 <p>The intent is to benchmark a number of functions that have the same
 interface defined below.</p>
-<pre class="fortran"><code>...
+<pre class="fortran"><code class="language-fortran">...
 interface
     function func_impl_t(x) result(res)
         use, intrinsic :: iso_fortran_env, only : DP =&gt; REAL64
@@ -203,14 +203,14 @@ end interface
 ...</code></pre>
 <p>The user defined type to store the name of the function and a pointer
 to the procedure that implements it is defined as follows:</p>
-<pre class="fortran"><code>...
+<pre class="fortran"><code class="language-fortran">...
 type :: func_t
     character(len=20) :: name
     procedure(func_impl_t), nopass, pointer :: func
 end type
 ...</code></pre>
 <p>The array can be defined and initialized as shown below.</p>
-<pre class="fortran"><code>...
+<pre class="fortran"><code class="language-fortran">...
 type(func_t), dimension(3) :: functions
 ...
 functions(1)%name = 'sin'
@@ -222,7 +222,7 @@ functions(3)%func =&gt; dtan
 ...</code></pre>
 <p>The procedures stored in the array <code>functions</code> can
 subsequently be used as you would expect, .e.g.,</p>
-<pre class="fortran"><code>...
+<pre class="fortran"><code class="language-fortran">...
 do i = 1, size(functions)
     call run_benchmark(functions(i)%func, timing, res)
     print '(A, F12.7, E15.7)', functions(i)%name, timing, res
@@ -234,7 +234,7 @@ directly. The exception is procedures as you already saw in the previous
 section. For instance, if you would like to implement a directed acyclic
 graph, you could use the following user defined type to represent a
 vertex in the graph.</p>
-<pre class="fortran"><code>type :: node_t
+<pre class="fortran"><code class="language-fortran">type :: node_t
     private
     real :: value
     type(node_t), dimension(:), pointer :: next
@@ -248,7 +248,7 @@ to use the data they are associated with.</p>
 would be a procedure to swap two pointers. The implementation of such a
 swap was already illustrated in the motivating example, but it can be
 turned into a procedure easily.</p>
-<pre class="fortran"><code>subroutine swap_pointers(a, b)
+<pre class="fortran"><code class="language-fortran">subroutine swap_pointers(a, b)
     implicit none
     real, dimension(:), pointer, intent(inout) :: a, b
     real, dimension(:), pointer :: tmp

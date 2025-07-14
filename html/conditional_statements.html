@@ -9,7 +9,7 @@ logical if.</p>
 <p>A block if has the following general form using the keywords
 <code>if</code>, <code>then</code>, <code>else</code> and
 <code>end if</code>:</p>
-<pre><code>if (&lt;logical expression&gt;) then
+<pre><code class="language-fortran">if (&lt;logical expression&gt;) then
     &lt;block statements 1&gt;
 else
     &lt;block statements 2&gt;
@@ -26,12 +26,12 @@ logical condition evaluates to false.</p>
 conditional statements quite straightforward.</p>
 <p>The else block is optional in a block if, so the following statement
 is also legal Fortran.</p>
-<pre><code>if (&lt;logical expression&gt;) then
+<pre><code class="language-fortran">if (&lt;logical expression&gt;) then
     &lt;block statements 1&gt;
 end if</code></pre>
 <p>Chains of if statements can be added by using <code>else if</code>,
 the structure looks as follows.</p>
-<pre><code>if (&lt;logical expression 1&gt;) then
+<pre><code class="language-fortran">if (&lt;logical expression 1&gt;) then
     &lt;block statements 1&gt;
 else if (&lt;logical expression 2&gt;) then
     &lt;block statements 2&gt;
@@ -47,7 +47,7 @@ If <code>&lt;logical expression 2&gt;</code> also evaluates to false,
 <p>You can have as many <code>else if</code> cases as you require.</p>
 <p>The following code snippet checks whether an integer that represents
 a year is a leap year or not.</p>
-<pre class="fortran"><code>logical function is_leapyear(year)
+<pre class="fortran"><code class="language-fortran">logical function is_leapyear(year)
     implicit none
     integer, intent(in) :: year
 
@@ -70,7 +70,7 @@ of a logical expression to <code>is_leapyear</code>.</p>
 <p>Fortran’s second if-statement is the logical if. It is syntactically
 simpler that the block if, and is a single line of code.</p>
 <p>The general form is:</p>
-<pre><code>if (&lt;logical expression&gt;) &lt;statement&gt;</code></pre>
+<pre><code class="language-fortran">if (&lt;logical expression&gt;) &lt;statement&gt;</code></pre>
 <p>The logical if will execute a single statement
 <code>&lt;statement&gt;</code> if
 <code>&lt;logical expression&gt;</code> evaluates to true.</p>
@@ -86,7 +86,7 @@ Although it adds no new functionality when compared with a chained block
 if statement, the compiler can sometimes generate faster code from a
 select statement.</p>
 <p>The general form is:</p>
-<pre class="fortran"><code>select case (&lt;expression&gt;)
+<pre class="fortran"><code class="language-fortran">select case (&lt;expression&gt;)
     case (&lt;expression 1&gt;)
         &lt;block statements 1&gt;
     case (&lt;expression 2&gt;)
@@ -103,7 +103,7 @@ be an integer or a character expression. The case expressions
 should be of the same type. The <code>case default</code> is
 optional.</p>
 <p>Semantically, this would be equivalent to the following block if.</p>
-<pre class="fortran"><code>if (&lt;expression&gt; == &lt;expression 1&gt;) then
+<pre class="fortran"><code class="language-fortran">if (&lt;expression&gt; == &lt;expression 1&gt;) then
     &lt;block statements 1&gt;
 else if (&lt;expression&gt; == &lt;expression 2&gt;) then
     &lt;block statements 2&gt;
@@ -115,7 +115,7 @@ else
 end if</code></pre>
 <p>The following function uses a select statement to decide which
 arithmetic operation would have to be carried out.</p>
-<pre class="fortran"><code>real(kind=DP) function calculate(op, x, y)
+<pre class="fortran"><code class="language-fortran">real(kind=DP) function calculate(op, x, y)
     use, intrinsic :: iso_fortran_env, only : error_unit
     implicit none
     character(len=1), intent(in) :: op

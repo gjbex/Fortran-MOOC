@@ -53,7 +53,7 @@ that pertain to it are defined in a module named
 <h2 id="data-encapsulation">Data encapsulation</h2>
 <p>The following user defined type can be used to keep track of
 these.</p>
-<pre class="fortran"><code>type :: descriptive_stats_t
+<pre class="fortran"><code class="language-fortran">type :: descriptive_stats_t
     private
     integer :: nr_values = 0
     real :: sum = 0.0, sum2 = 0.0
@@ -69,7 +69,7 @@ declaration in a module <code>stats_mod</code> then only procedures
 defined in that module can read or modify the elements of the user
 defined type. This ensures data encapsulation, one of the cornerstones
 of object oriented design.</p>
-<pre class="fortran"><code>subroutine add_value(stats, new_value)
+<pre class="fortran"><code class="language-fortran">subroutine add_value(stats, new_value)
     implicit none
     type(descriptive_stats_t), intent(inout) :: stats
     real, value :: new_value
@@ -88,7 +88,7 @@ introducing bugs.</p>
 <p>The statistics can be obtained through functions such as
 <code>get_mean</code>, <code>get_stddev</code> and
 <code>get_nr_values</code>.</p>
-<pre class="fortran"><code>function get_mean(stats) result(mean_value)
+<pre class="fortran"><code class="language-fortran">function get_mean(stats) result(mean_value)
     use, intrinsic :: iso_fortran_env, only : error_unit
     implicit none
     type(descriptive_stats_t), intent(inout) :: stats
@@ -112,7 +112,7 @@ procedures.</p>
 defined type <code>descriptive_stats_t</code>, or query it to get the
 current mean value or standard deviation. This can be achieved using
 type bound procedures.</p>
-<pre class="fortran"><code>type, public :: descriptive_stats_t
+<pre class="fortran"><code class="language-fortran">type, public :: descriptive_stats_t
     private
     integer :: nr_values = 0
     real :: sum = 0.0, sum2 = 0.0
@@ -124,7 +124,7 @@ end type descriptive_stats_t</code></pre>
 type <code>descriptive_stats_t</code>. The procedures can be called
 using a syntax similar to accessing the elements of a user defined
 type.</p>
-<pre class="fortran"><code>...
+<pre class="fortran"><code class="language-fortran">...
 use :: stats_mod
 ...
 type(descriptive_stats_t) :: stats
@@ -145,7 +145,7 @@ applies to the other procedures such as <code>get_mean</code>.</p>
 <code>type</code> for the <code>stats</code> argument, we have to use
 <code>class</code>, e.g., for <code>get_nr_values</code> and similar for
 the other procedures.</p>
-<pre class="fortran"><code>function get_nr_values(stats) result(nr_values)
+<pre class="fortran"><code class="language-fortran">function get_nr_values(stats) result(nr_values)
     implicit none
     class(descriptive_stats_t), intent(in) :: stats
     integer :: nr_values
@@ -157,7 +157,7 @@ section on inheritance.</p>
 <p>Note that unless a type bound procedure is declared public in the
 module, it is no longer possible to call it as you normally would, i.e.,
 the following line of code would trigger a compilation error.</p>
-<pre class="fortran"><code>call add_value(stats, 7.3)</code></pre>
+<pre class="fortran"><code class="language-fortran">call add_value(stats, 7.3)</code></pre>
 <p>If you replace the <code>pass</code> attribute by
 <code>nopass</code>, the variable is simply ignored, and not passed as
 an argument to the procedure. We will see applications of this
@@ -178,7 +178,7 @@ be achieved for ordinary procedures using a named interface. For type
 bound procedures it can be accomplished even simpler.</p>
 <p>The code fragment below shows the definition of the user defined
 type.</p>
-<pre class="fortran"><code>type, public :: descriptive_stats_t
+<pre class="fortran"><code class="language-fortran">type, public :: descriptive_stats_t
     private
     integer :: nr_values = 0
     real :: sum = 0.0, sum2 = 0.0
@@ -194,7 +194,7 @@ statistics. The generic <code>add_data</code> will be called on
 variables of type <code>descriptive_stats_t</code>, and will be replaced
 by the compiler either by <code>add_value</code> or
 <code>add_values</code> depending on the type of its argument.</p>
-<pre class="fortran"><code>...
+<pre class="fortran"><code class="language-fortran">...
 use :: stats_mod
 ...
 type(descriptive_stats_t) :: stats
@@ -214,7 +214,7 @@ changed to <code>sum + nr_values*delta</code>. The sum of the squares
 <code>sum2 + 2*delta*sum + nr_values*delta**2</code>.</p>
 <p>The following procedure implements this and returns a new
 <code>descriptive_stats_t</code> object.</p>
-<pre class="fortran"><code>function stats_plus_value(stats, delta) result(new_stats)
+<pre class="fortran"><code class="language-fortran">function stats_plus_value(stats, delta) result(new_stats)
     implicit none
     class(descriptive_stats_t), intent(in) :: stats
     real, intent(in) :: delta
@@ -230,7 +230,7 @@ convenient to call it as an expression, i.e.,
 <code>new_stats = stats + delta</code>. This can be done easily in
 Fortran using operator overloading, which boils down to defining an
 interface for the operator <code>+</code>.</p>
-<pre class="fortran"><code>interface operator(+)
+<pre class="fortran"><code class="language-fortran">interface operator(+)
     module procedure stats_plus_value
 end interface</code></pre>
 <p>In general, you expect the operator <code>+</code> to be commutative,
@@ -238,7 +238,7 @@ i.e., <code>delta + stats</code> should work just as well as
 <code>stats + delta</code>. Unfortunately, there is no automatic
 generation of the appropriate code, so you would have to define an
 additional procedure.</p>
-<pre class="fortran"><code>function value_plus_stats(val, stats) result(new_stats)
+<pre class="fortran"><code class="language-fortran">function value_plus_stats(val, stats) result(new_stats)
     implicit none
     class(descriptive_stats_t), intent(in) :: stats
     real, intent(in) :: val
@@ -247,6 +247,6 @@ additional procedure.</p>
     new_stats = stats_plus_value(stats, val)
 end function value_plus_stats</code></pre>
 <p>It can be added to the interface for the operator, i.e.,</p>
-<pre class="fortran"><code>interface operator(+)
+<pre class="fortran"><code class="language-fortran">interface operator(+)
     module procedure stats_plus_value, value_plus_stats
 end interface</code></pre>

@@ -27,14 +27,14 @@ words are easier to read than uppercase, so the choice is easy.</p>
 case, as opposed to variable names, procedure names and so on. We will
 not use this convention here.</p>
 <p>The one exception is for the names of constants, e.g.,</p>
-<pre class="fortran"><code>integer, parameter :: NR_PARTICLES = 1000</code></pre>
+<pre class="fortran"><code class="language-fortran">integer, parameter :: NR_PARTICLES = 1000</code></pre>
 <h2 id="do-you-have-to-use-indentation">Do you have to use
 indentation?</h2>
 <p>Yes, you do.</p>
 <p>Indentation really helps to visualize the structure of your code, and
 will make it easier to understand. Each nested block of code gets
 indented by an additional level.</p>
-<pre class="fortran"><code>integer function gcd(a, b)
+<pre class="fortran"><code class="language-fortran">integer function gcd(a, b)
     implicit none
     integer, intent(in) :: a, b
     integer :: x, y
@@ -74,7 +74,7 @@ that will be followed in the code examples presented here.</p>
 <p>The Fortran syntax is pretty strict about what should go on a line,
 and doesn’t allow to break lines arbitrarily. For instance, consider the
 following code.</p>
-<pre class="fortran"><code>if (0.0 &lt;= x_coord .and. x_coord &lt;= X_MAX .and.
+<pre class="fortran"><code class="language-fortran">if (0.0 &lt;= x_coord .and. x_coord &lt;= X_MAX .and.
     0.0 &lt;= y_coord .and. y_coord &lt;= Y_MAX) then
     ...
 end if</code></pre>
@@ -85,24 +85,24 @@ line would potentially exceed the limit of 132.</p>
 <p>You can indicate that a line will be continued on the next by using
 the <code>&amp;</code> character at the end. So the code fragment above
 would compile when ‘&amp;’ is added to the first line.</p>
-<pre class="fortran"><code>if (0.0 &lt;= x_coord .and. x_coord &lt;= X_MAX .and. &amp;
+<pre class="fortran"><code class="language-fortran">if (0.0 &lt;= x_coord .and. x_coord &lt;= X_MAX .and. &amp;
     0.0 &lt;= y_coord .and. y_coord &lt;= Y_MAX) then
     ...
 end if</code></pre>
 <p>Optionally, the line that continues a previous line can also start
 with an <code>&amp;</code> character, i.e.,</p>
-<pre class="fortran"><code>if (0.0 &lt;= x_coord .and. x_coord &lt;= X_MAX .and. &amp;
+<pre class="fortran"><code class="language-fortran">if (0.0 &lt;= x_coord .and. x_coord &lt;= X_MAX .and. &amp;
   &amp; 0.0 &lt;= y_coord .and. y_coord &lt;= Y_MaX) then
     ...
 end if</code></pre>
 <p>Although we will typically not use this feature since it makes the
 code harder to read, there is one case where it is actually very
 useful.</p>
-<pre class="fortran"><code>character(len=120) :: message = 'Warning: the number of&amp;
+<pre class="fortran"><code class="language-fortran">character(len=120) :: message = 'Warning: the number of&amp;
                                &amp; characters exceeds the prefered&amp;
                                &amp; limit.'</code></pre>
 <p>Here, the string would be</p>
-<pre><code>Warning: the number of characters exceeds the prefered limit.</code></pre>
+<pre><code class="language-fortran">Warning: the number of characters exceeds the prefered limit.</code></pre>
 <p>The spaces preceding the <code>&amp;</code> on the continuation lines
 are ignored in the value of the string.</p>
 <p>Historical note: fixed source form restricted the maximum line length
@@ -117,10 +117,10 @@ and mathematics.</p>
 parentheses should be separated by a space. Operands and operators
 should be separated by a space.</p>
 <p>Compare the following code</p>
-<pre class="fortran"><code>if (0.0 &lt; x) then
+<pre class="fortran"><code class="language-fortran">if (0.0 &lt; x) then
     y = f(x, y)
 end if</code></pre>
 <p>with the following which is legal, but harder to read</p>
-<pre class="fortran"><code>if(0.0&lt;x)then
+<pre class="fortran"><code class="language-fortran">if(0.0&lt;x)then
     y=f(x,y)
 endif</code></pre>

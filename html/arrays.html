@@ -5,7 +5,7 @@ use them to represent vectors (1-dimensional arrays), matrices
 <p>An array is a collection of values that can be selected using an
 index. For example, consider the following array declaration in
 Fortran.</p>
-<pre class="fortran"><code>integer, dimension(5) :: A</code></pre>
+<pre class="fortran"><code class="language-fortran">integer, dimension(5) :: A</code></pre>
 <p>Here, the name of the array is <code>A</code>, it has 5 elements, as
 specified by <code>dimension</code>, and each of its elements is an
 integer, type <code>integer</code>. The first element of the array is
@@ -22,7 +22,7 @@ positioned as general purpose languages, not specific to any domain.</p>
 <h2 id="accessing-array-elements">Accessing array elements</h2>
 <p>The following Fortran program shows how to work with individual array
 elements.</p>
-<pre class="fortran"><code>program array_elements
+<pre class="fortran"><code class="language-fortran">program array_elements
     implicit none
     integer, dimension(5) :: A
     integer :: i
@@ -41,7 +41,7 @@ elements of an array. Here it is used as the final index of the array
 initialized element-wise. Although this is fairly common, you can use a
 few more convenient approaches.</p>
 <p>The following program illustrates three options.</p>
-<pre class="fortran"><code>program array_initialization
+<pre class="fortran"><code class="language-fortran">program array_initialization
     implicit none
     integer :: i
     integer, dimension(5) :: A, B, C
@@ -54,7 +54,7 @@ few more convenient approaches.</p>
     print *, C
 end program array_initialization</code></pre>
 <p>This program generates the following output.</p>
-<pre><code>         13          13          13          13          13
+<pre><code class="language-fortran">         13          13          13          13          13
           2           3           5           7          11
           1           2           4           8          16</code></pre>
 <p>For the array <code>A</code>, the value 13 is assigned to each
@@ -66,7 +66,7 @@ using an implicit do loop over the variable <code>i</code>.</p>
 <p>Arrays are first-class citizens in Fortran, so you can perform
 arithmetic directly on arrays. The following program illustrates
 this.</p>
-<pre class="fortran"><code>program array_arithmetic
+<pre class="fortran"><code class="language-fortran">program array_arithmetic
     implicit none
     real, dimension(5) :: A = [ 1.2, 2.3, 3.4, 4.5, 5.6 ], &amp;
                           B = [ -1.0, -0.5, 0.0, 0.5, 1.0], &amp;
@@ -94,7 +94,7 @@ represents the new one.</p>
 <p>Fortran lets you select a subarray out of an array. This is quite
 similar to list or string slicing in Python. The following program
 illustrates subarrays.</p>
-<pre class="fortran"><code>program subarrays
+<pre class="fortran"><code class="language-fortran">program subarrays
     implicit none
     integer :: i
     integer, dimension(10) :: A = [ (i, i = 1, 10) ]
@@ -110,7 +110,7 @@ illustrates subarrays.</p>
     print FMT, A(7:4:-1)
 end program subarrays</code></pre>
 <p>The output of this program is given below.</p>
-<pre><code> 1  2  3  4  5  6  7  8  9 10
+<pre><code class="language-fortran"> 1  2  3  4  5  6  7  8  9 10
  4  5  6  7
  1  2  3  4  5  6  7
  4  5  6  7  8  9 10
@@ -151,7 +151,7 @@ with ranks up to 15 (as of Fortran 2008).</p>
 <p>In the program below, a two dimensional array is initialized,
 printed, and the sum of the squares of the elements is computed using
 explicit do loops.</p>
-<pre class="fortran"><code>program matrix
+<pre class="fortran"><code class="language-fortran">program matrix
     implicit none
     integer, parameter :: ROWS = 3, COLS = 5
     real, dimension(ROWS, COLS) :: A
@@ -172,7 +172,7 @@ explicit do loops.</p>
     print '(/, A, F10.2)', 'total = ', total
 end program matrix</code></pre>
 <p>The output of the program is shown below.</p>
-<pre><code>   1.00000000       4.00000000       7.00000000       10.0000000       13.0000000    
+<pre><code class="language-fortran">   1.00000000       4.00000000       7.00000000       10.0000000       13.0000000    
    2.00000000       5.00000000       8.00000000       11.0000000       14.0000000    
    3.00000000       6.00000000       9.00000000       12.0000000       15.0000000    
 
@@ -270,7 +270,7 @@ is <code>.FALSE.</code> it is not taken into account.</p>
 <p>The following program illustrates the optional arguments
 <code>dim</code> and <code>mask</code> when used with the intrinsic
 functions <code>maxval</code> and <code>macloc</code>.</p>
-<pre class="fortran"><code>program max_array
+<pre class="fortran"><code class="language-fortran">program max_array
     implicit none
     integer, dimension(3, 4) :: A
     integer :: i, j
@@ -290,7 +290,7 @@ functions <code>maxval</code> and <code>macloc</code>.</p>
     print FMT, 'column maxloc = ', maxloc(A, dim=1)
 end program max_array</code></pre>
 <p>The output of this program is shown below.</p>
-<pre><code>         -7          -4          -1           2
+<pre><code class="language-fortran">         -7          -4          -1           2
          -6          -3           0           3
          -5          -2           1           4
 maximum =             4
@@ -313,7 +313,7 @@ elements in the array <code>A</code>. It takes an optional argument
 <p>Although the default indices of a Fortran array range from 1 to the
 size of the array, it is possible to declare arrays with a non-default
 extent. Consider the following array declaration.</p>
-<pre class="fortran"><code>real, dimension(-10:10) :: A</code></pre>
+<pre class="fortran"><code class="language-fortran">real, dimension(-10:10) :: A</code></pre>
 <p>This declares an array named <code>A</code> that has 21 elements of
 type <code>real</code>. The first element is at index -10, the second at
 -9, and so on. The last element has index 10.</p>
@@ -344,7 +344,7 @@ very elegant solution: assumed-shape arrays.</p>
 <p>The code fragment below shows a function that has a two dimensional
 array that is supposed to represent a square matrix as an argument, and
 computes the trace.</p>
-<pre class="fortran"><code>    real function trace(matrix)
+<pre class="fortran"><code class="language-fortran">    real function trace(matrix)
         use, intrinsic :: iso_fortran_env, only : error_unit
         implicit none
         real, dimension(:, :), intent(in) :: matrix
@@ -370,7 +370,7 @@ the values corresponding to the array in the calling context.</p>
 scalar value. When it receives an array as an argument, it is applied
 element-wise The following Fortran program shows an elemental function
 and its application.</p>
-<pre class="fortran"><code>program linear_transform
+<pre class="fortran"><code class="language-fortran">program linear_transform
     implicit none
     real, dimension(5) :: values
 
@@ -398,7 +398,7 @@ array at once.</p>
 call. The following function illustrates that. Given a size, it
 constructs an identity matrix (represented as two dimensional
 array).</p>
-<pre class="fortran"><code>    function eye(n) result(matrix)
+<pre class="fortran"><code class="language-fortran">    function eye(n) result(matrix)
         implicit none
         integer, value :: n
         real, dimension(n, n) :: matrix
@@ -423,7 +423,7 @@ an array <code>masses</code> and <code>charges</code> respectively. The
 number of particles is stored in the parameter
 <code>nr_particles</code>.</p>
 <p>This could be implemented as follows.</p>
-<pre class="fortran"><code>...
+<pre class="fortran"><code class="language-fortran">...
 real, dimension(nr_particles) :: masses, charges
 real :: probability
 integer :: i
@@ -443,7 +443,7 @@ end do
 number in the half-open interval 0.0 to 1.0.</p>
 <p>Although this may seem the obvious way to implement this, there is an
 arguably more elegant alternative using the where statement.</p>
-<pre class="fortran"><code>...
+<pre class="fortran"><code class="language-fortran">...
 real, dimension(nr_particles) :: masses, charges, probabilities
 
 call random_number(probabilities)
@@ -457,7 +457,7 @@ end where
 ...</code></pre>
 <p>Perhaps the easiest explanation of this statement is its translation
 into a do and if statement which is functionally equivalent.</p>
-<pre class="fortran"><code>...
+<pre class="fortran"><code class="language-fortran">...
 real, dimension(nr_particles) :: masses, charges, probabilities
 
 call random_number(probabilities)
@@ -480,7 +480,7 @@ advantage for optimization.</li>
 <p>Since all assignments are independent, the compiler is free to
 generate code that does them in any order.</p>
 <p>The general form of the where statement syntax is.</p>
-<pre><code>where (&lt;logical expression 1&gt;)
+<pre><code class="language-fortran">where (&lt;logical expression 1&gt;)
     &lt;block statements 1&gt;
 elsewhere (&lt;logical expression 2&gt;)
     &lt;block statements 2&gt;
@@ -491,7 +491,7 @@ end where</code></pre>
 <p>If you have a simple case with a single, unconditional
 <code>elsewhere</code>, the <code>merge</code> function can be a nice
 alternative.</p>
-<pre class="fortran"><code>...
+<pre class="fortran"><code class="language-fortran">...
 real, dimension(nr_particles) :: masses, charges, probabilities
 
 call random_number(probabilities)
@@ -504,7 +504,7 @@ forall. This statement lets you iterate over one or more integer
 variables and set conditions on the values of these indices. For
 instance, suppose you would like to initialize a triangular matrix with
 all elements under the main diagonal equal to 0.</p>
-<pre class="fortran"><code>integer, parameter :: N
+<pre class="fortran"><code class="language-fortran">integer, parameter :: N
 integer :: i, j
 real, dimension(N, N) :: A
 
@@ -512,7 +512,7 @@ forall (i=1:N, j=1:N, i &lt;= j)
     A(i, j) = f(i, j)
 end forall</code></pre>
 <p>This would be equivalent to the following code.</p>
-<pre class="fortran"><code>integer, parameter :: N
+<pre class="fortran"><code class="language-fortran">integer, parameter :: N
 integer :: i, j
 real, dimension(N, N) :: A
 
@@ -526,7 +526,7 @@ forall statement is used, the compiler is free to choose an efficient
 order for the iterations. This construct also collapses the iteration
 space from multiple iterations into a single one.</p>
 <p>The general syntax for the forall statement is given below.</p>
-<pre><code>forall (&lt;iter 1&gt;, ..., &lt;iter n&gt;, &lt;logical expression&gt;)
+<pre><code class="language-fortran">forall (&lt;iter 1&gt;, ..., &lt;iter n&gt;, &lt;logical expression&gt;)
     &lt;array assignments&gt;
 end forall</code></pre>
 <p>The <code>&lt;iter 1&gt;</code> to <code>&lt;iter n&gt;</code> have
@@ -536,7 +536,7 @@ The values of <code>&lt;first&gt;</code>, <code>&lt;last&gt;</code> and
 <code>&lt;stride&gt;</code> should not refer to other iteration
 variables. This means our example can not be written as follows since
 <code>j</code> is initialized using the value of <code>i</code>.</p>
-<pre class="fortran"><code>forall (i=1:N, j=i:N)
+<pre class="fortran"><code class="language-fortran">forall (i=1:N, j=i:N)
     A(i, j) = f(i, j)
 end forall</code></pre>
 <p>If the conditional expression, also called the mask, is left out, it
@@ -549,12 +549,12 @@ the do concurrent statement is more general. The syntax is very similar
 to that of forall.</p>
 <p>For instance, the example in the previous section can be written
 using do concurrent.</p>
-<pre class="fortran"><code>do concurrent (i=1:N, j=i:N)
+<pre class="fortran"><code class="language-fortran">do concurrent (i=1:N, j=i:N)
     A(i, j) = f(i, j)
 end do</code></pre>
 <p>The general syntax for the do concurrent statement is given
 below.</p>
-<pre><code>do concurrent (&lt;iter 1&gt;, ..., &lt;iter n&gt;, &lt;logical expression&gt;)
+<pre><code class="language-fortran">do concurrent (&lt;iter 1&gt;, ..., &lt;iter n&gt;, &lt;logical expression&gt;)
     &lt;block statements&gt;
 end do</code></pre>
 <p>The <code>&lt;iter 1&gt;</code> to <code>&lt;iter n&gt;</code> have
@@ -573,7 +573,7 @@ iteration;</li>
 <li>procedures called must be pure.</li>
 </ul>
 <p>Note that do concurrent statements can be nested.</p>
-<pre class="fortran"><code>do concurrent (row = 1:size(matrix, 1))
+<pre class="fortran"><code class="language-fortran">do concurrent (row = 1:size(matrix, 1))
     row_norm = 1.0_DP/sum(matrix(row, :))
     do concurrent (col = 1:size(matrix, 2))
         matrix(row, col) = matrix(row, col)*row_norm

@@ -15,7 +15,7 @@ of dynamic memory, i.e., memory allocated on the heap using the
 <code>allocate</code> statement.</p>
 <p>Consider the following code, the subroutine takes arrays as arguments
 that may have been allocated.</p>
-<pre class="fortran"><code>subroutine create_array(x, n)
+<pre class="fortran"><code class="language-fortran">subroutine create_array(x, n)
     implicit none
     real, dimension(:), allocatable, intent(inout) :: x
     integer, intent(in) :: n
@@ -48,7 +48,7 @@ identify and fix the issue.</p>
 <p>In this particular case, the procedure <code>create_vector</code>
 should check whether <code>allocate</code> succeeded, and if not,
 generate an error.</p>
-<pre class="fortran"><code>subroutine create_array(x, n)
+<pre class="fortran"><code class="language-fortran">subroutine create_array(x, n)
     use, intrinsic :: iso_fortran_env, only: error_unit
     implicit none
     real, dimension(:), allocatable, intent(inoout) :: x
@@ -72,7 +72,7 @@ error in your workflow.</p>
 <p>It would certainly be a good idea to define constants in a module
 that account for various error conditions so that they can be used
 consistently across the application.</p>
-<pre class="fortran"><code>module error_status
+<pre class="fortran"><code class="language-fortran">module error_status
     implicit none
     integer, parameter :: ALLOCATION_ERR = 1, &amp;
                           FILE_OPEN_ERR = 2, &amp;
@@ -82,7 +82,7 @@ consistently across the application.</p>
 end module error_status</code></pre>
 <p>You can use this in the <code>create_vector</code> procedure,
 i.e.,</p>
-<pre class="fortran"><code>subroutine create_array(x, n)
+<pre class="fortran"><code class="language-fortran">subroutine create_array(x, n)
     use, intrinsic :: iso_fortran_env, only: error_unit
     use :: error_status, only : ALLOCATION_ERR
     implicit none
@@ -98,7 +98,7 @@ i.e.,</p>
 end subroutine create_array</code></pre>
 <p>When this application is run and it fails, this will produce the
 following output</p>
-<pre><code>### error: can not allocate array of size 10000000000
+<pre><code class="language-fortran">### error: can not allocate array of size 10000000000
 STOP 1</code></pre>
 <p>Although this error message describes the issue, it could be more
 informative by using the values of a few macros:</p>
@@ -110,7 +110,7 @@ occurs on.</li>
 </ul>
 <p>Using these compiler macros, the <code>create_array</code> procedure
 can be implemented as follows:</p>
-<pre class="fortran"><code>subroutine create_array(x, n)
+<pre class="fortran"><code class="language-fortran">subroutine create_array(x, n)
     use, intrinsic :: iso_fortran_env, only: error_unit
     use :: error_status, only : ALLOCATION_ERR
     implicit none
@@ -126,7 +126,7 @@ can be implemented as follows:</p>
     end if
 end subroutine create_array</code></pre>
 <p>Now the output would be:</p>
-<pre><code>### error in allocation_error.f90, 18: can not allocate array of size 2000000000
+<pre><code class="language-fortran">### error in allocation_error.f90, 18: can not allocate array of size 2000000000
 STOP 1</code></pre>
 <p>The <code>__LINE__</code> macro is set to the line number it occurs
 on in the source file, so it will not actually be the line number on
@@ -145,7 +145,7 @@ and a backtrace.</p>
 <p>If you want to handle the error yourself, you can easily do this by
 providing the optional arguments <code>iostat</code> and
 <code>iomsg</code> to the <code>read</code> statement.</p>
-<pre class="fortran"><code>use :: error_status, only : CMD_LINE_NR_ARGS_ERR, &amp;
+<pre class="fortran"><code class="language-fortran">use :: error_status, only : CMD_LINE_NR_ARGS_ERR, &amp;
                             CMD_LINE_ARG_VALUE_ERR
 implicit none
 real :: x
@@ -178,7 +178,7 @@ will provide feedback on the success or failure of the operation. Fail
 to use them at your own peril.</p>
 <p>The code fragment below will open a file, read it line by line, and
 do some unspecified processing.</p>
-<pre class="fortran"><code>open (unit=read_unit, file=file_name, access='sequential', &amp;
+<pre class="fortran"><code class="language-fortran">open (unit=read_unit, file=file_name, access='sequential', &amp;
       action='read', status='old', form='formatted', &amp;
       iostat=status, iomsg=msg)
 do
@@ -196,7 +196,7 @@ the input file, and everyone will live happily ever after, except that
 it is quite likely your application will produce unexpected results. The
 user of your application gets no indication that the file she wanted to
 be read was completely ignored.</p>
-<pre class="fortran"><code>use :: error_status
+<pre class="fortran"><code class="language-fortran">use :: error_status
 ...
 open (unit=read_unit, file=file_name, access='sequential', &amp;
       action='read', status='old', form='formatted', &amp;
@@ -213,13 +213,13 @@ and if not, it writes an appropriate error message to standard error
 using the message that was set by the <code>open</code> statement in its
 <code>iomsg</code> argument. For instance, when called with a file that
 doesn’t exist, you will get the following error message:</p>
-<pre class="bash"><code>$ ./file_error.exe bla
+<pre class="bash"><code class="language-fortran">$ ./file_error.exe bla
 ### error: cannot open file bla, error: Cannot open file 'bla': No such file or directory
 STOP 2</code></pre>
 <p>On the other hand, if it is called with a file that exists, but that
 you don’t have permission to read or write, you would get the
 following:</p>
-<pre class="bash"><code>$ ./file_error.exe test.txt
+<pre class="bash"><code class="language-fortran">$ ./file_error.exe test.txt
 ### error: cannot open file test.txt, error: Cannot open file 'test.txt': Permission denied
 STOP 2</code></pre>
 <p>In this case, using the value set in the <code>iomsg</code> as part
@@ -232,9 +232,9 @@ string conversion. When <code>iostat</code> has a non-zero value, you
 can give the user specific information on the expected values.</p>
 <p>For instance, when reading a file such as the one below, some
 appropriate error messages may help the user a lot.</p>
-<pre><code>alpha     1.1
+<pre><code class="language-fortran">alpha     1.1
 beta      3.3</code></pre>
-<pre class="fortran"><code>line_nr = 0
+<pre class="fortran"><code class="language-fortran">line_nr = 0
 do
     read (unit=read_unit, fmt="(A10, E25.16)", &amp;
           iostat=ierr, iomsg=msg) name, value
@@ -249,9 +249,9 @@ do
         ! do something useful with the name and value
     end if</code></pre>
 <p>When the input is invalid, such as below, you get an error:</p>
-<pre><code>alpha     1.1
+<pre><code class="language-fortran">alpha     1.1
 beta      3.O5</code></pre>
-<pre class="bash"><code>$ ./file_error.exe input_nok.txt
+<pre class="bash"><code class="language-fortran">$ ./file_error.exe input_nok.txt
 ### error during read at line   2: Bad value during floating point read
 STOP 5</code></pre>
 <p>Note that keeping track of the line number in the input file and
@@ -347,7 +347,7 @@ numerical value is normal, e.g.,</p>
 <li><code>ieee_is_nan</code>.</li>
 </ul>
 <p>The code below shows a trivial example.</p>
-<pre class="fortran"><code>program overflow_sum
+<pre class="fortran"><code class="language-fortran">program overflow_sum
    use, intrinsic :: ieee_arithmetic, only : ieee_is_normal
    use, intrinsic :: iso_fortran_env, only : error_unit
    implicit none

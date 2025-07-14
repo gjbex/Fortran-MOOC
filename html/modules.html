@@ -15,7 +15,7 @@ definitions, separated by the keyword <code>contains</code>. For modules
 that only declare user defined types, variables or define constants, the
 second <code>contains</code> part that holds procedure definitions can
 be omitted.</p>
-<pre><code>module &lt;module-name&gt;
+<pre><code class="language-fortran">module &lt;module-name&gt;
     &lt;declarations&gt;
 contains
     &lt;definitions&gt;
@@ -24,7 +24,7 @@ end module &lt;module-name&gt;</code></pre>
 to avoid confusion with other entities.</p>
 <p>Consider the following example of a (very simple) module to compute
 descriptive statistics of a data set.</p>
-<pre class="fortran"><code>module stats_mod
+<pre class="fortran"><code class="language-fortran">module stats_mod
     implicit none
 
     private
@@ -58,7 +58,7 @@ within the procedures defined in the module itself.</p>
 can be called from compilation units that use this module.</p>
 <p>The implementation of these procedures is defined in the second part
 of the module.</p>
-<pre class="fortran"><code>module stats_mod
+<pre class="fortran"><code class="language-fortran">module stats_mod
     ...
 contains
 
@@ -93,7 +93,7 @@ those entities public that should be accessible in compilation units
 that use the module.</p>
 <p>The following module defines only constants, kind parameters in this
 case.</p>
-<pre class="fortran"><code>module types_mod
+<pre class="fortran"><code class="language-fortran">module types_mod
     use, intrinsic :: iso_fortran_env, only : REAL32, REAL64
     implicit none
 
@@ -143,7 +143,7 @@ recommended to use the <code>intrinsic</code> attribute when you use
 them. This informs the compiler that you are referring to one of the
 standard modules, and not a module that you have defined with the same
 name.</p>
-<pre class="fortran"><code>program descriptive_statistics
+<pre class="fortran"><code class="language-fortran">program descriptive_statistics
     use, intrinsic :: iso_fortran_env, only : error_unit, input_unit
     use :: stats_mod
     implicit none
@@ -166,7 +166,7 @@ practice.</p>
 <code>implicit none</code>.</p>
 <p>It can be convenient to alias an entity imported from a module you
 use. The code below illustrates this.</p>
-<pre class="fortran"><code>program quad
+<pre class="fortran"><code class="language-fortran">program quad
     use, intrinsic :: iso_fortran_env, only : DP =&gt; REAL64
     implicit none
     real(kind=DP) :: x = 3.12_DP
