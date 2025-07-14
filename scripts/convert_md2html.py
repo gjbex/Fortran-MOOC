@@ -46,6 +46,12 @@ def main():
             inner = content[2:-2]  # remove \[ and \]
             span.replace_with(f'\\({inner}\\)')
 
+    # find the <code> elements in <pre> tags, and add class='language-fortran' to them
+    for pre in soup.find_all('pre'):
+        code = pre.find('code')
+        if code:
+            code['class'] = code.get('class', []) + ['language-fortran']
+
     # Write the modified HTML to a new file
     with open(args.output_file, 'w', encoding='utf-8') as file:
         file.write(str(soup))
