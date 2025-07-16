@@ -1,21 +1,10 @@
 <h1 id="fortran-quirks">Fortran quirks</h1>
-<p>Just like any programming language, Fortran has its quirks. Here you
-will read about a couple of them.</p>
-<h2 id="list-directed-input-and-forward-slash">List-directed input and
-forward slash</h2>
-<p>The <code>/</code> character ends list-directed input, which may
-confuse you. Suppose you would like to parse expressions from strings
-such as <code>'3.5 + 3.9'</code> or <code>'3.5 / 3.9'</code>. Such
-strings are stored in a variable, say <code>buffer</code>. The following
-code would seem to do the trick.</p>
+<p>Just like any programming language, Fortran has its quirks. Here you will read about a couple of them.</p>
+<h2 id="list-directed-input-and-forward-slash">List-directed input and forward slash</h2>
+<p>The <code>/</code> character ends list-directed input, which may confuse you. Suppose you would like to parse expressions from strings such as <code>'3.5 + 3.9'</code> or <code>'3.5 / 3.9'</code>. Such strings are stored in a variable, say <code>buffer</code>. The following code would seem to do the trick.</p>
 <pre class="fortran"><code class="language-fortran">character(len=1024) :: buffer
 real :: x, y
 character :: op
 ...
 read (buffer, fmt=*) x, op, y</code></pre>
-<p>This would work nicely for the first example, i.e., the variables
-<code>x</code>, <code>op</code> and <code>y</code> would have the values
-3.5, + and 3.9 if <code>buffer contained</code>3.5 +
-3.9<code>.  However, for the second example when the buffer has the value</code>3.5
-/
-3.9<code>, the variable</code>x<code>would have the value 3.5, but both</code>op<code>and</code>y<code>would not be assigned to since the read statements stops processing</code>buffer<code>when it encounters a forward slash and reading is list-directed, i.e., the format is</code>*`.</p>
+<p>This would work nicely for the first example, i.e., the variables <code>x</code>, <code>op</code> and <code>y</code> would have the values 3.5, + and 3.9 if <code>buffer</code> contained <code>3.5 + 3.9</code>. However, for the second example when the buffer has the value <code>3.5 / 3.9</code>, the variable <code>x</code> would have the value 3.5, but both <code>op</code> and <code>y</code> would not be assigned to since the read statements stops processing <code>buffer</code> when it encounters a forward slash and reading is list-directed, i.e., the format is <code>*</code>.</p>
