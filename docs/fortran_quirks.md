@@ -20,7 +20,7 @@ read (buffer, fmt=*) x, op, y
 ~~~~
 
 This would work nicely for the first example, i.e., the variables `x`, `op` and `y`
-would have the values 3.5, + and 3.9 if `buffer contained `3.5 + 3.9`.  However, for
+would have the values 3.5, + and 3.9 if `buffer` contained `3.5 + 3.9`.  However, for
 the second example when the buffer has the value `3.5 / 3.9`, the variable `x` would
 have the value 3.5, but both `op` and `y` would not be assigned to since the read
 statements stops processing `buffer` when it encounters a forward slash and
