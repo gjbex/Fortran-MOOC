@@ -28,17 +28,17 @@ Consider the following code fragment:
 ~~~~fortran
 select case (op)
     case ('+')
-        print *, 'positive'
+        print *, 'addition'
     case ('-')
-        print *, 'negative'
+        print *, 'multiplication'
     case default
         print *, 'default'
 end select
 ~~~~
 If this fragment is executed for `op` equal to `'+'`, it
 1. will not compile. [No, it will compile.]
-1. will print `positive`. [Indeed.] [x]
-1. will print both `positive`  and `default`. [No, this is not C/C++.]
+1. will print `addition`. [Indeed.] [x]
+1. will print both `addition`  and `default`. [No, this is not C/C++.]
 1. will print `default`. [No, try it out.]
 
 
