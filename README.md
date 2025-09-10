@@ -28,6 +28,9 @@ programming".  The MOOC is hosted by edX
   * Adding content to FutureLearn platform
   * Graphics for the activities
   * Instructions for software installation
+  * Checking content on edX platform
+* Emma Lefever (KU Leuven)
+  * Adding content to edX platform
 * Jakob Randa (UHasselt)
   * Exercise
 * Shibu Meher
